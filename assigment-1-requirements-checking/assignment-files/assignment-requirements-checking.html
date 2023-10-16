@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0083)http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><style lang="en" type="text/css" id="dark-mode-native-sheet"></style><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<!--<base href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/">--><base href=".">
+
+ 
+ <meta name="author" content="Hans Vangheluwe">
+ <meta name="generator" content="None">
+ <link rel="stylesheet" type="text/css" href="./Requirements Checking Assignment_files/standard_msdl_style.css" title="MSDL stylesheet">
+ <link rel="shortcut icon" href="http://msdl.uantwerpen.be/images/favicon.ico">
+ <title>Requirements Checking Assignment</title>
+</head>
+<body bgcolor="#ffffff" class="vsc-initialized">
+
+<div class="portlet">    
+ <div class="portletBody">
+
+     <table border="0" cellpadding="4" cellspacing="0" width="100%" summary="table for MSDL standard page banner">
+
+ <tbody><tr>
+<!--  
+  <td valign="top" width="214" align="left">
+   <a href="http://msdl.cs.mcgill.ca/"><img border="0" src="/images/MSDLlogo.2.small.gif" align="left"></a>
+  </td>
+-->
+
+  <td valign="middle" align="right" width="100%" cellpadding="3">
+   <div class="pagetitle">Requirements Checking Assignment&nbsp;</div>
+  </td>
+ </tr>
+
+</tbody></table>
+
+
+  
+  
+ </div>
+</div>
+
+<table border="0" cellpadding="0" cellspacing="0" summary="home page" width="100%">
+ <tbody><tr>
+  <td valign="top" align="left">
+
+
+  <div class="portlet">
+
+    <h2>Practical Information</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>
+          </p><ul>
+
+						<li> <b>Due Date:</b> Friday 27 October 2023, before 23:59.</li>
+
+            <li> <b>Team Size:</b> 2 (pair design/programming)!<br>
+            <i>Note that as of the 2017-2018 Academic Year, each International student should team up with "local"
+              (i.e., whose Bachelor degree was obtained at the University of Antwerp).</i></li>
+
+            <li> <b>Submission Information:</b>
+              <em>Only one</em> member of each team submits a full solution. This must be a compressed archive (<tt>ZIP</tt>, <tt>RAR</tt>, <tt>TAR.GZ</tt>...) that includes your report and all models, images, code and other sources that you have used to crate your solution. <b>Do not submit any executables.</b>
+							<em>The report may be either HTML or PDF and must be accompagnied by all images. When an image is unreadable in your report <b>and</b> missing from your submission archive, you will not receive any points for that task.</em>
+							Make sure to mention the names and student IDs of both team members.
+              The other team member <em>must</em> submit a single <tt>HTML</tt> file containing <em>only</em> the coordinates of both team members. You may use <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/index.html">this template</a>. This will allow us to put in grades for both team members in BlackBoard.
+            </li>
+
+            <li> <b>Submission Medium:</b>
+              <a href="http://lms.uantwerpen.be/">BlackBoard Ultra</a>. Beware that BlackBoard's clock may differ slightly from yours. If BlackBoard is not reachable due to an (unpredicted) maintenance, you submit your solution via e-mail to the TA. Make sure all group members are in CC!
+            </li>
+
+            <li> <b>Contact / TA:</b>
+                <a href="mailto:Lucas.Albertinsdelima@uantwerpen.be">Lucas Lima</a>.
+            </li>
+            <li>
+                <a href="https://eu-lti.bbcollab.com/recording/71c7c8e2360140928cf20972e5ef32ce">BlackBoard recording of the assignment explanation session</a>
+            </li>
+          </ul>
+        <p></p>
+      </div>
+    </div>
+
+    <h2>Goals</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>
+          In this assignment, you will use the <i>Use Cases</i>, <i>UML Sequence Diagrams</i>, <i>Regular Expressions</i>, and <i>State Automata</i> modelling languages to design and verify the communication in a ramp metering system. You will also make the link to an output trace an actual implementation in Python to perform the checking. 
+          In the end, you will be able to automatically determine, based on the obtained trace file, whether all requirements are satisfied or not. <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/#fig-1">Figure 1</a> shows an overview of the parts in this assignment.
+        </p>
+				<center id="fig-1">
+					<img src="./Requirements Checking Assignment_files/overview.png" width="640"><br><br>
+					<span><b>Figure 1:</b> Main overview of the assignment.</span>
+				</center>
+      </div>
+    </div>
+
+
+    <h2>Problem Statement</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+				<p>
+					Due to the increase in urban areas, practical freeway management tools are crucial. Ramp metering is a potential tool for addressing congestion and safety issues. Despite initial opposition and scepticism from various stakeholders, ramp metering has been deployed, sustained, and expanded in many regions.
+				</p>
+                                <h3> What is a Ramp Metering? </h3>
+                                <p> 
+                                A ramp metering system is a traffic management strategy used on highways/freeways to regulate the flow of traffic entering the mainline from entrance ramps. The primary goal of ramp metering is to optimize traffic flow, reduce congestion, and enhance overall road efficiency. Ramp metering smooths out the flow of traffic and enhances safety by balancing conflicting traffic demands. Smoother traffic flow increases mobility and reduces the potential for accidents.
+                                </p>                      
+
+				<center id="fig-2">
+					<img src="./Requirements Checking Assignment_files/rampoverview" width="700"><br><br>
+					<span><b>Figure 2:</b> An example of the ramp metering system. Source: <a href="https://mtc.ca.gov/sites/default/files/4.3c4-RampMetering.pdf">MTC</a></span>
+				</center>
+
+                                <h3> How does Ramp Metering work? </h3>
+                                <p> 
+                                A ramp metering system is composed of the following components:
+</p><ol>
+<li><b>Traffic Sensors</b>: The system relies on various sensors, such as loop detectors embedded in the roadway or cameras, to monitor the traffic conditions on both the entrance ramps and the mainline.</li>
+<li><b>Ramp Meter Controller</b>: It is a controller installed in a cabinet beside the road that receives data from the different sensors and uses an algorithm to process the real-time traffic data. It considers factors like traffic volume, speed, and density to determine the optimal rate at which vehicles should be allowed to enter the mainline. The metering rate is the frequency at which vehicles are allowed to merge onto the mainline. The control algorithm adjusts this rate dynamically based on current traffic conditions. During periods of high traffic, the metering rate may be reduced to prevent congestion on the mainline.</li>
+<li><b>Ramp Meter Signals</b>: At the end of the ramp, there is a traffic signal or meter that controls the release of vehicles onto the mainline. This signal is often located just before the merge point.</li>
+</ol>
+                                <p></p> 
+
+<p>Some of the benefits of applying ramp metering are the help in preventing congestion and maintaining a more consistent flow of traffic on the mainline, and the system can prevent the mainline from becoming oversaturated, which could lead to stop-and-go traffic, by controlling the rate at which vehicles merge.
+</p>
+<p>Many modern ramp metering systems use adaptive control strategies that take into account not only current conditions but also predicted traffic patterns. This allows for a more proactive approach to traffic management. Ramp metering systems are often part of larger Intelligent Transportation Systems that use advanced technologies to manage and optimize traffic flow across a network of roads.
+</p>
+<p>For the sake of this assignment, we will consider a version of a ramp metering system composed of:
+ </p>
+
+<ul>
+<li>Four sensors that can be either <i>ON</i> or <i>OFF</i>. For instance, if the freeway sensor is <i>ON</i>, then the system should consider there is traffic on the freeway, and when it is <i>OFF</i>, there is no traffic on the freeway. For the ramp sensors, <i>ON x</i> means that a camera detected a car <i>x</i>, while <i>OFF x</i> means that the car <i>x</i> has no longer been detected.
+    <ul>
+        <li> <b>Freeway sensor</b>: detects if there is traffic in the freeway; </li>
+        <li> <b>Demand sensor</b>: indicates that there is a car on the ramp wanting to join the freeway; </li>
+        <li> <b>Passage sensor</b>: detects that a car that was previously over the demand sensor has passed the ramp metering light and is ready to join the mainline; </li>
+        <li> <b>End of queue sensor</b>: detects that traffic on the ramp is intense and the system should increase the rate cars join the freeway; </li>
+    </ul>
+</li>
+<li><b>Ramp traffic light</b>: a traffic signal with two possible states, <i>RED</i> and <i>GREEN</i>. <i>RED</i> indicates that a car on the ramp must not join the mainline, and green indicates the opposite. </li>
+<li><b>Warning signal</b>: a signal that blinks if the ramp metering is active, otherwise it is turned off. </li>
+<li><b>Ramp meter controller</b>: The equipment responsible for receiving data from the sensors and controlling the behaviour of the ramp traffic light and warning signal. </li>
+</ul>
+
+
+				<p>
+					You are given a simple implementation of this system that handles the cars on the freeway and the ramp.
+					It is your task to check whether or not the specified requirements are validated. However, you are only given access to trace files of the behaviour of this system (due to the execution of code). A trace file contains debugging information about the state of system components, such as the state of a sensor (ON or OFF), the traffic light current sign, and if the warning sign is blinking or not. Due to this verbosity and the total runtime of the execution, the file can be quite long, and therefore, validating the requirements is not to be done manually.
+					Thus, the validation will be done automatically. You will first model a set of <i>Regular Expressions</i>, and then a set of <i>Finite State Automata</i>, which you will subsequently encode to automatically verify whether the system implementation complies with the system specification given in the requirements below (and modelled visually in <i>Sequence Diagram</i> form).
+				</p>
+				
+				<p>
+					The requirements for the system are the following:
+					</p><ol>
+						<li>The <b>freeway sensor</b>, the <b>end of queue sensor</b> and the <b>warning signal</b> start in the <i>OFF</i> mode and <b>traffic light</b> is GREEN;</li>
+						<li>When the <b>freeway sensor</b> is turned <i>OFF</i>, <b>traffic light</b> must be set to <i>GREEN</i> and <b>warning signal</b> set to <i>OFF</i> in any order before any other change in the system state;</li>
+						<li>If the <b>freeway sensor</b> is <i>ON</i>, <b>traffic light</b> must be set to <i>RED</i> and <b>warning signal</b> set to <i>ON</i> (blinking) in any order. </li>
+						<li>When the <b>freeway sensor</b> is <i>ON</i> and the <b>end of queue sensor</b> is <i>OFF</i>, if <b>demand sensor</b> is turned <i>ON</i>, it indicates that there is traffic on the mainline and there is a car on the ramp trying to join it, but the ramp traffic is not critical. Then, set <b>traffic light</b> to <i>GREEN</i>. When the car is crossing the traffic light (<i>GREEN</i>), the <b>demand sensor</b> must be set to <i>OFF</i>, and the <b>traffic light</b> must turn <i>RED</i> before <b>demand sensor</b> is turned <i>ON</i> again (another car arrives). When the car crosses the <b>traffic light</b> but has not joined the mainline yet, <b>passage sensor</b> is <i>ON</i>. When the car joins the mainline, the <b>passage sensor</b> is <i>OFF</i>.</li>
+						<li>When the <b>freeway sensor</b> is <i>ON</i> and the <b>end of queue sensor</b> is <i>ON</i>, if <b>demand sensor</b> is turned <i>ON</i>, it indicates intense traffic over the ramp. In this scenario, two cars must cross the <b>traffic light</b> before it turns <i>RED</i>. Then, set <b>traffic light</b> to <i>GREEN</i>. After <b>demand sensor</b> is <i>OFF</i>, <i>ON</i> and <i>OFF</i> (two cars), turn <b>traffic light</b> to <i>RED</i>.</li>
+						<li>The <b>passage sensor</b> can only be turned <i>ON</i> once a car leaves the <b>demand sensor</b> shifting from <i>ON</i> to <i>OFF</i>. Another car can only turn the <b>passage sensor</b> <i>ON</i> once it has been turned <i>OFF</i> (the previous car joined the mainline).</li>
+						<li>Whenever the <b>freeway sensor</b> is <i>ON</i>, the <b>warning signal</b> must be blinking, which indicates that the ramp meter control is active. It must be turned <i>OFF</i>, otherwise.</li>
+					</ol>
+					For simplicity of this assignment, you will <b>only need to check use cases 5 and 6</b>.
+				<p></p>
+
+        <p>
+          Note that the trace will only terminate as soon as all cars have arrived at the mainline. For example, if a car arrives at <b>demand sensor</b>, the trace will always contain the departure of the car in <b>passage sensor</b>. Furthermore, in each iteration, all cars will be handled in order. This means that if car 0 demands to join the mainline, the dispatch will happen before car 1 is handled. You can use this information to make some of the rules a little simpler. Finally, two cars cannot be in the same state. For instance, cars 4 and 5 either over or leaving the <b>demand sensor</b> (<i>ON</i> or <i>OFF</i>) is a situation that is not allowed.
+        </p>
+
+      </div>
+    </div>
+
+    <h2>Tasks</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>
+          You will need to perform the following tasks step by step:
+          </p><ol>
+            <li> Write full <i>Use Cases</i> using the <a href="http://www.cs.mcgill.ca/~joerg/SEL/COMP-533_Handouts_files/COMP-533%204%20Use%20Cases.pdf" target="_blank">use case template</a> (for ONLY requirements 5 and 6).</li>
+            <li> Design a class diagram for the system considering its relevant entities, relationships, attributes and operations. </li>
+            <li> Design the dynamic interaction behaviour in <i>UML Sequence Diagrams</i> for the above use cases (ONLY requirements 4 and 5), using the textual rendering tool <a href="http://plantuml.com/">PlantUML</a>, or using the online tool <a href="https://www.websequencediagrams.com/">WebSequenceDiagrams</a>. You can start designing the class diagram without relationships and attributes, then design the sequence diagrams to realize the necessary operations and relationships between classes, and finally update the class diagram with the identified operations. <b>Describe all possible options.</b> Use variable names to reduce complexity. Clearly indicate the pre- and postconditions for your <i>Sequence Diagrams</i>.</li>
+            <li>
+              Write <i>Regular Expressions</i> (<i>RegEx</i>) (refer to the format of the given <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/trace.txt">output trace</a>) for verifying the above use cases. <br>
+              To make life easier, we use abbreviations to shorten the messages that you need to recognize in your <i>RegExp/FSA</i>. Here are the mappings:
+             
+
+              <pre>              FS x    := Freeway sensor is set to x, which can be ON or OFF.
+              DS x id := Demand sensor is set to x, which can be ON or OFF, by car id.
+              PS x id := Passage sensor is set to x, which can be ON or OFF, by car id.
+              QS x    := End of queue sensor is set to x, which can be ON or OFF.
+              TL y    := Traffic Light is set to y, which can be GREEN and RED.
+              WS x    := Warning signal is set to x, which can be ON (blinking) or OFF.
+              </pre>
+
+              The following is a complete example of a regular expression to check requirement 2:
+              <pre>                FS OFF\n((?!TL GREEN\n)(.|\n))*FS ON\n|FS OFF\n((?!WS OFF\n)(.|\n))*FS ON\n
+              </pre>
+
+							An explanation of this regular expression is as follows: we try to find a freeway sensor being turned off (<tt>FS OFF</tt>), then we check that several commands may happen (<tt>(.|\n)</tt>) but none can be the traffic light being turned green (<tt>?!TL GREEN\n</tt>). Finally, we check that the freeway sensor is turned on again (<tt>FS ON</tt>). This means that after the freeway sensor was turned off, the traffic light did not turn green, which is a violation. The following section (after the <tt>|</tt>) does the same but checks for the warning signal this time.
+              <br><br>
+              Whenever this RegEx matches, we know there is a violation of the requirements. This is called a <i>negative match</i>. A <i>positive match</i> does the opposite: the code is deemed correct if the trace matches your description (in <i>Regular Expressions</i>, <i>FSA</i>, ...). For all parts, you are allowed to use either a 'positive match' or 'negative match'. Do explain why you used either kind of match, and make sure to reply "correct" or "violation" in the end, instead of saying "matched" or "not matched".
+              Choosing the right kind of match might significantly shorten your solution!
+              <br><br>
+
+              <p>
+                <b>Clarification</b>: the above uses a <i>Regular Expression</i> notation commonly used in <i>UNIX Regular Expressions</i> (as used in the stream editor <tt>sed</tt>, for example). Below, you can find a short description of RegEx notation, as is required for the assignment.
+                </p><ul>
+                  <li><tt>[eE]</tt> stands for <tt>e</tt> <em>or</em> <tt>E</tt>.</li>
+                  <li><tt>[a-z]</tt> stands for one of the characters in the range <tt>a</tt> to <tt>z</tt>.</li>
+                  <li><tt>^</tt> means "match at the beginning of the trace".<span style="color: red;">*</span></li>
+                  <li><tt>$</tt> means "match at the end of the trace".<span style="color: red;">*</span></li>
+                  <li><tt>X|Y</tt> means "match either <tt>X</tt> or <tt>Y</tt>", with <tt>X</tt> and <tt>Y</tt> both sub-expressions.</li>
+                  <li><tt>[^x]</tt> means <em>not</em> <tt>x</tt>, hence <tt>^[^E].*\n</tt> matches every line except those that start with the <tt>E</tt> character.</li>
+                  <li> <tt>.</tt> matches any single character. Depending on the used program, the <tt>.</tt> might either match a newline or not.<span style="color: red;">*</span> In Python's <tt>re</tt> module, this does not match a newline by default.</li>
+                  <li> <tt>X?</tt> matches 0 or 1 repetitions of <tt>X</tt>.</li>
+                  <li> <tt>X*</tt> matches 0 or more repetitions of <tt>X</tt>.</li>
+                  <li> <tt>X+</tt> matches 1 or more repetitions of <tt>X</tt>.</li>
+                  <li><tt>\</tt> is used to escape meta-characters such as <tt>(</tt>. If you want to match the character <tt>(</tt>, you need the pattern <tt>\(</tt>.</li>
+                  <li>The <tt>(</tt> and <tt>)</tt> meta-characters are used to memorize a match for later use. They can be used around arbitrarily complex patterns. For example <tt>([0-9]+)</tt> matches any non-empty sequence of digits. The matched pattern is memorized and can be referred to later by using <tt>\1</tt>. Following matched bracketed patterns are referred to by <tt>\2</tt>, <tt>\3</tt>, etc. Note that you will need to encode powerful features such as this one by adding appropriate actions (side-effects) to your automaton encoding the regular expression. This can easily be done by storing a matched pattern in a variable and later referring to it again. <i>It is, however, not required to implement this feature to be used anywhere. You may require storing the car's ID in the automaton/RegExes. It is sufficient to allow this functionality</i></li>
+                </ul>
+                You are welcome to use different variant notations (such as the one used in the <a href="https://docs.python.org/3/library/re.html">Python <i>Regular Expression</i> module</a>), as long as you explain your notation.<br>
+                <span style="color: red;">*</span> Some programs allow additional RegEx flags that change the behaviour of these symbols. You may use these flags in your solution if you clearly indicate this in your report.
+              <p></p>
+            </li>
+            <li> Design a <i>FSA</i> which encodes the <i>Regular Expressions</i> for verification (<a href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/">example</a>). You can use <a href="https://graphviz.org/" target="blank_">GraphViz</a>, <a href="http://plantuml.com/">PlantUML</a>, <a href="https://diagrams.net/">Diagrams.net</a> or <a href="http://madebyevan.com/fsm/" target="blank_">FSM</a> to design your automata (note that in FSM, it is not possible to mark an initial state, so just name it "<tt>init</tt>").</li>
+            <li> Implement this <i>FSA</i> for verification in the provided code framework (see <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/scanner.py">scanner.py</a>; an example is included at the bottom of the file).</li>
+            <li>
+              There are 6 output traces available for you to test your code out:
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace1.txt">trace1.txt</a>,
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace2.txt">trace2.txt</a>,
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace3.txt">trace3.txt</a>,
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace4.txt">trace4.txt</a>,
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace5.txt">trace5.txt</a> and
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace6.txt">trace6.txt</a>.
+              Run your <i>FSA</i> implementation (which in turn implements the <i>Regular Expressions</i>, which in turn encode the checking of interaction behaviour use cases which were modelled as <i>Sequence Diagrams</i>) on the given output traces to verify the specification.
+            </li>
+            <li> There is an intentional bug in the implementation (which is visible in some of the traces) that causes the system specification not to be satisfied. You need to figure out which requirement is being violated and show how your <i>FSA</i> checks this. Identify which of the traces show the violation and which ones don't. Also, describe in your own words what the meaning is of this bug; for instance: <i>The traffic light never turned green after car x has been detected by the demand sensor.</i>.</li>
+            <li> Write a report that explains your solution for this assignment. Include your models and discuss them. Make sure to mention all your hypotheses, assumptions and conclusions. See also the "<i>submission information</i>" at the top of this page.</li>
+          </ol>
+        <p></p>
+
+        <p>
+          Take pride in your work. Make sure your report and all models and images are clearly readable. Additionally, produce clean and (preferably) well-documented code. If a text-to-figure transformation (such as for GraphViz and PlantUML) causes your images to be difficult to read, also include the source files from which these were generated (<tt>*.gv</tt> and <tt>*.puml</tt>). You will not lose points for doing too much, but you will lose points if you do too little.
+        </p>
+      </div>
+    </div>
+
+    <h2>Practical Issues</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>
+          </p><ul>
+            <li>All parts of this (and most future) assignments use <a href="https://www.python.org/">Python 3.6+</a>. <em>Do not use features from Python 2.7 (discontinued as of January 1, 2020).</em></li>
+            <li>
+              There are 6 example output traces available:
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace1.txt">trace1.txt</a>,
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace2.txt">trace2.txt</a>,
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace3.txt">trace3.txt</a>,
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace4.txt">trace4.txt</a>,
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace5.txt">trace5.txt</a> and
+              <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/traces/trace6.txt">trace6.txt</a>.
+            </li>
+            <li>Program used to implement <i>FSA</i>:  the scanner is in <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/requirementsChecking/scanner.py">scanner.py</a>, which includes an input stream class <tt>CharacterStream</tt> and a scanner/<i>FSA</i> class <tt>Scanner</tt>. A <a href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/"><tt>NumberScanner</tt></a> is included as an example <i>FSA</i>. </li>
+            <li>Useful links:
+              <ul>
+                <li>Use cases: <a href="http://www.cs.mcgill.ca/~joerg/SEL/COMP-533_Handouts_files/COMP-533%204%20Use%20Cases.pdf" target="_blank">http://www.cs.mcgill.ca/~joerg/SEL/COMP-533_Handouts_files/COMP-533%204%20Use%20Cases.pdf</a></li>
+                <li><i>Class Diagrams</i>: <a href="http://www.uml-diagrams.org/class-diagrams-overview.html" target="_blank">http://www.uml-diagrams.org/class-diagrams-overview.html</a></li>
+                <li><i>Sequence Diagrams</i>:&nbsp;<a href="http://www.tracemodeler.com/articles/a_quick_introduction_to_uml_sequence_diagrams/" target="_blank">http://www.uml-diagrams.org/sequence-diagrams.html</a></li>
+                <li><i>Regular Expressions</i>:&nbsp;<a href="http://www.zytrax.com/tech/web/regex.htm" target="_blank">http://www.zytrax.com/tech/web/regex.htm</a></li>
+                <li><i>Finite State Automata</i>:&nbsp;<a href="http://cs.stanford.edu/people/eroberts/courses/soco/projects/2004-05/automata-theory/basics.html" target="_blank">http://cs.stanford.edu/people/eroberts/courses/soco/projects/2004-05/automata-theory/basics.html</a></li>
+                <li>Test out <i>Regular Expressions</i> online: <a href="https://regex101.com/" target="_blank">https://regex101.com/</a></li>
+                <li>Info on Ramp Metering: <a href="https://ops.fhwa.dot.gov/publications/fhwahop14020/sec1.htm" target="_blank">https://ops.fhwa.dot.gov/publications/fhwahop14020/sec1.htm</a> </li>
+                <li>How ramp metering works: <a href="https://www.youtube.com/watch?v=4HxE3oJYUxs" target="_blank">https://www.youtube.com/watch?v=4HxE3oJYUxs</a> </li>
+              </ul>
+            </li>
+          </ul>
+        <p></p>
+      </div>
+    </div>
+  </div>
+  </td> 
+ </tr>
+</tbody></table>
+
+<img src="./Requirements Checking Assignment_files/red.jpg" border="0" width="100%" height="1"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+ <tbody><tr width="100%">
+  
+ </tr>
+ <tr>
+  <td align="left">Maintained by <a href="http://msdl.cs.mcgill.ca/people/hv">Hans Vangheluwe</a><a>.</a></td>
+  <td align="right">Last Modified: 2023/10/13 18:34:18.</td>
+ </tr>
+</tbody></table>
+
+
+
+</body></html>

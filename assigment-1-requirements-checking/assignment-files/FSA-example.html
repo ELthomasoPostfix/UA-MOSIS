@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!-- saved from url=(0106)http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><style lang="en" type="text/css" id="dark-mode-native-sheet"></style><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15"><meta name="GENERATOR" content="TtH 3.02">
+ <style type="text/css"><!--
+ td div.comp { margin-top: -0.6ex; margin-bottom: -1ex;}
+ td div.comb { margin-top: -0.6ex; margin-bottom: -.6ex;}
+ td div.hrcomp { line-height: 0.9; margin-top: -0.8ex; margin-bottom: -1ex;}
+ td div.norm {line-height:normal;}
+ span.roman {font-family: serif; font-style: normal; font-weight: normal;} 
+ span.overacc2 {position: relative;  left: .8em; top: -1.2ex;}
+ span.overacc1 {position: relative;  left: .6em; top: -1.2ex;} --></style>
+ 
+
+                                                                                                             
+</head><body bgcolor="#ffffff" class="vsc-initialized"><dl compact="compact">
+               
+                  </dl> 
+
+ 
+ <meta name="Author" content="Hans Vangheluwe">
+ <meta name="KeyWords" content="McGill, SOCS, Software Design, Object-Oriented,
+                UML, COMP 308-304B, Hans Vangheluwe, spreadheet">
+ <!--?xml version="1.0" encoding="UTF-8"?-->
+
+
+
+
+
+
+<!--<base href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/">--><base href=".">
+
+ 
+ <meta name="author" content="Hans Vangheluwe">
+ <meta name="generator" content="None">
+ <link rel="stylesheet" type="text/css" href="./FSA-example_files/msdl.css" title="MSDL stylesheet">
+ <link rel="shortcut icon" href="http://msdl.uantwerpen.be/images/favicon.ico">
+
+
+
+
+
+
+
+ 
+
+ <hr noshade="">
+
+
+<p>
+
+<title> COMP 304B Object-Oriented Software Design -- Assignment 3 Solution</title>
+    
+</p><h1 align="center">COMP 304B Object-Oriented Software Design - Assignment 3 Solution </h1>&nbsp;
+
+<p>
+
+ [<a href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/solution.pdf">printable version of this document (pdf)</a>]|
+ [<a href="http://msdl.cs.mcgill.ca/people/hv/teaching/SoftwareDesign/">COMP 304B Home</a>]
+
+ </p><hr noshade="">
+
+
+<p>
+
+</p><h2>Number</h2>
+
+<p>
+ A spreadsheet <tt>Number</tt> is specified by the following regular
+ expression:
+     
+</p><pre>  D             [0-9]
+  E             [eE][+-]?({D})+
+  Number        [({D}+{E}?)
+                 ({D}*'.'{D}+({E})?)
+                 ({D}+'.'{D}*({E})?)]
+     
+</pre>
+
+<p>
+ From this specification, we derive the following Finite State Machine
+
+</p><p>
+   
+<table align="center" border="0"><tbody><tr><td>
+</td><td><table border="0"><tbody><tr><td><img src="./FSA-example_files/NumberScanner.png" alt="NumberScanner.png">
+</td></tr></tbody></table><!--vbox-->
+</td><td></td></tr></tbody></table><!--hboxt-->
+
+</p><p>
+ Note how the specification not only describes how characters in
+ the input stream trigger automaton transitions. It also describes
+ <em>actions</em> to be taken upon transition. In particular, these
+ actions set/update <tt>self.value</tt> and
+ <tt>self.exp</tt> attributes to hold the mantissa and exponent
+ respectively of the recognized number.
+
+</p><p>
+ The scanner is encoded in the class <tt>NumberScanner</tt> in 
+ <a href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/scanner.py"><tt>scanner.py</tt></a>.
+ This requires an input stream class <tt>CharacterStream</tt>
+ found in <a href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/charstream.py"><tt>charstream.py</tt></a>.
+
+</p><p>
+
+</p><h2>CellRef</h2>
+
+<p>
+ A spreadsheet <tt>CellRef</tt> is specified by the following regular
+ expression:
+     
+</p><pre>  '$'?[a-zA-Z][a-zA-Z]?'$'?[1-9][0-9]?[0-9]?[0-9]?
+     
+</pre>
+
+<p>
+ From this specification, we derive the following Finite State Machine
+
+</p><p>
+   
+<table align="center" border="0"><tbody><tr><td>
+</td><td><table border="0"><tbody><tr><td><img src="./FSA-example_files/CellRefScanner.png" alt="CellRefScanner.png">
+</td></tr></tbody></table><!--vbox-->
+</td><td></td></tr></tbody></table><!--hboxt-->
+
+</p><p>
+ Note how the specification not only describes how characters in
+ the input stream trigger automaton transitions. It also describes
+ <em>actions</em> to be taken upon transition. In particular, these
+ actions set/update <tt>self.row</tt>, <tt>self.rowIsAbsolute</tt>, 
+ <tt>self.column</tt> and <tt>self.columnIsAbsolute</tt> attributes 
+ to hold appropriate integer values.
+
+</p><p>
+ The scanner is encoded in the class <tt>CellRefScanner</tt> in 
+ <a href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/scanner.py"><tt>scanner.py</tt></a>.
+ This requires an input stream class <tt>CharacterStream</tt>
+ found in <a href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/charstream.py"><tt>charstream.py</tt></a>.
+
+</p><p>
+
+</p><h2>Test Results</h2>
+
+<p>
+ The test script <a href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/tests.py"><tt>tests.py</tt></a>
+ produces the following
+ <a href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/tests.tracefalse.txt">output</a> 
+ when the <tt>__trace__</tt> variable is set to <tt>False</tt>.
+ It produces the following
+ <a href="http://msdl.uantwerpen.be/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/tests.tracetrue.txt">output</a>
+ when the <tt>__trace__</tt> variable is set to <tt>True</tt>.
+
+</p><p>
+ Note how the scanner will only commit the part of the input
+ <tt>stream</tt> which was recognized. The remainder of the input
+ stream remains ready for future scanning. 
+ This is necessary as the different scanners will be used by 
+ a <em>parser</em> which will drive the <em>scanner</em> which will try
+ to recognize different tokens as it recognizes a grammar (in this
+ case, the spreadsheet formula syntax).
+
+</p><p>
+
+<br><br></p><hr noshade=""><small>Translated from
+T<sub><font size="-1">E</font></sub>X
+by <a href="http://hutchinson.belmont.ma.us/tth/">
+T<sub><font size="-1">T</font></sub>H</a>,
+version 3.02 (minor customizations by
+<a href="http://www.cs.mcgill.ca/~hv/">HV</a>). On 14 Apr 2003, 15:10.</small>
+
+</body></html>
