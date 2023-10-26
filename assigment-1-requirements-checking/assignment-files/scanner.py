@@ -7,12 +7,15 @@
 
 # trace FSA dynamics (True | False)
 __trace__ = False
+
+
 # __trace__ = True
 
 class CharacterStream:
     """
     A stream of characters helper class.
     """
+
     def __init__(self, string):
         self.string = string
         self.last_ptr = -1
@@ -25,8 +28,8 @@ class CharacterStream:
         return self.string
 
     def peek(self):
-        if self.cur_ptr+1 < len(self.string):
-            return self.string[self.cur_ptr+1]
+        if self.cur_ptr + 1 < len(self.string):
+            return self.string[self.cur_ptr + 1]
         return None
 
     def consume(self):
@@ -44,10 +47,11 @@ class Scanner:
     A simple Finite State Automaton simulator.
     Used for scanning an input stream.
     """
+
     def __init__(self, stream):
         self.set_stream(stream)
-        self.current_state=None
-        self.accepting_states=[]
+        self.current_state = None
+        self.accepting_states = []
 
     def set_stream(self, stream):
         self.stream = stream
@@ -78,7 +82,6 @@ class Scanner:
                 else:
                     print("|->", next_state)
 
-
             # stop if a transition was not possible
             if next_state is None:
                 break
@@ -101,6 +104,7 @@ class Scanner:
             self.stream.rollback()
         return success
 
+
 ## An example scanner, see http://msdl.cs.mcgill.ca/people/hv/teaching/SoftwareDesign/COMP304B2003/assignments/assignment3/solution/
 class NumberScanner(Scanner):
     def __init__(self, stream):
@@ -112,7 +116,7 @@ class NumberScanner(Scanner):
         self.scale = 1
 
         # define accepting states
-        self.accepting_states=["S2","S4","S7"]
+        self.accepting_states = ["S2", "S4", "S7"]
 
     def __str__(self):
         return str(self.value) + "E" + str(self.exp)
@@ -130,7 +134,7 @@ class NumberScanner(Scanner):
             return "S1"
 
         elif state == "S1":
-            if input  == '.':
+            if input == '.':
                 # action
                 self.scale = 0.1
                 # new state
@@ -144,7 +148,7 @@ class NumberScanner(Scanner):
                 return None
 
         elif state == "S2":
-            if input  == '.':
+            if input == '.':
                 # action
                 self.scale = 0.1
                 # new state
@@ -154,7 +158,7 @@ class NumberScanner(Scanner):
                 self.value = self.value * 10 + ord(input.lower()) - ord('0')
                 # new state
                 return "S2"
-            elif input.lower()  == 'e':
+            elif input.lower() == 'e':
                 # action
                 self.exp = 1
                 # new state
@@ -179,7 +183,7 @@ class NumberScanner(Scanner):
                 self.scale /= 10
                 # new state
                 return "S4"
-            elif input.lower()  == 'e':
+            elif input.lower() == 'e':
                 # action
                 self.exp = 1
                 # new state
@@ -191,7 +195,7 @@ class NumberScanner(Scanner):
             if input == '+':
                 # new state
                 return "S6"
-            elif input  == '-':
+            elif input == '-':
                 # action
                 self.exp = -1
                 # new state
@@ -227,6 +231,7 @@ class NumberScanner(Scanner):
 
     def entry(self, state, input):
         pass
+
 
 if __name__ == "__main__":
     stream = CharacterStream("123e-4")
