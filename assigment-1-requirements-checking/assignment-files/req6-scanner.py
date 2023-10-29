@@ -1,5 +1,48 @@
 from scanner import Scanner, CharacterStream
 
+transition_table = {
+    "S1": {
+        "D": [("S2", "_DS ON @\n"), ("ERR", "_DS OFF @\n")],
+        "P": [("ERR", "_PS ON @\n"), ("ERR", "_PS OFF @\n")],
+        "": [("S1", "")]
+    },
+    "S2": {
+        "D": [("ERR", "_DS ON @\n"), ("S3", "_DS OFF @\n")],
+        "P": [("ERR", "_PS ON @\n"), ("ERR", "_PS OFF @\n")],
+        "": [("S2", "")]
+    },
+    "S3": {
+        "D": [("S5", "_DS ON @\n"), ("ERR", "_DS OFF @\n")],
+        "P": [("S4", "_PS ON @\n"), ("ERR", "_PS OFF @\n")],
+        "": [("S3", "")]
+    },
+    "S4": {
+        "D": [("S7", "_DS ON @\n"), ("ERR", "_DS OFF @\n")],
+        "P": [("ERR", "_PS ON @\n"), ("S1", "_PS OFF @\n")],
+        "": [("S4", "")]
+    },
+    "S5": {
+        "D": [("ERR", "_DS ON @\n"), ("S3", "_DS OFF @\n")],
+        "P": [("S7", "_PS ON @\n"), ("ERR", "_PS OFF @\n")],
+        "": [("S5", "")]
+    },
+    "S6": {
+        "D": [("S8", "_DS ON @\n"), ("ERR", "_DS OFF @\n")],
+        "P": [("ERR", "_PS ON @\n"), ("S3", "_PS OFF @\n")],
+        "": [("S6", "")]
+    },
+    "S7": {
+        "D": [("ERR", "_DS ON @\n"), ("S6", "_DS OFF @\n")],
+        "P": [("ERR", "_PS ON @\n"), ("S2", "_PS OFF @\n")],
+        "": [("S7", "")]
+    },
+    "S8": {
+        "D": [("ERR", "_DS ON @\n"), ("S6", "_DS OFF @\n")],
+        "P": [("ERR", "_PS ON @\n"), ("S5", "_PS OFF @\n")],
+        "": [("S8", "")]
+    },
+}
+
 
 class Requirement6Scanner(Scanner):
     def __init__(self, stream):
@@ -12,7 +55,7 @@ class Requirement6Scanner(Scanner):
         self.accepting_states = ["ERR"]
 
         self.prev_state = None
-        self.next_state = None
+        self.sub_paths = []
 
     def __str__(self):
         return str(self.value) + "E" + str(self.exp)
@@ -24,77 +67,58 @@ class Requirement6Scanner(Scanner):
         if state is None:
             return "S1"
 
-        elif state == "S1":
-            if input == "P":
-                self.prev_state = "S1"
-                self.next_state = {
-                    "PS ON \d\n": "S2",
-                }
-                return "P"
+        elif state[0] == "S":
+            state_table = transition_table[state]
+            if input in state_table:
+                self.prev_state = state
+                self.sub_paths = state_table[input]
+                return f"_{input}"
+            elif "" in state_table:
+                return state_table[""][0][0]
             else:
-                return "S1"
-
-        elif state == "S2":
-            if input == "P":
-                self.prev_state = "S2"
-                self.next_state = {
-                    "PS OFF \d\n": "S1",
-                    "PS ON \d\n": "ERR",
-                }
-                return "P"
-            else:
-                return "S2"
+                return "ERR"
 
         elif state == "ERR":
-            return "ERR"
+            return state
 
-        elif state == "P":
-            return "PS" if input == "S" else self.prev_state
+        # Is currently in a substate
+        elif state[0] == "_":
+            # Resolve current substate depth
+            current_depth = len(state)
 
-        elif state == "PS":
-            return "PS " if input == " " else self.prev_state
+            # Determine all possible remaining paths
+            accepted_paths = []
+            is_digit = False
+            for path in self.sub_paths:
+                # Get the character required to correctly transition
+                required_char = path[1][current_depth]
 
-        elif state == "PS ":
-            return "PS O" if input == "O" else self.prev_state
+                # "@" is a special encoding of \d+ to reduce code length
+                if required_char == "@":
+                    is_digit = True
+                    if input.isdigit():
+                        accepted_paths.append(path)
+                        continue
+                    else:
+                        state += "@"
+                        required_char = path[1][current_depth + 1]
 
-        elif state == "PS O":
-            if input == "N":
-                return "PS ON"
-            elif input == "F":
-                if "PS OFF \d\n" in self.next_state:
-                    return "PS OF"
-            return self.prev_state
+                # Otherwise, check if the required character matches the input
+                if required_char == input:
+                    accepted_paths.append(path)
 
-        elif state == "PS ON":
-            return "PS ON " if input == " " else self.prev_state
-
-        elif state == "PS ON ":
-            return "PS ON \d" if input.isdigit() else self.prev_state
-
-        elif state == "PS ON \d":
-            if input.isdigit():
-                return "PS ON \d"
-            elif input == "\n":
-                return self.next_state["PS ON \d\n"]
-            else:
+            # If there were no paths that matched, return to the previous state
+            if len(accepted_paths) == 0:
                 return self.prev_state
 
-        elif state == "PS OF":
-            return "PS OFF" if input == "F" else self.prev_state
+            # If there was a single path that matched, and substate is full matched, go to corresponding destination state
+            elif len(accepted_paths) == 1 and state + input == accepted_paths[0][1]:
+                return accepted_paths[0][0]
 
-        elif state == "PS OFF":
-            return "PS OFF " if input == " " else self.prev_state
-
-        elif state == "PS OFF ":
-            return "PS OFF \d" if input.isdigit() else self.prev_state
-
-        elif state == "PS OFF \d":
-            if input.isdigit():
-                return "PS OFF \d"
-            elif input == "\n":
-                return self.next_state["PS OFF \d\n"]
+            # Otherwise, update the sub_paths and proceed to the next character
             else:
-                return self.prev_state
+                self.sub_paths = accepted_paths
+                return state + ("@" if is_digit else input)
 
         else:
             return None
@@ -118,5 +142,6 @@ if __name__ == "__main__":
     import os
 
     for trace in os.listdir("traces"):
+        # if trace == "req_6_incorrect.txt":
         test_trace(f"traces/{trace}")
 

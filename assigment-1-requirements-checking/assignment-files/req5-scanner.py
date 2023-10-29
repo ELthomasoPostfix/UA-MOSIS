@@ -20,23 +20,31 @@ transition_table = {
     "S4": {
         "F": [("S2", "_FS OFF\n")],
         "Q": [("S3", "_QS OFF\n")],
-        "T": [("S5", "_TL GREEN\n")],
+        "D": [("S5", "_DS ON @\n")],
         "": [("S4", "")]
     },
     "S5": {
-        "D": [("S6", "_DS OFF @\n")],
-        "T": [("ERR", "_TL RED\n")],
+        "Q": [("S3", "_QS OFF\n")],
+        "T": [("S6", "_TL GREEN\n")],
         "": [("S5", "")]
     },
     "S6": {
+        "F": [("S2", "_FS OFF\n")],
         "D": [("S7", "_DS OFF @\n")],
         "T": [("ERR", "_TL RED\n")],
         "": [("S6", "")]
     },
     "S7": {
-        "D": [("S1", "_TL RED\n")],
-        "T": [("ERR", "_DS OFF @\n")],
+        "F": [("S2", "_FS OFF\n")],
+        "D": [("S8", "_DS OFF @\n")],
+        "T": [("ERR", "_TL RED\n")],
         "": [("S7", "")]
+    },
+    "S8": {
+        "F": [("S2", "_FS OFF\n")],
+        "D": [("S4", "_TL RED\n")],
+        "T": [("ERR", "_DS OFF @\n")],
+        "": [("S8", "")]
     },
 }
 
@@ -48,7 +56,7 @@ class Requirement5Scanner(Scanner):
         self.current_stacks = []
 
         # define accepting states
-        self.accepting_states = ["S1", "S2", "S3", "S4", "S5", "S6", "S7"]
+        self.accepting_states = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"]
 
         self.prev_state = None
         self.sub_paths = []

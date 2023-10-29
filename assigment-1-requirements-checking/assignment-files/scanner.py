@@ -71,7 +71,7 @@ class Scanner:
 
             if __trace__:
                 if self.current_state is not None:
-                    print("transition", self.current_state, "-|", next_char, end=' ')
+                    print("transition", self.current_state, "-|", next_char if next_char != '\n' else "\\n", end=' ')
 
             # perform transition and its action to the appropriate new state
             next_state = self.transition(self.current_state, next_char)
