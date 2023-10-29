@@ -100,8 +100,8 @@ class Requirement5Scanner(Scanner):
 
                 # "@" is a special encoding of \d+ to reduce code length
                 if required_char == "@":
-                    is_digit = True
                     if input.isdigit():
+                        is_digit = True
                         accepted_paths.append(path)
                         continue
                     else:
@@ -123,7 +123,9 @@ class Requirement5Scanner(Scanner):
             # Otherwise, update the sub_paths and proceed to the next character
             else:
                 self.sub_paths = accepted_paths
-                return state + ("@" if is_digit else input)
+                if not is_digit:
+                    state += input
+                return state
 
         else:
             return None
