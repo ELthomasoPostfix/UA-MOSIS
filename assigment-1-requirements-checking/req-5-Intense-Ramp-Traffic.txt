@@ -1,0 +1,79 @@
+title req 5. Intense Ramp Traffic
+
+# Order participants
+participant Car x
+participant Car y
+participant DSensor
+participant Controller
+participant Traffic Light
+
+note left of Car x: Pre-condition:\nFSensor ON\nQSensor ON
+
+# Perform trigger event: Car 1 enters DSensor
+Car x -> DSensor: enter(x)
+note right of DSensor: DSensor ON
+activate DSensor
+loop until Traffic Light GREEN
+    Car x -> Car x: wait
+end
+activate Car x
+DSensor -> Controller: detected(x)
+activate Controller
+
+
+# Start High flowthrough state
+note right of Controller: Controller enters\nfast flowthrough state
+Controller -> Traffic Light: set_color(GREEN)
+
+# Update Traffic Light (fast flowthrough state)
+activate Traffic Light
+Traffic Light -> Traffic Light: turn GREEN
+deactivate Traffic Light
+
+# Car 1: Leave DSensor
+Car x -> DSensor: exit(x)
+deactivate Car x
+DSensor -> Controller: departed(x)
+note right of DSensor: DSensor OFF
+deactivate DSensor
+
+# Car 2 enters DSensor
+Car y -> DSensor: enter(y)
+note right of DSensor: DSensor ON
+activate DSensor
+loop until Traffic Light GREEN
+    Car y -> Car y: wait
+end
+activate Car y
+DSensor -> Controller: detected(y)
+
+# OPTIONAL: Update Traffic Light (slow flowthrough state)
+#
+# A colon is REQUIRED in the opt block (and description optional),
+# else an error "extended text is a premium feature" happens.
+opt FSensor ON AND QSensor OFF
+    Controller->Traffic Light: set_color(GREEN)
+    activate Traffic Light
+    Traffic Light -> Traffic Light: turn GREEN
+    deactivate Traffic Light
+    note right of Controller: Controller enters\nslow flowthrough state
+end
+
+# Car 2: Leave DSensor
+Car y -> DSensor: exit(y)
+deactivate Car y
+DSensor -> Controller: departed(y)
+note right of DSensor: DSensor OFF
+deactivate DSensor
+
+# Pause consumption of 
+
+# Update Traffic Light (end of flowthrough)
+Controller -> Traffic Light: set_color(RED)
+activate Traffic Light
+Traffic Light -> Traffic Light: turn RED
+deactivate Traffic Light
+
+deactivate Controller
+note right of Controller: Controller finishes flow-\nthrough iteration
+note right of Controller: Post-condition:\nController should turn Traffic Light\nRED as fast as possible, before\nanother Car arrives at DSensor\n(before DS ON z)

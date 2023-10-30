@@ -1,0 +1,123 @@
+title req. 6 do merge
+
+participant Car x
+participant Car y
+participant DSensor
+participant PSensor
+
+
+note left of Car x: Pre-condition:\nTraffic Light GREEN\nPSensor OFF\nDSensor ON x\nCar y is behind Car x in ramp queue
+
+# Car 1: leave DSensor
+Car x -> DSensor: exit(x)
+activate DSensor
+deactivate DSensor
+
+alt Car y enters early
+
+    # Car 2: enter DSensor
+    Car y -> DSensor: enter(y)
+    activate DSensor
+    activate DSensor
+    activate DSensor
+
+    alt Car y leaves early
+
+        # Car 2: leave DSensor
+        Car y -> DSensor: leave(y)
+        deactivate DSensor
+
+        # Car 1: enter PSensor
+        Car x -> PSensor: enter(x)
+        activate PSensor
+        # Car 1: leave PSensor
+        Car x -> PSensor: exit(x)
+        deactivate PSensor
+    
+    else Car y leaves in the middle
+
+        # Car 1: enter PSensor
+        Car x -> PSensor: enter(x)
+        activate PSensor
+
+        # Car 2: leave DSensor
+        Car y -> DSensor: leave(y)
+        deactivate DSensor
+
+        # Car 1: leave PSensor
+        Car x -> PSensor: exit(x)
+        deactivate PSensor
+
+    else Car y leaves late
+
+        # Car 1: enter PSensor
+        Car x -> PSensor: enter(x)
+        activate PSensor
+
+        # Car 1: leave PSensor
+        Car x -> PSensor: exit(x)
+        deactivate PSensor
+
+        # Car 2: leave DSensor
+        Car y -> DSensor: leave(y)
+        deactivate DSensor
+    end
+
+else Car y enters in the middle
+
+    # Car 1: enter PSensor
+    Car x -> PSensor: enter(x)
+    activate PSensor
+
+    # Car 2: enter DSensor
+    Car y -> DSensor: enter(y)
+    activate DSensor
+    activate DSensor
+    
+    alt Car y leaves in the middle
+        # Car 2: leave DSensor
+        Car y -> DSensor: leave(y)
+        deactivate DSensor
+
+        # Car 2: leave DSensor
+        Car x -> PSensor: exit(x)
+        deactivate PSensor
+
+    else Car y leaves late
+
+        # Car 2: leave DSensor
+        Car x -> PSensor: exit(x)
+        deactivate PSensor
+
+        # Car 2: leave DSensor
+        Car y -> DSensor: leave(y)
+        deactivate DSensor
+    end
+
+
+else Car y enters late
+
+    # Car 1: enter PSensor
+    Car x -> PSensor: enter(x)
+    activate PSensor
+    # Car 1: leave PSensor
+    Car x -> PSensor: exit(x)
+    deactivate PSensor
+    
+    # Car 2: enter DSensor
+    Car y -> DSensor: enter(y)
+    activate DSensor
+
+    # Car 2: leave DSensor
+    Car y -> DSensor: exit(y)
+    deactivate DSensor
+end
+
+note right of Car x: Car x has merged\ninto the freeway
+
+Car y -> PSensor: enter(y)
+activate PSensor
+Car y -> PSensor: leave(y)
+deactivate PSensor
+
+note right of Car y: Car y has merged\ninto the freeway
