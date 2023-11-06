@@ -1,6 +1,12 @@
 # This file contains example Python code to demonstrate the simulation of the newtonCooling Modelica model
 # You need os package to execute commands in shell
 import os
+import csv
+import numpy as np
+from typing import List
+from matplotlib import pyplot
+from scipy import io    # You need scipy package to read MAT-files
+
 
 def singleSimulation(A: float, b: float, M: float) -> None:
     """Perform a single simulation using the model binary.
@@ -8,30 +14,41 @@ def singleSimulation(A: float, b: float, M: float) -> None:
     :param A: The forward gain (N/V) from the control signal
     :param M: The total mass (kg) of the plant
     :param b: The plant's drag coefficient(kg/m)
+    :return: (timestamp list, displacement data list)
     """
-    from typing import List
 
     packageName: str = "CarCruiseController"
     modelName: str   = "PlantModel"
-    outputName: str  = f"{modelName}_res.mat"
+    dirPath: str = f".{os.sep}{packageName}.{modelName}{os.sep}"
+    outputFilePath: str  = f"{dirPath}{modelName}_res.mat"
     
-    os.chdir(f"{packageName}.{modelName}")
+    #os.chdir(f"{packageName}.{modelName}")
     # OS-agnostic executable call
-    os.system(f".{os.sep}{modelName} -override A={A},M={M},b={b}")
+    os.system(f"{dirPath}{modelName} -override A={A},M={M},b={b}")
 
     # Obtain the variable values by reading the MAT-file
-    names, data = readMat(outputName)
+    names, data = readMat(outputFilePath)
     
     timeData: List[float] = data[names.index("time")]
     displacementData: List[float] = data[names.index("x")]
 
-    print(len(timeData))
-    print(len(displacementData))
+    return timeData, displacementData
 
-    openDataPlot(timeData, displacementData,'time (seconds)','x (m)')
+def meanSquaredError(observedData: List[float], predictedData: List[float]) -> float:
+    """Compute the mean squared error for the given two same-sized lists.
+        MSE = (1 / n) * summ_i ( observedData[i] - predictedData[i] )**2
 
-# You need scipy package to read MAT-files
-from scipy import io
+    :param observedData: The data that is subtracted from in the summation
+    :param predictedData: The data that is subtracted with in the summation
+    :return: The MSE
+    """
+    assert len(observedData) == len(predictedData), f"Can only compute MSE for same-sized lists: got {len(observedData)} != {len(predictedData)}"
+    mse: float = 0
+    for idx in range(0, len(observedData)):
+        mse += pow(observedData[idx] - predictedData[idx], 2)
+    return mse / len(observedData)
+
+
 # Reuse this exact function to read MAT-file data.
 # matFileName is the name of the MAT-file generated on execution of a Modelica executable
 # The output is [names, data] where names is an array of strings which are names of variables, data is an array of values of the associated variable in the same order
@@ -68,8 +85,25 @@ def readMat(matFileName):
     # Return the names of variables, and their corresponding values
     return [names,data]
 
-# You need matplotlib to plot
-from matplotlib import pyplot
+def optimizeDrag() -> None:
+    # Load comparison data
+    refDisplacementData: List[float] = []
+    with open("./assignment-files/deceleration_data.csv", "r") as referenceFile:
+        reader = csv.reader(referenceFile)
+        next(reader)    # Skip header
+        refDisplacementData = [float(line[1]) for line in reader]
+
+    # b in (0.00, 3.00]
+    bRange = [bv for bv in np.arange(3.00, 0.00, -0.01)]
+    mseList: List[float] = []
+    for bValue in bRange:
+        print(bValue)
+        timeData, displacementData = singleSimulation(A=60, b=bValue, M=1500)
+        mseList.append(meanSquaredError(refDisplacementData, displacementData))
+    
+    openDataPlot(bRange, mseList,'b (kg/m)','MSE')
+
+
 # This function plots the data from the simulation.
 # xdata is x-axis data
 # ydata is corresponding y-axis data
@@ -84,7 +118,7 @@ def openDataPlot(xdata, ydata, xLabel, yLabel):
 
 # "function" that calls the single simulation function from shell. In your code, this function call should be in a loop ove the combinations of parameters.
 if __name__ == "__main__":
-    singleSimulation(A=60, b=0.86, M=1500)
+    optimizeDrag()
 
 # The follwing function is an alternative way of executing/simulating the Modelica model using the OMPython package. This method is not recommended.
 # from OMPython import OMCSessionZMQ, ModelicaSystem

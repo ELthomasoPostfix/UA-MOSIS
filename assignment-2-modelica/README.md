@@ -8,7 +8,7 @@ Somewhat counter to the claim we just made, an example modelica model's zip arch
 
 Task 2 pertains to estimating the drag coeficient parameter of the plant model. The given [csv file download link](http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Modelica/deceleration_data.csv) contains "real-world" measurement data on the plant given specific initial values.
 
-The file [simulate.py](/assignment-2-modelica/assignment-files/simulate.py) in `assignment-files` was taken from the [example zip download link](http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Modelica/example.zip) provided in the assignment. The file [task_2_simulate.py](/assignment-2-modelica/task_2_simulate.py) was based on the file in `assignment-files`.
+The file [simulate.py](/assignment-2-modelica/assignment-files/simulate.py) in `assignment-files` was taken from the [example zip download link](http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Modelica/example.zip) provided in the assignment. The file [parameter_tuning.py](/assignment-2-modelica/parameter_tuning.py) was based on the file in `assignment-files`.
 
 # Setup
 
@@ -43,10 +43,10 @@ pip install -r requirements.txt
 
 # Run
 
-To run the model for the specified parameters, simply call the python file [task_2_simulate.py](/assignment-2-modelica/task_2_simulate.py) **from the where the compiled Modelica model is located**. It *must* be called from there because the needed IO operations are hardcoded into the python file. The [Setup section](#setup) specified this to be [assignment-2-modelica/](/assignment-2-modelica/).
+To run the model for the specified parameters, simply call the python file [parameter_tuning.py](/assignment-2-modelica/parameter_tuning.py) **from the where the compiled Modelica model is located**. It *must* be called from there because the needed IO operations are hardcoded into the python file. The [Setup section](#setup) specified this to be [assignment-2-modelica/](/assignment-2-modelica/).
 
 ```sh
-python task_2_simulate.py
+python parameter_tuning.py
 ```
 
 # Assignment Requirements
