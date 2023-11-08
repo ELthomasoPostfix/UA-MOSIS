@@ -20,15 +20,20 @@ def singleSimulation(A: float, b: float, M: float, u: float) -> None:
 
     packageName: str = "CarCruiseController"
     modelName: str   = "PlantModel"
-    dirPath: str = f".{os.sep}{packageName}.{modelName}{os.sep}"
-    outputFilePath: str  = f"{dirPath}{modelName}_res.mat"
+    outputFilePath: str  = f"{modelName}_res.mat"
     
-    #os.chdir(f"{packageName}.{modelName}")
+    os.chdir(f"{packageName}.{modelName}")
     # OS-agnostic executable call
-    os.system(f"{dirPath}{modelName} -override A={A},M={M},b={b},u={u}")
+    # Executing the simulation ONLY works iff.
+    #   1) the .bat file is called
+    #   2) the call happens where the .bat file is located
+    #   3) OMEdit is turned off (or at least does not have the model file opened?)
+    # ==> This is windows specific, ubuntu users are on their own :(
+    os.system(f".\{modelName}.bat -override A={A},M={M},b={b},u={u}")
 
     # Obtain the variable values by reading the MAT-file
     names, data = readMat(outputFilePath)
+    os.chdir("..")  # Reset dir for next calls
     
     timeData: List[float] = data[names.index("time")]
     displacementData: List[float] = data[names.index("x")]
