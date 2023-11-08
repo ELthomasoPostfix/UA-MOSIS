@@ -8,12 +8,13 @@ from matplotlib import pyplot
 from scipy import io    # You need scipy package to read MAT-files
 
 
-def singleSimulation(A: float, b: float, M: float) -> None:
+def singleSimulation(A: float, b: float, M: float, u: float) -> None:
     """Perform a single simulation using the model binary.
 
     :param A: The forward gain (N/V) from the control signal
     :param M: The total mass (kg) of the plant
     :param b: The plant's drag coefficient(kg/m)
+    :param u: The control signal (V)
     :return: (timestamp list, displacement data list)
     """
 
@@ -24,7 +25,7 @@ def singleSimulation(A: float, b: float, M: float) -> None:
     
     #os.chdir(f"{packageName}.{modelName}")
     # OS-agnostic executable call
-    os.system(f"{dirPath}{modelName} -override A={A},M={M},b={b}")
+    os.system(f"{dirPath}{modelName} -override A={A},M={M},b={b},u={u}")
 
     # Obtain the variable values by reading the MAT-file
     names, data = readMat(outputFilePath)
@@ -97,10 +98,16 @@ def optimizeDrag() -> None:
     bRange = [bv for bv in np.arange(3.00, 0.00, -0.01)]
     mseList: List[float] = []
     for bValue in bRange:
-        print(bValue)
-        timeData, displacementData = singleSimulation(A=60, b=bValue, M=1500)
+        timeData, displacementData = singleSimulation(A=60, b=bValue, M=1500, u=0)
+
+        # Manually fix duplicate final simulation value
+        timeData = timeData[:len(timeData) - 1]
+        displacementData = displacementData[:len(displacementData) - 1]
+
         mseList.append(meanSquaredError(refDisplacementData, displacementData))
     
+    mseList = [val - min(mseList) for val in mseList]
+
     openDataPlot(bRange, mseList,'b (kg/m)','MSE')
 
 
