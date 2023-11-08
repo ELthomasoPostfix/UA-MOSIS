@@ -1,8 +1,12 @@
-# modelica
+# Modelica
 
 This directory pertains to the second assignment, modelica for the MOSIS course. You can find the original assignment in both html and pdf formats, as well many of the code, test and example files linked to by the assignment, in the `assignment-files` subdirectory ([here](/assignment-2-modelica/assignment-files/)). Though inclusion of these files inflates the size of the repo, we believe all required files should be available upon cloning.
 
 Somewhat counter to the claim we just made, an example modelica model's zip archive provided for this assignment proved a little too large (110 MB), despite it not being required for solving it. We do add its [download link](http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Modelica/example.zip).
+
+# Warning
+
+We used **Windows** for solving this assignment. We experienced al lot of trouble getting the simulation executable working, and offer no guarantees of the python files working as intended on another OS. See the related calls in the [parameter_tuning.py](/assignment-2-modelica/parameter_tuning.py) file for several comments giving a few more details.
 
 # Task 2
 
