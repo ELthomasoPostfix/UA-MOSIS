@@ -34,7 +34,7 @@ def singleSimulation(A: float, b: float, M: float, u: float) -> None:
     # Obtain the variable values by reading the MAT-file
     names, data = readMat(outputFilePath)
     os.chdir("..")  # Reset dir for next calls
-    
+
     timeData: List[float] = data[names.index("time")]
     displacementData: List[float] = data[names.index("x")]
 
@@ -110,7 +110,17 @@ def optimizeDrag() -> None:
         displacementData = displacementData[:len(displacementData) - 1]
 
         mseList.append(meanSquaredError(refDisplacementData, displacementData))
-    
+
+    # mseList = [val - min(mseList) for val in mseList]
+
+    # bRange is xvalues, mseList is yvalues find fitting function
+    # degrees = 4
+    # deg = np.polyfit(bRange, mseList, degrees)
+    # # Print as string
+    # stre = " + ".join([f"{deg[i]}*x**{degrees - i}" for i in range(degrees + 1)])
+    # print(stre)
+
+
     openDataPlot(bRange, mseList,'b (kg/m)','MSE')
 
 
