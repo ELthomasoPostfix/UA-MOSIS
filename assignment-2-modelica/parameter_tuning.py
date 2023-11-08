@@ -111,8 +111,6 @@ def optimizeDrag() -> None:
 
         mseList.append(meanSquaredError(refDisplacementData, displacementData))
     
-    mseList = [val - min(mseList) for val in mseList]
-
     openDataPlot(bRange, mseList,'b (kg/m)','MSE')
 
 
