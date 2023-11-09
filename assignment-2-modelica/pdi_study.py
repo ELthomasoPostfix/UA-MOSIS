@@ -61,11 +61,16 @@ def optimizeGains() -> None:
 
     # Create 3 x 9 subplots (with columns of 3 grouped)
     fig, ax = plt.subplots(3, 9, sharex=True, sharey=True)
+    KpIdx = 0
 
+    # Plot every 3x3 combination of gains in a 3x3 subplot
     for Kp in KpList:
         for Ki in KiList:
             for Kd in KdList:
-                pass
+
+
+        KpIdx += 1
+
 
     # Select min RMSE that did not collide
     rmseList = [rmseList[i] for i in range(len(rmseList)) if not collidedList[i]]

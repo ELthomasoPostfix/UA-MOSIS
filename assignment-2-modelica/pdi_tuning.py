@@ -41,6 +41,28 @@ def singleSimulation(Kp: float, Ki: float, Kd: float) -> [List[float], List[floa
 
     return timeData, leadCarDistanceData, plantCarDistanceData
 
+def rootMeanSquaredError(observedData: List[float], predictedData: List[float]) -> float:
+    """Compute the root mean squared error for the given two same-sized lists.
+        MSE = sqrt(summ_i (( observedData[i] - predictedData[i] )**2) / (1 / n))
+
+    :param observedData: The data that is subtracted from in the summation
+    :param predictedData: The data that is subtracted with in the summation
+    :return: The MSE
+    """
+    assert len(observedData) == len(
+        predictedData), f"Can only compute RMSE for same-sized lists: got {len(observedData)} != {len(predictedData)}"
+    rmse: float = 0
+    for idx in range(0, len(observedData)):
+        rmse += pow(observedData[idx] - predictedData[idx], 2) / len(observedData)
+    return np.sqrt(rmse)
+
+
+def carCollided(leadCarDistanceData: List[float], plantCarDistanceData: List[float]) -> bool:
+    for idx in range(0, len(leadCarDistanceData)):
+        if plantCarDistanceData[idx] >= leadCarDistanceData[idx]:
+            return True
+    return False
+
 
 def optimizeGains() -> None:
     collidedList: List[bool] = []
