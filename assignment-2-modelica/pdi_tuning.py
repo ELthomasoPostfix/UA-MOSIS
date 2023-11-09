@@ -41,27 +41,28 @@ def singleSimulation(Kp: float, Ki: float, Kd: float) -> [List[float], List[floa
 
     return timeData, leadCarDistanceData, plantCarDistanceData
 
+
 def optimizeGains() -> None:
     collidedList: List[bool] = []
     rmseList: List[float] = []
     gainList: List[(int, int, int)] = []
 
-    # Give all possible combinations of Kp, Ki, Kd
-    # between 200, 400 delta 10
-
-    # Create 3 x 9 subplots (with columns of 3 grouped)
-    fig, ax = plt.subplots(3, 9, sharex=True, sharey=True)
-
-
     for Kp in np.arange(210, 400, 10):
-
         for Ki in np.arange(1, 21, 1):
             for Kd in np.arange(1, 21, 1):
                 timeData, leadCarDistanceData, plantCarDistanceData = singleSimulation(Kp, Ki, Kd)
 
-                # Plot the leadCarDistance and plantCarDistance over time
-                ax[0].plot(timeData, leadCarDistanceData)
+                # Manually fix duplicate final simulation value
+                timeData = timeData[:len(timeData) - 1]
+                leadCarDistanceData = leadCarDistanceData[:len(leadCarDistanceData) - 1]
+                plantCarDistanceData = plantCarDistanceData[:len(plantCarDistanceData) - 1]
 
+                collided = carCollided(leadCarDistanceData, plantCarDistanceData)
+                leadCarDistanceData = [dist - 10 for dist in leadCarDistanceData]
+
+                collidedList.append(collided)
+                rmseList.append(rootMeanSquaredError(leadCarDistanceData, plantCarDistanceData))
+                gainList.append((Kp, Ki, Kd))
 
     # Select min RMSE that did not collide
     rmseList = [rmseList[i] for i in range(len(rmseList)) if not collidedList[i]]
@@ -88,7 +89,8 @@ def optimizeGains() -> None:
     # sns.set_style("whitegrid")
 
     # Create a dataframe with the data
-    # df = pd.DataFrame({'Kp': [gain[0] for gain in gainList], 'Ki': [gain[1] for gain in gainList], 'Kd': [gain[2] for gain in gainList], 'RMSE': rmseList})
+    df = pd.DataFrame({'Kp': [gain[0] for gain in gainList], 'Ki': [gain[1] for gain in gainList], 'Kd': [gain[2] for gain in gainList], 'RMSE': rmseList})
+    df.to_csv("gain_data.csv")
 
 
 # "function" that calls the single simulation function from shell. In your code, this function call should be in a loop ove the combinations of parameters.

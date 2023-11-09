@@ -55,32 +55,17 @@ def optimizeGains() -> None:
     rmseList: List[float] = []
     gainList: List[(int, int, int)] = []
 
-    # Give all possible combinations of Kp, Ki, Kd
-    # between 200, 400 delta 10
-
     KpList = [0, 1, 20]
     KiList = [0, 1, 20]
     KdList = [0, 20, 40]
 
+    # Create 3 x 9 subplots (with columns of 3 grouped)
+    fig, ax = plt.subplots(3, 9, sharex=True, sharey=True)
 
     for Kp in KpList:
         for Ki in KiList:
             for Kd in KdList:
-                timeData, leadCarDistanceData, plantCarDistanceData = singleSimulation(Kp, Ki, Kd)
-
-                # Manually fix duplicate final simulation value
-                timeData = timeData[:len(timeData) - 1]
-                leadCarDistanceData = leadCarDistanceData[:len(leadCarDistanceData) - 1]
-                plantCarDistanceData = plantCarDistanceData[:len(plantCarDistanceData) - 1]
-
-                collided = carCollided(leadCarDistanceData, plantCarDistanceData)
-                leadCarDistanceData = [dist - 10 for dist in leadCarDistanceData]
-
-                collidedList.append(collided)
-                rmseList.append(rootMeanSquaredError(leadCarDistanceData, plantCarDistanceData))
-                gainList.append((Kp, Ki, Kd))
-
-                #
+                pass
 
     # Select min RMSE that did not collide
     rmseList = [rmseList[i] for i in range(len(rmseList)) if not collidedList[i]]
