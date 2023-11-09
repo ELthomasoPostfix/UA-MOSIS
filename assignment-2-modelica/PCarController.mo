@@ -106,6 +106,13 @@ package PCarController
   end PIDController;
 
   model CarCruiseController
+    // parameters
+    parameter Real Kp_start=1 "Proportional gain";
+    parameter Real Ki_start=1 "Integral gain";
+    parameter Real Kd_start=20 "Derivative gain";
+    
+    
+    // blocks
     Modelica.Blocks.Sources.ContinuousClock t annotation(
       Placement(visible = true, transformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Tables.CombiTable1Ds alt(extrapolation = Modelica.Blocks.Types.Extrapolation.HoldLastPoint, smoothness = Modelica.Blocks.Types.Smoothness.ConstantSegments, table = [0, 1.75; 20, -0.75; 40, 0.5; 60, -3.25; 70, 0]) annotation(
@@ -114,16 +121,10 @@ package PCarController
       Placement(visible = true, transformation(origin = {-30, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Math.MultiSum multiSum(nu = 2) annotation(
       Placement(visible = true, transformation(origin = {72, 28}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
-    PCarController.PIDController PID annotation(
+    PCarController.PIDController PID(Kp=Kp_start, Ki=Ki_start, Kd=Kd_start) annotation(
       Placement(visible = true, transformation(origin = {-48, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     car_package.mech_car Plant annotation(
       Placement(visible = true, transformation(origin = {-2, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealInput Kp(start=1) annotation(
-      Placement(visible = true, transformation(origin = {-120, 20}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-116, 18}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealInput Ki(start=1) annotation(
-      Placement(visible = true, transformation(origin = {-120, -10}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-116, -12}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
-    Modelica.Blocks.Interfaces.RealInput kd(start=20) annotation(
-      Placement(visible = true, transformation(origin = {-120, -38}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-110, -44}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
     Modelica.Blocks.Sources.Constant rt(k = 10.0) annotation(
       Placement(visible = true, transformation(origin = {-110, -88}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Math.Product product annotation(
@@ -143,12 +144,6 @@ package PCarController
       Line(points = {{-18, 60}, {20, 60}, {20, 28}, {66, 28}}, color = {0, 255, 255}, thickness = 0.5));
     connect(PID.ut, Plant.u) annotation(
       Line(points = {{-37, 10}, {-14, 10}}, color = {0, 0, 127}, thickness = 0.5));
-    connect(Kp, PID.Kp) annotation(
-      Line(points = {{-120, 20}, {-60, 20}, {-60, 19}}, color = {0, 170, 0}, thickness = 0.5));
-    connect(Ki, PID.Ki) annotation(
-      Line(points = {{-120, -10}, {-92, -10}, {-92, 14}, {-60, 14}}, color = {255, 170, 0}, thickness = 0.5));
-    connect(kd, PID.Kd) annotation(
-      Line(points = {{-120, -38}, {-86, -38}, {-86, 8}, {-60, 8}}, color = {255, 0, 0}, thickness = 0.5));
     connect(rt.y, product.u1) annotation(
       Line(points = {{-99, -88}, {-66, -88}, {-66, -82}}, color = {0, 0, 127}, thickness = 0.5));
     connect(product.y, et.u[1]) annotation(
