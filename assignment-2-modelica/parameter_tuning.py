@@ -120,6 +120,13 @@ def optimizeDrag() -> None:
     # stre = " + ".join([f"{deg[i]}*x**{degrees - i}" for i in range(degrees + 1)])
     # print(stre)
 
+    minMSE: float = min(mseList)
+    minMSEIndex: int = mseList.index(minMSE)
+    minMSEBvalue: float = bRange[minMSEIndex]
+    print("min mse ", minMSE)
+    print("min mse idx ", minMSEIndex)
+    print("min mse b-value ", minMSEBvalue)
+
 
     openDataPlot(bRange, mseList,'b (kg/m)','MSE')
 
