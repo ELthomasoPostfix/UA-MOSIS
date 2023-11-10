@@ -1,5 +1,7 @@
+import os, glob, OMPython
 from scipy import io  # You need scipy package to read MAT-files
 from typing import List
+
 
 # Reuse this exact function to read MAT-file data.
 # matFileName is the name of the MAT-file generated on execution of a Modelica executable
@@ -43,3 +45,84 @@ def carCollided(leadCarDistanceData: List[float], plantCarDistanceData: List[flo
         if plantCarDistanceData[idx] >= leadCarDistanceData[idx]:
             return True, idx
     return False, -1
+
+
+
+# A link to the OMPython package docs: https://openmodelica.org/doc/OpenModelicaUsersGuide/latest/ompython.html#ompython
+# A link to the OpenModelica scripting docs: https://build.openmodelica.org/Documentation/OpenModelica.Scripting.html
+def buildModel(modelFilePath: str, modelName: str, packageName: str, dependencies: List[str]):
+    """Build the given model. All paths must be relative.
+    Janky method, do not trust it too much.
+    
+    """
+    
+    # All file paths will need to relatively be accessed one level higher
+    combinedName: str = f"{packageName}.{modelName}"
+    targetBinName: str = f"{modelName}.bat"
+    
+    print()
+    print(f"Build from model file at {modelFilePath}")
+    print()
+    print("-- MODEL BUILD INFO --")
+    print(f"model name:   ", modelName)
+    print(f"package name: ", packageName)
+    print(f"dst dir name: ", combinedName)
+    print(f"dependencies: ", dependencies)
+    print()
+    print()
+    
+    modelFilePath = f"../{modelFilePath}"
+    for idx, dependency in enumerate(dependencies):
+        if '.mo' in dependency:
+            dependencies[idx] = f"../{dependency}"
+
+    # Setup
+    if not os.path.exists(combinedName):
+        os.mkdir(combinedName)
+    os.chdir(combinedName)
+
+    # DONT INITIALIZE YET PLS I JUST WANT TO EDIT SIMULATION PARAMS AND NOT HAVE TO COMPILE TWICE BECAUSE WHY TF WOULD I
+    def doNotBuildModel(self=None): return
+    buildFunction = OMPython.ModelicaSystem.buildModel
+    OMPython.ModelicaSystem.buildModel = doNotBuildModel
+
+    # Setup model
+    model = OMPython.ModelicaSystem(modelFilePath, combinedName, dependencies)
+
+    # HAVE YOUR STUPID BUILD FUNCTION BACK
+    OMPython.ModelicaSystem.buildModel = buildFunction
+    model.buildModel()
+
+    # Cleanup
+    for f in glob.glob("*.[och]"):
+        os.remove(f)
+    if os.path.exists(targetBinName):
+        os.remove(targetBinName)
+    os.rename(f"{combinedName}.bat", targetBinName)
+    os.chdir("..")
+
+
+class GLOBALS:
+    packageName: str = "PCarController"
+
+    plantModelName: str = "PlantModel"
+    plantDependencies: List[str] = ["Modelica"]
+
+    controllerModelName: str = "CarCruiseController"
+    controllerDependencies: List[str] = ["Modelica", "./assignment-files/car_package.mo"]
+
+    @staticmethod
+    def outputDirName(packageName: str, modelName: str):
+        return f"{packageName}.{modelName}"
+    
+    @staticmethod
+    def outputFilePath(packageName: str, modelName: str): 
+        return f"{packageName}.{modelName}_res.mat"
+
+    @staticmethod
+    def buildPlantModel():
+        buildModel(f"./{GLOBALS.packageName}.mo", GLOBALS.plantModelName, GLOBALS.packageName, GLOBALS.plantDependencies)
+
+    @staticmethod
+    def buildControllerModel():
+        buildModel(f"./{GLOBALS.packageName}.mo", GLOBALS.controllerModelName, GLOBALS.packageName, GLOBALS.controllerDependencies)
