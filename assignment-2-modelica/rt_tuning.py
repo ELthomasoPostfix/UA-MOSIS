@@ -1,54 +1,27 @@
 import os
 import numpy as np
 from typing import List
-from util import readMat, carCollided, GLOBALS
+from util import readMat, carCollided, GLOBALS, run_simulation
+import seaborn as sns
+import pandas as pd
+from matplotlib import pyplot as plt
 
-
-def singleSimulation(rt: float, Kp: float, Ki: float, Kd: float) -> [List[float], List[float], List[float]]:
-    """Perform a single simulation using the model binary.
-
-    :param rt: The chosen target inter-vehicle distance
-    :param Kp: The proportional gain
-    :param Ki: The integral gain
-    :param Kd: The derivative gain
-    :return: (timestamp list, lead car distance list, plant car distance list)
-    """
-    modelName: str = GLOBALS.controllerModelName
-    packageName: str = GLOBALS.packageName
-    outputFileName: str = GLOBALS.outputFileName(modelName)
-
-    os.chdir(GLOBALS.outputDirName(packageName, modelName))
-    # OS-agnostic executable call
-    # Executing the simulation ONLY works iff.
-    #   1) the .bat file is called
-    #   2) the call happens where the .bat file is located
-    #   3) OMEdit is turned off (or at least does not have the model file opened?)
-    # ==> This is windows specific, ubuntu users are on their own :(
-    os.system(f".\{modelName}.bat -override rt_start={rt},Kp_start={Kp},Ki_start={Ki},Kd_start={Kd}, -r {outputFileName}")
-
-    # Obtain the variable values by reading the MAT-file
-    names, data = readMat(outputFileName)
-    os.chdir("..")  # Reset dir for next calls
-
-    timeData: List[float] = data[names.index("time")]
-    leadCarDistanceData: List[float] = data[names.index("lead_car.y")]
-    plantCarDistanceData: List[float] = data[names.index("Plant.y")]
-
-    return timeData, leadCarDistanceData, plantCarDistanceData
 
 def optimizeMinVehicleSpacing() -> None:
     Kp: float = 390
     Ki: float = 20
     Kd: float = 20
-    rtList: List[float] = []
+    rtList: List[float] = list(np.arange(9.9, 0, -0.1))
     rtCollidedList: List[float] = []
+    rtCollisionIndexList: List[int] = []
 
-    for rt in np.arange(9.9, 0, -0.1):
-        timeData, leadCarDistanceData, plantCarDistanceData = singleSimulation(
-            rt=rt,
-            Kp=Kp,
-            Ki=Ki,
-            Kd=Kd)
+    for rt in rtList:
+        timeData, leadCarDistanceData, plantCarDistanceData = run_simulation(
+            "controller",
+            {"rt": rt, "Kp": Kp, "Ki": Ki, "Kd": Kd},
+            ["time", "lead_car.y", "Plant.y"]
+        )
+
 
         # Manually fix duplicate final simulation value
         timeData = timeData[:len(timeData) - 1]
@@ -58,15 +31,49 @@ def optimizeMinVehicleSpacing() -> None:
         collided, collision_idx = carCollided(leadCarDistanceData, plantCarDistanceData)
         leadCarDistanceData = [dist - 10 for dist in leadCarDistanceData]
 
-        rtList.append(rt)
-        if collided: rtCollidedList.append(rt)
+        rtCollidedList.append(collided)
+        rtCollisionIndexList.append(collision_idx)
 
-    rtEarliestCollisionIdx: int = rtList.index(rtCollidedList[0]) if len(rtCollidedList) > 0 else None
-    rtEarliestCollision: float = rtList[rtEarliestCollisionIdx]
-    rtLatestSafe: float = rtList[rtEarliestCollisionIdx - 1] if rtEarliestCollisionIdx > 0 else None
+    timeLength = len(timeData)
 
-    print("Earliest Collision: ", rtEarliestCollision)
-    print("Latest Safe:        ", rtLatestSafe)
+    # Find first collision
+    rtEarliestCollisionIdx: int = rtCollidedList.index(True)
+
+    rtEarliestCollision = timeLength
+    if rtEarliestCollisionIdx == -1:
+        print('No collision found')
+    else:
+        rtEarliestCollision: float = rtList[rtEarliestCollisionIdx]
+        rtLatestSafe: float = rtList[rtEarliestCollisionIdx - 1]
+
+        print("Earliest Collision: ", rtEarliestCollision)
+        print("Latest Safe:        ", rtLatestSafe)
+
+    sns.set_style(style="whitegrid")
+    rtCollisionIndexList = [timeLength if x == -1 else x for x in rtCollisionIndexList]
+    hasCollided = [x != timeLength for x in rtCollisionIndexList]
+
+    # Plot barplot with values going from high to low
+    df = pd.DataFrame({'rt': rtList, 'collision': rtCollisionIndexList, 'hasCollided': hasCollided})
+    df = df.sort_values(by='rt', ascending=False)
+
+    colorSet = ['green', 'red']
+
+    sns.barplot(x='rt', y='collision', data=df, hue='hasCollided', palette=colorSet, errorbar=None, width=1)
+    plt.xlabel('r(t) = Target Inter-Vehicle Distance (m)')
+    plt.ylabel('t = Time of Collision (s)')
+
+    # Only show x-axis labels for every 5th value, rounded to 1 decimal
+    plt.xticks(np.arange(0, len(rtList), 5), [round(x - 0.4, 1) for x in rtList[::5]][::-1])
+
+    # Set legend labels
+    handles, labels = plt.gca().get_legend_handles_labels()
+    plt.legend(handles, ['Safe', 'Collision'], title='Collision Status')
+
+    plt.gca().invert_xaxis()
+
+    plt.savefig('rt_collision.png')
+    plt.show()
 
 
 # "function" that calls the single simulation function from shell. In your code, this function call should be in a loop ove the combinations of parameters.

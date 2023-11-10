@@ -8,54 +8,7 @@ from matplotlib import pyplot as plt
 from scipy import io  # You need scipy package to read MAT-files
 import seaborn as sns
 import pandas as pd
-from util import readMat, carCollided, GLOBALS
-
-def singleSimulation(Kp: float, Ki: float, Kd: float) -> [List[float], List[float], List[float]]:
-    """Perform a single simulation using the model binary.
-
-    :param Kp: The proportional gain
-    :param Ki: The integral gain
-    :param Kd: The derivative gain
-    :return: (timestamp list, lead car distance list, plant car distance list)
-    """
-    modelName: str = GLOBALS.controllerModelName
-    packageName: str = GLOBALS.packageName
-    outputFileName: str = GLOBALS.outputFileName(modelName)
-
-    os.chdir(GLOBALS.outputDirName(packageName, modelName))
-    # OS-agnostic executable call
-    # Executing the simulation ONLY works iff.
-    #   1) the .bat file is called
-    #   2) the call happens where the .bat file is located
-    #   3) OMEdit is turned off (or at least does not have the model file opened?)
-    # ==> This is windows specific, ubuntu users are on their own :(
-    os.system(f".\{modelName}.bat -override Kp_start={Kp},Ki_start={Ki},Kd_start={Kd} -r {outputFileName}")
-
-    # Obtain the variable values by reading the MAT-file
-    names, data = readMat(outputFileName)
-    os.chdir("..")  # Reset dir for next calls
-
-    timeData: List[float] = data[names.index("time")]
-    leadCarDistanceData: List[float] = data[names.index("lead_car.y")]
-    plantCarDistanceData: List[float] = data[names.index("Plant.y")]
-
-    return timeData, leadCarDistanceData, plantCarDistanceData
-
-def rootMeanSquaredError(observedData: List[float], predictedData: List[float]) -> float:
-    """Compute the root mean squared error for the given two same-sized lists.
-        MSE = sqrt(summ_i (( observedData[i] - predictedData[i] )**2) / (1 / n))
-
-    :param observedData: The data that is subtracted from in the summation
-    :param predictedData: The data that is subtracted with in the summation
-    :return: The MSE
-    """
-    assert len(observedData) == len(
-        predictedData), f"Can only compute RMSE for same-sized lists: got {len(observedData)} != {len(predictedData)}"
-    rmse: float = 0
-    for idx in range(0, len(observedData)):
-        rmse += pow(observedData[idx] - predictedData[idx], 2) / len(observedData)
-    return np.sqrt(rmse)
-
+from util import readMat, carCollided, rootMeanSquaredError, GLOBALS
 
 
 def optimizeGains() -> None:
@@ -66,7 +19,11 @@ def optimizeGains() -> None:
     for Kp in np.arange(210, 400, 10):
         for Ki in np.arange(1, 21, 1):
             for Kd in np.arange(1, 21, 1):
-                timeData, leadCarDistanceData, plantCarDistanceData = singleSimulation(Kp, Ki, Kd)
+                timeData, leadCarDistanceData, plantCarDistanceData = run_simulation(
+                    "controller",
+                    {"Kp_start": Kp, "Ki_start": Ki, "Kd_start": Kd},
+                    ["time", "lead_car.y", "Plant.y"]
+                )
 
                 # Manually fix duplicate final simulation value
                 timeData = timeData[:len(timeData) - 1]
@@ -105,7 +62,7 @@ def optimizeGains() -> None:
     # sns.set_style("whitegrid")
 
     # Create a dataframe with the data
-    df = pd.DataFrame({'Kp': [gain[0] for gain in gainList], 'Ki': [gain[1] for gain in gainList], 'Kd': [gain[2] for gain in gainList], 'RMSE': rmseList})
+    df = pd.DataFrame({'Kp': [gain[0] for gain in gainList], 'Ki': [gain[1] for gain in gainList], 'Kd': [gain[2] for gain in gainList], 'RMSE': rmseList, 'Collided': collidedList})
     df.to_csv("gain_data.csv")
 
 

@@ -47,6 +47,37 @@ def carCollided(leadCarDistanceData: List[float], plantCarDistanceData: List[flo
     return False, -1
 
 
+def meanSquaredError(observedData: List[float], predictedData: List[float]) -> float:
+    """Compute the mean squared error for the given two same-sized lists.
+        MSE = (1 / n) * summ_i ( observedData[i] - predictedData[i] )**2
+
+    :param observedData: The data that is subtracted from in the summation
+    :param predictedData: The data that is subtracted with in the summation
+    :return: The MSE
+    """
+    assert len(observedData) == len(
+        predictedData), f"Can only compute MSE for same-sized lists: got {len(observedData)} != {len(predictedData)}"
+    mse: float = 0
+    for idx in range(0, len(observedData)):
+        mse += pow(observedData[idx] - predictedData[idx], 2)
+    return mse / len(observedData)
+
+
+def rootMeanSquaredError(observedData: List[float], predictedData: List[float]) -> float:
+    """Compute the root mean squared error for the given two same-sized lists.
+        MSE = sqrt(summ_i (( observedData[i] - predictedData[i] )**2) / (1 / n))
+
+    :param observedData: The data that is subtracted from in the summation
+    :param predictedData: The data that is subtracted with in the summation
+    :return: The MSE
+    """
+    assert len(observedData) == len(
+        predictedData), f"Can only compute RMSE for same-sized lists: got {len(observedData)} != {len(predictedData)}"
+    rmse: float = 0
+    for idx in range(0, len(observedData)):
+        rmse += pow(observedData[idx] - predictedData[idx], 2) / len(observedData)
+    return np.sqrt(rmse)
+
 
 # A link to the OMPython package docs: https://openmodelica.org/doc/OpenModelicaUsersGuide/latest/ompython.html#ompython
 # A link to the OpenModelica scripting docs: https://build.openmodelica.org/Documentation/OpenModelica.Scripting.html
@@ -55,11 +86,11 @@ def buildModel(modelFilePath: str, modelName: str, packageName: str, dependencie
     Janky method, do not trust it too much.
     
     """
-    
+
     # All file paths will need to relatively be accessed one level higher
     combinedName: str = f"{packageName}.{modelName}"
     targetBinName: str = f"{modelName}.bat"
-    
+
     print()
     print(f"Build from model file at {modelFilePath}")
     print()
@@ -70,7 +101,7 @@ def buildModel(modelFilePath: str, modelName: str, packageName: str, dependencie
     print(f"dependencies: ", dependencies)
     print()
     print()
-    
+
     modelFilePath = f"../{modelFilePath}"
     for idx, dependency in enumerate(dependencies):
         if '.mo' in dependency:
@@ -82,7 +113,9 @@ def buildModel(modelFilePath: str, modelName: str, packageName: str, dependencie
     os.chdir(combinedName)
 
     # DONT INITIALIZE YET PLS I JUST WANT TO EDIT SIMULATION PARAMS AND NOT HAVE TO COMPILE TWICE BECAUSE WHY TF WOULD I
-    def doNotBuildModel(self=None): return
+    def doNotBuildModel(self=None):
+        return
+
     buildFunction = OMPython.ModelicaSystem.buildModel
     OMPython.ModelicaSystem.buildModel = doNotBuildModel
 
@@ -101,6 +134,39 @@ def buildModel(modelFilePath: str, modelName: str, packageName: str, dependencie
     os.chdir("..")
 
 
+def run_simulation(type: "plant" or "controller", input_param: dict, output_param: List[str]):
+    """Perform a single simulation using the model binary.
+
+    :param type: The type of model to run, either "plant" or "controller"
+    :param input_param: The arguments to pass to the model
+    :param output_param: The arguments to read from the model
+    """
+
+    modelName: str = GLOBALS.controllerModelName if type == "controller" else GLOBALS.plantModelName
+    packageName: str = GLOBALS.packageName
+    outputFileName: str = GLOBALS.outputFileName(modelName)
+
+    os.chdir(GLOBALS.outputDirName(packageName, modelName))
+
+    # OS-agnostic executable call
+    # Executing the simulation ONLY works iff.
+    #   1) the .bat file is called
+    #   2) the call happens where the .bat file is located
+    #   3) OMEdit is turned off (or at least does not have the model file opened?)
+    # ==> This is windows specific, ubuntu users are on their own :(
+    command = f".\{modelName}.bat"
+    if input_param:
+        command += " -override " + ",".join([f"{key}={value}" for key, value in input_param.items()])
+    print(command)
+    os.system(f"{command} -r {outputFileName}")
+
+    # Obtain the variable values by reading the MAT-file
+    names, data = readMat(outputFileName)
+    os.chdir("..")  # Reset dir for next calls
+
+    return [data[names.index(param)] for param in output_param]
+
+
 class GLOBALS:
     packageName: str = "PCarController"
 
@@ -113,15 +179,17 @@ class GLOBALS:
     @staticmethod
     def outputDirName(packageName: str, modelName: str):
         return f"{packageName}.{modelName}"
-    
+
     @staticmethod
     def outputFileName(modelName: str):
         return f"{modelName}_res.mat"
 
     @staticmethod
     def buildPlantModel():
-        buildModel(f"./{GLOBALS.packageName}.mo", GLOBALS.plantModelName, GLOBALS.packageName, GLOBALS.plantDependencies)
+        buildModel(f"./{GLOBALS.packageName}.mo", GLOBALS.plantModelName, GLOBALS.packageName,
+                   GLOBALS.plantDependencies)
 
     @staticmethod
     def buildControllerModel():
-        buildModel(f"./{GLOBALS.packageName}.mo", GLOBALS.controllerModelName, GLOBALS.packageName, GLOBALS.controllerDependencies)
+        buildModel(f"./{GLOBALS.packageName}.mo", GLOBALS.controllerModelName, GLOBALS.packageName,
+                   GLOBALS.controllerDependencies)
