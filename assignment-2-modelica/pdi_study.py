@@ -5,8 +5,58 @@ from typing import List
 from matplotlib import pyplot as plt
 import seaborn as sns
 import pandas as pd
-from util import readMat, carCollided, GLOBALS
+from util import readMat, carCollided, GLOBALS, run_simulation
 
+
+
+def plotTrace() -> None:
+    timeData, leadCarDistanceData, plantCarDistanceData, errorTermData, controlData = run_simulation(
+        "controller",
+        {"Kp_start": 1, "Ki_start": 1, "Kd_start": 20},
+        ["time", "lead_car.y", "Plant.y", "PID.et", "PID.ut"]
+    )
+    collided, collision_idx = carCollided(leadCarDistanceData, plantCarDistanceData)
+
+    # Plot all data on a single graph
+    fig, ax = plt.subplots()
+    ax.plot(timeData, leadCarDistanceData, label='lead_car.y')
+    ax.plot(timeData, plantCarDistanceData, label='plant_car.y')
+
+    # Second y-axis
+    ax2 = ax.twinx()
+    # Dotted line for error term
+    ax2.plot(timeData, errorTermData, label='PID.et', linestyle=':',color="#F6B28C")
+    ax2.plot(timeData, controlData, label='PID.ut', linestyle=':', color="#2AB07E")
+
+    ax.set_title('Kp=1, Ki=1, Kd=20')
+    ax.set_xlabel('time (seconds)')
+    ax.set_ylabel('distance (meters)')
+
+    handles, labels = ax.get_legend_handles_labels()
+    labels[0] = 'Lead Car Distance'
+    labels[1] = 'Plant Car Distance'
+    ax.legend(handles, labels, loc='upper left')
+
+
+    ax2.set_ylabel('error term / control effort')
+
+    handles, labels = ax2.get_legend_handles_labels()
+    labels[0] = 'Error Term'
+    labels[1] = 'Control Effort'
+    ax2.legend(handles, labels, loc='upper right')
+
+    # Color the negative values in ax2 ticks red
+    for tick in ax2.get_yticklabels():
+        if not tick.get_text()[0].isdigit():
+            tick.set_color('r')
+
+    # Add collision indicator to graph
+    if collided:
+        ax.axvline(x=timeData[collision_idx], color='r', linestyle='--')
+        ax.text(timeData[collision_idx], 0, 'Collision', rotation=90, color='r')
+
+    plt.savefig("single-line-plot.png")
+    plt.show()
 
 def plotGains() -> None:
     KpList = [0.001, 1, 20]
@@ -36,13 +86,13 @@ def plotGains() -> None:
                 column_idx = (KpIdx * 3) + KdIdx
                 row_idx = KiIdx - 1
 
-                data.append((column_idx, row_idx, timeData, leadCarDistanceData, plantCarDistanceData, collided, collision_idx))
+                data.append((column_idx, row_idx, timeData, leadCarDistanceData, plantCarDistanceData, collided, collision_idx, Kp, Ki, Kd))
 
                 KdIdx += 1
             KiIdx += 1
         KpIdx += 1
 
-    for (column_idx, row_idx, timeData, leadCarDistanceData, plantCarDistanceData, collided, collision_idx) in data:
+    for (column_idx, row_idx, timeData, leadCarDistanceData, plantCarDistanceData, collided, collision_idx, Kp, Ki, Kd) in data:
         # Combine lead car and plant car data into a single graph
         df = pd.DataFrame({'time': timeData, 'lead_car.y': leadCarDistanceData, 'plant_car.y': plantCarDistanceData})
         melted = pd.melt(df, id_vars=['time'], value_vars=['lead_car.y', 'plant_car.y'])
@@ -64,9 +114,12 @@ def plotGains() -> None:
 
     fig.tight_layout()
 
+    plt.savefig("line-plot-overview.png")
+
     plt.show()
 
 
 if __name__ == "__main__":
-    GLOBALS.buildControllerModel()
-    plotGains()
+    # GLOBALS.buildControllerModel()
+    plotTrace()
+    # plotGains()

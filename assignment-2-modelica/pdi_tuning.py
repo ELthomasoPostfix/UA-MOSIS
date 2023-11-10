@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 from scipy import io  # You need scipy package to read MAT-files
 import seaborn as sns
 import pandas as pd
-from util import readMat, carCollided, rootMeanSquaredError, GLOBALS
+from util import readMat, carCollided, rootMeanSquaredError, GLOBALS, run_simulation
 
 
 def optimizeGains() -> None:
