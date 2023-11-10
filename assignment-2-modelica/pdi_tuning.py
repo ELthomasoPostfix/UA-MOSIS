@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 from scipy import io  # You need scipy package to read MAT-files
 import seaborn as sns
 import pandas as pd
-from util import readMat
+from util import readMat, carCollided
 
 def singleSimulation(Kp: float, Ki: float, Kd: float) -> [List[float], List[float], List[float]]:
     """Perform a single simulation using the model binary.
@@ -57,12 +57,6 @@ def rootMeanSquaredError(observedData: List[float], predictedData: List[float]) 
     return np.sqrt(rmse)
 
 
-def carCollided(leadCarDistanceData: List[float], plantCarDistanceData: List[float]) -> bool:
-    for idx in range(0, len(leadCarDistanceData)):
-        if plantCarDistanceData[idx] >= leadCarDistanceData[idx]:
-            return True
-    return False
-
 
 def optimizeGains() -> None:
     collidedList: List[bool] = []
@@ -79,7 +73,7 @@ def optimizeGains() -> None:
                 leadCarDistanceData = leadCarDistanceData[:len(leadCarDistanceData) - 1]
                 plantCarDistanceData = plantCarDistanceData[:len(plantCarDistanceData) - 1]
 
-                collided = carCollided(leadCarDistanceData, plantCarDistanceData)
+                collided, collision_idx = carCollided(leadCarDistanceData, plantCarDistanceData)
                 leadCarDistanceData = [dist - 10 for dist in leadCarDistanceData]
 
                 collidedList.append(collided)

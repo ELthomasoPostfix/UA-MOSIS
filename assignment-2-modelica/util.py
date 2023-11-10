@@ -1,3 +1,5 @@
+from scipy import io  # You need scipy package to read MAT-files
+from typing import List
 
 # Reuse this exact function to read MAT-file data.
 # matFileName is the name of the MAT-file generated on execution of a Modelica executable
@@ -34,3 +36,10 @@ def readMat(matFileName):
                 data[i] = dataMat['data_1'][dataMat['dataInfo'][i][1] - 1][0]
     # Return the names of variables, and their corresponding values
     return [names, data]
+
+
+def carCollided(leadCarDistanceData: List[float], plantCarDistanceData: List[float]) -> bool:
+    for idx in range(0, len(leadCarDistanceData)):
+        if plantCarDistanceData[idx] >= leadCarDistanceData[idx]:
+            return True, idx
+    return False, -1
