@@ -110,6 +110,7 @@ package PCarController
     parameter Real Kp_start=1 "Proportional gain";
     parameter Real Ki_start=1 "Integral gain";
     parameter Real Kd_start=20 "Derivative gain";
+    parameter Modelica.Units.SI.Distance rt_start=10 "Target inter-vehicle distance";
     
     
     // blocks
@@ -125,7 +126,7 @@ package PCarController
       Placement(visible = true, transformation(origin = {-48, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     car_package.mech_car Plant annotation(
       Placement(visible = true, transformation(origin = {-2, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Sources.Constant rt(k = 10.0) annotation(
+    Modelica.Blocks.Sources.Constant rt(k = rt_start) annotation(
       Placement(visible = true, transformation(origin = {-110, -88}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Math.Product product annotation(
       Placement(visible = true, transformation(origin = {-60, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
