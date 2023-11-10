@@ -5,10 +5,9 @@ import csv
 import numpy as np
 from typing import List
 from matplotlib import pyplot as plt
-from scipy import io  # You need scipy package to read MAT-files
 import seaborn as sns
 import pandas as pd
-from util import readMat
+from util import readMat, carCollided
 
 def singleSimulation(Kp: float, Ki: float, Kd: float) -> [List[float], List[float], List[float]]:
     """Perform a single simulation using the model binary.
@@ -42,64 +41,51 @@ def singleSimulation(Kp: float, Ki: float, Kd: float) -> [List[float], List[floa
     return timeData, leadCarDistanceData, plantCarDistanceData
 
 
-def carCollided(leadCarDistanceData: List[float], plantCarDistanceData: List[float]) -> bool:
-    for idx in range(0, len(leadCarDistanceData)):
-        if plantCarDistanceData[idx] >= leadCarDistanceData[idx]:
-            return True
-    return False
-
-
-
-def optimizeGains() -> None:
-    collidedList: List[bool] = []
-    rmseList: List[float] = []
-    gainList: List[(int, int, int)] = []
-
+def plotGains() -> None:
     KpList = [0, 1, 20]
     KiList = [0, 1, 20]
     KdList = [0, 20, 40]
 
     # Create 3 x 9 subplots (with columns of 3 grouped)
-    fig, ax = plt.subplots(3, 9, sharex=True, sharey=True)
-    KpIdx = 0
+    fig, ax = plt.subplots(3, 9, figsize=(100, 20))
+    KpIdx, KiIdx, KdIdx = 0, 0, 0
 
     # Plot every 3x3 combination of gains in a 3x3 subplot
     for Kp in KpList:
+        KiIdx = 0
         for Ki in KiList:
+            KdIdx = 0
             for Kd in KdList:
+                timeData, leadCarDistanceData, plantCarDistanceData = singleSimulation(Kp, Ki, Kd)
 
+                collided, collision_idx = carCollided(leadCarDistanceData, plantCarDistanceData)
 
+                column_idx = (KpIdx * 3) + KdIdx
+                row_idx = KiIdx - 1
+
+                # Combine lead car and plant car data into a single graph
+                df = pd.DataFrame({'time': timeData, 'lead_car.y': leadCarDistanceData, 'plant_car.y': plantCarDistanceData})
+                melted = pd.melt(df, id_vars=['time'], value_vars=['lead_car.y', 'plant_car.y'])
+                # Calculate axis location in (3x9) grid
+                sns.lineplot(x='time', y='value', hue='variable', data=melted, ax=ax[row_idx][column_idx])
+                ax[row_idx][column_idx].set_title(f'Kp={Kp}, Ki={Ki}, Kd={Kd}')
+                ax[row_idx][column_idx].set_xlabel('time (seconds)')
+                ax[row_idx][column_idx].set_ylabel('distance (meters)')
+                ax[row_idx][column_idx].legend().set_visible(False)
+
+                # Add collision indicator to graph
+                if collided:
+                    ax[row_idx][column_idx].axvline(x=timeData[collision_idx], color='r', linestyle='--')
+
+                KdIdx += 1
+            KiIdx += 1
         KpIdx += 1
 
-
-    # Select min RMSE that did not collide
-    rmseList = [rmseList[i] for i in range(len(rmseList)) if not collidedList[i]]
-    gainList = [gainList[i] for i in range(len(gainList)) if not collidedList[i]]
-
-    minRMSE: float = min(rmseList)
-    minRMSEIndex: int = rmseList.index(minRMSE)
-    minRMSEBvalue: (int, int, int) = gainList[minRMSEIndex]
-    gainListIndex = [i for i in range(len(gainList))]
-
-    print("min rmse ", minRMSE)
-    print("min rmse idx ", minRMSEIndex)
-    print("min rmse gain tuple ", minRMSEBvalue)
-
-    # sns.set_style("whitegrid")
-    # sns.scatterplot(x=gainListIndex, y=rmseList, hue=collidedList, palette=["green", "red"], legend="full")
-    #
-    # # Plot the plot
-    # plt.xlabel("Gain tuple index")
-    # plt.ylabel("RMSE")
-    # plt.show()
-
-    # Create 3D scatterplot with Kp, Ki, Kd on axes and RMSE as color using seaborn
-    # sns.set_style("whitegrid")
-
-    # Create a dataframe with the data
-    # df = pd.DataFrame({'Kp': [gain[0] for gain in gainList], 'Ki': [gain[1] for gain in gainList], 'Kd': [gain[2] for gain in gainList], 'RMSE': rmseList})
+    # Add legend to last subplot
+    ax[2][8].legend().set_visible(True)
+    plt.show()
 
 
 # "function" that calls the single simulation function from shell. In your code, this function call should be in a loop ove the combinations of parameters.
 if __name__ == "__main__":
-    optimizeGains()
+    plotGains()
