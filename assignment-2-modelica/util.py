@@ -88,7 +88,6 @@ def buildModel(modelFilePath: str, modelName: str, packageName: str, dependencie
 
     # Setup model
     model = OMPython.ModelicaSystem(modelFilePath, combinedName, dependencies)
-
     # HAVE YOUR STUPID BUILD FUNCTION BACK
     OMPython.ModelicaSystem.buildModel = buildFunction
     model.buildModel()
@@ -116,8 +115,8 @@ class GLOBALS:
         return f"{packageName}.{modelName}"
     
     @staticmethod
-    def outputFilePath(packageName: str, modelName: str): 
-        return f"{packageName}.{modelName}_res.mat"
+    def outputFileName(modelName: str):
+        return f"{modelName}_res.mat"
 
     @staticmethod
     def buildPlantModel():

@@ -18,18 +18,21 @@ def singleSimulation(Kp: float, Ki: float, Kd: float) -> [List[float], List[floa
     :param Kd: The derivative gain
     :return: (timestamp list, lead car distance list, plant car distance list)
     """
+    modelName: str = GLOBALS.controllerModelName
+    packageName: str = GLOBALS.packageName
+    outputFileName: str = GLOBALS.outputFileName(modelName)
 
-    os.chdir(GLOBALS.outputDirName(GLOBALS.packageName, GLOBALS.controllerModelName))
+    os.chdir(GLOBALS.outputDirName(packageName, modelName))
     # OS-agnostic executable call
     # Executing the simulation ONLY works iff.
     #   1) the .bat file is called
     #   2) the call happens where the .bat file is located
     #   3) OMEdit is turned off (or at least does not have the model file opened?)
     # ==> This is windows specific, ubuntu users are on their own :(
-    os.system(f".\{GLOBALS.controllerModelName}.bat -override Kp_start={Kp},Ki_start={Ki},Kd_start={Kd}")
+    os.system(f".\{modelName}.bat -override Kp_start={Kp},Ki_start={Ki},Kd_start={Kd} -r {outputFileName}")
 
     # Obtain the variable values by reading the MAT-file
-    names, data = readMat(GLOBALS.outputFilePath(GLOBALS.packageName, GLOBALS.controllerModelName))
+    names, data = readMat(outputFileName)
     os.chdir("..")  # Reset dir for next calls
 
     timeData: List[float] = data[names.index("time")]

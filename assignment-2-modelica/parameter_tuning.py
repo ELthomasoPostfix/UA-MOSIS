@@ -17,18 +17,21 @@ def singleSimulation(A: float, b: float, M: float, u: float) -> None:
     :param u: The control signal (V)
     :return: (timestamp list, displacement data list)
     """
+    modelName: str = GLOBALS.plantModelName
+    packageName: str = GLOBALS.packageName
+    outputFileName: str = GLOBALS.outputFileName(modelName)
     
-    os.chdir(GLOBALS.outputDirName(GLOBALS.packageName, GLOBALS.plantModelName))
+    os.chdir(GLOBALS.outputDirName(packageName, modelName))
     # OS-agnostic executable call
     # Executing the simulation ONLY works iff.
     #   1) the .bat file is called
     #   2) the call happens where the .bat file is located
     #   3) OMEdit is turned off (or at least does not have the model file opened?)
     # ==> This is windows specific, ubuntu users are on their own :(
-    os.system(f".\{GLOBALS.plantModelName}.bat -override A={A},M={M},b={b},u={u}")
+    os.system(f".\{modelName}.bat -override A={A},M={M},b={b},u={u} -r {outputFileName}")
 
     # Obtain the variable values by reading the MAT-file
-    names, data = readMat(GLOBALS.outputFilePath(GLOBALS.packageName, GLOBALS.plantModelName))
+    names, data = readMat(outputFileName)
     os.chdir("..")  # Reset dir for next calls
 
     timeData: List[float] = data[names.index("time")]
