@@ -1,4 +1,5 @@
 import os, glob, OMPython
+import numpy as np
 from scipy import io  # You need scipy package to read MAT-files
 from typing import List
 
