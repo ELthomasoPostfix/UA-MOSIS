@@ -7,7 +7,7 @@ from typing import List
 from matplotlib import pyplot as plt
 import seaborn as sns
 import pandas as pd
-from util import readMat, carCollided
+from util import readMat, carCollided, GLOBALS
 
 def singleSimulation(Kp: float, Ki: float, Kd: float) -> [List[float], List[float], List[float]]:
     """Perform a single simulation using the model binary.
@@ -17,21 +17,17 @@ def singleSimulation(Kp: float, Ki: float, Kd: float) -> [List[float], List[floa
     :param Kd: The derivative gain
     :return: (timestamp list, lead car distance list, plant car distance list)
     """
-    packageName: str = "PCarController"
-    modelName: str = "CarCruiseController"
-    outputFilePath: str = f"{modelName}_res.mat"
-
-    os.chdir(f"{packageName}.{modelName}")
+    os.chdir(GLOBALS.outputDirName(GLOBALS.packageName, GLOBALS.controllerModelName))
     # OS-agnostic executable call
     # Executing the simulation ONLY works iff.
     #   1) the .bat file is called
     #   2) the call happens where the .bat file is located
     #   3) OMEdit is turned off (or at least does not have the model file opened?)
     # ==> This is windows specific, ubuntu users are on their own :(
-    os.system(f".\{modelName}.bat -override Kp_start={Kp},Ki_start={Ki},Kd_start={Kd}")
+    os.system(f".\{GLOBALS.controllerModelName}.bat -override Kp_start={Kp},Ki_start={Ki},Kd_start={Kd}")
 
     # Obtain the variable values by reading the MAT-file
-    names, data = readMat(outputFilePath)
+    names, data = readMat(GLOBALS.outputFilePath(GLOBALS.packageName, GLOBALS.controllerModelName))
     os.chdir("..")  # Reset dir for next calls
 
     timeData: List[float] = data[names.index("time")]
@@ -88,4 +84,5 @@ def plotGains() -> None:
 
 # "function" that calls the single simulation function from shell. In your code, this function call should be in a loop ove the combinations of parameters.
 if __name__ == "__main__":
+    GLOBALS.buildControllerModel()
     plotGains()

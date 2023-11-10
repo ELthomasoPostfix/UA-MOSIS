@@ -6,7 +6,7 @@ import numpy as np
 from typing import List
 from matplotlib import pyplot
 from scipy import io    # You need scipy package to read MAT-files
-from util import readMat
+from util import readMat, GLOBALS
 
 def singleSimulation(A: float, b: float, M: float, u: float) -> None:
     """Perform a single simulation using the model binary.
@@ -17,22 +17,18 @@ def singleSimulation(A: float, b: float, M: float, u: float) -> None:
     :param u: The control signal (V)
     :return: (timestamp list, displacement data list)
     """
-    # TODO CHANGE TO "PCarCruiseController"
-    packageName: str = "CarCruiseController"
-    modelName: str   = "PlantModel"
-    outputFilePath: str  = f"{modelName}_res.mat"
     
-    os.chdir(f"{packageName}.{modelName}")
+    os.chdir(GLOBALS.outputDirName(GLOBALS.packageName, GLOBALS.plantModelName))
     # OS-agnostic executable call
     # Executing the simulation ONLY works iff.
     #   1) the .bat file is called
     #   2) the call happens where the .bat file is located
     #   3) OMEdit is turned off (or at least does not have the model file opened?)
     # ==> This is windows specific, ubuntu users are on their own :(
-    os.system(f".\{modelName}.bat -override A={A},M={M},b={b},u={u}")
+    os.system(f".\{GLOBALS.plantModelName}.bat -override A={A},M={M},b={b},u={u}")
 
     # Obtain the variable values by reading the MAT-file
-    names, data = readMat(outputFilePath)
+    names, data = readMat(GLOBALS.outputFilePath(GLOBALS.packageName, GLOBALS.plantModelName))
     os.chdir("..")  # Reset dir for next calls
 
     timeData: List[float] = data[names.index("time")]
@@ -109,6 +105,7 @@ def openDataPlot(xdata, ydata, xLabel, yLabel):
 
 # "function" that calls the single simulation function from shell. In your code, this function call should be in a loop ove the combinations of parameters.
 if __name__ == "__main__":
+    GLOBALS.buildPlantModel()
     optimizeDrag()
 
 # The follwing function is an alternative way of executing/simulating the Modelica model using the OMPython package. This method is not recommended.
