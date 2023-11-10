@@ -9,10 +9,10 @@ from util import readMat, carCollided, GLOBALS, run_simulation
 
 
 
-def plotTrace() -> None:
+def plotTrace(Kp, Ki, Kd) -> None:
     timeData, leadCarDistanceData, plantCarDistanceData, errorTermData, controlData = run_simulation(
         "controller",
-        {"Kp_start": 1, "Ki_start": 1, "Kd_start": 20},
+        {"Kp_start": Kp, "Ki_start": Ki, "Kd_start": Kd},
         ["time", "lead_car.y", "Plant.y", "PID.et", "PID.ut"]
     )
     collided, collision_idx = carCollided(leadCarDistanceData, plantCarDistanceData)
@@ -28,7 +28,7 @@ def plotTrace() -> None:
     ax2.plot(timeData, errorTermData, label='PID.et', linestyle=':',color="#F6B28C")
     ax2.plot(timeData, controlData, label='PID.ut', linestyle=':', color="#2AB07E")
 
-    ax.set_title('Kp=1, Ki=1, Kd=20')
+    ax.set_title(f"Kp={Kp}, Ki={Ki}, Kd={Kd}")
     ax.set_xlabel('time (seconds)')
     ax.set_ylabel('distance (meters)')
 
@@ -55,7 +55,7 @@ def plotTrace() -> None:
         ax.axvline(x=timeData[collision_idx], color='r', linestyle='--')
         ax.text(timeData[collision_idx], 0, 'Collision', rotation=90, color='r')
 
-    plt.savefig("single-line-plot.png")
+    plt.savefig(f"line-plot-{Kp}-{Ki}-{Kd}.png")
     plt.show()
 
 def plotGains() -> None:
@@ -120,6 +120,7 @@ def plotGains() -> None:
 
 
 if __name__ == "__main__":
-    # GLOBALS.buildControllerModel()
-    plotTrace()
-    # plotGains()
+    GLOBALS.buildControllerModel()
+    plotTrace(1, 1, 20)
+    plotTrace(390, 20, 20)
+    plotGains()
