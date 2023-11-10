@@ -16,6 +16,9 @@ package PCarController
     der(x) = v "Relation between displacement and velocity";
     der(v) = a "Relation between velocity and acceleration";
     M*der(v) = (A*u - b*v*v) "The plant's equation of motion (N)";
+  
+  annotation(experiment(StartTime = 0, StopTime = 60, Tolerance = 1e-09, Interval = 1));
+  
   end PlantModel;
 
   block CarAccToDisplacement
@@ -161,6 +164,9 @@ package PCarController
       Line(points = {{54, 4}, {66, 4}, {66, 28}}, color = {255, 255, 0}, thickness = 0.5));
     connect(multiSum.y, et.u[2]) annotation(
       Line(points = {{80, 28}, {90, 28}, {90, -52}, {-60, -52}, {-60, -44}}, color = {0, 0, 127}, thickness = 0.5));
+  
+  annotation(experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-09, Interval = 0.1));
+  
   end CarCruiseController;
   annotation(
     uses(Modelica(version = "4.0.0")));
