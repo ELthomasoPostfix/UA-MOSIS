@@ -1,13 +1,13 @@
 import os
 import numpy as np
-from typing import List
-from util import readMat, carCollided, GLOBALS, run_simulation
+from typing import List, Tuple
+from util import readMat, carCollided, GLOBALS, run_simulation, plotTrace
 import seaborn as sns
 import pandas as pd
 from matplotlib import pyplot as plt
 
 
-def optimizeMinVehicleSpacing() -> None:
+def optimizeMinVehicleSpacing() -> tuple[float, float]:
     Kp: float = 390
     Ki: float = 20
     Kd: float = 20
@@ -18,13 +18,14 @@ def optimizeMinVehicleSpacing() -> None:
     for rt in rtList:
         timeData, leadCarDistanceData, plantCarDistanceData = run_simulation(
             "controller",
-            {"rt": rt, "Kp": Kp, "Ki": Ki, "Kd": Kd},
+            {"rt_start": rt, "Kp_start": Kp, "Ki_start": Ki, "Kd_start": Kd},
             ["time", "lead_car.y", "Plant.y"]
         )
 
 
         # Manually fix duplicate final simulation value
         timeData = timeData[:len(timeData) - 1]
+
         leadCarDistanceData = leadCarDistanceData[:len(leadCarDistanceData) - 1]
         plantCarDistanceData = plantCarDistanceData[:len(plantCarDistanceData) - 1]
 
@@ -34,7 +35,7 @@ def optimizeMinVehicleSpacing() -> None:
         rtCollidedList.append(collided)
         rtCollisionIndexList.append(collision_idx)
 
-    timeLength = len(timeData)
+    timeLength = timeData.max()
 
     # Find first collision
     rtEarliestCollisionIdx: int = rtCollidedList.index(True)
@@ -75,8 +76,15 @@ def optimizeMinVehicleSpacing() -> None:
     plt.savefig('rt_collision.png')
     plt.show()
 
+    return rtLatestSafe, rtEarliestCollision
 
-# "function" that calls the single simulation function from shell. In your code, this function call should be in a loop ove the combinations of parameters.
+
 if __name__ == "__main__":
     GLOBALS.buildControllerModel()
-    optimizeMinVehicleSpacing()
+    rtLatestSafe, rtEarliestCollision = optimizeMinVehicleSpacing()
+
+    plotTrace(rt=rtLatestSafe, Kp=390, Ki=20, Kd=20)
+    plotTrace(rt=rtEarliestCollision, Kp=390, Ki=20, Kd=20)
+
+
+

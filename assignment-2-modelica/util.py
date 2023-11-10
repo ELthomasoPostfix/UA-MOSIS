@@ -3,6 +3,7 @@ import numpy as np
 from scipy import io  # You need scipy package to read MAT-files
 from typing import List
 
+from matplotlib import pyplot as plt
 
 # Reuse this exact function to read MAT-file data.
 # matFileName is the name of the MAT-file generated on execution of a Modelica executable
@@ -166,6 +167,56 @@ def run_simulation(type: "plant" or "controller", input_param: dict, output_para
     os.chdir("..")  # Reset dir for next calls
 
     return [data[names.index(param)] for param in output_param]
+
+
+def plotTrace(rt=10, Kp=1, Ki=1, Kd=20) -> None:
+    timeData, leadCarDistanceData, plantCarDistanceData, errorTermData, controlData = run_simulation(
+        "controller",
+        {"Kp_start": Kp, "Ki_start": Ki, "Kd_start": Kd, "rt_start": rt},
+        ["time", "lead_car.y", "Plant.y", "PID.et", "PID.ut"]
+    )
+    collided, collision_idx = carCollided(leadCarDistanceData, plantCarDistanceData)
+
+    # Plot all data on a single graph
+    fig, ax = plt.subplots()
+    ax.plot(timeData, leadCarDistanceData, label='lead_car.y')
+    ax.plot(timeData, plantCarDistanceData, label='plant_car.y')
+
+    # Second y-axis
+    ax2 = ax.twinx()
+    # Dotted line for error term
+    ax2.plot(timeData, errorTermData, label='PID.et', linestyle=':',color="#F6B28C")
+    ax2.plot(timeData, controlData, label='PID.ut', linestyle=':', color="#2AB07E")
+
+    ax.set_title(f"Kp={Kp}, Ki={Ki}, Kd={Kd}, rt={round(rt, 2)}")
+    ax.set_xlabel('time (seconds)')
+    ax.set_ylabel('distance (meters)')
+
+    handles, labels = ax.get_legend_handles_labels()
+    labels[0] = 'Lead Car Distance'
+    labels[1] = 'Plant Car Distance'
+    ax.legend(handles, labels, loc='upper left')
+
+
+    ax2.set_ylabel('error term / control effort')
+
+    handles, labels = ax2.get_legend_handles_labels()
+    labels[0] = 'Error Term'
+    labels[1] = 'Control Effort'
+    ax2.legend(handles, labels, loc='upper right')
+
+    # Color the negative values in ax2 ticks red
+    for tick in ax2.get_yticklabels():
+        if not tick.get_text()[0].isdigit():
+            tick.set_color('r')
+
+    # Add collision indicator to graph
+    if collided:
+        ax.axvline(x=timeData[collision_idx], color='r', linestyle='--')
+        ax.text(timeData[collision_idx], 0, 'Collision', rotation=90, color='r')
+
+    plt.savefig(f"line-plot-{Kp}-{Ki}-{Kd}-{round(rt, 2)}.png")
+    plt.show()
 
 
 class GLOBALS:

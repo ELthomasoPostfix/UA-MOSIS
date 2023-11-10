@@ -5,58 +5,7 @@ from typing import List
 from matplotlib import pyplot as plt
 import seaborn as sns
 import pandas as pd
-from util import readMat, carCollided, GLOBALS, run_simulation
-
-
-
-def plotTrace(Kp, Ki, Kd) -> None:
-    timeData, leadCarDistanceData, plantCarDistanceData, errorTermData, controlData = run_simulation(
-        "controller",
-        {"Kp_start": Kp, "Ki_start": Ki, "Kd_start": Kd},
-        ["time", "lead_car.y", "Plant.y", "PID.et", "PID.ut"]
-    )
-    collided, collision_idx = carCollided(leadCarDistanceData, plantCarDistanceData)
-
-    # Plot all data on a single graph
-    fig, ax = plt.subplots()
-    ax.plot(timeData, leadCarDistanceData, label='lead_car.y')
-    ax.plot(timeData, plantCarDistanceData, label='plant_car.y')
-
-    # Second y-axis
-    ax2 = ax.twinx()
-    # Dotted line for error term
-    ax2.plot(timeData, errorTermData, label='PID.et', linestyle=':',color="#F6B28C")
-    ax2.plot(timeData, controlData, label='PID.ut', linestyle=':', color="#2AB07E")
-
-    ax.set_title(f"Kp={Kp}, Ki={Ki}, Kd={Kd}")
-    ax.set_xlabel('time (seconds)')
-    ax.set_ylabel('distance (meters)')
-
-    handles, labels = ax.get_legend_handles_labels()
-    labels[0] = 'Lead Car Distance'
-    labels[1] = 'Plant Car Distance'
-    ax.legend(handles, labels, loc='upper left')
-
-
-    ax2.set_ylabel('error term / control effort')
-
-    handles, labels = ax2.get_legend_handles_labels()
-    labels[0] = 'Error Term'
-    labels[1] = 'Control Effort'
-    ax2.legend(handles, labels, loc='upper right')
-
-    # Color the negative values in ax2 ticks red
-    for tick in ax2.get_yticklabels():
-        if not tick.get_text()[0].isdigit():
-            tick.set_color('r')
-
-    # Add collision indicator to graph
-    if collided:
-        ax.axvline(x=timeData[collision_idx], color='r', linestyle='--')
-        ax.text(timeData[collision_idx], 0, 'Collision', rotation=90, color='r')
-
-    plt.savefig(f"line-plot-{Kp}-{Ki}-{Kd}.png")
-    plt.show()
+from util import readMat, carCollided, GLOBALS, run_simulation, plotTrace
 
 def plotGains() -> None:
     KpList = [0.001, 1, 20]
@@ -121,6 +70,6 @@ def plotGains() -> None:
 
 if __name__ == "__main__":
     GLOBALS.buildControllerModel()
-    plotTrace(1, 1, 20)
-    plotTrace(390, 20, 20)
+    plotTrace(Kp=1, Ki=1, Kd=20)
+    plotTrace(Kp=390, Ki=20, Kd=20)
     plotGains()
