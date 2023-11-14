@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>pyCBD package &#8212; pyCBD Simulator  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css?v=5d32c1a0" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/math.js?v=af206e68"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Standard CBD Library (BBL)" href="pyCBD.lib.html" />
+    <link rel="prev" title="Continuous Time Simulation" href="examples/ContinuousTime.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyCBD.lib.html" title="Standard CBD Library (BBL)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="examples/ContinuousTime.html" title="Continuous Time Simulation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyCBD Simulator  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyCBD package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-pyCBD">
+<span id="pycbd-package"></span><h1>pyCBD package<a class="headerlink" href="#module-pyCBD" title="Link to this heading">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.lib.html">Standard CBD Library (BBL)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.lib.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.lib.std.html">pyCBD.lib.std module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ConstantBlock"><code class="docutils literal notranslate"><span class="pre">ConstantBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ConstantBlock.getValue"><code class="docutils literal notranslate"><span class="pre">ConstantBlock.getValue()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ConstantBlock.setValue"><code class="docutils literal notranslate"><span class="pre">ConstantBlock.setValue()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ConstantBlock.compute"><code class="docutils literal notranslate"><span class="pre">ConstantBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.NegatorBlock"><code class="docutils literal notranslate"><span class="pre">NegatorBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.NegatorBlock.compute"><code class="docutils literal notranslate"><span class="pre">NegatorBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.InverterBlock"><code class="docutils literal notranslate"><span class="pre">InverterBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.InverterBlock.compute"><code class="docutils literal notranslate"><span class="pre">InverterBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.AdderBlock"><code class="docutils literal notranslate"><span class="pre">AdderBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.AdderBlock.compute"><code class="docutils literal notranslate"><span class="pre">AdderBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.AdderBlock.getNumberOfInputs"><code class="docutils literal notranslate"><span class="pre">AdderBlock.getNumberOfInputs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ProductBlock"><code class="docutils literal notranslate"><span class="pre">ProductBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ProductBlock.compute"><code class="docutils literal notranslate"><span class="pre">ProductBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ProductBlock.getNumberOfInputs"><code class="docutils literal notranslate"><span class="pre">ProductBlock.getNumberOfInputs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ModuloBlock"><code class="docutils literal notranslate"><span class="pre">ModuloBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ModuloBlock.compute"><code class="docutils literal notranslate"><span class="pre">ModuloBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ModuloBlock.defaultInputPortNameIdentifier"><code class="docutils literal notranslate"><span class="pre">ModuloBlock.defaultInputPortNameIdentifier()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.RootBlock"><code class="docutils literal notranslate"><span class="pre">RootBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.RootBlock.compute"><code class="docutils literal notranslate"><span class="pre">RootBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.RootBlock.defaultInputPortNameIdentifier"><code class="docutils literal notranslate"><span class="pre">RootBlock.defaultInputPortNameIdentifier()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.PowerBlock"><code class="docutils literal notranslate"><span class="pre">PowerBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.PowerBlock.compute"><code class="docutils literal notranslate"><span class="pre">PowerBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.PowerBlock.defaultInputPortNameIdentifier"><code class="docutils literal notranslate"><span class="pre">PowerBlock.defaultInputPortNameIdentifier()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.AbsBlock"><code class="docutils literal notranslate"><span class="pre">AbsBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.AbsBlock.compute"><code class="docutils literal notranslate"><span class="pre">AbsBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.IntBlock"><code class="docutils literal notranslate"><span class="pre">IntBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.IntBlock.compute"><code class="docutils literal notranslate"><span class="pre">IntBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ClampBlock"><code class="docutils literal notranslate"><span class="pre">ClampBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ClampBlock.compute"><code class="docutils literal notranslate"><span class="pre">ClampBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.ClampBlock.defaultInputPortNameIdentifier"><code class="docutils literal notranslate"><span class="pre">ClampBlock.defaultInputPortNameIdentifier()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.GenericBlock"><code class="docutils literal notranslate"><span class="pre">GenericBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.GenericBlock.getBlockOperator"><code class="docutils literal notranslate"><span class="pre">GenericBlock.getBlockOperator()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.GenericBlock.compute"><code class="docutils literal notranslate"><span class="pre">GenericBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.MinBlock"><code class="docutils literal notranslate"><span class="pre">MinBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.MinBlock.compute"><code class="docutils literal notranslate"><span class="pre">MinBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.MinBlock.getNumberOfInputs"><code class="docutils literal notranslate"><span class="pre">MinBlock.getNumberOfInputs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.MaxBlock"><code class="docutils literal notranslate"><span class="pre">MaxBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.MaxBlock.compute"><code class="docutils literal notranslate"><span class="pre">MaxBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.MaxBlock.getNumberOfInputs"><code class="docutils literal notranslate"><span class="pre">MaxBlock.getNumberOfInputs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.LessThanBlock"><code class="docutils literal notranslate"><span class="pre">LessThanBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.LessThanBlock.compute"><code class="docutils literal notranslate"><span class="pre">LessThanBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.LessThanBlock.defaultInputPortNameIdentifier"><code class="docutils literal notranslate"><span class="pre">LessThanBlock.defaultInputPortNameIdentifier()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.EqualsBlock"><code class="docutils literal notranslate"><span class="pre">EqualsBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.EqualsBlock.compute"><code class="docutils literal notranslate"><span class="pre">EqualsBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.LessThanOrEqualsBlock"><code class="docutils literal notranslate"><span class="pre">LessThanOrEqualsBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.LessThanOrEqualsBlock.compute"><code class="docutils literal notranslate"><span class="pre">LessThanOrEqualsBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.LessThanOrEqualsBlock.defaultInputPortNameIdentifier"><code class="docutils literal notranslate"><span class="pre">LessThanOrEqualsBlock.defaultInputPortNameIdentifier()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.NotBlock"><code class="docutils literal notranslate"><span class="pre">NotBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.NotBlock.compute"><code class="docutils literal notranslate"><span class="pre">NotBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.OrBlock"><code class="docutils literal notranslate"><span class="pre">OrBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.OrBlock.compute"><code class="docutils literal notranslate"><span class="pre">OrBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.OrBlock.getNumberOfInputs"><code class="docutils literal notranslate"><span class="pre">OrBlock.getNumberOfInputs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.AndBlock"><code class="docutils literal notranslate"><span class="pre">AndBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.AndBlock.compute"><code class="docutils literal notranslate"><span class="pre">AndBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.AndBlock.getNumberOfInputs"><code class="docutils literal notranslate"><span class="pre">AndBlock.getNumberOfInputs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.MultiplexerBlock"><code class="docutils literal notranslate"><span class="pre">MultiplexerBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.MultiplexerBlock.compute"><code class="docutils literal notranslate"><span class="pre">MultiplexerBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.MultiplexerBlock.getNumberOfInputs"><code class="docutils literal notranslate"><span class="pre">MultiplexerBlock.getNumberOfInputs()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.MultiplexerBlock.defaultInputPortNameIdentifier"><code class="docutils literal notranslate"><span class="pre">MultiplexerBlock.defaultInputPortNameIdentifier()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.SplitBlock"><code class="docutils literal notranslate"><span class="pre">SplitBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.SplitBlock.compute"><code class="docutils literal notranslate"><span class="pre">SplitBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.SplitBlock.getNumberOfOutputs"><code class="docutils literal notranslate"><span class="pre">SplitBlock.getNumberOfOutputs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.DelayBlock"><code class="docutils literal notranslate"><span class="pre">DelayBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.DelayBlock.getDependencies"><code class="docutils literal notranslate"><span class="pre">DelayBlock.getDependencies()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.DelayBlock.compute"><code class="docutils literal notranslate"><span class="pre">DelayBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.DeltaTBlock"><code class="docutils literal notranslate"><span class="pre">DeltaTBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.DeltaTBlock.getValue"><code class="docutils literal notranslate"><span class="pre">DeltaTBlock.getValue()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.DeltaTBlock.compute"><code class="docutils literal notranslate"><span class="pre">DeltaTBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.TimeBlock"><code class="docutils literal notranslate"><span class="pre">TimeBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.TimeBlock.compute"><code class="docutils literal notranslate"><span class="pre">TimeBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.LoggingBlock"><code class="docutils literal notranslate"><span class="pre">LoggingBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.LoggingBlock.compute"><code class="docutils literal notranslate"><span class="pre">LoggingBlock.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.AddOneBlock"><code class="docutils literal notranslate"><span class="pre">AddOneBlock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.DerivatorBlock"><code class="docutils literal notranslate"><span class="pre">DerivatorBlock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.IntegratorBlock"><code class="docutils literal notranslate"><span class="pre">IntegratorBlock</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.Clock"><code class="docutils literal notranslate"><span class="pre">Clock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.Clock.getDependencies"><code class="docutils literal notranslate"><span class="pre">Clock.getDependencies()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.Clock.compute"><code class="docutils literal notranslate"><span class="pre">Clock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.Clock.getStartTime"><code class="docutils literal notranslate"><span class="pre">Clock.getStartTime()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.Clock.getTime"><code class="docutils literal notranslate"><span class="pre">Clock.getTime()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.Clock.getRelativeTime"><code class="docutils literal notranslate"><span class="pre">Clock.getRelativeTime()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.Clock.setStartTime"><code class="docutils literal notranslate"><span class="pre">Clock.setStartTime()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.Clock.setDeltaT"><code class="docutils literal notranslate"><span class="pre">Clock.setDeltaT()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.Clock.getDeltaT"><code class="docutils literal notranslate"><span class="pre">Clock.getDeltaT()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.Clock.reset"><code class="docutils literal notranslate"><span class="pre">Clock.reset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.SequenceBlock"><code class="docutils literal notranslate"><span class="pre">SequenceBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.std.html#pyCBD.lib.std.SequenceBlock.compute"><code class="docutils literal notranslate"><span class="pre">SequenceBlock.compute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.lib.io.html">pyCBD.lib.io module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.io.html#pyCBD.lib.io.Interpolation"><code class="docutils literal notranslate"><span class="pre">Interpolation</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.io.html#pyCBD.lib.io.Interpolation.FIRST"><code class="docutils literal notranslate"><span class="pre">Interpolation.FIRST</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.io.html#pyCBD.lib.io.Interpolation.LAST"><code class="docutils literal notranslate"><span class="pre">Interpolation.LAST</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.io.html#pyCBD.lib.io.Interpolation.LINEAR"><code class="docutils literal notranslate"><span class="pre">Interpolation.LINEAR</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.io.html#pyCBD.lib.io.Interpolation.interpolate"><code class="docutils literal notranslate"><span class="pre">Interpolation.interpolate()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.io.html#pyCBD.lib.io.ReadCSV"><code class="docutils literal notranslate"><span class="pre">ReadCSV</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.io.html#pyCBD.lib.io.ReadCSV.compute"><code class="docutils literal notranslate"><span class="pre">ReadCSV.compute()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.io.html#pyCBD.lib.io.WriteCSV"><code class="docutils literal notranslate"><span class="pre">WriteCSV</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.io.html#pyCBD.lib.io.WriteCSV.compute"><code class="docutils literal notranslate"><span class="pre">WriteCSV.compute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.lib.endpoints.html">pyCBD.lib.endpoints module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.CollectorBlock"><code class="docutils literal notranslate"><span class="pre">CollectorBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.CollectorBlock.compute"><code class="docutils literal notranslate"><span class="pre">CollectorBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.CollectorBlock.clear"><code class="docutils literal notranslate"><span class="pre">CollectorBlock.clear()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.CollectorBlock.data"><code class="docutils literal notranslate"><span class="pre">CollectorBlock.data</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.SignalCollectorBlock"><code class="docutils literal notranslate"><span class="pre">SignalCollectorBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.SignalCollectorBlock.compute"><code class="docutils literal notranslate"><span class="pre">SignalCollectorBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.SignalCollectorBlock.clear"><code class="docutils literal notranslate"><span class="pre">SignalCollectorBlock.clear()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.SignalCollectorBlock.data_xy"><code class="docutils literal notranslate"><span class="pre">SignalCollectorBlock.data_xy</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.PositionCollectorBlock"><code class="docutils literal notranslate"><span class="pre">PositionCollectorBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.PositionCollectorBlock.compute"><code class="docutils literal notranslate"><span class="pre">PositionCollectorBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.PositionCollectorBlock.clear"><code class="docutils literal notranslate"><span class="pre">PositionCollectorBlock.clear()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.PositionCollectorBlock.distance_from_last"><code class="docutils literal notranslate"><span class="pre">PositionCollectorBlock.distance_from_last()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.PositionCollectorBlock.distance_from_start"><code class="docutils literal notranslate"><span class="pre">PositionCollectorBlock.distance_from_start()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.PositionCollectorBlock.data_xy"><code class="docutils literal notranslate"><span class="pre">PositionCollectorBlock.data_xy</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock.compute"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock.compute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock.clear"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock.clear()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock.count"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock.count()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock.min"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock.min()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock.max"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock.max()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock.sum"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock.sum()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock.sumOfSquares"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock.sumOfSquares()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock.mean"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock.mean()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock.variance"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock.variance()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.lib.endpoints.html#pyCBD.lib.endpoints.StatisticsCollectorBlock.std"><code class="docutils literal notranslate"><span class="pre">StatisticsCollectorBlock.std()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.lib.extra.html">pyCBD.lib.extra module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.lib.ev3.html">Using CBDs with LEGO MINDSTORMS EV3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.realtime.html">pyCBD.realtime package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.realtime.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.realtime.accurate_time.html">pyCBD.realtime.accurate_time module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.accurate_time.html#pyCBD.realtime.accurate_time.time"><code class="docutils literal notranslate"><span class="pre">time()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.accurate_time.html#pyCBD.realtime.accurate_time.sleep"><code class="docutils literal notranslate"><span class="pre">sleep()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.realtime.plotting.html">pyCBD.realtime.plotting module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Backend"><code class="docutils literal notranslate"><span class="pre">Backend</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Backend.MPL"><code class="docutils literal notranslate"><span class="pre">Backend.MPL</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Backend.MATPLOTLIB"><code class="docutils literal notranslate"><span class="pre">Backend.MATPLOTLIB</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Backend.BOKEH"><code class="docutils literal notranslate"><span class="pre">Backend.BOKEH</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Backend.SNS"><code class="docutils literal notranslate"><span class="pre">Backend.SNS</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Backend.SEABORN"><code class="docutils literal notranslate"><span class="pre">Backend.SEABORN</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Backend.exists"><code class="docutils literal notranslate"><span class="pre">Backend.exists()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Backend.compare"><code class="docutils literal notranslate"><span class="pre">Backend.compare()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Backend.get"><code class="docutils literal notranslate"><span class="pre">Backend.get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler"><code class="docutils literal notranslate"><span class="pre">PlotHandler</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.signal"><code class="docutils literal notranslate"><span class="pre">PlotHandler.signal()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.connect"><code class="docutils literal notranslate"><span class="pre">PlotHandler.connect()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.set_data_getter"><code class="docutils literal notranslate"><span class="pre">PlotHandler.set_data_getter()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.get_data"><code class="docutils literal notranslate"><span class="pre">PlotHandler.get_data()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.get_animation"><code class="docutils literal notranslate"><span class="pre">PlotHandler.get_animation()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.close_event"><code class="docutils literal notranslate"><span class="pre">PlotHandler.close_event()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.is_opened"><code class="docutils literal notranslate"><span class="pre">PlotHandler.is_opened()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.update"><code class="docutils literal notranslate"><span class="pre">PlotHandler.update()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.stop"><code class="docutils literal notranslate"><span class="pre">PlotHandler.stop()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.terminate"><code class="docutils literal notranslate"><span class="pre">PlotHandler.terminate()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.set_kind_args"><code class="docutils literal notranslate"><span class="pre">PlotHandler.set_kind_args()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.hide"><code class="docutils literal notranslate"><span class="pre">PlotHandler.hide()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.show"><code class="docutils literal notranslate"><span class="pre">PlotHandler.show()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotHandler.toggle"><code class="docutils literal notranslate"><span class="pre">PlotHandler.toggle()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.follow"><code class="docutils literal notranslate"><span class="pre">follow()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotKind"><code class="docutils literal notranslate"><span class="pre">PlotKind</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotKind.is_backend"><code class="docutils literal notranslate"><span class="pre">PlotKind.is_backend()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotKind.create"><code class="docutils literal notranslate"><span class="pre">PlotKind.create()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotKind.update"><code class="docutils literal notranslate"><span class="pre">PlotKind.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.LinePlot"><code class="docutils literal notranslate"><span class="pre">LinePlot</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.LinePlot.create"><code class="docutils literal notranslate"><span class="pre">LinePlot.create()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.LinePlot.update"><code class="docutils literal notranslate"><span class="pre">LinePlot.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.StepPlot"><code class="docutils literal notranslate"><span class="pre">StepPlot</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.StepPlot.create"><code class="docutils literal notranslate"><span class="pre">StepPlot.create()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.StepPlot.update"><code class="docutils literal notranslate"><span class="pre">StepPlot.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.ScatterPlot"><code class="docutils literal notranslate"><span class="pre">ScatterPlot</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.ScatterPlot.create"><code class="docutils literal notranslate"><span class="pre">ScatterPlot.create()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.ScatterPlot.update"><code class="docutils literal notranslate"><span class="pre">ScatterPlot.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Arrow"><code class="docutils literal notranslate"><span class="pre">Arrow</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Arrow.create"><code class="docutils literal notranslate"><span class="pre">Arrow.create()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.Arrow.update"><code class="docutils literal notranslate"><span class="pre">Arrow.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager"><code class="docutils literal notranslate"><span class="pre">PlotManager</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager.is_opened"><code class="docutils literal notranslate"><span class="pre">PlotManager.is_opened()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager.all_opened"><code class="docutils literal notranslate"><span class="pre">PlotManager.all_opened()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager.register"><code class="docutils literal notranslate"><span class="pre">PlotManager.register()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager.unregister"><code class="docutils literal notranslate"><span class="pre">PlotManager.unregister()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager.get"><code class="docutils literal notranslate"><span class="pre">PlotManager.get()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager.connect"><code class="docutils literal notranslate"><span class="pre">PlotManager.connect()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager.terminate"><code class="docutils literal notranslate"><span class="pre">PlotManager.terminate()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager.stop"><code class="docutils literal notranslate"><span class="pre">PlotManager.stop()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager.set_xlim"><code class="docutils literal notranslate"><span class="pre">PlotManager.set_xlim()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.PlotManager.set_ylim"><code class="docutils literal notranslate"><span class="pre">PlotManager.set_ylim()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.plotting.html#pyCBD.realtime.plotting.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html">pyCBD.realtime.threadingBackend module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.Platform"><code class="docutils literal notranslate"><span class="pre">Platform</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.Platform.THREADING"><code class="docutils literal notranslate"><span class="pre">Platform.THREADING</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.Platform.PYTHON"><code class="docutils literal notranslate"><span class="pre">Platform.PYTHON</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.Platform.TKINTER"><code class="docutils literal notranslate"><span class="pre">Platform.TKINTER</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.Platform.TK"><code class="docutils literal notranslate"><span class="pre">Platform.TK</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.Platform.GAMELOOP"><code class="docutils literal notranslate"><span class="pre">Platform.GAMELOOP</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.Platform.LOOP"><code class="docutils literal notranslate"><span class="pre">Platform.LOOP</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.Platform.GLA"><code class="docutils literal notranslate"><span class="pre">Platform.GLA</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.ThreadingBackend"><code class="docutils literal notranslate"><span class="pre">ThreadingBackend</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.ThreadingBackend.is_alive"><code class="docutils literal notranslate"><span class="pre">ThreadingBackend.is_alive()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.ThreadingBackend.wait"><code class="docutils literal notranslate"><span class="pre">ThreadingBackend.wait()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.ThreadingBackend.step"><code class="docutils literal notranslate"><span class="pre">ThreadingBackend.step()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingBackend.html#pyCBD.realtime.threadingBackend.ThreadingBackend.run_on_new_thread"><code class="docutils literal notranslate"><span class="pre">ThreadingBackend.run_on_new_thread()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.realtime.threadingGameLoop.html">pyCBD.realtime.threadingGameLoop module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.threadingGameLoop.html#pyCBD.realtime.threadingGameLoop.ThreadingGameLoop"><code class="docutils literal notranslate"><span class="pre">ThreadingGameLoop</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingGameLoop.html#pyCBD.realtime.threadingGameLoop.ThreadingGameLoop.step"><code class="docutils literal notranslate"><span class="pre">ThreadingGameLoop.step()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingGameLoop.html#pyCBD.realtime.threadingGameLoop.ThreadingGameLoop.wait"><code class="docutils literal notranslate"><span class="pre">ThreadingGameLoop.wait()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.realtime.threadingGameLoopAlt.html">pyCBD.realtime.threadingGameLoopAlt module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.threadingGameLoopAlt.html#pyCBD.realtime.threadingGameLoopAlt.ThreadingGameLoopAlt"><code class="docutils literal notranslate"><span class="pre">ThreadingGameLoopAlt</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingGameLoopAlt.html#pyCBD.realtime.threadingGameLoopAlt.ThreadingGameLoopAlt.step"><code class="docutils literal notranslate"><span class="pre">ThreadingGameLoopAlt.step()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingGameLoopAlt.html#pyCBD.realtime.threadingGameLoopAlt.ThreadingGameLoopAlt.wait"><code class="docutils literal notranslate"><span class="pre">ThreadingGameLoopAlt.wait()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.realtime.threadingPython.html">pyCBD.realtime.threadingPython module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.threadingPython.html#pyCBD.realtime.threadingPython.ThreadingPython"><code class="docutils literal notranslate"><span class="pre">ThreadingPython</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingPython.html#pyCBD.realtime.threadingPython.ThreadingPython.wait"><code class="docutils literal notranslate"><span class="pre">ThreadingPython.wait()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingPython.html#pyCBD.realtime.threadingPython.ThreadingPython.run"><code class="docutils literal notranslate"><span class="pre">ThreadingPython.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.realtime.threadingTkInter.html">pyCBD.realtime.threadingTkInter module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.realtime.threadingTkInter.html#pyCBD.realtime.threadingTkInter.ThreadingTkInter"><code class="docutils literal notranslate"><span class="pre">ThreadingTkInter</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.realtime.threadingTkInter.html#pyCBD.realtime.threadingTkInter.ThreadingTkInter.wait"><code class="docutils literal notranslate"><span class="pre">ThreadingTkInter.wait()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.tracers.html">pyCBD.tracers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers"><code class="docutils literal notranslate"><span class="pre">Tracers</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.hasTracers"><code class="docutils literal notranslate"><span class="pre">Tracers.hasTracers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.thread_loop"><code class="docutils literal notranslate"><span class="pre">Tracers.thread_loop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.trace"><code class="docutils literal notranslate"><span class="pre">Tracers.trace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.registerTracer"><code class="docutils literal notranslate"><span class="pre">Tracers.registerTracer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.deregisterTracer"><code class="docutils literal notranslate"><span class="pre">Tracers.deregisterTracer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.startTracers"><code class="docutils literal notranslate"><span class="pre">Tracers.startTracers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.stopTracers"><code class="docutils literal notranslate"><span class="pre">Tracers.stopTracers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.getById"><code class="docutils literal notranslate"><span class="pre">Tracers.getById()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.traceStartNewIteration"><code class="docutils literal notranslate"><span class="pre">Tracers.traceStartNewIteration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.traceEndNewIteration"><code class="docutils literal notranslate"><span class="pre">Tracers.traceEndNewIteration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.traceCompute"><code class="docutils literal notranslate"><span class="pre">Tracers.traceCompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html#pyCBD.tracers.Tracers.traceEndSimulation"><code class="docutils literal notranslate"><span class="pre">Tracers.traceEndSimulation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.tracers.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.color.html">pyCBD.tracers.color module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR"><code class="docutils literal notranslate"><span class="pre">COLOR</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.colorize"><code class="docutils literal notranslate"><span class="pre">COLOR.colorize()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.uncolorize"><code class="docutils literal notranslate"><span class="pre">COLOR.uncolorize()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.rainbow"><code class="docutils literal notranslate"><span class="pre">COLOR.rainbow()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.ENDC"><code class="docutils literal notranslate"><span class="pre">COLOR.ENDC</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BOLD"><code class="docutils literal notranslate"><span class="pre">COLOR.BOLD</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.DARK"><code class="docutils literal notranslate"><span class="pre">COLOR.DARK</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.ITALIC"><code class="docutils literal notranslate"><span class="pre">COLOR.ITALIC</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.ULINE"><code class="docutils literal notranslate"><span class="pre">COLOR.ULINE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLINK"><code class="docutils literal notranslate"><span class="pre">COLOR.BLINK</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.HIGHLIGHT"><code class="docutils literal notranslate"><span class="pre">COLOR.HIGHLIGHT</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.STRIKE"><code class="docutils literal notranslate"><span class="pre">COLOR.STRIKE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.UULINE"><code class="docutils literal notranslate"><span class="pre">COLOR.UULINE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.OLINE"><code class="docutils literal notranslate"><span class="pre">COLOR.OLINE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.DARKGRAY"><code class="docutils literal notranslate"><span class="pre">COLOR.DARKGRAY</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.RED"><code class="docutils literal notranslate"><span class="pre">COLOR.RED</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.GREEN"><code class="docutils literal notranslate"><span class="pre">COLOR.GREEN</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.YELLOW"><code class="docutils literal notranslate"><span class="pre">COLOR.YELLOW</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLUE"><code class="docutils literal notranslate"><span class="pre">COLOR.BLUE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.PURPLE"><code class="docutils literal notranslate"><span class="pre">COLOR.PURPLE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.CYAN"><code class="docutils literal notranslate"><span class="pre">COLOR.CYAN</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.LIGHTGRAY"><code class="docutils literal notranslate"><span class="pre">COLOR.LIGHTGRAY</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BDARKGRAY"><code class="docutils literal notranslate"><span class="pre">COLOR.BDARKGRAY</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BRED"><code class="docutils literal notranslate"><span class="pre">COLOR.BRED</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BGREEN"><code class="docutils literal notranslate"><span class="pre">COLOR.BGREEN</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BYELLOW"><code class="docutils literal notranslate"><span class="pre">COLOR.BYELLOW</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BBLUE"><code class="docutils literal notranslate"><span class="pre">COLOR.BBLUE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BPURPLE"><code class="docutils literal notranslate"><span class="pre">COLOR.BPURPLE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BCYAN"><code class="docutils literal notranslate"><span class="pre">COLOR.BCYAN</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLIGHTGRAY"><code class="docutils literal notranslate"><span class="pre">COLOR.BLIGHTGRAY</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.LDARKGRAY"><code class="docutils literal notranslate"><span class="pre">COLOR.LDARKGRAY</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.LRED"><code class="docutils literal notranslate"><span class="pre">COLOR.LRED</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.LGREEN"><code class="docutils literal notranslate"><span class="pre">COLOR.LGREEN</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.LYELLOW"><code class="docutils literal notranslate"><span class="pre">COLOR.LYELLOW</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.LBLUE"><code class="docutils literal notranslate"><span class="pre">COLOR.LBLUE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.LPURPLE"><code class="docutils literal notranslate"><span class="pre">COLOR.LPURPLE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.LCYAN"><code class="docutils literal notranslate"><span class="pre">COLOR.LCYAN</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.LLIGHTGRAY"><code class="docutils literal notranslate"><span class="pre">COLOR.LLIGHTGRAY</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLDARKGRAY"><code class="docutils literal notranslate"><span class="pre">COLOR.BLDARKGRAY</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLRED"><code class="docutils literal notranslate"><span class="pre">COLOR.BLRED</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLGREEN"><code class="docutils literal notranslate"><span class="pre">COLOR.BLGREEN</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLYELLOW"><code class="docutils literal notranslate"><span class="pre">COLOR.BLYELLOW</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLBLUE"><code class="docutils literal notranslate"><span class="pre">COLOR.BLBLUE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLPURPLE"><code class="docutils literal notranslate"><span class="pre">COLOR.BLPURPLE</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLCYAN"><code class="docutils literal notranslate"><span class="pre">COLOR.BLCYAN</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.color.html#pyCBD.tracers.color.COLOR.BLLIGHTGRAY"><code class="docutils literal notranslate"><span class="pre">COLOR.BLLIGHTGRAY</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.baseTracer.html">pyCBD.tracers.baseTracer module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer"><code class="docutils literal notranslate"><span class="pre">BaseTracer</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.setModelName"><code class="docutils literal notranslate"><span class="pre">BaseTracer.setModelName()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.setInterpolator"><code class="docutils literal notranslate"><span class="pre">BaseTracer.setInterpolator()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.getInterpolator"><code class="docutils literal notranslate"><span class="pre">BaseTracer.getInterpolator()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.openFile"><code class="docutils literal notranslate"><span class="pre">BaseTracer.openFile()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.closeFile"><code class="docutils literal notranslate"><span class="pre">BaseTracer.closeFile()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.startTracer"><code class="docutils literal notranslate"><span class="pre">BaseTracer.startTracer()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.stopTracer"><code class="docutils literal notranslate"><span class="pre">BaseTracer.stopTracer()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.traceStartNewIteration"><code class="docutils literal notranslate"><span class="pre">BaseTracer.traceStartNewIteration()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.traceEndIteration"><code class="docutils literal notranslate"><span class="pre">BaseTracer.traceEndIteration()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.traceCompute"><code class="docutils literal notranslate"><span class="pre">BaseTracer.traceCompute()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.traceEndSimulation"><code class="docutils literal notranslate"><span class="pre">BaseTracer.traceEndSimulation()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.trace"><code class="docutils literal notranslate"><span class="pre">BaseTracer.trace()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.traceln"><code class="docutils literal notranslate"><span class="pre">BaseTracer.traceln()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.baseTracer.html#pyCBD.tracers.baseTracer.BaseTracer.timeInfo"><code class="docutils literal notranslate"><span class="pre">BaseTracer.timeInfo()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.tracerVerbose.html">pyCBD.tracers.tracerVerbose module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.tracers.tracerVerbose.html#pyCBD.tracers.tracerVerbose.VerboseTracer"><code class="docutils literal notranslate"><span class="pre">VerboseTracer</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.tracerVerbose.html#pyCBD.tracers.tracerVerbose.VerboseTracer.traceStartNewIteration"><code class="docutils literal notranslate"><span class="pre">VerboseTracer.traceStartNewIteration()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.tracers.tracerVerbose.html#pyCBD.tracers.tracerVerbose.VerboseTracer.traceCompute"><code class="docutils literal notranslate"><span class="pre">VerboseTracer.traceCompute()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.converters.html">pyCBD.converters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.converters.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.converters.eq2CBD.html">Generate CBD Models from Equations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.converters.latexify.html">Generate LaTeX from CBD Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.converters.latexify.html#submodules">Submodules</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html">pyCBD.converters.latexify.CBD2Latex module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html#pyCBD.converters.latexify.CBD2Latex.CBD2Latex"><code class="docutils literal notranslate"><span class="pre">CBD2Latex</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html#pyCBD.converters.latexify.CBD2Latex.CBD2Latex.DEFAULT_CONFIG"><code class="docutils literal notranslate"><span class="pre">CBD2Latex.DEFAULT_CONFIG</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html#pyCBD.converters.latexify.CBD2Latex.CBD2Latex.rename"><code class="docutils literal notranslate"><span class="pre">CBD2Latex.rename()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html#pyCBD.converters.latexify.CBD2Latex.CBD2Latex.get_block_equation"><code class="docutils literal notranslate"><span class="pre">CBD2Latex.get_block_equation()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html#pyCBD.converters.latexify.CBD2Latex.CBD2Latex.render"><code class="docutils literal notranslate"><span class="pre">CBD2Latex.render()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html#pyCBD.converters.latexify.CBD2Latex.CBD2Latex.eq"><code class="docutils literal notranslate"><span class="pre">CBD2Latex.eq()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html#pyCBD.converters.latexify.CBD2Latex.CBD2Latex.latex"><code class="docutils literal notranslate"><span class="pre">CBD2Latex.latex()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html#pyCBD.converters.latexify.CBD2Latex.CBD2Latex.simplify_links"><code class="docutils literal notranslate"><span class="pre">CBD2Latex.simplify_links()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html#pyCBD.converters.latexify.CBD2Latex.CBD2Latex.substitute"><code class="docutils literal notranslate"><span class="pre">CBD2Latex.substitute()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.CBD2Latex.html#pyCBD.converters.latexify.CBD2Latex.CBD2Latex.simplify"><code class="docutils literal notranslate"><span class="pre">CBD2Latex.simplify()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.converters.latexify.functions.html">pyCBD.converters.latexify.functions module</a><ul>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Time"><code class="docutils literal notranslate"><span class="pre">Time</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Time.is_absolute"><code class="docutils literal notranslate"><span class="pre">Time.is_absolute()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Time.is_relative"><code class="docutils literal notranslate"><span class="pre">Time.is_relative()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Time.now"><code class="docutils literal notranslate"><span class="pre">Time.now()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Eq"><code class="docutils literal notranslate"><span class="pre">Eq</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Eq.at"><code class="docutils literal notranslate"><span class="pre">Eq.at()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Eq.get_dependencies"><code class="docutils literal notranslate"><span class="pre">Eq.get_dependencies()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Eq.eq"><code class="docutils literal notranslate"><span class="pre">Eq.eq()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Eq.latex"><code class="docutils literal notranslate"><span class="pre">Eq.latex()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Eq.apply"><code class="docutils literal notranslate"><span class="pre">Eq.apply()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Eq.simplify"><code class="docutils literal notranslate"><span class="pre">Eq.simplify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Fnc"><code class="docutils literal notranslate"><span class="pre">Fnc</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Fnc.simplify"><code class="docutils literal notranslate"><span class="pre">Fnc.simplify()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Fnc.latex"><code class="docutils literal notranslate"><span class="pre">Fnc.latex()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Fnc.eq"><code class="docutils literal notranslate"><span class="pre">Fnc.eq()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Fnc.get_dependencies"><code class="docutils literal notranslate"><span class="pre">Fnc.get_dependencies()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Fnc.at"><code class="docutils literal notranslate"><span class="pre">Fnc.at()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Fnc.create"><code class="docutils literal notranslate"><span class="pre">Fnc.create()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Fnc.apply"><code class="docutils literal notranslate"><span class="pre">Fnc.apply()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.Fnc.contains"><code class="docutils literal notranslate"><span class="pre">Fnc.contains()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.MultiFnc"><code class="docutils literal notranslate"><span class="pre">MultiFnc</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.MultiFnc.create"><code class="docutils literal notranslate"><span class="pre">MultiFnc.create()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.MultiFnc.eq"><code class="docutils literal notranslate"><span class="pre">MultiFnc.eq()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.MultiFnc.latex"><code class="docutils literal notranslate"><span class="pre">MultiFnc.latex()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.MultiFnc.simplify"><code class="docutils literal notranslate"><span class="pre">MultiFnc.simplify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.UnaryFnc"><code class="docutils literal notranslate"><span class="pre">UnaryFnc</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.UnaryFnc.create"><code class="docutils literal notranslate"><span class="pre">UnaryFnc.create()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.UnaryFnc.eq"><code class="docutils literal notranslate"><span class="pre">UnaryFnc.eq()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.UnaryFnc.latex"><code class="docutils literal notranslate"><span class="pre">UnaryFnc.latex()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.UnaryFnc.simplify"><code class="docutils literal notranslate"><span class="pre">UnaryFnc.simplify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.BinaryFnc"><code class="docutils literal notranslate"><span class="pre">BinaryFnc</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.BinaryFnc.create"><code class="docutils literal notranslate"><span class="pre">BinaryFnc.create()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.BinaryFnc.eq"><code class="docutils literal notranslate"><span class="pre">BinaryFnc.eq()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.BinaryFnc.latex"><code class="docutils literal notranslate"><span class="pre">BinaryFnc.latex()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.BinaryFnc.simplify"><code class="docutils literal notranslate"><span class="pre">BinaryFnc.simplify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.ConstantFnc"><code class="docutils literal notranslate"><span class="pre">ConstantFnc</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.ConstantFnc.create"><code class="docutils literal notranslate"><span class="pre">ConstantFnc.create()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.ConstantFnc.eq"><code class="docutils literal notranslate"><span class="pre">ConstantFnc.eq()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.ConstantFnc.latex"><code class="docutils literal notranslate"><span class="pre">ConstantFnc.latex()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.ConstantFnc.at"><code class="docutils literal notranslate"><span class="pre">ConstantFnc.at()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.VarFnc"><code class="docutils literal notranslate"><span class="pre">VarFnc</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.VarFnc.eq"><code class="docutils literal notranslate"><span class="pre">VarFnc.eq()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.VarFnc.latex"><code class="docutils literal notranslate"><span class="pre">VarFnc.latex()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.VarFnc.at"><code class="docutils literal notranslate"><span class="pre">VarFnc.at()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.VarFnc.apply"><code class="docutils literal notranslate"><span class="pre">VarFnc.apply()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.VarFnc.contains"><code class="docutils literal notranslate"><span class="pre">VarFnc.contains()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.DelayFnc"><code class="docutils literal notranslate"><span class="pre">DelayFnc</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.DelayFnc.at"><code class="docutils literal notranslate"><span class="pre">DelayFnc.at()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.DerivatorFnc"><code class="docutils literal notranslate"><span class="pre">DerivatorFnc</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.DerivatorFnc.eq"><code class="docutils literal notranslate"><span class="pre">DerivatorFnc.eq()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.DerivatorFnc.latex"><code class="docutils literal notranslate"><span class="pre">DerivatorFnc.latex()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.DerivatorFnc.at"><code class="docutils literal notranslate"><span class="pre">DerivatorFnc.at()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.IntegratorFnc"><code class="docutils literal notranslate"><span class="pre">IntegratorFnc</span></code></a><ul>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.IntegratorFnc.eq"><code class="docutils literal notranslate"><span class="pre">IntegratorFnc.eq()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.IntegratorFnc.latex"><code class="docutils literal notranslate"><span class="pre">IntegratorFnc.latex()</span></code></a></li>
+<li class="toctree-l7"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.IntegratorFnc.at"><code class="docutils literal notranslate"><span class="pre">IntegratorFnc.at()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l6"><a class="reference internal" href="pyCBD.converters.latexify.functions.html#pyCBD.converters.latexify.functions.BLOCK_MAP"><code class="docutils literal notranslate"><span class="pre">BLOCK_MAP</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.converters.CBD2C.html">Generate C code from CBDs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.converters.CBDDraw.html">Generate GraphViz from CBD Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.converters.CBDDraw.html#pyCBD.converters.CBDDraw.gvDraw"><code class="docutils literal notranslate"><span class="pre">gvDraw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.converters.hybrid.html">Encapsulating CBD Models in PythonPDEVS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.loopsolvers.html">pyCBD.loopsolvers module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.loopsolvers.solver.html">pyCBD.loopsolvers.solver module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.loopsolvers.solver.html#pyCBD.loopsolvers.solver.Solver"><code class="docutils literal notranslate"><span class="pre">Solver</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.solver.html#pyCBD.loopsolvers.solver.Solver.checkValidity"><code class="docutils literal notranslate"><span class="pre">Solver.checkValidity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.solver.html#pyCBD.loopsolvers.solver.Solver.constructInput"><code class="docutils literal notranslate"><span class="pre">Solver.constructInput()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.solver.html#pyCBD.loopsolvers.solver.Solver.solve"><code class="docutils literal notranslate"><span class="pre">Solver.solve()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.loopsolvers.linearsolver.html">pyCBD.loopsolvers.linearsolver module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.loopsolvers.linearsolver.html#pyCBD.loopsolvers.linearsolver.LinearSolver"><code class="docutils literal notranslate"><span class="pre">LinearSolver</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.linearsolver.html#pyCBD.loopsolvers.linearsolver.LinearSolver.checkValidity"><code class="docutils literal notranslate"><span class="pre">LinearSolver.checkValidity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.linearsolver.html#pyCBD.loopsolvers.linearsolver.LinearSolver.constructInput"><code class="docutils literal notranslate"><span class="pre">LinearSolver.constructInput()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.linearsolver.html#pyCBD.loopsolvers.linearsolver.LinearSolver.get_matrix"><code class="docutils literal notranslate"><span class="pre">LinearSolver.get_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.linearsolver.html#pyCBD.loopsolvers.linearsolver.LinearSolver.solve"><code class="docutils literal notranslate"><span class="pre">LinearSolver.solve()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.loopsolvers.linearsolver.html#pyCBD.loopsolvers.linearsolver.Matrix"><code class="docutils literal notranslate"><span class="pre">Matrix</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.linearsolver.html#pyCBD.loopsolvers.linearsolver.Matrix.format"><code class="docutils literal notranslate"><span class="pre">Matrix.format()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.linearsolver.html#pyCBD.loopsolvers.linearsolver.Matrix.concat"><code class="docutils literal notranslate"><span class="pre">Matrix.concat()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.loopsolvers.sympysolver.html">pyCBD.loopsolvers.sympysolver module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.loopsolvers.sympysolver.html#pyCBD.loopsolvers.sympysolver.reduce"><code class="docutils literal notranslate"><span class="pre">reduce()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.loopsolvers.sympysolver.html#pyCBD.loopsolvers.sympysolver.SympySolver"><code class="docutils literal notranslate"><span class="pre">SympySolver</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.sympysolver.html#pyCBD.loopsolvers.sympysolver.SympySolver.checkValidity"><code class="docutils literal notranslate"><span class="pre">SympySolver.checkValidity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.sympysolver.html#pyCBD.loopsolvers.sympysolver.SympySolver.getComponentCache"><code class="docutils literal notranslate"><span class="pre">SympySolver.getComponentCache()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.sympysolver.html#pyCBD.loopsolvers.sympysolver.SympySolver.constructInput"><code class="docutils literal notranslate"><span class="pre">SympySolver.constructInput()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.loopsolvers.sympysolver.html#pyCBD.loopsolvers.sympysolver.SympySolver.solve"><code class="docutils literal notranslate"><span class="pre">SympySolver.solve()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.state_events.html">pyCBD.state_events module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.state_events.html#pyCBD.state_events.Direction"><code class="docutils literal notranslate"><span class="pre">Direction</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.state_events.html#pyCBD.state_events.Direction.ANY"><code class="docutils literal notranslate"><span class="pre">Direction.ANY</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.state_events.html#pyCBD.state_events.Direction.FROM_BELOW"><code class="docutils literal notranslate"><span class="pre">Direction.FROM_BELOW</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.state_events.html#pyCBD.state_events.Direction.FROM_ABOVE"><code class="docutils literal notranslate"><span class="pre">Direction.FROM_ABOVE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.state_events.html#pyCBD.state_events.StateEvent"><code class="docutils literal notranslate"><span class="pre">StateEvent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.state_events.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.state_events.locators.html">pyCBD.state_events.locators module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.PreCrossingStateEventLocator"><code class="docutils literal notranslate"><span class="pre">PreCrossingStateEventLocator</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.PreCrossingStateEventLocator.algorithm"><code class="docutils literal notranslate"><span class="pre">PreCrossingStateEventLocator.algorithm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.PostCrossingStateEventLocator"><code class="docutils literal notranslate"><span class="pre">PostCrossingStateEventLocator</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.PostCrossingStateEventLocator.algorithm"><code class="docutils literal notranslate"><span class="pre">PostCrossingStateEventLocator.algorithm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.LinearStateEventLocator"><code class="docutils literal notranslate"><span class="pre">LinearStateEventLocator</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.LinearStateEventLocator.algorithm"><code class="docutils literal notranslate"><span class="pre">LinearStateEventLocator.algorithm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.BisectionStateEventLocator"><code class="docutils literal notranslate"><span class="pre">BisectionStateEventLocator</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.BisectionStateEventLocator.algorithm"><code class="docutils literal notranslate"><span class="pre">BisectionStateEventLocator.algorithm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.RegulaFalsiStateEventLocator"><code class="docutils literal notranslate"><span class="pre">RegulaFalsiStateEventLocator</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.RegulaFalsiStateEventLocator.algorithm"><code class="docutils literal notranslate"><span class="pre">RegulaFalsiStateEventLocator.algorithm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.ITPStateEventLocator"><code class="docutils literal notranslate"><span class="pre">ITPStateEventLocator</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.state_events.locators.html#pyCBD.state_events.locators.ITPStateEventLocator.algorithm"><code class="docutils literal notranslate"><span class="pre">ITPStateEventLocator.algorithm()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.preprocessing.html">pyCBD.preprocessing package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.preprocessing.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.preprocessing.butcher.html">pyCBD.preprocessing.butcher module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau"><code class="docutils literal notranslate"><span class="pre">ButcherTableau</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.addRow"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.addRow()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.addWeights"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.addWeights()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.getNodes"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.getNodes()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.getWeights"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.getWeights()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.getA"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.getA()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.getOrder"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.getOrder()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.Euler"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.Euler()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.Heun"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.Heun()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.HeunEuler"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.HeunEuler()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.Ralston"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.Ralston()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.RalstonEuler"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.RalstonEuler()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.Midpoint"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.Midpoint()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.MidpointEuler"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.MidpointEuler()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.RK4"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.RK4()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.RK4Alt"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.RK4Alt()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.RKF45"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.RKF45()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.DOPRI"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.DOPRI()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.RKDP"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.RKDP()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.DormandPrince"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.DormandPrince()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.RKCK"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.RKCK()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.CashKarp"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.CashKarp()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.butcher.html#pyCBD.preprocessing.butcher.ButcherTableau.BogackiShampine"><code class="docutils literal notranslate"><span class="pre">ButcherTableau.BogackiShampine()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.preprocessing.rungekutta.html">pyCBD.preprocessing.rungekutta module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pyCBD.preprocessing.rungekutta.html#pyCBD.preprocessing.rungekutta.RKPreprocessor"><code class="docutils literal notranslate"><span class="pre">RKPreprocessor</span></code></a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.rungekutta.html#pyCBD.preprocessing.rungekutta.RKPreprocessor.preprocess"><code class="docutils literal notranslate"><span class="pre">RKPreprocessor.preprocess()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.rungekutta.html#pyCBD.preprocessing.rungekutta.RKPreprocessor.collect"><code class="docutils literal notranslate"><span class="pre">RKPreprocessor.collect()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.rungekutta.html#pyCBD.preprocessing.rungekutta.RKPreprocessor.create_IVP"><code class="docutils literal notranslate"><span class="pre">RKPreprocessor.create_IVP()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.rungekutta.html#pyCBD.preprocessing.rungekutta.RKPreprocessor.create_RK"><code class="docutils literal notranslate"><span class="pre">RKPreprocessor.create_RK()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.rungekutta.html#pyCBD.preprocessing.rungekutta.RKPreprocessor.create_K"><code class="docutils literal notranslate"><span class="pre">RKPreprocessor.create_K()</span></code></a></li>
+<li class="toctree-l5"><a class="reference internal" href="pyCBD.preprocessing.rungekutta.html#pyCBD.preprocessing.rungekutta.RKPreprocessor.create_Error"><code class="docutils literal notranslate"><span class="pre">RKPreprocessor.create_Error()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.Core.html">pyCBD.Core module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.InputLink"><code class="docutils literal notranslate"><span class="pre">InputLink</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.InputLink.block"><code class="docutils literal notranslate"><span class="pre">InputLink.block</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.InputLink.output_port"><code class="docutils literal notranslate"><span class="pre">InputLink.output_port</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Signal"><code class="docutils literal notranslate"><span class="pre">Signal</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Signal.time"><code class="docutils literal notranslate"><span class="pre">Signal.time</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Signal.value"><code class="docutils literal notranslate"><span class="pre">Signal.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port"><code class="docutils literal notranslate"><span class="pre">Port</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.Direction"><code class="docutils literal notranslate"><span class="pre">Port.Direction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.set"><code class="docutils literal notranslate"><span class="pre">Port.set()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.get"><code class="docutils literal notranslate"><span class="pre">Port.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.clear"><code class="docutils literal notranslate"><span class="pre">Port.clear()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.reset"><code class="docutils literal notranslate"><span class="pre">Port.reset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.getOutgoing"><code class="docutils literal notranslate"><span class="pre">Port.getOutgoing()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.getIncoming"><code class="docutils literal notranslate"><span class="pre">Port.getIncoming()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.getHistory"><code class="docutils literal notranslate"><span class="pre">Port.getHistory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.getPreviousPortClosure"><code class="docutils literal notranslate"><span class="pre">Port.getPreviousPortClosure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.getNextPortClosure"><code class="docutils literal notranslate"><span class="pre">Port.getNextPortClosure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.count"><code class="docutils literal notranslate"><span class="pre">Port.count()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.getDependencies"><code class="docutils literal notranslate"><span class="pre">Port.getDependencies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.getPath"><code class="docutils literal notranslate"><span class="pre">Port.getPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.connect"><code class="docutils literal notranslate"><span class="pre">Port.connect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Port.disconnect"><code class="docutils literal notranslate"><span class="pre">Port.disconnect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Connector"><code class="docutils literal notranslate"><span class="pre">Connector</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.Connector.transfer"><code class="docutils literal notranslate"><span class="pre">Connector.transfer()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock"><code class="docutils literal notranslate"><span class="pre">BaseBlock</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.addInputPort"><code class="docutils literal notranslate"><span class="pre">BaseBlock.addInputPort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.addOutputPort"><code class="docutils literal notranslate"><span class="pre">BaseBlock.addOutputPort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.removeInputPort"><code class="docutils literal notranslate"><span class="pre">BaseBlock.removeInputPort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getInputPorts"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getInputPorts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getInputPortNames"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getInputPortNames()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getInputPortByName"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getInputPortByName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.hasInputPortWithName"><code class="docutils literal notranslate"><span class="pre">BaseBlock.hasInputPortWithName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getOutputPorts"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getOutputPorts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getOutputPortByName"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getOutputPortByName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getOutputPortNames"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getOutputPortNames()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.hasOutputPortWithName"><code class="docutils literal notranslate"><span class="pre">BaseBlock.hasOutputPortWithName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.reparentPorts"><code class="docutils literal notranslate"><span class="pre">BaseBlock.reparentPorts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.clone"><code class="docutils literal notranslate"><span class="pre">BaseBlock.clone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getBlockName"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getBlockName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getFunctionName"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getFunctionName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.setBlockName"><code class="docutils literal notranslate"><span class="pre">BaseBlock.setBlockName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.setParent"><code class="docutils literal notranslate"><span class="pre">BaseBlock.setParent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getBlockType"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getBlockType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getClock"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getClock()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.appendToSignal"><code class="docutils literal notranslate"><span class="pre">BaseBlock.appendToSignal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getSignalHistory"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getSignalHistory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.clearPorts"><code class="docutils literal notranslate"><span class="pre">BaseBlock.clearPorts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.resetPorts"><code class="docutils literal notranslate"><span class="pre">BaseBlock.resetPorts()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getDependencies"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getDependencies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getPortConnectedToInput"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getPortConnectedToInput()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getInputSignal"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getInputSignal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.getPath"><code class="docutils literal notranslate"><span class="pre">BaseBlock.getPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.compute"><code class="docutils literal notranslate"><span class="pre">BaseBlock.compute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.defaultInputPortNameIdentifier"><code class="docutils literal notranslate"><span class="pre">BaseBlock.defaultInputPortNameIdentifier()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.linkToInput"><code class="docutils literal notranslate"><span class="pre">BaseBlock.linkToInput()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.unlinkInput"><code class="docutils literal notranslate"><span class="pre">BaseBlock.unlinkInput()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.BaseBlock.info"><code class="docutils literal notranslate"><span class="pre">BaseBlock.info()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD"><code class="docutils literal notranslate"><span class="pre">CBD</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.clone"><code class="docutils literal notranslate"><span class="pre">CBD.clone()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.getTopCBD"><code class="docutils literal notranslate"><span class="pre">CBD.getTopCBD()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.flatten"><code class="docutils literal notranslate"><span class="pre">CBD.flatten()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.flattened"><code class="docutils literal notranslate"><span class="pre">CBD.flattened()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.getBlocks"><code class="docutils literal notranslate"><span class="pre">CBD.getBlocks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.getBlockByName"><code class="docutils literal notranslate"><span class="pre">CBD.getBlockByName()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.hasBlock"><code class="docutils literal notranslate"><span class="pre">CBD.hasBlock()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.clearBlocks"><code class="docutils literal notranslate"><span class="pre">CBD.clearBlocks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.getClock"><code class="docutils literal notranslate"><span class="pre">CBD.getClock()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.addFixedRateClock"><code class="docutils literal notranslate"><span class="pre">CBD.addFixedRateClock()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.addBlock"><code class="docutils literal notranslate"><span class="pre">CBD.addBlock()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.removeBlock"><code class="docutils literal notranslate"><span class="pre">CBD.removeBlock()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.addConnection"><code class="docutils literal notranslate"><span class="pre">CBD.addConnection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.getDependencies"><code class="docutils literal notranslate"><span class="pre">CBD.getDependencies()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.removeConnection"><code class="docutils literal notranslate"><span class="pre">CBD.removeConnection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.find"><code class="docutils literal notranslate"><span class="pre">CBD.find()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.info"><code class="docutils literal notranslate"><span class="pre">CBD.info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.dump"><code class="docutils literal notranslate"><span class="pre">CBD.dump()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.dumpSignals"><code class="docutils literal notranslate"><span class="pre">CBD.dumpSignals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.getSignalHistory"><code class="docutils literal notranslate"><span class="pre">CBD.getSignalHistory()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.getSignals"><code class="docutils literal notranslate"><span class="pre">CBD.getSignals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.clearSignals"><code class="docutils literal notranslate"><span class="pre">CBD.clearSignals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.getAllSignalNames"><code class="docutils literal notranslate"><span class="pre">CBD.getAllSignalNames()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.compute"><code class="docutils literal notranslate"><span class="pre">CBD.compute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html#pyCBD.Core.CBD.getUniqueBlockName"><code class="docutils literal notranslate"><span class="pre">CBD.getUniqueBlockName()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.depGraph.html">pyCBD.depGraph module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepNode"><code class="docutils literal notranslate"><span class="pre">DepNode</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepNode.mark"><code class="docutils literal notranslate"><span class="pre">DepNode.mark()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepNode.unMark"><code class="docutils literal notranslate"><span class="pre">DepNode.unMark()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepNode.isMarked"><code class="docutils literal notranslate"><span class="pre">DepNode.isMarked()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepNode.getMappedObj"><code class="docutils literal notranslate"><span class="pre">DepNode.getMappedObj()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph"><code class="docutils literal notranslate"><span class="pre">DepGraph</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.addMember"><code class="docutils literal notranslate"><span class="pre">DepGraph.addMember()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.hasMember"><code class="docutils literal notranslate"><span class="pre">DepGraph.hasMember()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.removeMember"><code class="docutils literal notranslate"><span class="pre">DepGraph.removeMember()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.setDependency"><code class="docutils literal notranslate"><span class="pre">DepGraph.setDependency()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.hasDependency"><code class="docutils literal notranslate"><span class="pre">DepGraph.hasDependency()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.unsetDependency"><code class="docutils literal notranslate"><span class="pre">DepGraph.unsetDependency()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.getDependents"><code class="docutils literal notranslate"><span class="pre">DepGraph.getDependents()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.getInfluencers"><code class="docutils literal notranslate"><span class="pre">DepGraph.getInfluencers()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.getSemanticMapping"><code class="docutils literal notranslate"><span class="pre">DepGraph.getSemanticMapping()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.mark"><code class="docutils literal notranslate"><span class="pre">DepGraph.mark()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.unMark"><code class="docutils literal notranslate"><span class="pre">DepGraph.unMark()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.DepGraph.isMarked"><code class="docutils literal notranslate"><span class="pre">DepGraph.isMarked()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.createDepGraph"><code class="docutils literal notranslate"><span class="pre">createDepGraph()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.depGraph.html#pyCBD.depGraph.gvDepGraph"><code class="docutils literal notranslate"><span class="pre">gvDepGraph()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.naivelog.html">pyCBD.naivelog module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.scheduling.html">pyCBD.scheduling module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.scheduling.html#pyCBD.scheduling.Scheduler"><code class="docutils literal notranslate"><span class="pre">Scheduler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.scheduling.html#pyCBD.scheduling.Scheduler.mustCompute"><code class="docutils literal notranslate"><span class="pre">Scheduler.mustCompute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.scheduling.html#pyCBD.scheduling.Scheduler.setRate"><code class="docutils literal notranslate"><span class="pre">Scheduler.setRate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.scheduling.html#pyCBD.scheduling.Scheduler.obtain"><code class="docutils literal notranslate"><span class="pre">Scheduler.obtain()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.scheduling.html#pyCBD.scheduling.Scheduler.schedule"><code class="docutils literal notranslate"><span class="pre">Scheduler.schedule()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.scheduling.html#pyCBD.scheduling.TopologicalScheduler"><code class="docutils literal notranslate"><span class="pre">TopologicalScheduler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.scheduling.html#pyCBD.scheduling.TopologicalScheduler.schedule"><code class="docutils literal notranslate"><span class="pre">TopologicalScheduler.schedule()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.scheduling.html#pyCBD.scheduling.TopologicalScheduler.topoSort"><code class="docutils literal notranslate"><span class="pre">TopologicalScheduler.topoSort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.scheduling.html#pyCBD.scheduling.TopologicalScheduler.dfsSort"><code class="docutils literal notranslate"><span class="pre">TopologicalScheduler.dfsSort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.scheduling.html#pyCBD.scheduling.TopologicalScheduler.dfsCollect"><code class="docutils literal notranslate"><span class="pre">TopologicalScheduler.dfsCollect()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.simulator.html">pyCBD.simulator module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator"><code class="docutils literal notranslate"><span class="pre">Simulator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.run"><code class="docutils literal notranslate"><span class="pre">Simulator.run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.stop"><code class="docutils literal notranslate"><span class="pre">Simulator.stop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.is_running"><code class="docutils literal notranslate"><span class="pre">Simulator.is_running()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.getClock"><code class="docutils literal notranslate"><span class="pre">Simulator.getClock()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.getTime"><code class="docutils literal notranslate"><span class="pre">Simulator.getTime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.getRelativeTime"><code class="docutils literal notranslate"><span class="pre">Simulator.getRelativeTime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.getDeltaT"><code class="docutils literal notranslate"><span class="pre">Simulator.getDeltaT()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setDeltaT"><code class="docutils literal notranslate"><span class="pre">Simulator.setDeltaT()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setCommunicationInterval"><code class="docutils literal notranslate"><span class="pre">Simulator.setCommunicationInterval()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setScheduler"><code class="docutils literal notranslate"><span class="pre">Simulator.setScheduler()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setAlgebraicLoopSolver"><code class="docutils literal notranslate"><span class="pre">Simulator.setAlgebraicLoopSolver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setStateEventLocator"><code class="docutils literal notranslate"><span class="pre">Simulator.setStateEventLocator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.registerStateEvent"><code class="docutils literal notranslate"><span class="pre">Simulator.registerStateEvent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setBlockRate"><code class="docutils literal notranslate"><span class="pre">Simulator.setBlockRate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setRealTime"><code class="docutils literal notranslate"><span class="pre">Simulator.setRealTime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setProgressBar"><code class="docutils literal notranslate"><span class="pre">Simulator.setProgressBar()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setTerminationCondition"><code class="docutils literal notranslate"><span class="pre">Simulator.setTerminationCondition()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setTerminationTime"><code class="docutils literal notranslate"><span class="pre">Simulator.setTerminationTime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setRealTimePlatform"><code class="docutils literal notranslate"><span class="pre">Simulator.setRealTimePlatform()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setRealTimePlatformThreading"><code class="docutils literal notranslate"><span class="pre">Simulator.setRealTimePlatformThreading()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setRealTimePlatformGameLoop"><code class="docutils literal notranslate"><span class="pre">Simulator.setRealTimePlatformGameLoop()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setRealTimePlatformTk"><code class="docutils literal notranslate"><span class="pre">Simulator.setRealTimePlatformTk()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.realtime_gameloop_call"><code class="docutils literal notranslate"><span class="pre">Simulator.realtime_gameloop_call()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.connect"><code class="docutils literal notranslate"><span class="pre">Simulator.connect()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.signal"><code class="docutils literal notranslate"><span class="pre">Simulator.signal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setCustomTracer"><code class="docutils literal notranslate"><span class="pre">Simulator.setCustomTracer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html#pyCBD.simulator.Simulator.setVerbose"><code class="docutils literal notranslate"><span class="pre">Simulator.setVerbose()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.util.html">pyCBD.util module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.util.html#pyCBD.util.PYCBD_VERSION"><code class="docutils literal notranslate"><span class="pre">PYCBD_VERSION</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.util.html#pyCBD.util.PYTHON_VERSION"><code class="docutils literal notranslate"><span class="pre">PYTHON_VERSION</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.util.html#pyCBD.util.enum"><code class="docutils literal notranslate"><span class="pre">enum()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.util.html#pyCBD.util.hash64"><code class="docutils literal notranslate"><span class="pre">hash64()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyCBD.util.html#pyCBD.util.unhash64"><code class="docutils literal notranslate"><span class="pre">unhash64()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">How to install the pyCBD framework?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">How to run a CBD simulation?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues.html">Common Issues and Solutions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Simple Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/SinGen.html">Sine Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/EvenNumberGen.html">Hierarchical Even Number Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Fibonacci.html">Fibonacci Sequence Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/LCG.html">Linear Congruential Generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/RealTime.html">Realtime Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/LivePlot.html">Live Plotting of Data During the Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Dashboard.html">TkInter Dashboard with Editable Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.converters.latexify.html">Generate LaTeX from CBD Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/ContinuousTime.html">Continuous Time Simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Internal Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pyCBD package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.lib.html">Standard CBD Library (BBL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.realtime.html">pyCBD.realtime package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.tracers.html">pyCBD.tracers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.converters.html">pyCBD.converters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.loopsolvers.html">pyCBD.loopsolvers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.state_events.html">pyCBD.state_events module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.preprocessing.html">pyCBD.preprocessing package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.Core.html">pyCBD.Core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.depGraph.html">pyCBD.depGraph module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.naivelog.html">pyCBD.naivelog module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.scheduling.html">pyCBD.scheduling module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.simulator.html">pyCBD.simulator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pyCBD.util.html">pyCBD.util module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="examples/ContinuousTime.html"
+                          title="previous chapter">Continuous Time Simulation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pyCBD.lib.html"
+                          title="next chapter">Standard CBD Library (BBL)</a></p>
+  </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pyCBD.lib.html" title="Standard CBD Library (BBL)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="examples/ContinuousTime.html" title="Continuous Time Simulation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyCBD Simulator  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">pyCBD package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, Randy Paredis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

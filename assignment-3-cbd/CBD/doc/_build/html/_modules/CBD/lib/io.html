@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CBD.lib.io &#8212; CBD Simulator  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/math.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CBD Simulator  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CBD.lib.io</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for CBD.lib.io</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the library building blocks to handle</span>
+<span class="sd">input/output in the form of file interaction.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">CBD.Core</span> <span class="kn">import</span> <span class="n">BaseBlock</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+
+<div class="viewcode-block" id="Interpolation"><a class="viewcode-back" href="../../../CBD.lib.io.html#CBD.lib.io.Interpolation">[docs]</a><span class="k">class</span> <span class="nc">Interpolation</span><span class="p">:</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Helper class to handle CSV interpolations.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">FIRST</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="sd">&quot;&quot;&quot;Use the first value to interpolate.&quot;&quot;&quot;</span>
+
+	<span class="n">LAST</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="sd">&quot;&quot;&quot;Use the last value to interpolate.&quot;&quot;&quot;</span>
+
+	<span class="n">LINEAR</span> <span class="o">=</span> <span class="mi">2</span>
+	<span class="sd">&quot;&quot;&quot;Do a linear interpolation between the two values.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Interpolation.interpolate"><a class="viewcode-back" href="../../../CBD.lib.io.html#CBD.lib.io.Interpolation.interpolate">[docs]</a>	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">interpolate</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">FIRST</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Interpolates between two elements. When :code:`t` corresponds to :code:`a[0]`,</span>
+<span class="sd">		:code:`a[1]` will always be returned.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			a (tuple):      A pair :code:`(time, value)`; representing the first element.</span>
+<span class="sd">			b (tuple):      A pair :code:`(time, value)`; representing the second element.</span>
+<span class="sd">			t (float):      The time at which the interpolation happens.</span>
+<span class="sd">			method (int):   The interpolation method to use.</span>
+
+<span class="sd">		Raises:</span>
+<span class="sd">			AssertionError: When :code:`a[0] &lt;= t &lt; b[0]` is not satisfied.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">assert</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+		<span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+			<span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+		<span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="n">Interpolation</span><span class="o">.</span><span class="n">FIRST</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+		<span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="n">Interpolation</span><span class="o">.</span><span class="n">LAST</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+		<span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="n">Interpolation</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">:</span>
+			<span class="k">return</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="ReadCSV"><a class="viewcode-back" href="../../../CBD.lib.io.html#CBD.lib.io.ReadCSV">[docs]</a><span class="k">class</span> <span class="nc">ReadCSV</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Reads data from a CSV file and outputs it on the corresponding timestamps.</span>
+<span class="sd">	The output ports are defined by the read CSV columns.</span>
+
+<span class="sd">	Warning:</span>
+<span class="sd">		It is required to have a column that represents the time. Furthermore,</span>
+<span class="sd">		the dataset must be sorted w.r.t. this column.</span>
+
+<span class="sd">	Important:</span>
+<span class="sd">		When repeating, the last value of the CSV is used for time 0.0, hence it</span>
+<span class="sd">		is prohibited to use time 0 in your CSV.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		file_name (str):        The name of the CSV to read.</span>
+<span class="sd">		hold (Interpolation):   How the data should be interpreted if the time falls</span>
+<span class="sd">								in-between the records of the (sampled) CSV.</span>
+<span class="sd">		time_col (str):         The name of the column identifying the time.</span>
+<span class="sd">								Defaults to :code:`&quot;time&quot;`.</span>
+<span class="sd">		repeat (bool):          When :code:`True`, the CSV will repeat when at end.</span>
+<span class="sd">								Additionally, when the time is before the first time</span>
+<span class="sd">								in the file, an interpolation is done between the last</span>
+<span class="sd">								read and first read value. When :code:`False`, the</span>
+<span class="sd">								first and last values will be outputted when lower/higher</span>
+<span class="sd">								than the predefined range of times.</span>
+<span class="sd">								Defaults to :code:`False`.</span>
+
+<span class="sd">	Keyword Args:</span>
+<span class="sd">		columns (iter):         A :class:`set`, :class:`list` or a :class:`dict`,</span>
+<span class="sd">								identifying all columns that need to be read. Must</span>
+<span class="sd">								correspond to the columns that can be found in the</span>
+<span class="sd">								file itself. When :code:`None` (default), all</span>
+<span class="sd">								columns from the first line of the file will be used.</span>
+<span class="sd">								In the case of a :class:`dict`, it is expected the</span>
+<span class="sd">								keys are the column names and the values refer to</span>
+<span class="sd">								the data types of these columns.</span>
+<span class="sd">								I.e. :code:`{ &quot;time&quot;: float }` reads the :code:`time`</span>
+<span class="sd">								column as floats.</span>
+<span class="sd">								For :class:`set` and :class:`list`, the data is read</span>
+<span class="sd">								as strings.</span>
+<span class="sd">		dtype:                  The default data type of the CSV. This does not override</span>
+<span class="sd">								optional values set by the :code:`columns` argument when it&#39;s</span>
+<span class="sd">								a :class:`dict`. Defaults to :code:`float`.</span>
+<span class="sd">		dialect (str):          The dialect for parsing the data. Defaults to :code:`excel`.</span>
+<span class="sd">		nan (Any):              The value to insert when some fields are missing data.</span>
+<span class="sd">								Defaults to :code:`None`.</span>
+<span class="sd">		**:                     For other values, take a look at the</span>
+<span class="sd">								`CSV Dialect and Formatting Parameters &lt;https://docs.python.org/3/library/csv.html#csv-fmt-params&gt;`_.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">hold</span><span class="o">=</span><span class="n">Interpolation</span><span class="o">.</span><span class="n">FIRST</span><span class="p">,</span> <span class="n">time_col</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">repeat</span> <span class="o">=</span> <span class="n">repeat</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">time_col</span> <span class="o">=</span> <span class="n">time_col</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__read_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">time_col</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">hold</span> <span class="o">=</span> <span class="n">hold</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+	<span class="k">def</span> <span class="nf">__read_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">dialect</span><span class="o">=</span><span class="s1">&#39;excel&#39;</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Reads a CSV file into memory.</span>
+
+<span class="sd">		Args:</span>
+<span class="sd">			file_name (str):    The name of the file to read.</span>
+<span class="sd">			columns (iter):     A collection of column names. When :code:`None`,</span>
+<span class="sd">								the first row of the file will be used. When a</span>
+<span class="sd">								dictionary, the keys are the column names and the</span>
+<span class="sd">								values are the types for the values in the columns.</span>
+<span class="sd">								Defaults to :code:`None`.</span>
+<span class="sd">			dtype (type):       The type of all values in the data. When</span>
+<span class="sd">								:attr:`columns` is a dictionary, this parameter will</span>
+<span class="sd">								be ignored. Defaults to :code:`float`.</span>
+<span class="sd">			dialect (str):      The dialect to use in parsing. See also</span>
+<span class="sd">								`the csv module documentation &lt;https://docs.python.org/3/library/csv.html&gt;`_.</span>
+<span class="sd">								Defaults to :code:`&quot;excel&quot;`.</span>
+<span class="sd">			nan:                The value to fill records with if their value is missing.</span>
+<span class="sd">								Defaults to :code:`None`.</span>
+<span class="sd">			**kwargs:           See `the csv.reader documentation formatting params</span>
+<span class="sd">								&lt;https://docs.python.org/3/library/csv.html#csv.reader&gt;`_</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+			<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+				<span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">)</span>
+			<span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+				<span class="n">columns</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">)</span>
+			<span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+				<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid column iterable &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">columns</span><span class="p">)))</span>
+		<span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+			<span class="n">columns</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span>
+			<span class="n">dtype</span> <span class="o">=</span> <span class="nb">str</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+			<span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">restkey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">restval</span><span class="o">=</span><span class="n">nan</span><span class="p">,</span> <span class="n">dialect</span><span class="o">=</span><span class="n">dialect</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">columns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+					<span class="n">columns</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+				<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+					<span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+						<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown column &#39;</span><span class="si">{}</span><span class="s2">&#39; in CSV&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
+					<span class="n">value</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+					<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+						<span class="n">value</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">](</span><span class="n">value</span><span class="p">)</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CSV is empty&quot;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">repeat</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A repeating CSV series must not start at time 0&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ReadCSV.compute"><a class="viewcode-back" href="../../../CBD.lib.io.html#CBD.lib.io.ReadCSV.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClock</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">(</span><span class="n">curIteration</span><span class="p">)</span>
+		<span class="n">T</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+		<span class="n">L</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">])</span>
+		<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">}</span>
+		<span class="k">if</span> <span class="n">L</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">col</span><span class="p">)</span>
+			<span class="k">return</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">repeat</span><span class="p">:</span>
+			<span class="n">first_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+			<span class="k">if</span> <span class="n">time</span> <span class="o">&lt;=</span> <span class="n">first_time</span><span class="p">:</span>
+				<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">col</span><span class="p">)</span>
+				<span class="k">return</span>
+			<span class="k">elif</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="n">T</span><span class="p">:</span>
+				<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">col</span><span class="p">)</span>
+				<span class="k">return</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">next_time</span> <span class="o">=</span> <span class="n">last_time</span> <span class="o">=</span> <span class="mf">0.0</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">next_time</span> <span class="o">=</span> <span class="n">last_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">%</span> <span class="n">L</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">//</span> <span class="n">L</span><span class="p">))</span>
+		<span class="k">while</span> <span class="n">next_time</span> <span class="o">&lt;=</span> <span class="n">time</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+			<span class="n">last_time</span> <span class="o">=</span> <span class="n">next_time</span>
+			<span class="n">next_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">%</span> <span class="n">L</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">T</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">//</span> <span class="n">L</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">-=</span> <span class="mi">1</span>
+		<span class="c1"># if self.index &gt;= L:</span>
+		<span class="c1"># 	self.index %= L</span>
+		<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+			<span class="n">a</span> <span class="o">=</span> <span class="n">last_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">%</span> <span class="n">L</span><span class="p">]</span>
+			<span class="n">b</span> <span class="o">=</span> <span class="n">next_time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">col</span><span class="p">][(</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">L</span><span class="p">]</span>
+			<span class="n">val</span> <span class="o">=</span> <span class="n">Interpolation</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hold</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span></div>
+
+	<span class="k">def</span> <span class="nf">_rewind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="n">_rewind</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="WriteCSV"><a class="viewcode-back" href="../../../CBD.lib.io.html#CBD.lib.io.WriteCSV">[docs]</a><span class="k">class</span> <span class="nc">WriteCSV</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Outputs data to a CSV file.</span>
+<span class="sd">	Every time a message is received, a new record is added to the file. At the</span>
+<span class="sd">	end of the execution, when this block is destroyed, the file pointer will be</span>
+<span class="sd">	closed (and removed).</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		filename (str):     The name of the file to write to. All contents of this</span>
+<span class="sd">							file will be cleared.</span>
+<span class="sd">		columns (list):     The (ordered) names of the columns in the file. These</span>
+<span class="sd">							generally represent the input ports for this block.</span>
+<span class="sd">		time_col (str):     The name for the column to store the times. If this</span>
+<span class="sd">							corresponds to a value listed in the :code:`columns`</span>
+<span class="sd">							argument, that column will be used to keep track of the</span>
+<span class="sd">							time. There will **never** be an input port called</span>
+<span class="sd">							:code:`time_col`. If this value is not located in the</span>
+<span class="sd">							:code:`columns` list, a new column is added to the</span>
+<span class="sd">							front of the provided columns.</span>
+<span class="sd">							Defaults to :code:`&quot;time&quot;`.</span>
+
+<span class="sd">	:Keyword Arguments:</span>
+<span class="sd">		Take a look at the `csv.DictWriter &lt;https://docs.python.org/3/library/csv.html#csv.DictWriter&gt;`_</span>
+<span class="sd">		class for more info.</span>
+
+<span class="sd">	Tip:</span>
+<span class="sd">		When the time-value is not needed in the CSV, just ignore it when reading it out again.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">time_col</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="n">time_col</span><span class="p">],</span> <span class="p">[])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">time_col</span> <span class="o">=</span> <span class="n">time_col</span>
+		<span class="k">if</span> <span class="n">time_col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+			<span class="n">columns</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">time_col</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="WriteCSV.compute"><a class="viewcode-back" href="../../../CBD.lib.io.html#CBD.lib.io.WriteCSV.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span> <span class="n">col</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">col</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_col</span> <span class="p">}</span>
+		<span class="n">inputs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">time_col</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClock</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">(</span><span class="n">curIteration</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">How to install the CBD framework?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">How to run a CBD simulation?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../issues.html">Common Issues and Solutions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Simple Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/SinGen.html">Sine Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/EvenNumberGen.html">Hierarchical Even Number Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/Fibonacci.html">Fibonacci Sequence Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/LCG.html">Linear Congruential Generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/RealTime.html">Realtime Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/LivePlot.html">Live Plotting of Data During the Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/Dashboard.html">TkInter Dashboard with Editable Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CBD.converters.latexify.html">Generate LaTeX from CBD Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/ContinuousTime.html">Continuous Time Simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Internal Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CBD.html">CBD package</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CBD Simulator  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CBD.lib.io</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Randy Paredis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1333 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CBD.lib.std &#8212; CBD Simulator  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/math.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CBD Simulator  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CBD.lib.std</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for CBD.lib.std</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This file contains the standard library for CBD building blocks.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">CBD.Core</span> <span class="kn">import</span> <span class="n">BaseBlock</span><span class="p">,</span> <span class="n">CBD</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ConstantBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;NegatorBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;InverterBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;AdderBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;ProductBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;ModuloBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;RootBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;PowerBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;AbsBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;IntBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;ClampBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;GenericBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;MinBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;MaxBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;LessThanBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;EqualsBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;LessThanOrEqualsBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;NotBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;OrBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;AndBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;MultiplexerBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;SplitBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;DelayBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;DeltaTBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;TimeBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;LoggingBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;AddOneBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;DerivatorBlock&#39;</span><span class="p">,</span> <span class="s1">&#39;IntegratorBlock&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Clock&#39;</span><span class="p">,</span> <span class="s1">&#39;DummyClock&#39;</span><span class="p">,</span> <span class="s1">&#39;SequenceBlock&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ConstantBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ConstantBlock">[docs]</a><span class="k">class</span> <span class="nc">ConstantBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The constant block will always output its constant value.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		value (float):      The constant value of the block.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The (current) constant value.</span>
+
+<span class="sd">	Note:</span>
+<span class="sd">		This value may be &quot;tuned&quot; during a simulation, making</span>
+<span class="sd">		it variable through time.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__value</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="ConstantBlock.getValue"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ConstantBlock.getValue">[docs]</a>	<span class="k">def</span> <span class="nf">getValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Obtains the current value.&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__value</span></div>
+
+<div class="viewcode-block" id="ConstantBlock.setValue"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ConstantBlock.setValue">[docs]</a>	<span class="k">def</span> <span class="nf">setValue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Alters the constant value.&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__value</span> <span class="o">=</span> <span class="n">value</span></div>
+
+<div class="viewcode-block" id="ConstantBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ConstantBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getValue</span><span class="p">())</span></div>
+
+	<span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+		<span class="k">return</span> <span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;  Value = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getValue</span><span class="p">())</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span></div>
+
+
+<div class="viewcode-block" id="NegatorBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.NegatorBlock">[docs]</a><span class="k">class</span> <span class="nc">NegatorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The negator will output the value of the input multiplied with -1.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The value to be negated.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The negated value.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="NegatorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.NegatorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="InverterBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.InverterBlock">[docs]</a><span class="k">class</span> <span class="nc">InverterBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The inverter will output the input&#39;s inverse.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		tolerance (float):  The maximal value when to throw a :code:`ZeroDivisionError`.</span>
+<span class="sd">							When the input is larger than :code:`tolerance`, no error</span>
+<span class="sd">							will be thrown. Defaults to :code:`1e-30`.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The value to be inverted.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The inverted value.</span>
+
+<span class="sd">	Raises:</span>
+<span class="sd">		ZeroDivisionError: When the input is less than :code:`tolerance`.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-30</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span> <span class="o">=</span> <span class="n">tolerance</span>
+
+<div class="viewcode-block" id="InverterBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.InverterBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="nb">input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&quot;InverterBlock &#39;</span><span class="si">{}</span><span class="s2">&#39; received input less than </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getPath</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="nb">input</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="AdderBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.AdderBlock">[docs]</a><span class="k">class</span> <span class="nc">AdderBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The adderblock will add all the inputs.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		numberOfInputs (int):   The amount of input ports.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The first addendend.</span>
+<span class="sd">		- **IN2** -- The second addendend.</span>
+<span class="sd">		- ...</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The sum of all inputs.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">numberOfInputs</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numberOfInputs</span><span class="p">)],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span> <span class="o">=</span> <span class="n">numberOfInputs</span>
+
+<div class="viewcode-block" id="AdderBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.AdderBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+			<span class="n">result</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AdderBlock.getNumberOfInputs"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.AdderBlock.getNumberOfInputs">[docs]</a>	<span class="k">def</span> <span class="nf">getNumberOfInputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the total number of input ports.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span></div></div>
+
+
+<div class="viewcode-block" id="ProductBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ProductBlock">[docs]</a><span class="k">class</span> <span class="nc">ProductBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The product block will multiply all the inputs.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		numberOfInputs (int):   The amount of input ports.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The first factor.</span>
+<span class="sd">		- **IN2** -- The second factor.</span>
+<span class="sd">		- ...</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The product of all inputs.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">numberOfInputs</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numberOfInputs</span><span class="p">)],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span> <span class="o">=</span> <span class="n">numberOfInputs</span>
+
+<div class="viewcode-block" id="ProductBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ProductBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+			<span class="n">result</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProductBlock.getNumberOfInputs"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ProductBlock.getNumberOfInputs">[docs]</a>	<span class="k">def</span> <span class="nf">getNumberOfInputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the total number of input ports.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span></div></div>
+
+
+<div class="viewcode-block" id="ModuloBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ModuloBlock">[docs]</a><span class="k">class</span> <span class="nc">ModuloBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A basic block that computes the modulo division, w.r.t. the C-standard.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The dividend.</span>
+<span class="sd">		- **IN2** -- The divisor.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The remainder after division.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		`math.fmod &lt;https://docs.python.org/3.8/library/math.html#math.fmod&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="ModuloBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ModuloBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="c1"># Use &#39;math.fmod&#39; for validity with C w.r.t. negative values AND floats</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">fmod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ModuloBlock.defaultInputPortNameIdentifier"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ModuloBlock.defaultInputPortNameIdentifier">[docs]</a>	<span class="k">def</span> <span class="nf">defaultInputPortNameIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The order of the operands is important for this block. Please provide a port name.&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="RootBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.RootBlock">[docs]</a><span class="k">class</span> <span class="nc">RootBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A basic block that computes the :code:`IN2`-th root of :code:`IN1`.</span>
+<span class="sd">	Hence,</span>
+
+<span class="sd">	.. math::</span>
+<span class="sd">		OUT1 = \\sqrt[IN2]{IN1}</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		tolerance (float):  The maximal value when to throw a :code:`ZeroDivisionError`.</span>
+<span class="sd">							When the input is larger than :code:`tolerance`, no error</span>
+<span class="sd">							will be thrown. Defaults to :code:`1e-30`.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The radicand.</span>
+<span class="sd">		- **IN2** -- The root index.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The :code:`IN2`-th root of :code:`IN1`.</span>
+
+<span class="sd">	Raises:</span>
+<span class="sd">		ZeroDivisionError: When the input is less than :code:`tolerance`.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mf">1e-30</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span> <span class="o">=</span> <span class="n">tolerance</span>
+
+<div class="viewcode-block" id="RootBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.RootBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="nb">input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ZeroDivisionError</span><span class="p">(</span><span class="s2">&quot;RootBlock &#39;</span><span class="si">{}</span><span class="s2">&#39; received input less than </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getPath</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tolerance</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="nb">input</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="RootBlock.defaultInputPortNameIdentifier"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.RootBlock.defaultInputPortNameIdentifier">[docs]</a>	<span class="k">def</span> <span class="nf">defaultInputPortNameIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The order of the operands is important for this block. Please provide a port name.&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="PowerBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.PowerBlock">[docs]</a><span class="k">class</span> <span class="nc">PowerBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A basic block that computes the :code:`IN2`-th power of :code:`IN1`.</span>
+<span class="sd">	Hence,</span>
+
+<span class="sd">	.. math::</span>
+<span class="sd">		OUT1 = IN1^{IN2}</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The base.</span>
+<span class="sd">		- **IN2** -- The exponent.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The :code:`IN2`-th power of :code:`IN1`.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="PowerBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.PowerBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="o">**</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PowerBlock.defaultInputPortNameIdentifier"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.PowerBlock.defaultInputPortNameIdentifier">[docs]</a>	<span class="k">def</span> <span class="nf">defaultInputPortNameIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The order of the operands is important for this block. Please provide a port name.&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="AbsBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.AbsBlock">[docs]</a><span class="k">class</span> <span class="nc">AbsBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The abs block will output the absolute value of the input.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The input.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The absolute value of the input.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="AbsBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.AbsBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="IntBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.IntBlock">[docs]</a><span class="k">class</span> <span class="nc">IntBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The int block will output the integer value (floored) of the input.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The input.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The integer (i.e., floored) value of the input.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="IntBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.IntBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="ClampBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ClampBlock">[docs]</a><span class="k">class</span> <span class="nc">ClampBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The clamp block will clamp the input between :code:`min` and :code:`max`.</span>
+<span class="sd">	A :code:`clamp` function is sometimes also known as a :code:`limiter` or</span>
+<span class="sd">	:code:`saturation` function.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		min (numeric):      The minimal value.</span>
+<span class="sd">		max (numeric):      The maximal value.</span>
+<span class="sd">		use_const (bool):   When :code:`True`, the :attr:`min` and :attr:`max`</span>
+<span class="sd">							values will be used. Otherwise, the minimal and</span>
+<span class="sd">							maximal values are expected as inputs 2 and 3,</span>
+<span class="sd">							respectively.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The signal to clamp.</span>
+<span class="sd">		- **IN2** -- The minimal value. Only available when :code:`use_const`</span>
+<span class="sd">		  is :code:`True`.</span>
+<span class="sd">		- **IN3** -- The maximal value. Only available when :code:`use_const`</span>
+<span class="sd">		  is :code:`True`.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The clamped value.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">use_const</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">use_const</span> <span class="k">else</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">,</span> <span class="s2">&quot;IN3&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_use_const</span> <span class="o">=</span> <span class="n">use_const</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="nb">max</span>
+
+<div class="viewcode-block" id="ClampBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ClampBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_const</span><span class="p">:</span>
+			<span class="n">min_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span>
+			<span class="n">max_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">min_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+			<span class="n">max_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN3&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">min_</span><span class="p">),</span> <span class="n">max_</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="ClampBlock.defaultInputPortNameIdentifier"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.ClampBlock.defaultInputPortNameIdentifier">[docs]</a>	<span class="k">def</span> <span class="nf">defaultInputPortNameIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_const</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The order of the operands is important for this block. Please provide a port name.&quot;</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ClampBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">defaultInputPortNameIdentifier</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="GenericBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.GenericBlock">[docs]</a><span class="k">class</span> <span class="nc">GenericBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The generic block will evaluate an operator on the input.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		block_operator (str):   The name (string) of a single-argument Python</span>
+<span class="sd">								function that is available in the :mod:`math`</span>
+<span class="sd">								module. Defaults to :code:`None`.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The signal to transform.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The input to which the operation was applied.</span>
+
+<span class="sd">	Note:</span>
+<span class="sd">		Multi-argument functions cannot be used.</span>
+
+<span class="sd">	Warning:</span>
+<span class="sd">		When the CBD model is exported to be used in another simulator (e.g.,</span>
+<span class="sd">		FMUs, plain C...), it is possible the function does not exist in the</span>
+<span class="sd">		corresponding mathematics libraries. It is up to the user to ensure</span>
+<span class="sd">		correctness in this case.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		`Python math module &lt;https://docs.python.org/3.8/library/math.html&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">block_operator</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="c1"># operator is the name (a string) of a Python function from the math library</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__block_operator</span> <span class="o">=</span> <span class="n">block_operator</span>
+
+<div class="viewcode-block" id="GenericBlock.getBlockOperator"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.GenericBlock.getBlockOperator">[docs]</a>	<span class="k">def</span> <span class="nf">getBlockOperator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Obtains the block operator.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__block_operator</span></div>
+
+<div class="viewcode-block" id="GenericBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.GenericBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">math</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBlockOperator</span><span class="p">())(</span><span class="n">a</span><span class="p">))</span></div>
+
+	<span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+		<span class="nb">repr</span> <span class="o">=</span> <span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__block_operator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="nb">repr</span> <span class="o">+=</span> <span class="s2">&quot;  No operator given</span><span class="se">\n</span><span class="s2">&quot;</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="nb">repr</span> <span class="o">+=</span> <span class="s2">&quot;  Operator :: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__block_operator</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+		<span class="k">return</span> <span class="nb">repr</span></div>
+
+
+<div class="viewcode-block" id="MultiplexerBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.MultiplexerBlock">[docs]</a><span class="k">class</span> <span class="nc">MultiplexerBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The multiplexer block will output the signal from an input, based on the index</span>
+<span class="sd">	:code:`select`.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		numberOfInputs (int):   The amount of input ports to choose from. Defaults to 2.</span>
+<span class="sd">		zero (bool):            When :code:`True`, the index is zero-based. Otherwise,</span>
+<span class="sd">								the :code:`select` signal is interpreted as 1-indexed.</span>
+<span class="sd">								Defaults to :code:`True`.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **select** -- The input index to choose from. When out of range, an exception</span>
+<span class="sd">		  is thrown.</span>
+<span class="sd">		- **IN1** -- The first option.</span>
+<span class="sd">		- **IN2** -- The second option.</span>
+<span class="sd">		- ...</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The input to which the operation was applied.</span>
+
+<span class="sd">	Raises:</span>
+<span class="sd">		IndexError: When the :code:`select` input is out of range.</span>
+
+<span class="sd">	Note:</span>
+<span class="sd">		This block is not optimized in the simulator. Even though there can be a part of the</span>
+<span class="sd">		block that is not necessary to be computed, the dependency graph still includes both</span>
+<span class="sd">		inputs. While this is a definite optimization, recomputing the dependency graph at</span>
+<span class="sd">		each iteration is much less ideal.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">numberOfInputs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">zero</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;select&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;IN</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numberOfInputs</span><span class="p">)],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span> <span class="o">=</span> <span class="n">numberOfInputs</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__zero</span> <span class="o">=</span> <span class="n">zero</span>
+
+<div class="viewcode-block" id="MultiplexerBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.MultiplexerBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">select</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;select&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__zero</span><span class="p">:</span>
+			<span class="n">select</span> <span class="o">+=</span> <span class="mi">1</span>
+		<span class="k">if</span> <span class="n">select</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">select</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Select input out of range for block </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPath</span><span class="p">())</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">select</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MultiplexerBlock.getNumberOfInputs"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.MultiplexerBlock.getNumberOfInputs">[docs]</a>	<span class="k">def</span> <span class="nf">getNumberOfInputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the number of input ports to choose from.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span></div>
+
+<div class="viewcode-block" id="MultiplexerBlock.defaultInputPortNameIdentifier"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.MultiplexerBlock.defaultInputPortNameIdentifier">[docs]</a>	<span class="k">def</span> <span class="nf">defaultInputPortNameIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The order of the operands is important for this block. Please provide a port name.&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="MinBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.MinBlock">[docs]</a><span class="k">class</span> <span class="nc">MinBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The min block will output the minimal value of all its inputs.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		numberOfInputs (int):   The amount of input ports. Defaults to 2.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The first input.</span>
+<span class="sd">		- **IN2** -- The second input.</span>
+<span class="sd">		- ...</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The minimal value of all inputs.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">numberOfInputs</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numberOfInputs</span><span class="p">)],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span> <span class="o">=</span> <span class="n">numberOfInputs</span>
+
+<div class="viewcode-block" id="MinBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.MinBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+			<span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">result</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MinBlock.getNumberOfInputs"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.MinBlock.getNumberOfInputs">[docs]</a>	<span class="k">def</span> <span class="nf">getNumberOfInputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the total number of input ports.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span></div></div>
+
+
+<div class="viewcode-block" id="MaxBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.MaxBlock">[docs]</a><span class="k">class</span> <span class="nc">MaxBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The max block will output the maximal value of all its inputs.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		numberOfInputs (int):   The amount of input ports. Defaults to 2.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The first input.</span>
+<span class="sd">		- **IN2** -- The second input.</span>
+<span class="sd">		- ...</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The maximal value of all inputs.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">numberOfInputs</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numberOfInputs</span><span class="p">)],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span> <span class="o">=</span> <span class="n">numberOfInputs</span>
+
+<div class="viewcode-block" id="MaxBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.MaxBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+			<span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN</span><span class="si">%d</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">result</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MaxBlock.getNumberOfInputs"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.MaxBlock.getNumberOfInputs">[docs]</a>	<span class="k">def</span> <span class="nf">getNumberOfInputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the total number of input ports.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span></div></div>
+
+
+<div class="viewcode-block" id="SplitBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.SplitBlock">[docs]</a><span class="k">class</span> <span class="nc">SplitBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The split block will split a signal over multiple paths.</span>
+<span class="sd">	While this block can generally be omitted, it may still be used for clarity</span>
+<span class="sd">	and clean-ness of the models.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		numberOfOutputs (int):  The amount of paths to split into. Defaults to 2.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The signal.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		- **OUT1** -- The first output.</span>
+<span class="sd">		- **OUT2** -- The second output.</span>
+<span class="sd">		- ...</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">numberOfOutputs</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numberOfOutputs</span><span class="p">)])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__numberOfOutputs</span> <span class="o">=</span> <span class="n">numberOfOutputs</span>
+
+<div class="viewcode-block" id="SplitBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.SplitBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__numberOfOutputs</span><span class="p">):</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;OUT</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="SplitBlock.getNumberOfOutputs"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.SplitBlock.getNumberOfOutputs">[docs]</a>	<span class="k">def</span> <span class="nf">getNumberOfOutputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the total number of output ports.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfOutputs</span></div></div>
+
+
+<div class="viewcode-block" id="LessThanBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.LessThanBlock">[docs]</a><span class="k">class</span> <span class="nc">LessThanBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A simple block that will test if :code:`IN1` is smaller than :code:`IN2`.</span>
+<span class="sd">	This block will output a *falsy* or *truthy* value (i.e., 0 or 1), based on the signal.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The value that will be tested to be smaller.</span>
+<span class="sd">		- **IN2** -- The value that will be tested to be larger.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- Yields a 1 when :code:`IN1` is smaller than :code:`IN2`, otherwise 0.</span>
+<span class="sd">		In Python, 0 is a *falsy* value and can therefore be used as boolean check, or as computation</span>
+<span class="sd">		value for other equation in the CBD. Similaryly, 1 is a *truthy* value.</span>
+
+<span class="sd">	Tip:</span>
+<span class="sd">		To check the &quot;greater than&quot; relationship, you can swap the :code:`IN1` and :code:`IN2` inputs</span>
+<span class="sd">		around.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		`Truthy and Falsy values in Python &lt;https://docs.python.org/3/library/stdtypes.html#truth-value-testing&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="LessThanBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.LessThanBlock.compute">[docs]</a>	<span class="k">def</span>	<span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">gisv</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">gisv</span><span class="p">(</span><span class="s2">&quot;IN1&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">gisv</span><span class="p">(</span><span class="s2">&quot;IN2&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LessThanBlock.defaultInputPortNameIdentifier"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.LessThanBlock.defaultInputPortNameIdentifier">[docs]</a>	<span class="k">def</span> <span class="nf">defaultInputPortNameIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The order of the operands is important for this block. Please provide a port name.&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="EqualsBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.EqualsBlock">[docs]</a><span class="k">class</span> <span class="nc">EqualsBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A simple block that will test if :code:`IN1` equals :code:`IN2`.</span>
+<span class="sd">	This block will output a *falsy* or *truthy* value (i.e., 0 or 1), based on the signal.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The first value.</span>
+<span class="sd">		- **IN2** -- The second value.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- Yields a 1 when :code:`IN1` equals :code:`IN2`, otherwise 0.</span>
+<span class="sd">		In Python, 0 is a *falsy* value and can therefore be used as boolean check, or as computation</span>
+<span class="sd">		value for other equation in the CBD. Similaryly, 1 is a *truthy* value.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		`Truthy and Falsy values in Python &lt;https://docs.python.org/3/library/stdtypes.html#truth-value-testing&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="EqualsBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.EqualsBlock.compute">[docs]</a>	<span class="k">def</span>	<span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">gisv</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">gisv</span><span class="p">(</span><span class="s2">&quot;IN1&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">gisv</span><span class="p">(</span><span class="s2">&quot;IN2&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="LessThanOrEqualsBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.LessThanOrEqualsBlock">[docs]</a><span class="k">class</span> <span class="nc">LessThanOrEqualsBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A simple block that will test if :code:`IN1` is smaller than or equal to :code:`IN2`.</span>
+<span class="sd">	This block will output a *falsy* or *truthy* value (i.e., 0 or 1), based on the signal.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The value that will be tested to be smaller (or equal).</span>
+<span class="sd">		- **IN2** -- The value that will be tested to be larger (or equal).</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- Yields a 1 when :code:`IN1` is smaller than or equal to :code:`IN2`, otherwise 0.</span>
+<span class="sd">		In Python, 0 is a *falsy* value and can therefore be used as boolean check, or as computation</span>
+<span class="sd">		value for other equation in the CBD. Similaryly, 1 is a *truthy* value.</span>
+
+<span class="sd">	Tip:</span>
+<span class="sd">		To check the &quot;greater than or equal&quot; relationship, you can swap the :code:`IN1` and :code:`IN2` inputs</span>
+<span class="sd">		around.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		`Truthy and Falsy values in Python &lt;https://docs.python.org/3/library/stdtypes.html#truth-value-testing&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="LessThanOrEqualsBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.LessThanOrEqualsBlock.compute">[docs]</a>	<span class="k">def</span>	<span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">gisv</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">gisv</span><span class="p">(</span><span class="s2">&quot;IN1&quot;</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">gisv</span><span class="p">(</span><span class="s2">&quot;IN2&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LessThanOrEqualsBlock.defaultInputPortNameIdentifier"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.LessThanOrEqualsBlock.defaultInputPortNameIdentifier">[docs]</a>	<span class="k">def</span> <span class="nf">defaultInputPortNameIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The order of the operands is important for this block. Please provide a port name.&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="NotBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.NotBlock">[docs]</a><span class="k">class</span> <span class="nc">NotBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A simple block that will (boolean) invert :code:`IN1`. This is similar to the :code:`not`</span>
+<span class="sd">	operator in programming.</span>
+<span class="sd">	This block expects a *falsy* or *truthy* value and outputs the (boolean) inverse.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The value that will be (boolean) inverted.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- Yields a 1 when :code:`IN1` is *falsy* and 0 when it&#39;s *truthy*.</span>
+<span class="sd">		In Python, 0 is a *falsy* value and can therefore be used as boolean check, or as computation</span>
+<span class="sd">		value for other equation in the CBD. Similaryly, 1 is a *truthy* value.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		`Truthy and Falsy values in Python &lt;https://docs.python.org/3/library/stdtypes.html#truth-value-testing&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="NotBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.NotBlock.compute">[docs]</a>	<span class="k">def</span>	<span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span> <span class="k">else</span> <span class="mi">1</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="OrBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.OrBlock">[docs]</a><span class="k">class</span> <span class="nc">OrBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A simple block that will apply the :code:`or` operator to multiple inputs.</span>
+<span class="sd">	This block expects and returns *falsy* and/or *truthy* values.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		numberOfInputs (int):   The amount of inputs. Defaults to 2.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The first input.</span>
+<span class="sd">		- **IN2** -- The second input.</span>
+<span class="sd">		- ...</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- Yields a 1 when at least one of the inputs is *truthy*. Otherwise, 0.</span>
+<span class="sd">		In Python, 0 is a *falsy* value and can therefore be used as boolean check, or as computation</span>
+<span class="sd">		value for other equation in the CBD. Similaryly, 1 is a *truthy* value.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		`Truthy and Falsy values in Python &lt;https://docs.python.org/3/library/stdtypes.html#truth-value-testing&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">numberOfInputs</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numberOfInputs</span><span class="p">)],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span> <span class="o">=</span> <span class="n">numberOfInputs</span>
+
+<div class="viewcode-block" id="OrBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.OrBlock.compute">[docs]</a>	<span class="k">def</span>	<span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+			<span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="OrBlock.getNumberOfInputs"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.OrBlock.getNumberOfInputs">[docs]</a>	<span class="k">def</span> <span class="nf">getNumberOfInputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the total number of input ports.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span></div></div>
+
+
+<div class="viewcode-block" id="AndBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.AndBlock">[docs]</a><span class="k">class</span> <span class="nc">AndBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A simple block that will apply the :code:`and` operator to multiple inputs.</span>
+<span class="sd">	This block expects and returns *falsy* and/or *truthy* values.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		numberOfInputs (int):   The amount of inputs. Defaults to 2.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The first input.</span>
+<span class="sd">		- **IN2** -- The second input.</span>
+<span class="sd">		- ...</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- Yields a 1 when all inputs are *truthy*. Otherwise, 0.</span>
+<span class="sd">		In Python, 0 is a *falsy* value and can therefore be used as boolean check, or as computation</span>
+<span class="sd">		value for other equation in the CBD. Similaryly, 1 is a *truthy* value.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		`Truthy and Falsy values in Python &lt;https://docs.python.org/3/library/stdtypes.html#truth-value-testing&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">numberOfInputs</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">numberOfInputs</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span> <span class="o">=</span> <span class="n">numberOfInputs</span>
+
+<div class="viewcode-block" id="AndBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.AndBlock.compute">[docs]</a>	<span class="k">def</span>	<span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">result</span> <span class="o">=</span> <span class="mi">1</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+			<span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">value</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AndBlock.getNumberOfInputs"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.AndBlock.getNumberOfInputs">[docs]</a>	<span class="k">def</span> <span class="nf">getNumberOfInputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the total number of input ports.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__numberOfInputs</span></div></div>
+
+
+<div class="viewcode-block" id="DelayBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DelayBlock">[docs]</a><span class="k">class</span> <span class="nc">DelayBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A block that delays the input for one iteration.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The input.</span>
+<span class="sd">		- **IC** -- The value to output at iteration 0 (i.e., the first iteration).</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- Outputs the input of the previous iteration.</span>
+
+<span class="sd">	Note:</span>
+<span class="sd">		The delay block is the only base block that alters the default behaviour</span>
+<span class="sd">		of the dependency graph, because of the difference at iteration 0 and</span>
+<span class="sd">		iteration 1.</span>
+
+<span class="sd">	Warning:</span>
+<span class="sd">		The block delays based on an iteration, not on a specific time-delay.</span>
+<span class="sd">		When using adaptive stepsize simulation (either in the CBD simulator,</span>
+<span class="sd">		or when exported), this block may be the cause for errors.</span>
+
+<span class="sd">		For fixed step-size iterations, this block&#39;s behaviour is predictable,</span>
+<span class="sd">		however, in adaptive stepsize, it may be more complicated. You may need</span>
+<span class="sd">		to use the :class:`DeltaTBlock` for *frame-independent logic* (as it is</span>
+<span class="sd">		called in the videogame-world) to ensure correct behaviour.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		`&lt;https://drewcampbell92.medium.com/understanding-delta-time-b53bf4781a03&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IC&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="DelayBlock.getDependencies"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DelayBlock.getDependencies">[docs]</a>	<span class="k">def</span> <span class="nf">getDependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="c1"># TO IMPLEMENT: This is a helper function you can use to create the dependency graph</span>
+		<span class="c1"># Treat dependencies differently. For instance, at the first iteration (curIteration == 0), the block only depends on the IC;</span>
+		<span class="k">if</span> <span class="n">curIteration</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputPortByName</span><span class="p">(</span><span class="s2">&quot;IC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">getIncoming</span><span class="p">()</span><span class="o">.</span><span class="n">source</span><span class="p">]</span>
+		<span class="k">return</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="DelayBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DelayBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">curIteration</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DeltaTBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DeltaTBlock">[docs]</a><span class="k">class</span> <span class="nc">DeltaTBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Helperblock that will always output the current time delta, even when using</span>
+<span class="sd">	adaptive step-size simulation.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		min (numeric):      The minimal value of the allowed delta T. Note that</span>
+<span class="sd">							setting this argument will result in possibly invalid</span>
+<span class="sd">							results. Defaults to 0.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The current time-delta.</span>
+
+<span class="sd">	Note:</span>
+<span class="sd">		Technically, this block is extraneous, as it re-uses information from</span>
+<span class="sd">		the :class:`Clock`. However, it is meant to simplify the usage of time</span>
+<span class="sd">		in CBD models. In general, this block is therefore preferred over the</span>
+<span class="sd">		:code:`Clock` (unless you really know what you&#39;re doing).</span>
+
+<span class="sd">	Warning:</span>
+<span class="sd">		For fixed step-size iterations, you may need to use this block for</span>
+<span class="sd">		*frame-independent logic* (as it is called in the videogame-world)</span>
+<span class="sd">		to ensure correct behaviour.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		- :class:`TimeBlock`</span>
+<span class="sd">		- :class:`Clock`</span>
+<span class="sd">		- `&lt;https://drewcampbell92.medium.com/understanding-delta-time-b53bf4781a03&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="nb">min</span>
+
+<div class="viewcode-block" id="DeltaTBlock.getValue"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DeltaTBlock.getValue">[docs]</a>	<span class="k">def</span> <span class="nf">getValue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Obtains the current time delta.&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClock</span><span class="p">()</span><span class="o">.</span><span class="n">getDeltaT</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DeltaTBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DeltaTBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getValue</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="TimeBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.TimeBlock">[docs]</a><span class="k">class</span> <span class="nc">TimeBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Obtains the (current) absolute and relative time of the simulation.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		- **OUT1** -- The absolute simulation time.</span>
+<span class="sd">		- **relative** -- The relative current simulation time. If the simulation</span>
+<span class="sd">		  started at a time :math:`t` :math:`(t &gt; 0)`, this equals</span>
+<span class="sd">		  :code:`OUT1` - :math:`t`.</span>
+
+<span class="sd">	Note:</span>
+<span class="sd">		Technically, this block is extraneous, as it re-uses information from</span>
+<span class="sd">		the :class:`Clock`. However, it is meant to simplify the usage of time</span>
+<span class="sd">		in CBD models. In general, this block is therefore preferred over the</span>
+<span class="sd">		:code:`Clock` (unless you really know what you&#39;re doing).</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		- :class:`DeltaTBlock`</span>
+<span class="sd">		- :class:`Clock`</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">,</span> <span class="s2">&quot;relative&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="TimeBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.TimeBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClock</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">(</span><span class="n">curIteration</span><span class="p">)</span>
+		<span class="n">rel_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getClock</span><span class="p">()</span><span class="o">.</span><span class="n">getRelativeTime</span><span class="p">(</span><span class="n">curIteration</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">rel_time</span><span class="p">,</span> <span class="s2">&quot;relative&quot;</span><span class="p">)</span></div></div>
+
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<div class="viewcode-block" id="LoggingBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.LoggingBlock">[docs]</a><span class="k">class</span> <span class="nc">LoggingBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A simple logging block that logs a string if the input is *truthy*.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		string (str):       The string to log.</span>
+<span class="sd">		lev (int):          The level at which to log. Defaults to :data:`logging.WARNING`.</span>
+<span class="sd">		logger (str):       The name of the logger. Defaults to :code:`CBDLogger`.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The input.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		`Truthy and Falsy values in Python &lt;https://docs.python.org/3/library/stdtypes.html#truth-value-testing&gt;`_</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">lev</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="s2">&quot;CBD&quot;</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="p">[])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__string</span> <span class="o">=</span> <span class="n">string</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__lev</span> <span class="o">=</span> <span class="n">lev</span>
+
+<div class="viewcode-block" id="LoggingBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.LoggingBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+			<span class="n">simtime</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getClock</span><span class="p">()</span><span class="o">.</span><span class="n">getTime</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lev</span> <span class="o">==</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="n">simtime</span> <span class="o">+</span> <span class="s2">&quot;]  &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__string</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;block&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">})</span>
+			<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lev</span> <span class="o">==</span> <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="n">simtime</span> <span class="o">+</span> <span class="s2">&quot;]  &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__string</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;block&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">})</span>
+			<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lev</span> <span class="o">==</span> <span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="n">simtime</span> <span class="o">+</span> <span class="s2">&quot;]  &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__string</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;block&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="p">})</span></div></div>
+
+
+<div class="viewcode-block" id="AddOneBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.AddOneBlock">[docs]</a><span class="k">class</span> <span class="nc">AddOneBlock</span><span class="p">(</span><span class="n">CBD</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Helperblock that adds 1 to the input. It is included as an example on how to</span>
+<span class="sd">	create custom CBD blocks, while also really useful (it is used often for MUX).</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The input.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The input + 1.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">CBD</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">ConstantBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;OneConstant&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">AdderBlock</span><span class="p">(</span><span class="s2">&quot;PlusOne&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;PlusOne&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;OneConstant&quot;</span><span class="p">,</span> <span class="s2">&quot;PlusOne&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;PlusOne&quot;</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DerivatorBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DerivatorBlock">[docs]</a><span class="k">class</span> <span class="nc">DerivatorBlock</span><span class="p">(</span><span class="n">CBD</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The derivator block is a CBD that calculates the derivative,</span>
+<span class="sd">	using the backwards formula.</span>
+
+<span class="sd">	.. versionchanged:: 1.4</span>
+<span class="sd">		Replaced **delta_t** input port with internal :class:`DeltaTBlock`.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The input.</span>
+<span class="sd">		- **IC** -- The initial condition. I.e., this value is outputted</span>
+<span class="sd">		  at iteration 0.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The derivative of the input.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">CBD</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IC&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">DeltaTBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;delta_t&quot;</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">ProductBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;multIc&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">NegatorBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;neg1&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">AdderBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;sum1&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">DelayBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;delay&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">NegatorBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;neg2&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">AdderBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;sum2&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">ProductBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;mult&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">InverterBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;inv&quot;</span><span class="p">))</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;IC&quot;</span><span class="p">,</span> <span class="s2">&quot;multIc&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;delta_t&quot;</span><span class="p">,</span> <span class="s2">&quot;multIc&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;multIc&quot;</span><span class="p">,</span> <span class="s2">&quot;neg1&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;neg1&quot;</span><span class="p">,</span> <span class="s2">&quot;sum1&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;sum1&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;sum1&quot;</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="n">input_port_name</span><span class="o">=</span><span class="s2">&quot;IC&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="n">input_port_name</span><span class="o">=</span><span class="s2">&quot;IN1&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="s2">&quot;neg2&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;neg2&quot;</span><span class="p">,</span> <span class="s2">&quot;sum2&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;sum2&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;sum2&quot;</span><span class="p">,</span> <span class="s2">&quot;mult&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;delta_t&quot;</span><span class="p">,</span> <span class="s2">&quot;inv&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;inv&quot;</span><span class="p">,</span> <span class="s2">&quot;mult&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;mult&quot;</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IntegratorBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.IntegratorBlock">[docs]</a><span class="k">class</span> <span class="nc">IntegratorBlock</span><span class="p">(</span><span class="n">CBD</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	The integrator block is a CBD that calculates the integration.</span>
+<span class="sd">	The block is implemented according to the backwards Euler rule.</span>
+
+<span class="sd">	.. versionchanged:: 1.4</span>
+<span class="sd">		Replaced **delta_t** input port with internal :class:`DeltaTBlock`.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The input.</span>
+<span class="sd">		- **IC** -- The initial condition. I.e., this value is outputted</span>
+<span class="sd">		  at iteration 0.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The integral of the input.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="n">CBD</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IC&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">ConstantBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">DeltaTBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;delta_t&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">DelayBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;delayIn&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">ProductBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;multDelta&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">DelayBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;delayState&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">AdderBlock</span><span class="p">(</span><span class="n">block_name</span><span class="o">=</span><span class="s2">&quot;sumState&quot;</span><span class="p">))</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;zero&quot;</span><span class="p">,</span> <span class="s2">&quot;delayIn&quot;</span><span class="p">,</span> <span class="n">input_port_name</span><span class="o">=</span><span class="s2">&quot;IC&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;delayIn&quot;</span><span class="p">,</span> <span class="n">input_port_name</span><span class="o">=</span><span class="s2">&quot;IN1&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;delayIn&quot;</span><span class="p">,</span> <span class="s2">&quot;multDelta&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;delta_t&quot;</span><span class="p">,</span> <span class="s2">&quot;multDelta&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;multDelta&quot;</span><span class="p">,</span> <span class="s2">&quot;sumState&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;IC&quot;</span><span class="p">,</span> <span class="s2">&quot;delayState&quot;</span><span class="p">,</span> <span class="n">input_port_name</span><span class="o">=</span><span class="s2">&quot;IC&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;delayState&quot;</span><span class="p">,</span> <span class="s2">&quot;sumState&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;sumState&quot;</span><span class="p">,</span> <span class="s2">&quot;delayState&quot;</span><span class="p">,</span> <span class="n">input_port_name</span><span class="o">=</span><span class="s2">&quot;IN1&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;sumState&quot;</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Clock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.Clock">[docs]</a><span class="k">class</span> <span class="nc">Clock</span><span class="p">(</span><span class="n">CBD</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	System clock. **Must be present in a simulation model.**</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		start_time (float): Time at which the simulation starts. Defaults to 0.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**h** -- The delta in-between timesteps. For fixed-rate simulations,</span>
+<span class="sd">		this must be linked up to a constant value (e.g. a :class:`ConstantBlock`).</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		- **time** -- The current simulation time.</span>
+<span class="sd">		- **rel_time** -- The relative simulation time, ignoring the start time.</span>
+
+<span class="sd">	Warning:</span>
+<span class="sd">		**Clock Usage Assumption:** When adding a (custom) clock to your model(s),</span>
+<span class="sd">		its outputs will always represent the (relative) simulated time and time-delta,</span>
+<span class="sd">		independent of the simulation algorithm used. I.e., changing the delay of a</span>
+<span class="sd">		fixed-rate clock should only influence the accuracy of the signals, **not**</span>
+<span class="sd">		the correctness of the signals. It is forbidden to misuse these outputs for</span>
+<span class="sd">		specific simulations (e.g., using the :code:`time` as a counter, using</span>
+<span class="sd">		:code:`delta` as a constant value...).</span>
+
+<span class="sd">		In other words, the clock is guaranteed to output a correct value and should</span>
+<span class="sd">		only be used in the context of &quot;time&quot;. When exporting the CBD model to other</span>
+<span class="sd">		formalisms/simulators, the Clock&#39;s outputs should be replaced with the</span>
+<span class="sd">		corresponding simulator&#39;s clock without loss of generality.</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		- :class:`TimeBlock`</span>
+<span class="sd">		- :class:`DeltaTBlock`</span>
+<span class="sd">		- :class:`DummyClock`</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+		<span class="c1"># TODO: simplify if start_time is 0</span>
+		<span class="n">CBD</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;h&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;rel_time&quot;</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span> <span class="o">=</span> <span class="n">start_time</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">ConstantBlock</span><span class="p">(</span><span class="s2">&quot;IC&quot;</span><span class="p">,</span> <span class="n">start_time</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">DelayBlock</span><span class="p">(</span><span class="s2">&quot;delay&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">AdderBlock</span><span class="p">(</span><span class="s2">&quot;TSum&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">AdderBlock</span><span class="p">(</span><span class="s2">&quot;STSum&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">NegatorBlock</span><span class="p">(</span><span class="s2">&quot;STNeg&quot;</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">ConstantBlock</span><span class="p">(</span><span class="s2">&quot;Past&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addBlock</span><span class="p">(</span><span class="n">AdderBlock</span><span class="p">(</span><span class="s2">&quot;PastSum&quot;</span><span class="p">))</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;TSum&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="s2">&quot;TSum&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;TSum&quot;</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="n">input_port_name</span><span class="o">=</span><span class="s1">&#39;IN1&#39;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="s2">&quot;PastSum&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;Past&quot;</span><span class="p">,</span> <span class="s2">&quot;PastSum&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;PastSum&quot;</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;IC&quot;</span><span class="p">,</span> <span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="n">input_port_name</span><span class="o">=</span><span class="s1">&#39;IC&#39;</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;IC&quot;</span><span class="p">,</span> <span class="s2">&quot;STNeg&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;PastSum&quot;</span><span class="p">,</span> <span class="s2">&quot;STSum&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;STNeg&quot;</span><span class="p">,</span> <span class="s2">&quot;STSum&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;STSum&quot;</span><span class="p">,</span> <span class="s2">&quot;rel_time&quot;</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">addConnection</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Clock.getTime"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.Clock.getTime">[docs]</a>	<span class="k">def</span> <span class="nf">getTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIt</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the current time of the clock.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="c1"># FIXME: this will produce wrong signals for all clock inputs and</span>
+		<span class="c1">#        all blocks in the clock itself</span>
+		<span class="n">sig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBlockByName</span><span class="p">(</span><span class="s2">&quot;TSum&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">getSignalHistory</span><span class="p">(</span><span class="s2">&quot;OUT1&quot;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">curIt</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span>
+		<span class="k">return</span> <span class="n">sig</span><span class="p">[</span><span class="n">curIt</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="Clock.getRelativeTime"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.Clock.getRelativeTime">[docs]</a>	<span class="k">def</span> <span class="nf">getRelativeTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIt</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Gets the relative simulation time (ignoring the start time).</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTime</span><span class="p">(</span><span class="n">curIt</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span></div>
+
+<div class="viewcode-block" id="Clock.setStartTime"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.Clock.setStartTime">[docs]</a>	<span class="k">def</span> <span class="nf">setStartTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span> <span class="o">=</span> <span class="n">start_time</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">getBlockByName</span><span class="p">(</span><span class="s2">&quot;IC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">start_time</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Clock.getDeltaT"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.Clock.getDeltaT">[docs]</a>	<span class="k">def</span> <span class="nf">getDeltaT</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">dSig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSignalHistory</span><span class="p">(</span><span class="s2">&quot;delta&quot;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dSig</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="mf">0.0</span>
+		<span class="k">return</span> <span class="n">dSig</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="Clock.reset"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.Clock.reset">[docs]</a>	<span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Resets the clock. Required for restarting a simulation.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">clearSignals</span><span class="p">()</span></div>
+
+	<span class="k">def</span> <span class="nf">_rewind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="n">CBD</span><span class="o">.</span><span class="n">_rewind</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+		<span class="n">time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBlockByName</span><span class="p">(</span><span class="s2">&quot;Past&quot;</span><span class="p">)</span>
+		<span class="n">c</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">getValue</span><span class="p">()</span> <span class="o">-</span> <span class="n">time</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DummyClock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DummyClock">[docs]</a><span class="k">class</span> <span class="nc">DummyClock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Dummy clock to be used in the tests. It contains the exact same functionality</span>
+<span class="sd">	as the actual fixed rate :class:`Clock`, but allows for testing without the</span>
+<span class="sd">	need for other correctly implemented blocks.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		start_time (float): The tima at which the simulation starts. Defaults to 0.</span>
+<span class="sd">		delta (float):      The (fixed) time-delta between two iterations.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		- **time** -- The current simulation time.</span>
+<span class="sd">		- **rel_time** -- The relative simulation time, ignoring the start time.</span>
+<span class="sd">		- **delta** -- The delay between two clock &quot;ticks&quot;.</span>
+
+<span class="sd">	Warning:</span>
+<span class="sd">		Only use this block in the tests!</span>
+
+<span class="sd">	See Also:</span>
+<span class="sd">		- :class:`TimeBlock`</span>
+<span class="sd">		- :class:`DeltaTBlock`</span>
+<span class="sd">		- :class:`Clock`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;rel_time&quot;</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span> <span class="o">=</span> <span class="n">start_time</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__delta_t</span> <span class="o">=</span> <span class="n">delta</span>
+
+<div class="viewcode-block" id="DummyClock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DummyClock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__time</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span><span class="p">,</span> <span class="s2">&quot;rel_time&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__delta_t</span><span class="p">,</span> <span class="s2">&quot;delta&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__time</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__delta_t</span></div>
+
+<div class="viewcode-block" id="DummyClock.getTime"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DummyClock.getTime">[docs]</a>	<span class="k">def</span> <span class="nf">getTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIt</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Obtains the current time of the clock.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="n">sig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getSignalHistory</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">curIt</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span>
+		<span class="k">return</span> <span class="n">sig</span><span class="p">[</span><span class="n">curIt</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__delta_t</span></div>
+
+<div class="viewcode-block" id="DummyClock.getRelativeTime"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DummyClock.getRelativeTime">[docs]</a>	<span class="k">def</span> <span class="nf">getRelativeTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIt</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Obtains the relative simulation time (ignoring the start time).</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getTime</span><span class="p">(</span><span class="n">curIt</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span></div>
+
+<div class="viewcode-block" id="DummyClock.getDeltaT"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DummyClock.getDeltaT">[docs]</a>	<span class="k">def</span> <span class="nf">getDeltaT</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Obtains the time-delta.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__delta_t</span></div>
+
+<div class="viewcode-block" id="DummyClock.setDeltaT"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DummyClock.setDeltaT">[docs]</a>	<span class="k">def</span> <span class="nf">setDeltaT</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">		Sets the time-delta.</span>
+<span class="sd">		Args:</span>
+<span class="sd">			dt (float): New time delta.</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__delta_t</span> <span class="o">=</span> <span class="n">dt</span></div>
+
+<div class="viewcode-block" id="DummyClock.setStartTime"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.DummyClock.setStartTime">[docs]</a>	<span class="k">def</span> <span class="nf">setStartTime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">st</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span> <span class="o">=</span> <span class="n">st</span></div>
+
+	<span class="k">def</span> <span class="nf">_rewind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__start_time</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__delta_t</span></div>
+
+
+<div class="viewcode-block" id="SequenceBlock"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.SequenceBlock">[docs]</a><span class="k">class</span> <span class="nc">SequenceBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	A simple sequence block. Will output the sequence iteratively.</span>
+
+<span class="sd">	Args:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		sequence (iter):    The sequence that needs to be outputted.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The values from the sequence.</span>
+
+<span class="sd">	Warning:</span>
+<span class="sd">		Preferably only use this block in the tests!</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">sequence</span><span class="p">):</span>
+		<span class="n">BaseBlock</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="p">[],</span> <span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">__sequence</span> <span class="o">=</span> <span class="n">sequence</span>
+
+<div class="viewcode-block" id="SequenceBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.std.html#CBD.lib.std.SequenceBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sequence</span><span class="p">[</span><span class="n">curIteration</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sequence</span><span class="p">)])</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">How to install the CBD framework?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">How to run a CBD simulation?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../issues.html">Common Issues and Solutions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Simple Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/SinGen.html">Sine Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/EvenNumberGen.html">Hierarchical Even Number Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/Fibonacci.html">Fibonacci Sequence Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/LCG.html">Linear Congruential Generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/RealTime.html">Realtime Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/LivePlot.html">Live Plotting of Data During the Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/Dashboard.html">TkInter Dashboard with Editable Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CBD.converters.latexify.html">Generate LaTeX from CBD Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/ContinuousTime.html">Continuous Time Simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Internal Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CBD.html">CBD package</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CBD Simulator  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CBD.lib.std</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Randy Paredis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

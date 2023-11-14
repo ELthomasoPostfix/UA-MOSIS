@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Generate LaTeX from CBD Models &#8212; pyCBD Simulator  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css?v=601dbdee" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css?v=5d32c1a0" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/math.js?v=af206e68"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyCBD Simulator  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Generate LaTeX from CBD Models</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="generate-latex-from-cbd-models">
+<h1>Generate LaTeX from CBD Models<a class="headerlink" href="#generate-latex-from-cbd-models" title="Link to this heading">¶</a></h1>
+<p>Bundled with the CBD simulator, there is a powerful CBD to equation converter.
+It transforms an input CBD model into a set of equations, which can be outputted as
+plaintext, or in LaTeX format.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For educational purposes, it is also possible to output all intermediary steps that
+were obtained in the generation of the final simplified equations.</p>
+</div>
+<p>As an example, the <a class="reference internal" href="examples/SinGen.html"><span class="doc">Sine Generator</span></a> will be used. It will be assumed the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">SinGen</span></code> class exists and a CBD model is created for this class, stored in the
+<code class="code docutils literal notranslate"><span class="pre">model</span></code> variable.
+Additionally, it is important to import the <code class="xref py py-class docutils literal notranslate"><span class="pre">CBD.converters.latexify.CBD2Latex</span></code> class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SinGen</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">)</span>
+
+<span class="c1"># Import the latexify core unit</span>
+<span class="kn">from</span> <span class="nn">CBD.converters.latexify</span> <span class="kn">import</span> <span class="n">CBD2Latex</span>
+<span class="c1"># OR, ALTERNATIVELY</span>
+<span class="kn">from</span> <span class="nn">CBD.converters.latexify.CBD2Latex</span> <span class="kn">import</span> <span class="n">CBD2Latex</span>
+</pre></div>
+</div>
+<p>Next, we will create a converter, which can tell us the system of equations. For more information
+about the keyword arguments of the class, take a look at the <code class="xref py py-class docutils literal notranslate"><span class="pre">CBD.converters.latexify.CBD2Latex</span></code>
+documentation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cbd2latex</span> <span class="o">=</span> <span class="n">CBD2Latex</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show_steps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">render_latex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To simplify the system of equations, you can call the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">CBD.converters.latexify.CBD2Latex.CBD2Latex.simplify()</span></code> method. When <code class="code docutils literal notranslate"><span class="pre">show_steps</span></code> was set to
+<code class="code docutils literal notranslate"><span class="pre">True</span></code>, all steps and additional information will be outputted to the console. If <code class="code docutils literal notranslate"><span class="pre">show_steps</span></code>
+was <code class="code docutils literal notranslate"><span class="pre">False</span></code>, you will see nothing in the console. After the simplification, you can obtain the
+string-representation of the equations using the <code class="xref py py-func docutils literal notranslate"><span class="pre">CBD.converters.latexify.CBD2Latex.CBD2Latex.render()</span></code>
+method.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cbd2latex</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+
+<span class="c1"># print the resulting equations</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RESULT IS:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cbd2latex</span><span class="o">.</span><span class="n">render</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>The output of this code is shown below:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>INITIAL SYSTEM:
+sin.OUT1(i) = sin(sin.IN1(i))
+time.OUT1(i) = time(i)
+OUT1(i) = sin.OUT1(i)
+sin.IN1(i) = time.OUT1(i)
+
+STEP 1:  substituted all connections and constant values
+sin.OUT1(i) = sin(time(i))
+OUT1(i) = sin.OUT1(i)
+
+STEP 2:
+OUT1(i) = sin(time(i))
+
+RESULT IS:
+OUT1(i) = sin(time(i))
+</pre></div>
+</div>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CBD.converters.latexify.CBD2Latex.html">CBD.converters.latexify.CBD2Latex module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CBD.converters.latexify.functions.html">CBD.converters.latexify.functions module</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">How to install the pyCBD framework?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">How to run a CBD simulation?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="issues.html">Common Issues and Solutions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Simple Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/SinGen.html">Sine Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/EvenNumberGen.html">Hierarchical Even Number Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Fibonacci.html">Fibonacci Sequence Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/LCG.html">Linear Congruential Generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="examples/RealTime.html">Realtime Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/LivePlot.html">Live Plotting of Data During the Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Dashboard.html">TkInter Dashboard with Editable Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.converters.latexify.html">Generate LaTeX from CBD Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/ContinuousTime.html">Continuous Time Simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Internal Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pyCBD.html">pyCBD package</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">pyCBD Simulator  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Generate LaTeX from CBD Models</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2020, Randy Paredis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    </div>
+  </body>
+</html>

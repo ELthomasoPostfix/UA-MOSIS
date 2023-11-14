@@ -1,0 +1,606 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CBD.lib.ev3 &#8212; CBD Simulator  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/nature.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/math.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CBD Simulator  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CBD.lib.ev3</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for CBD.lib.ev3</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Set of simple Blocks to use in combination with LEGO Mindstorms EV3.</span>
+
+<span class="sd">Requires Pybricks to be installed. See also the documentation at</span>
+<span class="sd">	https://pybricks.com/ev3-micropython</span>
+
+<span class="sd">Warning:</span>
+<span class="sd">	Brick sounds are not permitted, as they delay the simulation. It is</span>
+<span class="sd">	also unclear if multithreading is possible to allow for this.</span>
+
+<span class="sd">Note:</span>
+<span class="sd">	Because drawing features are quite complicated and use-case specific,</span>
+<span class="sd">	no block for drawing to the screen is included. If required, this needs</span>
+<span class="sd">	to be created.</span>
+
+<span class="sd">Note:</span>
+<span class="sd">	It does not make sense to use these blocks in combination with precise state events, as the</span>
+<span class="sd">	event has already happened and rewinding is not useful.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">CBD.Core</span> <span class="kn">import</span> <span class="n">BaseBlock</span>
+<span class="kn">from</span> <span class="nn">pybricks.ev3devices</span> <span class="kn">import</span> <span class="n">TouchSensor</span><span class="p">,</span> <span class="n">ColorSensor</span><span class="p">,</span> <span class="n">InfraredSensor</span><span class="p">,</span> <span class="n">GyroSensor</span><span class="p">,</span> <span class="n">UltrasonicSensor</span>
+<span class="kn">from</span> <span class="nn">pybricks._common</span> <span class="kn">import</span> <span class="n">Motor</span><span class="p">,</span> <span class="n">Control</span>
+<span class="kn">from</span> <span class="nn">pybricks.robotics</span> <span class="kn">import</span> <span class="n">DriveBase</span>
+<span class="kn">from</span> <span class="nn">pybricks.parameters</span> <span class="kn">import</span> <span class="n">Port</span><span class="p">,</span> <span class="n">Direction</span>
+<span class="kn">from</span> <span class="nn">pybricks.hubs</span> <span class="kn">import</span> <span class="n">EV3Brick</span>
+
+<span class="n">_Brick</span> <span class="o">=</span> <span class="n">EV3Brick</span><span class="p">()</span>
+
+<span class="n">_PI</span> <span class="o">=</span> <span class="mf">3.14159265359</span>
+<span class="k">def</span> <span class="nf">_rad2deg</span><span class="p">(</span><span class="n">radians</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">radians</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">_PI</span>
+
+
+<span class="c1">#################</span>
+<span class="c1">#     BRICK     #</span>
+<span class="c1">#################</span>
+
+<div class="viewcode-block" id="BrickLightBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.BrickLightBlock">[docs]</a><span class="k">class</span> <span class="nc">BrickLightBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to change the light of the EV3 Brick.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The value of the light. Must be a Color or :code:`None` to turn off.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[])</span>
+
+<div class="viewcode-block" id="BrickLightBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.BrickLightBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="n">_Brick</span><span class="o">.</span><span class="n">light</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">color</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="BatteryVoltageBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.BatteryVoltageBlock">[docs]</a><span class="k">class</span> <span class="nc">BatteryVoltageBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block that outputs the current EV3 Brick&#39;s voltage.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		starting (numeric): The starting voltage of the Brick. When :code:`None`,</span>
+<span class="sd">							the Voltage is outputted in an absolute value. Otherwise,</span>
+<span class="sd">							a percentage is used. When set, must be larger than 0.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The voltage of the EV3 Brick. Can be absolute or relative (percentage).</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">starting</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="k">assert</span> <span class="n">starting</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">starting</span> <span class="o">&gt;</span> <span class="mi">0</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">starting</span> <span class="o">=</span> <span class="n">starting</span>
+
+<div class="viewcode-block" id="BatteryVoltageBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.BatteryVoltageBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">voltage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">_Brick</span><span class="o">.</span><span class="n">battery</span><span class="o">.</span><span class="n">voltage</span><span class="p">())</span> <span class="o">/</span> <span class="mf">1000.0</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">starting</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">voltage</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">voltage</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">starting</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div></div>
+
+
+<span class="c1">#################</span>
+<span class="c1">#    SENSORS    #</span>
+<span class="c1">#################</span>
+<div class="viewcode-block" id="TouchSensorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.TouchSensorBlock">[docs]</a><span class="k">class</span> <span class="nc">TouchSensorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to check if a touch sensor is pressed.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		port_name (str):    The name of the sensor port. This is a number</span>
+<span class="sd">							between 1 and 4.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- Boolean value indicating if the button is pressed (:code:`True`)</span>
+<span class="sd">					or not (:code:`False`).</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="s2">&quot;S</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port_name</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="n">TouchSensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TouchSensorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.TouchSensorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensor</span><span class="o">.</span><span class="n">pressed</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ColorSensorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.ColorSensorBlock">[docs]</a><span class="k">class</span> <span class="nc">ColorSensorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to compute the color reflection of a surface.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		port_name (str):    The name of the sensor port. This is a number</span>
+<span class="sd">							between 1 and 4.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		- **OUT1** -- The amount of red reflected light.</span>
+<span class="sd">		- **OUT2** -- The amount of green reflected light.</span>
+<span class="sd">		- **OUT3** -- The amount of blue reflected light.</span>
+
+<span class="sd">	Note:</span>
+<span class="sd">		Can cause inconsistent and invalid results when the :class:`AmbientLightSensorBlock`</span>
+<span class="sd">		is also used on the same port.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">,</span> <span class="s2">&quot;OUT2&quot;</span><span class="p">,</span> <span class="s2">&quot;OUT3&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="s2">&quot;S</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port_name</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="n">ColorSensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ColorSensorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.ColorSensorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensor</span><span class="o">.</span><span class="n">rgb</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s2">&quot;OUT2&quot;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">&quot;OUT3&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="AmbientLightSensorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.AmbientLightSensorBlock">[docs]</a><span class="k">class</span> <span class="nc">AmbientLightSensorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to compute the amount of ambient light.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		port_name (str):    The name of the sensor port. This is a number</span>
+<span class="sd">							between 1 and 4.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The amount of ambient light.</span>
+
+<span class="sd">	Note:</span>
+<span class="sd">		Can cause inconsistent and invalid results when the :class:`ColorSensorBlock`</span>
+<span class="sd">		is also used on the same port.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="s2">&quot;S</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port_name</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="n">ColorSensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AmbientLightSensorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.AmbientLightSensorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">ambient</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensor</span><span class="o">.</span><span class="n">ambient</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">ambient</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="InfraredDistanceSensorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.InfraredDistanceSensorBlock">[docs]</a><span class="k">class</span> <span class="nc">InfraredDistanceSensorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to compute the distance to an object, using an infrared sensor.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		port_name (str):    The name of the sensor port. This is a number</span>
+<span class="sd">							between 1 and 4.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The distance to an object.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="s2">&quot;S</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port_name</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="n">InfraredSensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+
+<div class="viewcode-block" id="InfraredDistanceSensorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.InfraredDistanceSensorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensor</span><span class="o">.</span><span class="n">distance</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="InfraredButtonSensorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.InfraredButtonSensorBlock">[docs]</a><span class="k">class</span> <span class="nc">InfraredButtonSensorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to compute the input of a remote.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		port_name (str):    The name of the sensor port. This is a number</span>
+<span class="sd">							between 1 and 4.</span>
+<span class="sd">		channel (int):      The channel on the remote.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The button list. Should not be used for mathematical computations.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">,</span> <span class="n">channel</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="s2">&quot;S</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port_name</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="n">InfraredSensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">channel</span>
+
+<div class="viewcode-block" id="InfraredButtonSensorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.InfraredButtonSensorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensor</span><span class="o">.</span><span class="n">buttons</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="UltrasonicSensorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.UltrasonicSensorBlock">[docs]</a><span class="k">class</span> <span class="nc">UltrasonicSensorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to compute the distance to an object, using an ultrasonic sensor.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):   The name of the block.</span>
+<span class="sd">		port_name (str):    The name of the sensor port. This is a number</span>
+<span class="sd">							between 1 and 4.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The distance to an object.</span>
+
+<span class="sd">	Note:</span>
+<span class="sd">		The sensor does not turn off after measuring a distance. Because of</span>
+<span class="sd">		a presumed high-rate CBD simulation, continuously turning it off is</span>
+<span class="sd">		bad for performance and may cause the sensor to freeze.</span>
+
+<span class="sd">		This results in the sensor causing more inference with other ultrasonic</span>
+<span class="sd">		sensors.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="s2">&quot;S</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port_name</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="n">UltrasonicSensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UltrasonicSensorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.UltrasonicSensorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensor</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GyroscopicSpeedSensorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.GyroscopicSpeedSensorBlock">[docs]</a><span class="k">class</span> <span class="nc">GyroscopicSpeedSensorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to compute the rotational velocity, using a gyroscopic sensor.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		port_name (str):        The name of the sensor port. This is a number</span>
+<span class="sd">								between 1 and 4.</span>
+<span class="sd">		direction (Direction):  Whether the sensor should be rotating</span>
+<span class="sd">								clockwise or counter-clockwise. Defaults to</span>
+<span class="sd">								:code:`CLOCKWISE`.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The rotational velocity in deg/s.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">Direction</span><span class="o">.</span><span class="n">CLOCKWISE</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="s2">&quot;S</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port_name</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="n">GyroSensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GyroscopicSpeedSensorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.GyroscopicSpeedSensorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensor</span><span class="o">.</span><span class="n">speed</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GyroscopicAngleSensorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.GyroscopicAngleSensorBlock">[docs]</a><span class="k">class</span> <span class="nc">GyroscopicAngleSensorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to compute an angle, using a gyroscopic sensor.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		port_name (str):        The name of the sensor port. This is a number</span>
+<span class="sd">								between 1 and 4.</span>
+<span class="sd">		direction (Direction):  Whether the positive rotation should be</span>
+<span class="sd">								clockwise or counter-clockwise. Defaults to</span>
+<span class="sd">								:code:`CLOCKWISE`.</span>
+<span class="sd">		resettable (bool):      When :code:`True`, an input is added on which the</span>
+<span class="sd">								angle can be changed. Defaults to :code:`False`.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- New value for the angle in deg. Optional port if the angle can be reset.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The angle in deg.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">Direction</span><span class="o">.</span><span class="n">CLOCKWISE</span><span class="p">,</span> <span class="n">resettable</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="s2">&quot;S</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port_name</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sensor</span> <span class="o">=</span> <span class="n">GyroSensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">direction</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">resettable</span> <span class="o">=</span> <span class="n">resettable</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resettable</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">addInputPort</span><span class="p">(</span><span class="s2">&quot;IN1&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GyroscopicAngleSensorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.GyroscopicAngleSensorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resettable</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">sensor</span><span class="o">.</span><span class="n">reset_angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">))</span>
+		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sensor</span><span class="o">.</span><span class="n">angle</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div></div>
+
+
+<span class="c1">#################</span>
+<span class="c1">#    MOTORS     #</span>
+<span class="c1">#################</span>
+
+<div class="viewcode-block" id="MotorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.MotorBlock">[docs]</a><span class="k">class</span> <span class="nc">MotorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block that drives a single Motor.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		port_name (str):        The name of the actuator port. This is a letter</span>
+<span class="sd">								between A and D.</span>
+<span class="sd">		direction (Direction):  Whether the positive rotation should be</span>
+<span class="sd">								clockwise or counter-clockwise. Defaults to</span>
+<span class="sd">								:code:`CLOCKWISE`.</span>
+<span class="sd">		gears (list):           Additional list of gears that are linked to the</span>
+<span class="sd">								motor, to allow for better control. Defaults to</span>
+<span class="sd">								:code:`None` (i.e., the empty list).</span>
+<span class="sd">		control (Control):      The Motors themselves use a PID controller. To fully</span>
+<span class="sd">								manipulate their behaviour, use the :class:`Control` class.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- The motor velocity in deg/s. Use 0 to brake the rotation.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">Direction</span><span class="o">.</span><span class="n">CLOCKWISE</span><span class="p">,</span> <span class="n">gears</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">control</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="n">port_name</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">motor</span> <span class="o">=</span> <span class="n">Motor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">gears</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">control</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="n">control</span>
+
+<div class="viewcode-block" id="MotorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.MotorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">phi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+		<span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1e-6</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">hold</span><span class="p">()</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span></div>
+
+	<span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="c1"># Ensures that the motor actually stops</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="MotorSpeedSensorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.MotorSpeedSensorBlock">[docs]</a><span class="k">class</span> <span class="nc">MotorSpeedSensorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to compute the rotational velocity of a motor.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		port_name (str):        The name of the motor port. This is a letter</span>
+<span class="sd">								between A and D.</span>
+<span class="sd">		direction (Direction):  Whether the sensor should be rotating</span>
+<span class="sd">								clockwise or counter-clockwise. Defaults to</span>
+<span class="sd">								:code:`CLOCKWISE`.</span>
+<span class="sd">		gears (list):           Additional list of gears that are linked to the</span>
+<span class="sd">								motor, to allow for better control. Defaults to</span>
+<span class="sd">								:code:`None` (i.e., the empty list).</span>
+<span class="sd">		control (Control):      The Motors themselves use a PID controller. To fully</span>
+<span class="sd">								manipulate their behaviour, use the :class:`Control` class.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The rotational velocity in deg/s.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">Direction</span><span class="o">.</span><span class="n">CLOCKWISE</span><span class="p">,</span> <span class="n">gears</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">control</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="n">port_name</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">motor</span> <span class="o">=</span> <span class="n">Motor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">gears</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">control</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="n">control</span>
+
+<div class="viewcode-block" id="MotorSpeedSensorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.MotorSpeedSensorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">speed</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="MotorAngleSensorBlock"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.MotorAngleSensorBlock">[docs]</a><span class="k">class</span> <span class="nc">MotorAngleSensorBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Block to compute an angle of a Motor.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		port_name (str):        The name of the motor port. This is a letter</span>
+<span class="sd">								between A and D.</span>
+<span class="sd">		direction (Direction):  Whether the positive rotation should be</span>
+<span class="sd">								clockwise or counter-clockwise. Defaults to</span>
+<span class="sd">								:code:`CLOCKWISE`.</span>
+<span class="sd">		resettable (bool):      When :code:`True`, an input is added on which the</span>
+<span class="sd">								angle can be changed. Defaults to :code:`False`.</span>
+<span class="sd">		gears (list):           Additional list of gears that are linked to the</span>
+<span class="sd">								motor, to allow for better control. Defaults to</span>
+<span class="sd">								:code:`None` (i.e., the empty list).</span>
+<span class="sd">		control (Control):      The Motors themselves use a PID controller. To fully</span>
+<span class="sd">								manipulate their behaviour, use the :class:`Control` class.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		**IN1** -- New value for the angle in deg. Optional port if the angle can be reset.</span>
+
+<span class="sd">	:Output Ports:</span>
+<span class="sd">		**OUT1** -- The angle in deg.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">port_name</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">Direction</span><span class="o">.</span><span class="n">CLOCKWISE</span><span class="p">,</span> <span class="n">resettable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">gears</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">control</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;OUT1&quot;</span><span class="p">])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="n">port_name</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">motor</span> <span class="o">=</span> <span class="n">Motor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">gears</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">control</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="n">control</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">resettable</span> <span class="o">=</span> <span class="n">resettable</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resettable</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">addInputPort</span><span class="p">(</span><span class="s2">&quot;IN1&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MotorAngleSensorBlock.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.MotorAngleSensorBlock.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resettable</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">reset_angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">))</span>
+		<span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">motor</span><span class="o">.</span><span class="n">angle</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">appendToSignal</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s2">&quot;OUT1&quot;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DifferentialDrive"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.DifferentialDrive">[docs]</a><span class="k">class</span> <span class="nc">DifferentialDrive</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Implements the builtin Differential Drive Odometry from Pybricks.</span>
+
+<span class="sd">	This assumes your robot has two nonholonomic wheels (and an optional ball caster),</span>
+<span class="sd">	both wheels are connected to their own motor, but virtually located among the same</span>
+<span class="sd">	axis. The robot center is the center of both wheels.</span>
+
+<span class="sd">	This block ignores slipping and skidding and mainly should only be used as &quot;estimation&quot;</span>
+<span class="sd">	information, as LEGO is not precise enough for exact, accurate data.</span>
+
+<span class="sd">	Arguments:</span>
+<span class="sd">		block_name (str):       The name of the block.</span>
+<span class="sd">		left_port_name (str):   The name of the left motor port. This is a letter</span>
+<span class="sd">								between A and D.</span>
+<span class="sd">		right_port_name (str):  The name of the right motor port. This is a letter</span>
+<span class="sd">								between A and D.</span>
+<span class="sd">		wheel_diameter (float): The diameter of the wheel.</span>
+<span class="sd">		axle_length (float):    The distance between both wheels.</span>
+<span class="sd">		ldirection (Direction): Whether the left motor&#39;s positive rotation should be</span>
+<span class="sd">								clockwise or counter-clockwise. Defaults to</span>
+<span class="sd">								:code:`CLOCKWISE`.</span>
+<span class="sd">		rdirection (Direction): Whether the right motor&#39;s positive rotation should be</span>
+<span class="sd">								clockwise or counter-clockwise. Defaults to</span>
+<span class="sd">								:code:`CLOCKWISE`.</span>
+<span class="sd">		left_gears (list):      Additional list of gears that are linked to the left</span>
+<span class="sd">								motor, to allow for better control. Defaults to</span>
+<span class="sd">								:code:`None` (i.e., the empty list).</span>
+<span class="sd">		right_gears (list):     Additional list of gears that are linked to the right</span>
+<span class="sd">								motor, to allow for better control. Defaults to</span>
+<span class="sd">								:code:`None` (i.e., the empty list).</span>
+<span class="sd">		l_control (Control):    The Motors themselves use a PID controller. To fully</span>
+<span class="sd">								manipulate their behaviour, use the :class:`Control` class.</span>
+<span class="sd">								This value alters the left motor&#39;s control.</span>
+<span class="sd">		r_control (Control):    The Motors themselves use a PID controller. To fully</span>
+<span class="sd">								manipulate their behaviour, use the :class:`Control` class.</span>
+<span class="sd">								This value alters the right motor&#39;s control.</span>
+<span class="sd">		v_control (Control):    The Motors themselves use a PID controller. To fully</span>
+<span class="sd">								manipulate their behaviour, use the :class:`Control` class.</span>
+<span class="sd">								This value alters the linear velocity control.</span>
+<span class="sd">		h_control (Control):    The Motors themselves use a PID controller. To fully</span>
+<span class="sd">								manipulate their behaviour, use the :class:`Control` class.</span>
+<span class="sd">								This value alters the rotational velocity control.</span>
+
+<span class="sd">	:Input Ports:</span>
+<span class="sd">		- **IN1** -- The linear velocity in mm/s.</span>
+<span class="sd">		- **IN2** -- The angular velocity (top view) in deg/s. This is not the wheel rotation velocity.</span>
+
+<span class="sd">	Warning:</span>
+<span class="sd">		You cannot manipulate the motors individually while this block is active.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block_name</span><span class="p">,</span> <span class="n">left_port_name</span><span class="p">,</span> <span class="n">right_port_name</span><span class="p">,</span> <span class="n">wheel_diameter</span><span class="p">,</span> <span class="n">axle_length</span><span class="p">,</span>
+	             <span class="n">ldirection</span><span class="o">=</span><span class="n">Direction</span><span class="o">.</span><span class="n">CLOCKWISE</span><span class="p">,</span> <span class="n">rdirection</span><span class="o">=</span><span class="n">Direction</span><span class="o">.</span><span class="n">CLOCKWISE</span><span class="p">,</span> <span class="n">left_gears</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">right_gears</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+	             <span class="n">l_control</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">r_control</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">v_control</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">h_control</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">block_name</span><span class="p">,</span> <span class="n">input_ports</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;IN1&quot;</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">],</span> <span class="n">output_ports</span><span class="o">=</span><span class="p">[])</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">left_port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="n">left_port_name</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">right_port</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="n">right_port_name</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">left_motor</span> <span class="o">=</span> <span class="n">Motor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left_port</span><span class="p">,</span> <span class="n">ldirection</span><span class="p">,</span> <span class="n">left_gears</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">l_control</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">left_motor</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="n">l_control</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">right_motor</span> <span class="o">=</span> <span class="n">Motor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">right_port</span><span class="p">,</span> <span class="n">rdirection</span><span class="p">,</span> <span class="n">right_gears</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">r_control</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">right_motor</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="n">r_control</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">drive_base</span> <span class="o">=</span> <span class="n">DriveBase</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">left_motor</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">right_motor</span><span class="p">,</span> <span class="n">wheel_diameter</span><span class="p">,</span> <span class="n">axle_length</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">v_control</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">drive_base</span><span class="o">.</span><span class="n">distance_control</span> <span class="o">=</span> <span class="n">v_control</span>
+		<span class="k">if</span> <span class="n">h_control</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">drive_base</span><span class="o">.</span><span class="n">heading_control</span> <span class="o">=</span> <span class="n">h_control</span>
+
+<div class="viewcode-block" id="DifferentialDrive.compute"><a class="viewcode-back" href="../../../CBD.lib.ev3.html#CBD.lib.ev3.DifferentialDrive.compute">[docs]</a>	<span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curIteration</span><span class="p">):</span>
+		<span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN1&quot;</span><span class="p">)</span>
+		<span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getInputSignal</span><span class="p">(</span><span class="n">curIteration</span><span class="p">,</span> <span class="s2">&quot;IN2&quot;</span><span class="p">)</span>
+
+		<span class="bp">self</span><span class="o">.</span><span class="n">drive_base</span><span class="o">.</span><span class="n">drive</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span></div>
+
+	<span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="c1"># Ensures that the motors actually stop</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">drive_base</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../../../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Setup</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">How to install the CBD framework?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../running.html">How to run a CBD simulation?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../issues.html">Common Issues and Solutions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Simple Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/SinGen.html">Sine Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/EvenNumberGen.html">Hierarchical Even Number Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/Fibonacci.html">Fibonacci Sequence Generator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/LCG.html">Linear Congruential Generator</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/RealTime.html">Realtime Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/LivePlot.html">Live Plotting of Data During the Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/Dashboard.html">TkInter Dashboard with Editable Values</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../CBD.converters.latexify.html">Generate LaTeX from CBD Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/ContinuousTime.html">Continuous Time Simulation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Internal Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../CBD.html">CBD package</a></li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">CBD Simulator  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CBD.lib.ev3</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Randy Paredis.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>
