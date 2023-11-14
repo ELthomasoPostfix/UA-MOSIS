@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0085)http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/CBD/DrawioConvert.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+ 
+ <meta name="author" content="Hans Vangheluwe">
+ <meta name="generator" content="None">
+ <link rel="stylesheet" type="text/css" href="./assignment-files/standard_msdl_style.css" title="MSDL stylesheet">
+ <link rel="shortcut icon" href="http://msdl.uantwerpen.be/images/favicon.ico">
+ <title>DrawioConvert Quick Documentation</title>
+<script src="chrome-extension://nngceckbapebfimnlniiiahkandclblb/content/fido2/page-script.js"></script></head>
+<body bgcolor="#ffffff">
+
+<div class="portlet">    
+ <div class="portletBody">
+
+     <table border="0" cellpadding="4" cellspacing="0" width="100%" summary="table for MSDL standard page banner">
+
+ <tbody><tr>
+<!--  
+  <td valign="top" width="214" align="left">
+   <a href="http://msdl.cs.mcgill.ca/"><img border="0" src="/images/MSDLlogo.2.small.gif" align="left"></a>
+  </td>
+-->
+
+  <td valign="middle" align="right" width="100%" cellpadding="3">
+   <div class="pagetitle">DrawioConvert Quick Documentation&nbsp;</div>
+  </td>
+ </tr>
+
+</tbody></table>
+
+
+  
+  
+ </div>
+</div>
+
+<table border="0" cellpadding="0" cellspacing="0" summary="home page" width="100%">
+ <tbody><tr>
+  <td valign="top" align="left">
+
+
+  <div class="portlet">
+    <h2>DrawIO to CBD Conversion</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>
+          <tt>DrawioConvert</tt> is a project that allows conversion from simple, yet structured <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/CBD/draw.io">draw.io</a> diagrams to CBD models that can be interpreted by the CBD simulator. This document will describe how this can be done.
+        </p>
+
+        <h3>Setting up DrawIO</h3>
+        <p>
+          In drawio, select <tt>File &gt; Open Library</tt> and load <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/CBD/CBDLibrary.xml" download="">CBDLibrary.xml</a>. This provides a set of primitive CBD blocks that can be used in your models. Once included, it can be found at the top of the shapes library.
+        </p>
+        <center><img src="./assignment-files/library.png"></center>
+
+        <h3>Block Properties</h3>
+        <p>
+          All blocks in the library have some block-specific properties that can be set by the user. Hovering over a component shows all non-empty properties that were set on this shape.<br>
+          There are several ways of accessing/modifying these properties:
+          </p><ul>
+            <li>Double Click with the left mouse button on a shape.</li>
+            <li>Click with right mouse button to open a shape's context menu. Near the bottom of the list, select <tt>Edit Data</tt>.</li>
+            <li>Select the shape (left mouse button) and in the top of the right panel, go to <tt>Arrange &gt; Edit Data</tt>.</li>
+            <li>Select the shape and press <kbd>CTRL + M</kbd> or <kbd>CMND + M</kbd>.</li>
+          </ul>
+        <p></p>
+        <b>Do not change the <tt>class_name</tt> property as the converter relies on this.</b>
+        <center><img src="./assignment-files/properties.png"></center>
+
+        <h3>Working with Library Blocks</h3>
+        <p>
+          To guarantee a consistent visual appearance of CBD models, no blocks in the library, except for the Custom Block, can be resized. Every block has zero or more input and output ports. Input ports are represented by the <tt>InputPortBlock</tt> (black triangle) and output ports by the <tt>OutputPortBlock</tt> (white triangle). When selecting (left mouse button) a port, a small, movable, yellow/orange diamond-shaped anchor will appear in front of the port's name. The position of this label can be changed by dragging the anchor. The port name can be altered in the <tt>Edit Data</tt> window.
+        </p>
+        <p>
+          Each CBD block that is <em>not</em> a port may have the following properties:
+          </p><dl>
+            <dt><tt>ID</tt> or <tt>id</tt></dt>
+            <dd>The drawio unique ID for this block. Note that drawio automatically overwrites a property with the key <tt>id</tt> by the value shown by <tt>ID</tt> (upon saving the diagram).</dd>
+
+            <dt><tt>block_name</tt></dt>
+            <dd>The name of the block. It is required that all blocks have a unique name within a class. When omitted, the <tt>ID</tt> is used. It is encouraged to set this attribute to help with the debugging process of CBDs.</dd>
+
+            <dt><tt>class_name</tt></dt>
+            <dd>
+              The type of block.<br>
+              <b>Do not change the <tt>class_name</tt> as the converter relies on this property. Changing it makes it so the block type changes as well in the simulation.</b>
+            </dd>
+
+            <dt><tt>symbol</tt></dt>
+            <dd>The block symbol that must be rendered by MathJax/LaTeX. This is a purely graphical attribute and is ignored by the script.</dd>
+          </dl>
+        <p></p>
+        <p>
+          Optionally, additional class parameters can be provided by adding more properties. Their values will be passed on as default values for the corresponding property as an argument, e.g., to use strings, enclose the value in "..." or '...', for <tt>None</tt>, leave it empty or literally type "<tt>None</tt>"...<br>
+          <b>Make sure these values are expressions/rvalues! If not, the generated Python file will crash, or cause some unexpected behavior. Furthermore, newlines may not be used in these values.</b>
+        </p>
+        <p>
+          Class parameters that cannot be used are: <tt>label</tt> (prevented by drawio), <tt>id</tt> (overwritten by drawio), <tt>placeholders</tt> (prevented by drawio), <tt>symbol</tt> (ignored by the converter) and <tt>__docstring__</tt> (used for other purposes, see later).
+        </p>
+        <p>
+          <i>Note: Blocks with a variable number of inputs (i.e., the <tt>OrBlock</tt> and the <tt>AndBlock</tt>) may still need additional ports to be placed/removed.</i>
+        </p>
+
+        <h3>Creating Custom CBD Blocks</h3>
+        <p>
+          A custom hierarchical CBD block is constructed as a network of already provided blocks (which in their own right may be custom hierarchical blocks) using the <tt>Custom Block</tt> element from <tt>CBDLibrary.xml</tt>. This is a collapsible component in which a block diagram may be drawn. It has two important properties:
+          </p><dl>
+            <dt><tt>class_name</tt></dt>
+            <dd>The new class name for the custom block. Note that all class names must be unique!</dd>
+
+            <dt><tt>block_name</tt></dt>
+            <dd>The name of an instance of the CBD model if it's the top-level CBD.</dd>
+          </dl>
+        <p></p>
+        <p>
+          Additional properties can be added to create custom class parameters. The same set of parameters that was discussed above cannot be set, with the exception of <tt>__docstring__</tt>, which allows adding documentation to custom blocks.
+        </p>
+        <p>
+          The empty rectangle is a container for the custom hierachical block. Blocks can be dragged into the rectangular area and connected. <tt>InputPortBlock</tt> and <tt>OutputPortBlock</tt> are used to add inputs and outputs with their <tt>name</tt> property set to the port's name. The <tt>Custom Block</tt> component can, in constrast with all other blocks in the library, be resized. This allows for larger hierarchical models to be created, as the basic blocks cannot be resized.
+        </p>
+        <p>
+          In the figure below, a custom Sine Generator block with no input ports, a single output port and a custom graphical representation is shown.<br><br>
+          </p><center><img src="./assignment-files/custom-block.png"></center>
+        <p></p>
+        <p>
+          Next, create a graphical representation of the block (i.e., what an instance block should look like when used in a block diagram), add the corresponding ports and set the property <tt>class_name</tt> to the same class as that set in the <tt>Custom Block</tt>. Make sure not to forget to add any class parameters that were added to the <tt>Custom Block</tt>.<br>
+          This can be done easily by adding a predefined block and changing its ports and properties to match the new custom block.
+        </p>
+        <p>
+          Only the <tt>Custom Block</tt> components will be read by the converter. Anything else is implicitly ignored. Furthermore, when using the <tt>-S</tt>/<tt>--singlefile</tt> flag, the script is page-independent, meaning multiple pages may be used inside a single drawio document to maintain a clean overview of the created models. When not using this flag (default), a new model file will be created for each page.
+        </p>
+
+        <h3>Conversion</h3>
+        <p>
+          To generate code from the created drawio files, execute the the <tt>__main__.py</tt> file with the <tt>-F CBD</tt> flag. This tells <tt>DrawioConvert</tt> to use the CBD formalism. Two files will/can be created:
+          </p><dl>
+            <dt><tt>model.py</tt></dt>
+            <dd>The model file, containing the code for the modelled blocks.</dd>
+
+            <dt><tt>experiment.py</tt></dt>
+            <dd>The "protected" experiment file. You can feely add/remove parts of this file without fear of it being overwritten next execution. Use the <tt>-f</tt>/<tt>--force</tt> flag to force overwrite the file.</dd>
+          </dl>
+        <p></p>
+        <p>
+          It is possible to use continuous models, where they are discretized to a certain delta. This is customizeable using the <tt>-E</tt>/<tt>--environment</tt> flag. I.e. by setting <tt>-E delta=0.1</tt>, it is possible to execute in steps of 0.1 time-units. Note how <tt>-t</tt>/<tt>--time</tt> identifies the total simulation time, <em>not</em> the amount of steps taken.
+        </p>
+        <p>
+          For instance, to create a Python file from the custom Sine Generator, as shown above, the following command can be used:
+          </p><pre style="position: relative;">python __main__.py -F CBD -e SineGen -sSrgv sinegen.drawio -E delta=0.1<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+          where:
+          <ul>
+            <li>the CBD formalism is used (<tt>-F CBD</tt>),</li>
+            <li>an experiment file should be created once, where <tt>SineGen</tt> is the executable CBD model (<tt>-e SineGen</tt>),</li>
+            <li>all empty <tt>CustomBlock</tt>s should be ignored (<tt>-s</tt>),</li>
+            <li>all pages should be merged into one file, starting from the last page (<tt>-Sr</tt>),</li>
+            <li>all imports are assumed to be global to all model and experiment files (<tt>-g</tt>),</li>
+            <li>verbose generation is enabled (<tt>-v</tt>),</li>
+            <li>the experiment file and model file will set a global variable <tt>DELTA_T</tt> to 0.1, as well as setting the default simulation stepsize to this value (<tt>-E delta=0.1</tt>).</li>
+          </ul>
+        <p></p>
+        <p>
+          Use the <tt>-h</tt>/<tt>--help</tt> flag to get more information on the available flags.
+        </p>
+      </div>
+    </div>
+  </div>
+  </td> 
+ </tr>
+</tbody></table>
+
+<img src="./assignment-files/red.jpg" border="0" width="100%" height="1"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+ <tbody><tr width="100%">
+  
+ </tr>
+ <tr>
+  <td align="left">Maintained by <a href="http://msdl.cs.mcgill.ca/people/hv">Hans Vangheluwe</a><a>.</a></td>
+  <td align="right">Last Modified: 2021/09/29 10:08:20.</td>
+ </tr>
+</tbody></table>
+
+
+
+</body></html>
