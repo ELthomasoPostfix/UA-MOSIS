@@ -3,7 +3,6 @@ from pyCBD.simulator import Simulator
 
 def processData(cbd, field):
     data = cbd.getSignalHistory(field)
-    print(data)
     return [x for x, _ in data], [y for _, y in data]
 
 
