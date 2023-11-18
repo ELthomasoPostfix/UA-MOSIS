@@ -25,15 +25,27 @@
 	<!-- Vendor Annotations: Not required/used in CBD -->
 
 	<ModelVariables>
-		<!-- TODO: ScalarVariable tags -->
+        {% for port in ports %}
+        <ScalarVariable name="{{ getPortName(port) }}" valueReference="{{loop.index0}}" initial="{{ getInitialPort(port) }}" variability="{{ getConstantPort(port) }}" causality="{{ getPortCausality(port) }}">
+            <Real {{hasStartValue(port)}}/>
+        </ScalarVariable>
+        {%- endfor %}
 	</ModelVariables>
 
 	<ModelStructure>
 		<Outputs>
-			<!-- TODO: Unknown tags -->
+        {%- for port in ports %}
+        {%- if not port.getOutgoing() and port.direction == 1 %}
+            <Unknown index="{{loop.index}}"/>
+        {%- endif %}
+        {%- endfor %}
 		</Outputs>
 		<InitialUnknowns>
-			<!-- TODO: Unknown tags -->
-		</InitialUnknowns>
+        {%- for port in ports %}
+        {%- if not port.getOutgoing() and port.direction == 1 %}
+            <Unknown index="{{loop.index}}"/>
+        {%- endif %}
+        {%- endfor %}
+        </InitialUnknowns>
 	</ModelStructure>
 </fmiModelDescription>

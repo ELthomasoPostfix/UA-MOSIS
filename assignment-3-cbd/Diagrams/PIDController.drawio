@@ -1,0 +1,334 @@
+<mxfile host="Electron" modified="2023-11-18T15:13:52.341Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="7uRQB3k5Qkdny9gROPD8" version="22.1.2" type="device">
+  <diagram id="gDxQXCs5kidWnzTTBnJd" name="Page-1">
+    <mxGraphModel dx="976" dy="587" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <object label="" placeholders="1" class_name="PID" id="hTuh9AVs4zCKzSW3PpIh-1">
+          <mxCell style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;container=0;connectable=0;allowArrows=0;treeFolding=0;moveCells=0;treeMoving=0;comic=0;rotatable=0;expand=1;autosize=1;resizeWidth=1;resizeHeight=1;metaEdit=1;fontSize=16;" parent="1" vertex="1">
+            <mxGeometry width="890" height="540" as="geometry">
+              <mxRectangle x="40" y="400" width="50" height="40" as="alternateBounds" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%class_name%" placeholders="1" id="hTuh9AVs4zCKzSW3PpIh-2">
+          <mxCell style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;fontSize=18;connectable=0;allowArrows=0;rotatable=0;cloneable=0;deletable=0;" parent="hTuh9AVs4zCKzSW3PpIh-1" vertex="1">
+            <mxGeometry x="10.858" y="18.308571428571426" width="868.6714117647059" height="36.60857142857143" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="hTuh9AVs4zCKzSW3PpIh-3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;connectable=0;allowArrows=0;container=1;collapsible=0;portConstraintRotation=0;rotatable=0;cloneable=0;deletable=0;recursiveResize=0;fontSize=16;" parent="hTuh9AVs4zCKzSW3PpIh-1" vertex="1">
+          <mxGeometry x="10.858" y="64.07142857142857" width="868.6714117647059" height="458.7857142857143" as="geometry">
+            <mxRectangle x="10" y="70" width="50" height="40" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <object label="%value%" placeholders="1" value="390" block_name="Kp" class_name="ConstantBlock" id="gklb_Mk5rIPpAmKBajpB-1">
+          <mxCell style="ellipse;whiteSpace=wrap;html=1;comic=0;fillColor=#ffffff;fontSize=24;align=center;allowArrows=0;connectable=0;container=1;collapsible=0;recursiveResize=1;direction=west;resizable=0;metaEdit=1;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="20.831999999999994" y="54.38857142857148" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT1" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-2">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-1" vertex="1">
+            <mxGeometry x="70" y="32.5" width="10" height="15" as="geometry">
+              <mxPoint x="6" y="-7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%value%" placeholders="1" value="20" block_name="Kid" class_name="ConstantBlock" id="gklb_Mk5rIPpAmKBajpB-3">
+          <mxCell style="ellipse;whiteSpace=wrap;html=1;comic=0;fillColor=#ffffff;fontSize=24;align=center;allowArrows=0;connectable=0;container=1;collapsible=0;recursiveResize=1;direction=west;resizable=0;metaEdit=1;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="20.831999999999994" y="254.38857142857148" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT1" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-4">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-3" vertex="1">
+            <mxGeometry x="70" y="32.5" width="10" height="15" as="geometry">
+              <mxPoint x="6" y="-7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-7">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5],[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="90.832" y="373.1385714285715" width="10" height="15" as="geometry">
+              <mxPoint x="-4" y="-8" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-8">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[0,0.5],[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="837.8320000000001" y="326.8885714285715" width="10" height="15" as="geometry">
+              <mxPoint x="5" y="-7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%symbol%" class_name="IntegratorBlock" block_name="int" symbol="&amp;int;" placeholders="1" id="gklb_Mk5rIPpAmKBajpB-14">
+          <mxCell style="shape=stencil(7ZVNDoMgEIVPw95IF24b294DFSuRggGq7e3LjzYSS6NRdybGMM7jyzi8CQCmskINBnFUAXgBcZxE+qXDzg+RbHCu3LcWCYIyil1GKsFr3JFC9QTCKiyIMll4BdFZa8zzXcA054xpGuFMepKJEMS3kHakylBe3wV/suIfbVA3yBQ60f1UD3sevDUterkf7Fvy9iJd6lIqJWxEhftgEx972qncZCvuZticcomXbbWGC/jDd2XAciNRyQWeb8qSUOoGKVjxYeTDyOuOe6eDWd/AWXM3SOeOiYUGplAvbNrdfTbzAQ==);whiteSpace=wrap;html=1;aspect=fixed;resizable=0;container=1;collapsible=0;spacingLeft=5;connectable=0;allowArrows=0;fontSize=36;spacingTop=7;metaEdit=1;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="220.832" y="174.38857142857148" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT1" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-15">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-14" vertex="1">
+            <mxGeometry x="70" y="32.75" width="10" height="15" as="geometry">
+              <mxPoint x="5" y="-7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IC" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-16">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-14" vertex="1">
+            <mxGeometry y="16.120000000000005" width="10" height="15" as="geometry">
+              <mxPoint x="-13" y="7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN1" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-17">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-14" vertex="1">
+            <mxGeometry y="48.870000000000005" width="10" height="15" as="geometry">
+              <mxPoint x="-11" y="7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-67" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-7" target="gklb_Mk5rIPpAmKBajpB-17" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <object label="%symbol%" placeholders="1" symbol="&amp;part;" class_name="DerivatorBlock" block_name="der" id="gklb_Mk5rIPpAmKBajpB-18">
+          <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;metaEdit=1;connectable=0;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="220.832" y="324.3885714285715" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT1" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-19">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-18" vertex="1">
+            <mxGeometry x="70" y="32.5" width="10" height="15" as="geometry">
+              <mxPoint x="5" y="-7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IC" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-20">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-18" vertex="1">
+            <mxGeometry y="16.25" width="10" height="15" as="geometry">
+              <mxPoint x="-13" y="6" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN1" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-21">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-18" vertex="1">
+            <mxGeometry y="48.75" width="10" height="15" as="geometry">
+              <mxPoint x="-11" y="7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-58" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-7" target="gklb_Mk5rIPpAmKBajpB-21" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <object label="%symbol%" placeholders="1" symbol="&amp;sum;" class_name="AdderBlock" block_name="sum1" numberOfInputs="2" id="gklb_Mk5rIPpAmKBajpB-24">
+          <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="540.8320000000001" y="84.38857142857148" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT1" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-25">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-24" vertex="1">
+            <mxGeometry x="70" y="32.5" width="10" height="15" as="geometry">
+              <mxPoint x="5" y="-7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN1" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-26">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-24" vertex="1">
+            <mxGeometry y="17.5" width="10" height="15" as="geometry">
+              <mxPoint x="-11" y="7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN2" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-27">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-24" vertex="1">
+            <mxGeometry y="47.5" width="10" height="15" as="geometry">
+              <mxPoint x="-12" y="6" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%symbol%" placeholders="1" symbol="&amp;sum;" class_name="AdderBlock" block_name="sum2" numberOfInputs="2" id="gklb_Mk5rIPpAmKBajpB-29">
+          <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="690.8320000000001" y="294.3885714285715" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT1" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-30">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-29" vertex="1">
+            <mxGeometry x="70" y="32.5" width="10" height="15" as="geometry">
+              <mxPoint x="5" y="-7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN1" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-31">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-29" vertex="1">
+            <mxGeometry y="17.5" width="10" height="15" as="geometry">
+              <mxPoint x="-12" y="7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN2" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-32">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-29" vertex="1">
+            <mxGeometry y="47.5" width="10" height="15" as="geometry">
+              <mxPoint x="-12" y="6" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="prod1" numberOfInputs="2" id="gklb_Mk5rIPpAmKBajpB-34">
+          <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="380.832" y="69.38857142857148" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT1" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-35">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-34" vertex="1">
+            <mxGeometry x="70" y="32.5" width="10" height="15" as="geometry">
+              <mxPoint x="5" y="-7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN1" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-36">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-34" vertex="1">
+            <mxGeometry y="17.5" width="10" height="15" as="geometry">
+              <mxPoint x="-12" y="7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN2" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-37">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-34" vertex="1">
+            <mxGeometry y="47.5" width="10" height="15" as="geometry">
+              <mxPoint x="-13" y="7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="prod2" numberOfInputs="2" id="gklb_Mk5rIPpAmKBajpB-38">
+          <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="380.832" y="189.38857142857148" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT1" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-39">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-38" vertex="1">
+            <mxGeometry x="70" y="32.5" width="10" height="15" as="geometry">
+              <mxPoint x="5" y="8" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN1" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-40">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-38" vertex="1">
+            <mxGeometry y="17.5" width="10" height="15" as="geometry">
+              <mxPoint x="-11" y="6" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN2" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-41">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-38" vertex="1">
+            <mxGeometry y="47.5" width="10" height="15" as="geometry">
+              <mxPoint x="-12" y="6" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%symbol%" placeholders="1" symbol="&amp;prod;" class_name="ProductBlock" block_name="prod3" numberOfInputs="2" id="gklb_Mk5rIPpAmKBajpB-42">
+          <mxCell style="whiteSpace=wrap;html=1;aspect=fixed;comic=0;fillColor=#FFFFFF;fontSize=36;align=center;resizable=0;container=1;collapsible=0;points=[];allowArrows=0;spacingTop=-6;metaEdit=1;connectable=0;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="380.832" y="309.3885714285715" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT1" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-43">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-42" vertex="1">
+            <mxGeometry x="70" y="32.5" width="10" height="15" as="geometry">
+              <mxPoint x="5" y="-7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN1" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-44">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-42" vertex="1">
+            <mxGeometry y="17.5" width="10" height="15" as="geometry">
+              <mxPoint x="-11" y="6" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="IN2" class_name="InputPort" id="gklb_Mk5rIPpAmKBajpB-45">
+          <mxCell style="triangle;fontSize=14;points=[[0,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=right;spacingLeft=0;spacingRight=8;html=1;comic=0;treeFolding=0;treeMoving=0;resizable=0;movableLabel=1;spacing=2;aspect=fixed;fillColor=#000000;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-42" vertex="1">
+            <mxGeometry y="47.5" width="10" height="15" as="geometry">
+              <mxPoint x="-12" y="6" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <object label="%value%" placeholders="1" value="0" block_name="zeroCt" class_name="ConstantBlock" id="gklb_Mk5rIPpAmKBajpB-46">
+          <mxCell style="ellipse;whiteSpace=wrap;html=1;comic=0;fillColor=#ffffff;fontSize=24;align=center;allowArrows=0;connectable=0;container=1;collapsible=0;recursiveResize=1;direction=west;resizable=0;metaEdit=1;" parent="hTuh9AVs4zCKzSW3PpIh-3" vertex="1">
+            <mxGeometry x="20.831999999999994" y="158.38857142857148" width="80" height="80" as="geometry" />
+          </mxCell>
+        </object>
+        <object label="%name%" placeholders="1" name="OUT1" class_name="OutputPort" id="gklb_Mk5rIPpAmKBajpB-47">
+          <mxCell style="triangle;fillColor=#ffffff;fontSize=14;points=[[1,0.5]];allowArrows=0;verticalAlign=middle;horizontal=1;spacingTop=0;align=left;spacingLeft=4;spacingRight=0;html=1;comic=0;treeFolding=0;treeMoving=0;movable=1;resizable=0;rotatable=1;deletable=1;editable=1;connectable=1;movableLabel=1;spacing=2;aspect=fixed;metaEdit=1;" parent="gklb_Mk5rIPpAmKBajpB-46" vertex="1">
+            <mxGeometry x="70" y="32.5" width="10" height="15" as="geometry">
+              <mxPoint x="6" y="-7" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-49" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-2" target="gklb_Mk5rIPpAmKBajpB-36" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-51" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;jumpStyle=line;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-47" target="gklb_Mk5rIPpAmKBajpB-20" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="180.832" y="198.38857142857148" />
+              <mxPoint x="180.832" y="348.3885714285715" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-52" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-15" target="gklb_Mk5rIPpAmKBajpB-40" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-53" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-19" target="gklb_Mk5rIPpAmKBajpB-45" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-59" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;jumpStyle=line;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-4" target="gklb_Mk5rIPpAmKBajpB-41" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330.832" y="294.3885714285715" />
+              <mxPoint x="330.832" y="244.38857142857148" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-60" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;jumpStyle=line;strokeColor=default;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-4" target="gklb_Mk5rIPpAmKBajpB-44" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="330.832" y="294.3885714285715" />
+              <mxPoint x="330.832" y="334.3885714285715" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-69" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;jumpStyle=line;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-47" target="gklb_Mk5rIPpAmKBajpB-16" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-70" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-35" target="gklb_Mk5rIPpAmKBajpB-26" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-71" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-39" target="gklb_Mk5rIPpAmKBajpB-27" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500.83200000000005" y="229.38857142857148" />
+              <mxPoint x="500.83200000000005" y="139.38857142857148" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-72" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-43" target="gklb_Mk5rIPpAmKBajpB-32" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-73" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-25" target="gklb_Mk5rIPpAmKBajpB-31" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650.8320000000001" y="124.38857142857148" />
+              <mxPoint x="650.8320000000001" y="319.3885714285715" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-68" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-7" target="gklb_Mk5rIPpAmKBajpB-37" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160.832" y="380.3885714285715" />
+              <mxPoint x="160.832" y="124.38857142857148" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gklb_Mk5rIPpAmKBajpB-74" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" parent="hTuh9AVs4zCKzSW3PpIh-3" source="gklb_Mk5rIPpAmKBajpB-30" target="gklb_Mk5rIPpAmKBajpB-8" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

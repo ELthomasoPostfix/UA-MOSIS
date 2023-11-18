@@ -16,9 +16,8 @@ package PCarController
     der(x) = v "Relation between displacement and velocity";
     der(v) = a "Relation between velocity and acceleration";
     M*der(v) = (A*u - b*v*v) "The plant's equation of motion (N)";
-  
-  annotation(experiment(StartTime = 0, StopTime = 60, Tolerance = 1e-09, Interval = 1));
-  
+    annotation(
+      experiment(StartTime = 0, StopTime = 60, Tolerance = 1e-09, Interval = 1));
   end PlantModel;
 
   block CarAccToDisplacement
@@ -110,63 +109,61 @@ package PCarController
 
   model CarCruiseController
     // parameters
-    parameter Real Kp_start=1 "Proportional gain";
-    parameter Real Ki_start=1 "Integral gain";
-    parameter Real Kd_start=20 "Derivative gain";
-    parameter Modelica.Units.SI.Distance rt_start=10 "Target inter-vehicle distance";
-    
-    
-    // blocks
+    parameter Modelica.Units.SI.Distance rt_value = 10 "Target inter-vehicle distance";
+    parameter Real u_value = 10 "PID control signal";
+  // blocks
     Modelica.Blocks.Sources.ContinuousClock t annotation(
-      Placement(visible = true, transformation(origin = {-110, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+      Placement(visible = true, transformation(origin = {-110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Tables.CombiTable1Ds alt(extrapolation = Modelica.Blocks.Types.Extrapolation.HoldLastPoint, smoothness = Modelica.Blocks.Types.Smoothness.ConstantSegments, table = [0, 1.75; 20, -0.75; 40, 0.5; 60, -3.25; 70, 0]) annotation(
-      Placement(visible = true, transformation(origin = {-70, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    PCarController.CarAccToDisplacement lead_car annotation(
-      Placement(visible = true, transformation(origin = {-30, 60}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+      Placement(visible = true, transformation(origin = {-70, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    PCarController.CarAccToDisplacement forward_car annotation(
+      Placement(visible = true, transformation(origin = {-30, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Math.MultiSum multiSum(nu = 2) annotation(
-      Placement(visible = true, transformation(origin = {72, 28}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
-    PCarController.PIDController PID(Kp=Kp_start, Ki=Ki_start, Kd=Kd_start) annotation(
-      Placement(visible = true, transformation(origin = {-48, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    car_package.mech_car Plant annotation(
-      Placement(visible = true, transformation(origin = {-2, 10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-    Modelica.Blocks.Sources.Constant rt(k = rt_start) annotation(
-      Placement(visible = true, transformation(origin = {-110, -88}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+      Placement(visible = true, transformation(origin = {50, -10}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
+    car_package.mech_car ego_car annotation(
+      Placement(visible = true, transformation(origin = {-30, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Sources.Constant rt(k = rt_value) annotation(
+      Placement(visible = true, transformation(origin = {-110, -50}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Math.Product product annotation(
-      Placement(visible = true, transformation(origin = {-60, -70}, extent = {{-10, -10}, {10, 10}}, rotation = 90)));
-    Modelica.Blocks.Math.MultiSum et(nu = 2) annotation(
-      Placement(visible = true, transformation(origin = {-60, -38}, extent = {{-6, -6}, {6, 6}}, rotation = 90)));
+      Placement(visible = true, transformation(origin = {10, -30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Sources.Constant negative(k = -1.0) annotation(
-      Placement(visible = true, transformation(origin = {-6, -28}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+      Placement(visible = true, transformation(origin = {-110, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Math.Product negate annotation(
-      Placement(visible = true, transformation(origin = {42, 4}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+      Placement(visible = true, transformation(origin = {10, 12}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Math.MultiSum multiSum1(nu = 2) annotation(
+      Placement(visible = true, transformation(origin = {80, -20}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
+  Modelica.Blocks.Interfaces.RealOutput e annotation(
+      Placement(visible = true, transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+  Modelica.Blocks.Sources.Constant u(k = u_value) annotation(
+      Placement(visible = true, transformation(origin = {-110, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
   equation
     connect(t.y, alt.u) annotation(
-      Line(points = {{-98, 60}, {-82, 60}}, color = {255, 0, 255}, thickness = 0.5));
-    connect(alt.y[1], lead_car.u) annotation(
-      Line(points = {{-59, 60}, {-42, 60}}, color = {255, 0, 255}, thickness = 0.5));
-    connect(lead_car.y, multiSum.u[1]) annotation(
-      Line(points = {{-18, 60}, {20, 60}, {20, 28}, {66, 28}}, color = {0, 255, 255}, thickness = 0.5));
-    connect(PID.ut, Plant.u) annotation(
-      Line(points = {{-37, 10}, {-14, 10}}, color = {0, 0, 127}, thickness = 0.5));
-    connect(rt.y, product.u1) annotation(
-      Line(points = {{-99, -88}, {-66, -88}, {-66, -82}}, color = {0, 0, 127}, thickness = 0.5));
-    connect(product.y, et.u[1]) annotation(
-      Line(points = {{-60, -59}, {-60, -44}}, color = {0, 0, 127}, thickness = 0.5));
-    connect(et.y, PID.et) annotation(
-      Line(points = {{-60, -31}, {-60, 2}}, color = {170, 0, 127}, thickness = 0.5));
-    connect(negative.y, product.u2) annotation(
-      Line(points = {{6, -28}, {10, -28}, {10, -82}, {-54, -82}}, color = {255, 85, 0}, thickness = 0.5));
-    connect(Plant.y, negate.u1) annotation(
-      Line(points = {{10, 10}, {30, 10}}, color = {0, 0, 127}, thickness = 0.5));
-    connect(negative.y, negate.u2) annotation(
-      Line(points = {{5, -28}, {30, -28}, {30, -2}}, color = {255, 85, 0}, thickness = 0.5));
+      Line(points = {{-99, 70}, {-82, 70}}, color = {255, 0, 255}, thickness = 0.5));
+    connect(alt.y[1], forward_car.u) annotation(
+      Line(points = {{-59, 70}, {-42, 70}}, color = {255, 0, 255}, thickness = 0.5));
+    connect(forward_car.y, multiSum.u[1]) annotation(
+      Line(points = {{-19, 70}, {32.5, 70}, {32.5, -10}, {44, -10}}, color = {0, 255, 255}, thickness = 0.5));
     connect(negate.y, multiSum.u[2]) annotation(
-      Line(points = {{54, 4}, {66, 4}, {66, 28}}, color = {255, 255, 0}, thickness = 0.5));
-    connect(multiSum.y, et.u[2]) annotation(
-      Line(points = {{80, 28}, {90, 28}, {90, -52}, {-60, -52}, {-60, -44}}, color = {0, 0, 127}, thickness = 0.5));
-  
-  annotation(experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-09, Interval = 0.1));
-  
+      Line(points = {{22, 12}, {32, 12}, {32, -10}, {44, -10}}, color = {0, 255, 255}, thickness = 0.5));
+    connect(ego_car.y, negate.u1) annotation(
+      Line(points = {{-18, 30}, {-12, 30}, {-12, 18}, {-2, 18}}, color = {0, 0, 255}, thickness = 0.5));
+    connect(negative.y, negate.u2) annotation(
+      Line(points = {{-98, -10}, {-60, -10}, {-60, 6}, {-2, 6}}, color = {255, 85, 0}, thickness = 0.5));
+    connect(negative.y, product.u1) annotation(
+      Line(points = {{-98, -10}, {-60, -10}, {-60, -24}, {-2, -24}}, color = {255, 85, 0}, thickness = 0.5));
+    connect(rt.y, product.u2) annotation(
+      Line(points = {{-98, -50}, {-60, -50}, {-60, -36}, {-2, -36}}, color = {0, 170, 0}, thickness = 0.5));
+    connect(multiSum.y, multiSum1.u[1]) annotation(
+      Line(points = {{58, -10}, {60, -10}, {60, -20}, {74, -20}}, color = {170, 255, 227}, thickness = 0.5));
+    connect(product.y, multiSum1.u[2]) annotation(
+      Line(points = {{22, -30}, {60, -30}, {60, -20}, {74, -20}}, color = {158, 255, 207}, thickness = 0.5));
+    connect(multiSum1.y, e) annotation(
+      Line(points = {{88, -20}, {110, -20}}, color = {255, 224, 98}, thickness = 0.5));
+  connect(u.y, ego_car.u) annotation(
+      Line(points = {{-98, 30}, {-42, 30}}, color = {85, 0, 255}, thickness = 0.5));
+    annotation(
+      experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-09, Interval = 0.1),
+      Diagram);
   end CarCruiseController;
   annotation(
     uses(Modelica(version = "4.0.0")));

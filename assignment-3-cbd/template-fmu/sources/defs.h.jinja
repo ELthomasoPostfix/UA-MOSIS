@@ -3,9 +3,9 @@
  *  The other defines may help you for debugging the generations.
  */
 
-// TODO: Number of Variables
-#define M ??
+#define M {{ ports|length }}
 
 // Variable References in-memory
-#define _PID_IN (cbd->modelData[0])
-// TODO: you should generate the rest
+{% for port in ports %}
+#define {{ getPortName(port) }} (cbd->modelData[{{ loop.index0 }}])
+{%- endfor %}

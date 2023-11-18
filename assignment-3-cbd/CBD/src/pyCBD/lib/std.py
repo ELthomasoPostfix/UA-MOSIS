@@ -48,7 +48,7 @@ class ConstantBlock(BaseBlock):
 		self.appendToSignal(self.getValue())
 
 	def __repr__(self):  # pragma: no cover
-		return BaseBlock.__repr__(self) + "  Value = " + str(self.getValue()) + "\n"
+		return BaseBlock.__repr__(self) + "  Value = " + str(self.getValue())
 
 
 class NegatorBlock(BaseBlock):
