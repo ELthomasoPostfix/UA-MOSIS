@@ -45,6 +45,22 @@ configuration = Configuration(
 			causality='output',
 			name='x_ego',
 			mapping=[('plant', 'ego_car.y')]
+		),
+		Variable(
+			type='Real',
+			initial='calculated',
+			variability='continuous',
+			causality='output',
+			name="u",
+			mapping=[('plant', 'ego_car.u')]
+		),
+		Variable(
+			type='Real',
+			initial='calculated',
+			variability='continuous',
+			causality='output',
+			name='u_t',
+			mapping=[('pid', 'PID_OUT')]
 		)
 	],
 	components=[
@@ -58,8 +74,8 @@ configuration = Configuration(
         )
     ],
     connections=[
-        Connection('pid', 'PID.OUT', 'plant', 'u'),
-        Connection('plant', 'e', 'pid', 'PID.IN')
+        Connection('pid', 'PID_OUT', 'plant', 'u'),
+        Connection('plant', 'e', 'pid', 'PID_IN')
     ]
 )
 
@@ -78,8 +94,25 @@ result = simulate_fmu("Container.fmu",
 
 import matplotlib.pyplot as plt
 
-plt.plot([r[0] for r in result], [r[1] for r in result], label="x_err")
+# plt.plot([r[0] for r in result], [r[1] for r in result], label="x_err")
 plt.plot([r[0] for r in result], [r[2] for r in result], label="x_tgt")
 plt.plot([r[0] for r in result], [r[3] for r in result], label="x_ego")
 plt.legend()
 plt.show()
+
+print ("Error e:", [r[1] for r in result])
+print("PID u: ", [r[5] for r in result])
+print("Lead car u: ", [r[4] for r in result])
+
+plt.plot([r[0] for r in result], [r[4] for r in result], label="u")
+plt.plot([r[0] for r in result], [r[5] for r in result], label="u_t")
+plt.legend()
+plt.show()
+
+
+import pandas as pd
+
+df = pd.DataFrame(result, columns=["time", "x_err", "x_tgt", "x_ego", "u", "u_t"])
+df.to_csv("result.csv")
+
+

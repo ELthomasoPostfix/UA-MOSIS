@@ -25,12 +25,8 @@
 	<!-- Vendor Annotations: Not required/used in CBD -->
 
 	<ModelVariables>
-        
         <ScalarVariable name="PID_IN" valueReference="0" initial="exact" variability="continuous" causality="input">
-            <Real start="0"/>
-        </ScalarVariable>
-        <ScalarVariable name="PID_OUT" valueReference="1" initial="calculated" variability="continuous" causality="output">
-            <Real />
+            <Real start="0" />
         </ScalarVariable>
         <ScalarVariable name="PID_Kp_OUT1" valueReference="2" initial="exact" variability="constant" causality="local">
             <Real start="390"/>
@@ -194,14 +190,17 @@
         <ScalarVariable name="PID_sum2_OUT1" valueReference="55" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
+        <ScalarVariable name="PID_OUT" valueReference="1" initial="calculated" variability="continuous" causality="output">
+            <Real />
+        </ScalarVariable>
 	</ModelVariables>
 
 	<ModelStructure>
 		<Outputs>
-            <Unknown index="2"/>
+            <Unknown index="0"/>
 		</Outputs>
 		<InitialUnknowns>
-            <Unknown index="2"/>
+            <Unknown index="0"/>
         </InitialUnknowns>
 	</ModelStructure>
 </fmiModelDescription>

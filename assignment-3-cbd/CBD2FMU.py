@@ -1,6 +1,7 @@
 from Diagrams.PIDController import PID
 from pyCBD.scheduling import TopologicalScheduler
 from pyCBD.depGraph import createDepGraph
+from pyCBD.converters import CBDDraw
 
 from pyCBD.Core import BaseBlock, Port
 
@@ -170,7 +171,6 @@ def zipFMU(directory, file_name):
 
 
 if __name__ == "__main__":
-    cbd = PID("PID")
-
-    CBD2FMU(cbd)
+    # cbd = PID("PID")
+    # CBD2FMU(cbd)
     zipFMU(OUTPUT_DIR, "PID.fmu")

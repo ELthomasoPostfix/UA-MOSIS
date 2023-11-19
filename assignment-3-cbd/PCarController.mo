@@ -110,7 +110,7 @@ package PCarController
   model CarCruiseController
     // parameters
     parameter Modelica.Units.SI.Distance rt_value = 10 "Target inter-vehicle distance";
-    parameter Real u_value = 10 "PID control signal";
+    
   // blocks
     Modelica.Blocks.Sources.ContinuousClock t annotation(
       Placement(visible = true, transformation(origin = {-110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
@@ -130,12 +130,12 @@ package PCarController
       Placement(visible = true, transformation(origin = {-110, -10}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Math.Product negate annotation(
       Placement(visible = true, transformation(origin = {10, 12}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Math.MultiSum multiSum1(nu = 2) annotation(
+    Modelica.Blocks.Math.MultiSum multiSum1(nu = 2) annotation(
       Placement(visible = true, transformation(origin = {80, -20}, extent = {{-6, -6}, {6, 6}}, rotation = 0)));
-  Modelica.Blocks.Interfaces.RealOutput e annotation(
+    Modelica.Blocks.Interfaces.RealOutput e annotation(
       Placement(visible = true, transformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0), iconTransformation(origin = {110, -20}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
-  Modelica.Blocks.Sources.Constant u(k = u_value) annotation(
-      Placement(visible = true, transformation(origin = {-110, 30}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
+    Modelica.Blocks.Interfaces.RealInput u annotation(
+      Placement(visible = true, transformation(origin = {-120, 30}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-108, 34}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   equation
     connect(t.y, alt.u) annotation(
       Line(points = {{-99, 70}, {-82, 70}}, color = {255, 0, 255}, thickness = 0.5));
@@ -159,8 +159,8 @@ package PCarController
       Line(points = {{22, -30}, {60, -30}, {60, -20}, {74, -20}}, color = {158, 255, 207}, thickness = 0.5));
     connect(multiSum1.y, e) annotation(
       Line(points = {{88, -20}, {110, -20}}, color = {255, 224, 98}, thickness = 0.5));
-  connect(u.y, ego_car.u) annotation(
-      Line(points = {{-98, 30}, {-42, 30}}, color = {85, 0, 255}, thickness = 0.5));
+  connect(u, ego_car.u) annotation(
+      Line(points = {{-120, 30}, {-42, 30}}, color = {85, 0, 255}, thickness = 0.5));
     annotation(
       experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-09, Interval = 0.1),
       Diagram);
