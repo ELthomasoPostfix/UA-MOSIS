@@ -41,6 +41,10 @@ cd ./CBD/src/
 python3 -m pip install .
 ```
 
+## Problems
+
+For the task on *Inline Integration (and Cosimulation)*, we encountered some problems regarding running the `compile_and_run.py` script. We had to install VSCode build tools, from [here](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2019) under *Tools for Visual Studio* > *Build Tools for Visual Studio 2022*.
+
 # Assignment Requirements
 
 This assignment should make use of [Python 3.6+](https://www.python.org/).
