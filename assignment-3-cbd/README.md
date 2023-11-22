@@ -20,12 +20,25 @@ python -m venv venv
 
 activate the venv.
 ```sh
+# Windows
 ./venv/scripts/activate
+
+# Linux
+source ./venv/bin/activate
 ```
 
 Install dependencies in local venv.
 ```sh
 pip install -r requirements.txt
+```
+
+It is also needed to install the pyCBD framework.
+
+```sh
+# Enter the directory holding the pyCBD framework
+cd ./CBD/src/
+# Install the pyCBD framework using its setup.py file
+python3 -m pip install .
 ```
 
 # Assignment Requirements
