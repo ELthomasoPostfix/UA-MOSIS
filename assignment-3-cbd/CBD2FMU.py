@@ -41,8 +41,9 @@ def runJinjaTemplate(template: str, args: dict):
         outFile.write(output)
 
 
-def getPortName(port: Port):
-    return f"{port.getPath('_')}".replace(".", "_")
+def getPortName(port: Port, dot=False):
+    portname = f"{port.getPath('.')}"
+    return portname.replace(".", "_") if not dot else portname
 
 
 def getEquation(block: BaseBlock, iteration: Iteration):
@@ -132,11 +133,25 @@ def hasStartValue(port: Port):
 
 
 def CBD2FMU(model):
+    depGraph = createDepGraph(model, 0)
+
+    scheduler = TopologicalScheduler()
+    sortedGraph = scheduler.obtain(depGraph, 1, 0.0)
+
+    print(depGraph)
+    print(sortedGraph)
+
+    print("*"*100)
+
+
     model = model.flattened()
     depGraph = createDepGraph(model, 0)
 
     scheduler = TopologicalScheduler()
     sortedGraph = scheduler.obtain(depGraph, 1, 0.0)
+
+    print(depGraph)
+    print(sortedGraph)
 
     flattenedBlocks = [block for blocks in sortedGraph for block in blocks]
     ioPorts, portBlocks = [], []
@@ -171,6 +186,6 @@ def zipFMU(directory, file_name):
 
 
 if __name__ == "__main__":
-    # cbd = PID("PID")
-    # CBD2FMU(cbd)
+    cbd = PID("PID")
+    CBD2FMU(cbd)
     zipFMU(OUTPUT_DIR, "PID.fmu")

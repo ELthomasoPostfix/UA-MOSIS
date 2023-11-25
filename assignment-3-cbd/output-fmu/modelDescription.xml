@@ -25,182 +25,183 @@
 	<!-- Vendor Annotations: Not required/used in CBD -->
 
 	<ModelVariables>
-        <ScalarVariable name="PID_IN" valueReference="0" initial="exact" variability="continuous" causality="input">
-            <Real start="0" />
+        
+        <ScalarVariable name="PID.IN" valueReference="0" initial="exact" variability="continuous" causality="input">
+            <Real start="0"/>
         </ScalarVariable>
-        <ScalarVariable name="PID_Kp_OUT1" valueReference="2" initial="exact" variability="constant" causality="local">
+        <ScalarVariable name="PID.OUT" valueReference="1" initial="calculated" variability="continuous" causality="output">
+            <Real />
+        </ScalarVariable>
+        <ScalarVariable name="PID.Kp.OUT1" valueReference="2" initial="exact" variability="constant" causality="local">
             <Real start="390"/>
         </ScalarVariable>
-        <ScalarVariable name="PID_Kid_OUT1" valueReference="3" initial="exact" variability="constant" causality="local">
+        <ScalarVariable name="PID.Kid.OUT1" valueReference="3" initial="exact" variability="constant" causality="local">
             <Real start="20"/>
         </ScalarVariable>
-        <ScalarVariable name="PID_prod1_IN1" valueReference="4" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.prod1.IN1" valueReference="4" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_prod1_IN2" valueReference="5" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.prod1.IN2" valueReference="5" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_prod1_OUT1" valueReference="6" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.prod1.OUT1" valueReference="6" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_zero_OUT1" valueReference="7" initial="exact" variability="constant" causality="local">
+        <ScalarVariable name="PID.int.zero.OUT1" valueReference="7" initial="exact" variability="constant" causality="local">
             <Real start="0"/>
         </ScalarVariable>
-        <ScalarVariable name="PID_int_delayIn_IN1" valueReference="8" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.delayIn.IN1" valueReference="8" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_delayIn_IC" valueReference="9" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.delayIn.IC" valueReference="9" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_delayIn_OUT1" valueReference="10" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.delayIn.OUT1" valueReference="10" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_delta_t_OUT1" valueReference="11" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.delta_t.OUT1" valueReference="11" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_multDelta_IN1" valueReference="12" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.multDelta.IN1" valueReference="12" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_multDelta_IN2" valueReference="13" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.multDelta.IN2" valueReference="13" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_multDelta_OUT1" valueReference="14" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.multDelta.OUT1" valueReference="14" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_zeroCt_OUT1" valueReference="15" initial="exact" variability="constant" causality="local">
+        <ScalarVariable name="PID.zeroCt.OUT1" valueReference="15" initial="exact" variability="constant" causality="local">
             <Real start="0"/>
         </ScalarVariable>
-        <ScalarVariable name="PID_int_delayState_IN1" valueReference="16" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.delayState.IN1" valueReference="16" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_delayState_IC" valueReference="17" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.delayState.IC" valueReference="17" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_delayState_OUT1" valueReference="18" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.delayState.OUT1" valueReference="18" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_sumState_IN1" valueReference="19" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.sumState.IN1" valueReference="19" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_sumState_IN2" valueReference="20" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.sumState.IN2" valueReference="20" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_int_sumState_OUT1" valueReference="21" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.int.sumState.OUT1" valueReference="21" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_prod2_IN1" valueReference="22" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.prod2.IN1" valueReference="22" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_prod2_IN2" valueReference="23" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.prod2.IN2" valueReference="23" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_prod2_OUT1" valueReference="24" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.prod2.OUT1" valueReference="24" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_sum1_IN1" valueReference="25" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.sum1.IN1" valueReference="25" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_sum1_IN2" valueReference="26" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.sum1.IN2" valueReference="26" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_sum1_OUT1" valueReference="27" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.sum1.OUT1" valueReference="27" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_delta_t_OUT1" valueReference="28" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.delta_t.OUT1" valueReference="28" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_multIc_IN1" valueReference="29" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.multIc.IN1" valueReference="29" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_multIc_IN2" valueReference="30" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.multIc.IN2" valueReference="30" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_multIc_OUT1" valueReference="31" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.multIc.OUT1" valueReference="31" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_neg1_IN1" valueReference="32" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.neg1.IN1" valueReference="32" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_neg1_OUT1" valueReference="33" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.neg1.OUT1" valueReference="33" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_sum1_IN1" valueReference="34" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.sum1.IN1" valueReference="34" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_sum1_IN2" valueReference="35" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.sum1.IN2" valueReference="35" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_sum1_OUT1" valueReference="36" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.sum1.OUT1" valueReference="36" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_delay_IN1" valueReference="37" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.delay.IN1" valueReference="37" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_delay_IC" valueReference="38" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.delay.IC" valueReference="38" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_delay_OUT1" valueReference="39" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.delay.OUT1" valueReference="39" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_neg2_IN1" valueReference="40" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.neg2.IN1" valueReference="40" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_neg2_OUT1" valueReference="41" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.neg2.OUT1" valueReference="41" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_sum2_IN1" valueReference="42" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.sum2.IN1" valueReference="42" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_sum2_IN2" valueReference="43" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.sum2.IN2" valueReference="43" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_sum2_OUT1" valueReference="44" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.sum2.OUT1" valueReference="44" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_inv_IN1" valueReference="45" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.inv.IN1" valueReference="45" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_inv_OUT1" valueReference="46" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.inv.OUT1" valueReference="46" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_mult_IN1" valueReference="47" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.mult.IN1" valueReference="47" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_mult_IN2" valueReference="48" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.mult.IN2" valueReference="48" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_der_mult_OUT1" valueReference="49" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.der.mult.OUT1" valueReference="49" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_prod3_IN1" valueReference="50" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.prod3.IN1" valueReference="50" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_prod3_IN2" valueReference="51" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.prod3.IN2" valueReference="51" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_prod3_OUT1" valueReference="52" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.prod3.OUT1" valueReference="52" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_sum2_IN1" valueReference="53" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.sum2.IN1" valueReference="53" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_sum2_IN2" valueReference="54" initial="calculated" variability="continuous" causality="local">
+        <ScalarVariable name="PID.sum2.IN2" valueReference="54" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
-        <ScalarVariable name="PID_sum2_OUT1" valueReference="55" initial="calculated" variability="continuous" causality="local">
-            <Real />
-        </ScalarVariable>
-        <ScalarVariable name="PID_OUT" valueReference="1" initial="calculated" variability="continuous" causality="output">
+        <ScalarVariable name="PID.sum2.OUT1" valueReference="55" initial="calculated" variability="continuous" causality="local">
             <Real />
         </ScalarVariable>
 	</ModelVariables>
 
 	<ModelStructure>
 		<Outputs>
-            <Unknown index="0"/>
+            <Unknown index="2"/>
 		</Outputs>
 		<InitialUnknowns>
-            <Unknown index="0"/>
+            <Unknown index="2"/>
         </InitialUnknowns>
 	</ModelStructure>
 </fmiModelDescription>

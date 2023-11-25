@@ -1,7 +1,7 @@
 // "delta" is the time delta since the previous iteration
 //   Because this is the first computation, it will just be a really small value
 
-delta = 0.0001;
+
 PID_Kp_OUT1 = 390;
 PID_Kid_OUT1 = 20;
 PID_prod1_IN2 = PID_IN;
@@ -21,7 +21,7 @@ PID_int_delta_t_OUT1 = delta;
 PID_int_multDelta_IN1 = PID_int_delayIn_OUT1;
 PID_int_multDelta_IN2 = PID_int_delta_t_OUT1;
 PID_int_multDelta_OUT1 = PID_int_multDelta_IN1 * PID_int_multDelta_IN2;
-PID_zeroCt_OUT1 = PID_IN;
+PID_zeroCt_OUT1 = 0;
 PID_int_delayState_IN1 = PID_int_sumState_OUT1;
 PID_int_delayState_IC = PID_zeroCt_OUT1;
 PID_int_delayState_OUT1 = PID_int_delayState_IC;
