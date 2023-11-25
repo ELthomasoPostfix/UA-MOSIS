@@ -331,7 +331,7 @@ def createDepGraph(model, curIteration, ignore_hierarchy=False):
 			if isinstance(block, CBD) and not ignore_hierarchy:
 				recSetInternalDependencies(block.getBlocks(), curIteration)
 
-	recSetInternalDependencies(blocks + model.getOutputPorts(), curIteration)
+	recSetInternalDependencies(blocks + model.getOutputPorts() + model.getInputPorts(), curIteration)
 
 	return depGraph
 
