@@ -3,9 +3,9 @@ from pyCBD.scheduling import TopologicalScheduler
 from pyCBD.depGraph import createDepGraph
 from pyCBD.converters import CBDDraw
 
-from pyCBD.Core import BaseBlock, Port
+from pyCBD.Core import CBD, BaseBlock, Port
 
-from typing import List
+from typing import List, Mapping
 from jinja2 import Template, Environment, FileSystemLoader
 from enum import IntEnum
 import zipfile
@@ -47,6 +47,7 @@ def getPortName(port: Port, dot=False):
 
 
 def getEquation(block: BaseBlock, iteration: Iteration):
+    # TODO: in case of no flattening, have to recursively call getEquation so that a set of equations (as a string) is returned in the end???
     outputString = ""
 
     if isinstance(block, Port):
@@ -131,31 +132,43 @@ def hasStartValue(port: Port):
     else:
         return ""
 
-
-def CBD2FMU(model):
-    depGraph = createDepGraph(model, 0)
-
+def generateTopoSchedule(flattenedModel: CBD, iteration: int):
+    """Create a topoligically sorted cumputation schedule for the
+     given flattened CBD model.
+    
+    :param flattenedModel: The CBD model to derive the schedule from
+    :param iteration: The iteration to create a schedule for
+    :return: The schedule as a list of BaseBlock and Port objects
+    """
+    depGraph = createDepGraph(flattenedModel, iteration, ignore_hierarchy=True)
+    print(depGraph, "\n"*3) # TODO delete
     scheduler = TopologicalScheduler()
-    sortedGraph = scheduler.obtain(depGraph, 1, 0.0)
+    topoSchedule = scheduler.obtain(depGraph, iteration, 0.0)
+    topoSchedule = [
+        block
+        for strongcomponent in topoSchedule
+            for block in strongcomponent
+    ]
+    for v in topoSchedule:
+        print(v) # TODO delete
 
-    print(depGraph)
-    print(sortedGraph)
+    # TODO: depgraph and schedule prints
+    # print(depGraph)
+    # print("\n"*6)
+    # for b in topoSchedule:
+    #     print(b)
 
-    print("*"*100)
+    return topoSchedule
 
 
-    model = model.flattened()
-    depGraph = createDepGraph(model, 0)
+def extractFlattenedPorts(topoSchedule) -> List[Port]:
+    """Extract a flattened list of ports from a topological computation schedule.
 
-    scheduler = TopologicalScheduler()
-    sortedGraph = scheduler.obtain(depGraph, 1, 0.0)
-
-    print(depGraph)
-    print(sortedGraph)
-
-    flattenedBlocks = [block for blocks in sortedGraph for block in blocks]
+    :param topoSchedule: The topological schedule to transform
+    :return: The flattened list of Port objects
+    """
     ioPorts, portBlocks = [], []
-    for block in flattenedBlocks:
+    for block in topoSchedule:
         (ioPorts if isinstance(block, Port) else portBlocks).append(block)
 
     # SortedGraph consists of arrays of multiple blocks
@@ -163,12 +176,28 @@ def CBD2FMU(model):
     ports.insert(0, ioPorts)
 
     flattenedPorts = [port for ports in ports for port in ports]
+    return flattenedPorts
 
-    runJinjaTemplate("./sources/defs.h.jinja", {"ports": flattenedPorts, "getPortName": getPortName})
-    runJinjaTemplate("./sources/eq0.c.jinja", {"blocks": flattenedBlocks, "getEquation": getEquation})
-    runJinjaTemplate("./sources/eqs.c.jinja", {"blocks": flattenedBlocks, "getEquation": getEquation})
+
+def CBD2FMU(model: CBD):
+    # TODO: Flattening fixes TopologicalScheduler issues
+    # model = model.flattened()
+
+    topoSchedule0 = generateTopoSchedule(flattenedModel=model, iteration=0)
+    runJinjaTemplate("./sources/eq0.c.jinja", {"blocks": topoSchedule0, "getEquation": getEquation})
+    flattenedPorts0 = extractFlattenedPorts(topoSchedule0)
+
+    topoSchedule = generateTopoSchedule(flattenedModel=model, iteration=1)
+    runJinjaTemplate("./sources/eqs.c.jinja", {"blocks": topoSchedule, "getEquation": getEquation})
+    flattenedPorts = extractFlattenedPorts(topoSchedule)
+
+    # A set for faster membership checking to merge both lists while maintaining the original port order
+    fp0 = set(flattenedPorts0)
+    flattenedPortsCombined = flattenedPorts0 + [fport for fport in flattenedPorts if fport not in fp0]
+
+    runJinjaTemplate("./sources/defs.h.jinja", {"ports": flattenedPortsCombined, "getPortName": getPortName})
     runJinjaTemplate("./modelDescription.xml.jinja",
-                     {"ports": flattenedPorts, "getConstantPort": getConstantPort, "getInitialPort": getInitialPort,
+                     {"ports": flattenedPortsCombined, "getConstantPort": getConstantPort, "getInitialPort": getInitialPort,
                       "hasStartValue": hasStartValue, "getPortCausality": getPortCausality, "getPortName": getPortName})
 
 
