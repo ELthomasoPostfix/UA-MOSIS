@@ -821,7 +821,7 @@ class DelayBlock(BaseBlock):
 		# Treat dependencies differently. For instance, at the first iteration (curIteration == 0), the block only depends on the IC;
 		if curIteration == 0:
 			return [self.getInputPortByName("IC").getIncoming().source]
-		return []
+		return [self.getInputPortByName("IN1").getIncoming().source]
 
 	def compute(self, curIteration):
 		if curIteration == 0:
@@ -1013,7 +1013,7 @@ class DerivatorBlock(CBD):
 		# Treat dependencies differently. For instance, at the first iteration (curIteration == 0), the block only depends on the IC;
 		if curIteration == 0:
 			return [self.getInputPortByName("IC").getIncoming().source]
-		return []
+		return [self.getInputPortByName("IN1").getIncoming().source]
 
 class IntegratorBlock(CBD):
 	"""
@@ -1058,7 +1058,7 @@ class IntegratorBlock(CBD):
 		# Treat dependencies differently. For instance, at the first iteration (curIteration == 0), the block only depends on the IC;
 		if curIteration == 0:
 			return [self.getInputPortByName("IC").getIncoming().source]
-		return []
+		return [self.getInputPortByName("IN1").getIncoming().source]
 
 class Clock(BaseBlock):
 	"""
