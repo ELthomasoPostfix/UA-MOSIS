@@ -1008,6 +1008,12 @@ class DerivatorBlock(CBD):
 		self.addConnection("inv", "mult")
 		self.addConnection("mult", "OUT1")
 
+	def getDependencies(self, curIteration):
+		# TO IMPLEMENT: This is a helper function you can use to create the dependency graph
+		# Treat dependencies differently. For instance, at the first iteration (curIteration == 0), the block only depends on the IC;
+		if curIteration == 0:
+			return [self.getInputPortByName("IC").getIncoming().source]
+		return []
 
 class IntegratorBlock(CBD):
 	"""
@@ -1047,6 +1053,12 @@ class IntegratorBlock(CBD):
 		self.addConnection("sumState", "delayState", input_port_name="IN1")
 		self.addConnection("sumState", "OUT1")
 
+	def getDependencies(self, curIteration):
+		# TO IMPLEMENT: This is a helper function you can use to create the dependency graph
+		# Treat dependencies differently. For instance, at the first iteration (curIteration == 0), the block only depends on the IC;
+		if curIteration == 0:
+			return [self.getInputPortByName("IC").getIncoming().source]
+		return []
 
 class Clock(BaseBlock):
 	"""
