@@ -13,7 +13,7 @@ sys.path.append('..')
 from cbd_util import runSimulation, processData
 
 
-def plotSimulation(data, duration, delta_t, y_label):
+def plotSimulation(data, title, duration, delta_t, y_label):
     # Plot all data on single axis
     fig, ax = plt.subplots()
 
@@ -28,12 +28,12 @@ def plotSimulation(data, duration, delta_t, y_label):
     ax.set_xlabel('Time (s)')
     ax.set_ylabel(y_label)
 
-    plt.title(f"Integration Methods (t={duration}, Δt={delta_t})")
+    plt.title(f"{title} (t={duration}, Δt={delta_t})")
     plt.tight_layout()
     plt.legend()
 
 
-    plt.savefig(f"./graphs/integration_methods_t{duration}_dt{delta_t}.png")
+    plt.savefig(f"./graphs/{title.lower().replace(' ', '_')}_t{duration}_dt{delta_t}.png")
     plt.show()
 
 
@@ -60,7 +60,7 @@ for j, deltaT in enumerate(DELTA_TIMES):
     for i, (model, param) in enumerate(MODELS):
         values = runSimulation(model(param), DURATION, deltaT, ['I'])[0]
         integration_data.append((values, model_name[model]))
-    plotSimulation(integration_data, duration=DURATION, delta_t=deltaT, y_label="Approximation")
+    plotSimulation(integration_data, title="Integration Methods", duration=DURATION, delta_t=deltaT, y_label="Approximation")
 
     reference_data = integration_data.pop(-1)
 
@@ -74,4 +74,4 @@ for j, deltaT in enumerate(DELTA_TIMES):
         print(f"  Cumulative: {sum(error_values[1])}")
 
 
-    plotSimulation(error_data, duration=DURATION, delta_t=deltaT, y_label="Error")
+    plotSimulation(error_data, title="Integration Error", duration=DURATION, delta_t=deltaT, y_label="Error")

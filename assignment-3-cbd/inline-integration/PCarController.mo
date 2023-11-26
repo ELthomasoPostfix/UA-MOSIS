@@ -110,8 +110,7 @@ package PCarController
   model CarCruiseController
     // parameters
     parameter Modelica.Units.SI.Distance rt_value = 10 "Target inter-vehicle distance";
-    
-  // blocks
+    // blocks
     Modelica.Blocks.Sources.ContinuousClock t annotation(
       Placement(visible = true, transformation(origin = {-110, 70}, extent = {{-10, -10}, {10, 10}}, rotation = 0)));
     Modelica.Blocks.Tables.CombiTable1Ds alt(extrapolation = Modelica.Blocks.Types.Extrapolation.HoldLastPoint, smoothness = Modelica.Blocks.Types.Smoothness.ConstantSegments, table = [0, 1.75; 20, -0.75; 40, 0.5; 60, -3.25; 70, 0]) annotation(
@@ -138,32 +137,32 @@ package PCarController
       Placement(visible = true, transformation(origin = {-120, 30}, extent = {{-20, -20}, {20, 20}}, rotation = 0), iconTransformation(origin = {-108, 34}, extent = {{-20, -20}, {20, 20}}, rotation = 0)));
   equation
     connect(t.y, alt.u) annotation(
-      Line(points = {{-99, 70}, {-82, 70}}, color = {255, 0, 255}, thickness = 0.5));
+      Line(points = {{-99, 70}, {-82, 70}}, color = {255, 0, 255}));
     connect(alt.y[1], forward_car.u) annotation(
-      Line(points = {{-59, 70}, {-42, 70}}, color = {255, 0, 255}, thickness = 0.5));
+      Line(points = {{-59, 70}, {-42, 70}}, color = {255, 0, 255}));
     connect(forward_car.y, multiSum.u[1]) annotation(
-      Line(points = {{-19, 70}, {32.5, 70}, {32.5, -10}, {44, -10}}, color = {0, 255, 255}, thickness = 0.5));
+      Line(points = {{-19, 70}, {32, 70}, {32, -10}, {44, -10}}, color = {0, 255, 255}));
     connect(negate.y, multiSum.u[2]) annotation(
-      Line(points = {{22, 12}, {32, 12}, {32, -10}, {44, -10}}, color = {0, 255, 255}, thickness = 0.5));
+      Line(points = {{22, 12}, {32, 12}, {32, -10}, {44, -10}}, color = {0, 255, 255}));
     connect(ego_car.y, negate.u1) annotation(
-      Line(points = {{-18, 30}, {-12, 30}, {-12, 18}, {-2, 18}}, color = {0, 0, 255}, thickness = 0.5));
+      Line(points = {{-18, 30}, {-12, 30}, {-12, 18}, {-2, 18}}, color = {0, 0, 255}));
     connect(negative.y, negate.u2) annotation(
-      Line(points = {{-98, -10}, {-60, -10}, {-60, 6}, {-2, 6}}, color = {255, 85, 0}, thickness = 0.5));
+      Line(points = {{-98, -10}, {-60, -10}, {-60, 6}, {-2, 6}}, color = {255, 85, 0}));
     connect(negative.y, product.u1) annotation(
-      Line(points = {{-98, -10}, {-60, -10}, {-60, -24}, {-2, -24}}, color = {255, 85, 0}, thickness = 0.5));
+      Line(points = {{-98, -10}, {-60, -10}, {-60, -24}, {-2, -24}}, color = {255, 85, 0}));
     connect(rt.y, product.u2) annotation(
-      Line(points = {{-98, -50}, {-60, -50}, {-60, -36}, {-2, -36}}, color = {0, 170, 0}, thickness = 0.5));
+      Line(points = {{-98, -50}, {-60, -50}, {-60, -36}, {-2, -36}}, color = {0, 170, 0}));
     connect(multiSum.y, multiSum1.u[1]) annotation(
-      Line(points = {{58, -10}, {60, -10}, {60, -20}, {74, -20}}, color = {170, 255, 227}, thickness = 0.5));
+      Line(points = {{58, -10}, {60, -10}, {60, -20}, {74, -20}}, color = {170, 255, 227}));
     connect(product.y, multiSum1.u[2]) annotation(
-      Line(points = {{22, -30}, {60, -30}, {60, -20}, {74, -20}}, color = {158, 255, 207}, thickness = 0.5));
+      Line(points = {{22, -30}, {60, -30}, {60, -20}, {74, -20}}, color = {158, 255, 207}));
     connect(multiSum1.y, e) annotation(
-      Line(points = {{88, -20}, {110, -20}}, color = {255, 224, 98}, thickness = 0.5));
+      Line(points = {{88, -20}, {110, -20}}, color = {255, 224, 98}));
   connect(u, ego_car.u) annotation(
-      Line(points = {{-120, 30}, {-42, 30}}, color = {85, 0, 255}, thickness = 0.5));
+      Line(points = {{-120, 30}, {-42, 30}}, color = {85, 0, 255}));
     annotation(
       experiment(StartTime = 0, StopTime = 70, Tolerance = 1e-09, Interval = 0.1),
-      Diagram);
+      Diagram(coordinateSystem(extent = {{-100, -100}, {100, 100}})));
   end CarCruiseController;
   annotation(
     uses(Modelica(version = "4.0.0")));

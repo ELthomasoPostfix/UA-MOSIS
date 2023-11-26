@@ -178,7 +178,6 @@ def generateTopoSchedule(flattenedModel: CBD, iteration: int):
     :return: The schedule as a list of BaseBlock and Port objects
     """
     depGraph = createDepGraph(flattenedModel, iteration, ignore_hierarchy=True)
-    # print(depGraph, "\n"*3) # TODO delete
     scheduler = TopologicalScheduler()
     topoSchedule = scheduler.obtain(depGraph, iteration, 0.0)
     topoSchedule = [
@@ -186,8 +185,6 @@ def generateTopoSchedule(flattenedModel: CBD, iteration: int):
         for strongcomponent in topoSchedule
             for block in strongcomponent
     ]
-    # for v in topoSchedule:
-    #     print(v) # TODO delete
 
     return topoSchedule
 
@@ -211,8 +208,10 @@ def extractFlattenedPorts(topoSchedule) -> List[Port]:
 
 
 def CBD2FMU(model: CBD):
-    # TODO: Flattening fixes TopologicalScheduler issues
-    # model = model.flattened()
+    # TWO OPTIONS
+    # Option 1: Hierarchy (below line commented), we interpret Integrator/Derivator blocks directly and generate full equations
+    # Option 2: Flattened, Integrator and Derivator blocks are folded away depending on the iteration
+    model = model.flattened()
 
     topoSchedule0 = generateTopoSchedule(flattenedModel=model, iteration=0)
     runJinjaTemplate("./sources/eq0.c.jinja", {"blocks": topoSchedule0, "getEquation": getEquation})
