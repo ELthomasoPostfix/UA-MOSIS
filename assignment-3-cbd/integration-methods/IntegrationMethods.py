@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # This file was automatically generated from drawio2cbd with the command:
-#   ../DrawioConvert/__main__.py -F CBD -e IntegrationMethods -sSrgv IntegrationMethods.drawio
+#   A:\Python\UA-MOSIS\assignment-3-cbd\DrawioConvert\__main__.py -F CBD -e BWDEulerCalc -sSrgv ./integration-methods/IntegrationMethods.drawio -d ./integration-methods
 
 from pyCBD.Core import *
 from pyCBD.lib.std import *
@@ -54,7 +54,7 @@ class FWDEulerInt(CBD):
         self.addConnection("delay1", "prod", output_port_name='OUT1', input_port_name='IN2')
 
 
-class TrapezoidInt(CBD):
+class TrapezoidIntSimple(CBD):
     def __init__(self, block_name):
         super().__init__(block_name, input_ports=['IN1', 'IC'], output_ports=['OUT1'])
 
@@ -115,7 +115,7 @@ class AnalyticFunc(CBD):
         self.addConnection("inv", "prod1", output_port_name='OUT1', input_port_name='IN1')
 
 
-class AnalyticCalc(CBD):
+class AnalyticIntCalc(CBD):
     def __init__(self, block_name):
         super().__init__(block_name, input_ports=[], output_ports=['I'])
 
@@ -146,7 +146,7 @@ class AnalyticCalc(CBD):
         self.addConnection("2JxUFJoTUBjuM0Cz1H6F-208", "sum3", output_port_name='OUT1', input_port_name='IN1')
 
 
-class FWDEulerCalc(CBD):
+class FWDEulerIntCalc(CBD):
     def __init__(self, block_name, IC=(0)):
         super().__init__(block_name, input_ports=[], output_ports=['I'])
 
@@ -163,14 +163,14 @@ class FWDEulerCalc(CBD):
         self.addConnection("time", "gt", output_port_name='OUT1', input_port_name='t')
 
 
-class TrapezoidCalc(CBD):
+class TrapezoidIntCalc(CBD):
     def __init__(self, block_name, IC=(0)):
         super().__init__(block_name, input_ports=[], output_ports=['I'])
 
         # Create the Blocks
         self.addBlock(AnalyticFunc("gt"))
         self.addBlock(TimeBlock("time"))
-        self.addBlock(TrapezoidInt2("trapezoid"))
+        self.addBlock(TrapezoidInt("trapezoid"))
         self.addBlock(ConstantBlock("zeroCt", value=(0)))
 
         # Create the Connections
@@ -180,7 +180,7 @@ class TrapezoidCalc(CBD):
         self.addConnection("time", "gt", output_port_name='OUT1', input_port_name='t')
 
 
-class BWDEulerCalc(CBD):
+class BWDEulerIntCalc(CBD):
     def __init__(self, block_name, IC=(0)):
         super().__init__(block_name, input_ports=[], output_ports=['I'])
 
@@ -233,47 +233,47 @@ class AnalyticFuncCalc(CBD):
         self.addConnection("gt", "y", output_port_name='gt')
 
 
-class TrapezoidInt2(CBD):
+class TrapezoidInt(CBD):
     def __init__(self, block_name):
         super().__init__(block_name, input_ports=['IN1', 'IC'], output_ports=['OUT1'])
 
         # Create the Blocks
-        self.addBlock(ConstantBlock("zeroCt", value=(0)))
-        self.addBlock(DeltaTBlock("deltaT"))
-        self.addBlock(DelayBlock("delay1"))
-        self.addBlock(ProductBlock("prod2", numberOfInputs=(2)))
-        self.addBlock(DelayBlock("delay2"))
         self.addBlock(AdderBlock("sum2", numberOfInputs=(2)))
-        self.addBlock(AdderBlock("sum1", numberOfInputs=(2)))
-        self.addBlock(ProductBlock("prod1", numberOfInputs=(2)))
-        self.addBlock(ConstantBlock("twoCt", value=(2)))
-        self.addBlock(InverterBlock("inv"))
+        self.addBlock(DelayBlock("delay2"))
         self.addBlock(AdderBlock("sum3", numberOfInputs=(2)))
+        self.addBlock(ProductBlock("prod2", numberOfInputs=(2)))
+        self.addBlock(ProductBlock("prod1", numberOfInputs=(2)))
+        self.addBlock(DeltaTBlock("deltaT"))
         self.addBlock(ProductBlock("prod3", numberOfInputs=(2)))
+        self.addBlock(InverterBlock("inv"))
+        self.addBlock(ConstantBlock("twoCt", value=(2)))
+        self.addBlock(ConstantBlock("zeroCt", value=(0)))
         self.addBlock(ProductBlock("prod4", numberOfInputs=(2)))
-        self.addBlock(NegatorBlock("GvIjLPZvm1Mnw5Ixq5Qi-96"))
+        self.addBlock(NegatorBlock("neg"))
+        self.addBlock(AdderBlock("sum1", numberOfInputs=(2)))
+        self.addBlock(DelayBlock("delay1"))
 
         # Create the Connections
-        self.addConnection("IN1", "delay1", input_port_name='IN1')
         self.addConnection("IN1", "prod4", input_port_name='IN1')
         self.addConnection("IN1", "sum1", input_port_name='IN2')
-        self.addConnection("IC", "sum3", input_port_name='IN1')
+        self.addConnection("IN1", "delay1", input_port_name='IN1')
+        self.addConnection("IC", "sum3", input_port_name='IN2')
         self.addConnection("sum2", "delay2", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("sum2", "OUT1", output_port_name='OUT1')
+        self.addConnection("sum3", "delay2", output_port_name='OUT1', input_port_name='IC')
+        self.addConnection("prod4", "neg", output_port_name='OUT1', input_port_name='IN1')
+        self.addConnection("twoCt", "inv", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("zeroCt", "delay1", output_port_name='OUT1', input_port_name='IC')
         self.addConnection("delay1", "sum1", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("twoCt", "inv", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("sum1", "prod1", output_port_name='OUT1', input_port_name='IN2')
-        self.addConnection("inv", "prod1", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("inv", "prod3", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("deltaT", "prod2", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("deltaT", "prod3", output_port_name='OUT1', input_port_name='IN2')
-        self.addConnection("prod1", "prod2", output_port_name='OUT1', input_port_name='IN2')
-        self.addConnection("sum3", "delay2", output_port_name='OUT1', input_port_name='IC')
+        self.addConnection("delay2", "sum2", output_port_name='OUT1', input_port_name='IN2')
+        self.addConnection("prod2", "sum2", output_port_name='OUT1', input_port_name='IN1')
         self.addConnection("prod3", "prod4", output_port_name='OUT1', input_port_name='IN2')
-        self.addConnection("prod4", "GvIjLPZvm1Mnw5Ixq5Qi-96", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("GvIjLPZvm1Mnw5Ixq5Qi-96", "sum3", output_port_name='OUT1', input_port_name='IN2')
-        self.addConnection("delay2", "sum2", output_port_name='OUT1', input_port_name='IN1')
-        self.addConnection("prod2", "sum2", output_port_name='OUT1', input_port_name='IN2')
+        self.addConnection("neg", "sum3", output_port_name='OUT1', input_port_name='IN1')
+        self.addConnection("sum1", "prod1", output_port_name='OUT1', input_port_name='IN1')
+        self.addConnection("prod1", "prod2", output_port_name='OUT1', input_port_name='IN1')
+        self.addConnection("inv", "prod3", output_port_name='OUT1', input_port_name='IN2')
+        self.addConnection("inv", "prod1", output_port_name='OUT1', input_port_name='IN2')
+        self.addConnection("deltaT", "prod2", output_port_name='OUT1', input_port_name='IN2')
+        self.addConnection("deltaT", "prod3", output_port_name='OUT1', input_port_name='IN1')
 
 

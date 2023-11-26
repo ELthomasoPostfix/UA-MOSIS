@@ -4,6 +4,35 @@ This directory pertains to the third assignment about Causal Block Diagrams for 
 You can find the original assignment in html format, as well many of the code, test and example files linked to by the assignment, in the directory of this assignment. Though inclusion of these files inflates the size of the repo, we believe all required files should be available upon cloning.
 
 
+# Structure
+The three parts of the assignment are in their own subdirectories, with the following structure.
+
+```sh
+assignment-3-cbd/
+├── harmonic-oscillator/
+│   ├── graphs/
+│   ├── HarmonicOscillator.drawio
+│   ├── HarmonicOscillator.py
+│   ├── HarmonicOscillator_experiment.py
+├── integration-methods/
+│   ├── graphs/
+│   ├── IntegrationMethods.drawio
+│   ├── IntegrationMethods.py
+│   ├── IntegrationMethods_experiment.py
+└── inline-integration/
+    ├── graphs/
+    ├── template-fmu/ (Jinja template for FMU conversion)
+    ├── output-fmu/ (Output FMU used for PID.fmu generation)
+    ├── fmu-outputs/ (All FMUs used for simulating the model)
+    │
+    ├── CBD2FMU.py (Script for converting CBD to FMU)
+    ├── compile_and_run.py (Script for combining FMUs and simulating them)
+    ├── PIDController.drawio (CBD implementation of the PID controller)
+    ├── PIDController.py
+    ├── PIDController_experiment.py
+    └── PCarController.mo (Adapted modelica model for the car controller without PID)
+ 
+
 # Setup
 
 To run python scripts, a virtual environment must be setup with the needed packages. The needed steps follow.

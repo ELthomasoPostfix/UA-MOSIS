@@ -1,4 +1,4 @@
-from Diagrams.PIDController import PID
+from PIDController import PID
 from pyCBD.scheduling import TopologicalScheduler
 from pyCBD.depGraph import createDepGraph
 from pyCBD.converters import CBDDraw
@@ -178,7 +178,7 @@ def generateTopoSchedule(flattenedModel: CBD, iteration: int):
     :return: The schedule as a list of BaseBlock and Port objects
     """
     depGraph = createDepGraph(flattenedModel, iteration, ignore_hierarchy=True)
-    print(depGraph, "\n"*3) # TODO delete
+    # print(depGraph, "\n"*3) # TODO delete
     scheduler = TopologicalScheduler()
     topoSchedule = scheduler.obtain(depGraph, iteration, 0.0)
     topoSchedule = [
@@ -186,14 +186,8 @@ def generateTopoSchedule(flattenedModel: CBD, iteration: int):
         for strongcomponent in topoSchedule
             for block in strongcomponent
     ]
-    for v in topoSchedule:
-        print(v) # TODO delete
-
-    # TODO: depgraph and schedule prints
-    # print(depGraph)
-    # print("\n"*6)
-    # for b in topoSchedule:
-    #     print(b)
+    # for v in topoSchedule:
+    #     print(v) # TODO delete
 
     return topoSchedule
 
@@ -253,6 +247,7 @@ def zipFMU(directory, file_name):
 
 
 if __name__ == "__main__":
+    # Create CBD block, pass it to CBD2FMU and zip the output FMU (all contents in OUTPUT_DIR) to PID.fmu
     cbd = PID("PID")
     CBD2FMU(cbd)
-    zipFMU(OUTPUT_DIR, "PID.fmu")
+    zipFMU(OUTPUT_DIR, "fmu-outputs/PID.fmu")

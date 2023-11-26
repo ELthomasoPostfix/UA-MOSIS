@@ -3,7 +3,6 @@
 
 PID_Kp_OUT1 = 390;
 PID_Kid_OUT1 = 20;
-PID_zeroCt_OUT1 = 0;
 PID_int_IC = PID_zeroCt_OUT1;
 PID_int_IN1 = PID_IN;
 PID_int_OUT1 = PID_int_IC;
@@ -28,4 +27,5 @@ PID_prod3_OUT1 = PID_prod3_IN1 * PID_prod3_IN2;
 PID_sum2_IN1 = PID_sum1_OUT1;
 PID_sum2_IN2 = PID_prod3_OUT1;
 PID_sum2_OUT1 = PID_sum2_IN1 + PID_sum2_IN2;
+PID_zeroCt_OUT1 = 0;
 PID_OUT = PID_sum2_OUT1;

@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 # This file was automatically generated from drawio2cbd with the command:
-#   A:\Python\UA-MOSIS\assignment-3-cbd\DrawioConvert\__main__.py -F CBD -e ErrorA -sSrgv ../Diagrams/HarmonicOscillator.drawio -E delta=0.1
+#   A:\Python\UA-MOSIS\assignment-3-cbd\DrawioConvert\__main__.py -F CBD -e ErrorA -sSrgv ./harmonic-oscillator/HarmonicOscillator.drawio -d ./harmonic-oscillator
 
 from pyCBD.Core import *
 from pyCBD.lib.std import *
 
-DELTA_T = 0.1
 
 class CBDA(CBD):
     def __init__(self, block_name):
@@ -62,7 +61,7 @@ class sint(CBD):
 
 class ErrorA(CBD):
     def __init__(self, block_name):
-        super().__init__(block_name, input_ports=[], output_ports=['et', 'xt', 'sinT'])
+        super().__init__(block_name, input_ports=[], output_ports=['xt', 'sinT', 'et'])
 
         # Create the Blocks
         self.addBlock(IntegratorBlock("int"))
@@ -87,7 +86,7 @@ class ErrorA(CBD):
 
 class ErrorB(CBD):
     def __init__(self, block_name):
-        super().__init__(block_name, input_ports=[], output_ports=['et', 'xt', 'sinT'])
+        super().__init__(block_name, input_ports=[], output_ports=['xt', 'sinT', 'et'])
 
         # Create the Blocks
         self.addBlock(IntegratorBlock("int"))
