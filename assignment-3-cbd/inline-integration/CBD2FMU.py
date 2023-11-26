@@ -87,11 +87,11 @@ def getEquation(block: BaseBlock, iteration: Iteration):
             case "Inverter":
                 outputString += f"{getPortName(outputs[0])} = 1 / {getPortName(inputs[0])};\n"
             case "DeltaT":
-                outputString += f"{getPortName(outputs[0])} = delta;\n"
+                outputString += f"{getPortName(outputs[0])} = {0 if Iteration.INITIAL.value else 'delta'};\n"
             case "Delay":
                 # Does not introduce any additional variables, IC is considered as the delay variable after assigning it to the output
                 outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[1])};\n"
-                outputString += f"{getPortName(inputs[1])} = {getPortName(inputs[0])};"
+                outputString += f"{getPortName(inputs[1])} = {getPortName(inputs[0])};\n"
             case "Integrator":
                 if iteration == Iteration.INITIAL.value:
                     outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[1])};\n"
@@ -113,7 +113,7 @@ def getEquation(block: BaseBlock, iteration: Iteration):
             case "Derivator":
                 if iteration == Iteration.INITIAL.value:
                     # Zero as no timestep information is available
-                    outputString += f"{getPortName(outputs[0])} = 0;\n"
+                    outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[1])};\n"
                     outputString += f"{getPortName(inputs[1])} = {getPortName(inputs[0])};\n"
                 else:
                     outputString += f"{getPortName(outputs[0])} = ({getPortName(inputs[0])} - {getPortName(inputs[1])}) / delta;\n"
@@ -210,8 +210,8 @@ def extractFlattenedPorts(topoSchedule) -> List[Port]:
 def CBD2FMU(model: CBD):
     # TWO OPTIONS
     # Option 1: Hierarchy (below line commented), we interpret Integrator/Derivator blocks directly and generate full equations
-    # Option 2: Flattened, Integrator and Derivator blocks are folded away depending on the iteration
-    model = model.flattened()
+    # Option 2: Flattened, redundant operations are folded away depending on the iteration
+    # model = model.flattened()
 
     topoSchedule0 = generateTopoSchedule(flattenedModel=model, iteration=0)
     runJinjaTemplate("./sources/eq0.c.jinja", {"blocks": topoSchedule0, "getEquation": getEquation})

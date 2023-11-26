@@ -154,7 +154,7 @@ def getFMUData(results):
 
 
 if __name__ == "__main__":
-	# combineFMU()
+	combineFMU()
 	result = simulateFMU(f"{FMU_DIR}Container.fmu", 70, 0.01)
 
 	data = getFMUData(result)
