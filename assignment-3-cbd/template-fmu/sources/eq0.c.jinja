@@ -1,6 +1,6 @@
 // "delta" is the time delta since the previous iteration
 //   Because this is the first computation, it will just be a really small value
 
-{% for block in blocks %}
+{% for block in blocks -%}
 {{ getEquation(block, 0) }}
 {%- endfor %}

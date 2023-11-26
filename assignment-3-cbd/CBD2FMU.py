@@ -5,7 +5,7 @@ from pyCBD.converters import CBDDraw
 
 from pyCBD.Core import CBD, BaseBlock, Port
 
-from typing import List, Mapping
+from typing import List
 from jinja2 import Template, Environment, FileSystemLoader
 from enum import IntEnum
 import zipfile
@@ -52,42 +52,74 @@ def getEquation(block: BaseBlock, iteration: Iteration):
 
     if isinstance(block, Port):
         block: Port
-        if block.direction == 0:
-            outputString = "\n".join(
-                [f"{getPortName(conn.target)} = {getPortName(block)};" for conn in block.getOutgoing()])
-        else:
+        if block.direction == 1:
             outputString = f"{getPortName(block)} = {getPortName(block.getIncoming().source)};"
+
+        # else:
+        #   outputString = "\n".join(
+        #   [f"{getPortName(conn.target)} = {getPortName(block)};" for conn in block.getOutgoing()])
+
     else:
         inputs: List[Port] = block.getInputPorts()
         outputs: List[Port] = block.getOutputPorts()
         blockType = block.getBlockType()[:-5]
 
-        if blockType != "Delay":
+        if blockType in ["Delay", "Integrator", "Derivator"]:
+            # Only set the IC value if it is the initial iteration, otherwise it is considered as the delay variable
+            if iteration == Iteration.INITIAL.value:
+                outputString += f"{getPortName(inputs[1])} = {getPortName(inputs[1].getIncoming().source)};\n"
+                outputString += f"{getPortName(inputs[0])} = {getPortName(inputs[0].getIncoming().source)};\n"
+            else:
+                outputString += f"{getPortName(inputs[0])} = {getPortName(inputs[0].getIncoming().source)};\n"
+        else:
             for input in inputs:
                 outputString += f"{getPortName(input)} = {getPortName(input.getIncoming().source)};\n"
 
         match blockType:
             case "Constant":
-                outputString += f"{getPortName(outputs[0])} = {block.getValue()};"
+                outputString += f"{getPortName(outputs[0])} = {block.getValue()};\n"
             case "Adder":
-                outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[0])} + {getPortName(inputs[1])};"
+                outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[0])} + {getPortName(inputs[1])};\n"
             case "Product":
-                outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[0])} * {getPortName(inputs[1])};"
+                outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[0])} * {getPortName(inputs[1])};\n"
             case "Negator":
-                outputString += f"{getPortName(outputs[0])} = -{getPortName(inputs[0])};"
+                outputString += f"{getPortName(outputs[0])} = -{getPortName(inputs[0])};\n"
             case "Inverter":
-                outputString += f"{getPortName(outputs[0])} = 1 / {getPortName(inputs[0])};"
+                outputString += f"{getPortName(outputs[0])} = 1 / {getPortName(inputs[0])};\n"
             case "DeltaT":
-                outputString += f"{getPortName(outputs[0])} = delta;"
+                outputString += f"{getPortName(outputs[0])} = delta;\n"
             case "Delay":
-                outputString += f"{getPortName(inputs[0])} = {getPortName(inputs[0].getIncoming().source)};\n"
-                # Only set the IC value if it is the initial iteration, otherwise it is considered as the delay variable
-                if iteration == Iteration.INITIAL.value:
-                    outputString += f"{getPortName(inputs[1])} = {getPortName(inputs[1].getIncoming().source)};\n"
-
                 # Does not introduce any additional variables, IC is considered as the delay variable after assigning it to the output
                 outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[1])};\n"
                 outputString += f"{getPortName(inputs[1])} = {getPortName(inputs[0])};"
+            case "Integrator":
+                if iteration == Iteration.INITIAL.value:
+                    outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[1])};\n"
+                    outputString += f"{getPortName(inputs[1])} = {getPortName(outputs[0])};\n"
+                    # Option 2: BWD Euler
+                    outputString += f"{block.getPath('_')}_delay = {getPortName(inputs[0])};\n"
+                else:
+                    # TWO OPTIONS
+                    # Option 1: FWD Euler
+                    # outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[1])} * delta + {getPortName(inputs[0])};\n"
+                    # outputString += f"{getPortName(inputs[1])} = {getPortName(outputs[0])};\n"
+
+                    # Option 2: BWD Euler
+                    # Use block blockname + "_delay"
+                    outputString += f"{getPortName(outputs[0])} = {getPortName(inputs[1])} * delta + {block.getPath('_')}_delay;\n"
+                    outputString += f"{getPortName(inputs[1])} = {getPortName(outputs[0])};\n"
+                    outputString += f"{block.getPath('_')}_delay = {getPortName(inputs[0])};\n"
+
+            case "Derivator":
+                if iteration == Iteration.INITIAL.value:
+                    # Zero as no timestep information is available
+                    outputString += f"{getPortName(outputs[0])} = 0;\n"
+                    outputString += f"{getPortName(inputs[1])} = {getPortName(inputs[0])};\n"
+                else:
+                    outputString += f"{getPortName(outputs[0])} = ({getPortName(inputs[0])} - {getPortName(inputs[1])}) / delta;\n"
+                    outputString += f"{getPortName(inputs[1])} = {getPortName(inputs[0])};\n"
+
+
             case _:
                 print("ERR:", block.getBlockType())
 
@@ -95,12 +127,16 @@ def getEquation(block: BaseBlock, iteration: Iteration):
 
 
 def getPorts(block: BaseBlock):
-    # match block.getBlockType()[:-5]:
-    #     case "Delay":
-    #         delayPort = Port("DELAY", 0, block)
-    #         return block.getInputPorts() + [delayPort] + block.getOutputPorts()
-    #     case _:
-    return block.getInputPorts() + block.getOutputPorts()
+    blockType = block.getBlockType()[:-5]
+
+    match blockType:
+        # case "Delay":
+        #     delayPort = Port("DELAY", 0, block)
+        #     return block.getInputPorts() + [delayPort] + block.getOutputPorts()
+        case "Integrator":
+            return block.getInputPorts() + [Port("delay", 0, block)] + block.getOutputPorts()
+        case _:
+            return block.getInputPorts() + block.getOutputPorts()
 
 
 def isKnownValuePort(port: Port):
@@ -112,7 +148,8 @@ def getConstantPort(port: Port):
 
 
 def getInitialPort(port: Port):
-    return "exact" if isKnownValuePort(port) or (not port.getIncoming() and port.direction == 0) else "calculated"
+    return '' if not port.getIncoming() and port.direction == 0 else \
+        'initial="exact"' if isKnownValuePort(port) else 'initial="calculated"'
 
 
 def getPortCausality(port: Port):
@@ -135,7 +172,7 @@ def hasStartValue(port: Port):
 def generateTopoSchedule(flattenedModel: CBD, iteration: int):
     """Create a topoligically sorted cumputation schedule for the
      given flattened CBD model.
-    
+
     :param flattenedModel: The CBD model to derive the schedule from
     :param iteration: The iteration to create a schedule for
     :return: The schedule as a list of BaseBlock and Port objects
@@ -194,10 +231,11 @@ def CBD2FMU(model: CBD):
     # A set for faster membership checking to merge both lists while maintaining the original port order
     fp0 = set(flattenedPorts0)
     flattenedPortsCombined = flattenedPorts0 + [fport for fport in flattenedPorts if fport not in fp0]
+    fp = list(fp0)
 
-    runJinjaTemplate("./sources/defs.h.jinja", {"ports": flattenedPortsCombined, "getPortName": getPortName})
+    runJinjaTemplate("./sources/defs.h.jinja", {"ports": fp, "getPortName": getPortName})
     runJinjaTemplate("./modelDescription.xml.jinja",
-                     {"ports": flattenedPortsCombined, "getConstantPort": getConstantPort, "getInitialPort": getInitialPort,
+                     {"ports": fp, "getConstantPort": getConstantPort, "getInitialPort": getInitialPort,
                       "hasStartValue": hasStartValue, "getPortCausality": getPortCausality, "getPortName": getPortName})
 
 
