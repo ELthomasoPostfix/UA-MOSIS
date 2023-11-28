@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0077)http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/assignments/PN -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><link type="text/css" rel="stylesheet" id="dark-mode-custom-link"><link type="text/css" rel="stylesheet" id="dark-mode-general-link"><style lang="en" type="text/css" id="dark-mode-custom-style"></style><style lang="en" type="text/css" id="dark-mode-native-style"></style><style lang="en" type="text/css" id="dark-mode-native-sheet"></style><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<!--<base href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/assignments/PN/">--><base href=".">
+
+ 
+ <meta name="author" content="Hans Vangheluwe">
+ <meta name="generator" content="None">
+ <link rel="stylesheet" type="text/css" href="./Petri-Net Assignment_files/standard_msdl_style.css" title="MSDL stylesheet">
+ <link rel="shortcut icon" href="http://msdl.uantwerpen.be/images/favicon.ico">
+ <title>Petri-Net Assignment</title>
+</head>
+<body bgcolor="#ffffff" class="vsc-initialized">
+
+<div class="portlet">    
+ <div class="portletBody">
+
+     <table border="0" cellpadding="4" cellspacing="0" width="100%" summary="table for MSDL standard page banner">
+
+ <tbody><tr>
+<!--  
+  <td valign="top" width="214" align="left">
+   <a href="http://msdl.cs.mcgill.ca/"><img border="0" src="/images/MSDLlogo.2.small.gif" align="left"></a>
+  </td>
+-->
+
+  <td valign="middle" align="right" width="100%" cellpadding="3">
+   <div class="pagetitle">Petri-Net Assignment&nbsp;</div>
+  </td>
+ </tr>
+
+</tbody></table>
+
+
+  
+  
+ </div>
+</div>
+
+<table border="0" cellpadding="0" cellspacing="0" summary="home page" width="100%">
+ <tbody><tr>
+  <td valign="top" align="left">
+
+<div class="portlet">
+<h2>Practical Information</h2>
+<div class="portletBody">
+<div class="portletContent odd">
+<p>
+</p><ul>
+    <li> <b>Due Date:</b> Sunday 10 December 2023, before 23:59.</li>
+    <li> <b>Team Size:</b> 2 (pair design/programming)! <br> <em>As of the 2017-2018 Academic Year, each International student should team up with a "local" student (i.e., whose Bachelor degree was obtained at the University of Antwerp).</em></li>
+    <li><strong>Submission Information:</strong>
+    <ul>
+        <li>Only one member of each team submits a full solution.</li>
+        <li>This must be a compressed archive (<tt>ZIP</tt>, <tt>RAR</tt>, <tt>TAR.GZ</tt>...) that includes your report and all models, images, code and other sources that you have used to create your solution.</li>
+        <li>The report must be in HTML or PDF and must be accompagnied by all images.</li>
+        <li>Images that are too large to render on one page of the PDF must still be rendered on the PDF (even though unclear), and the image label should mention the appropriate file included in the submission archive.</li>
+        <li>Make sure to mention the names and student IDs of both team members.</li>
+        <li>The other team member <strong>must</strong> submit a single <tt>HTML</tt> file containing the coordinates of both team members using <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/index.html">this template</a>.</li>
+    </ul></li>
+    <li><strong>Submission Medium:</strong> <a href="http://lms.uantwerpen.be/">BlackBoard Ultra</a>. Beware that BlackBoard's clock may differ slightly from yours. If BlackBoard is not reachable due to an (unpredicted) maintenance, you should submit your solution via e-mail to the TA. Make sure all group members are in CC!</li>
+    <li><strong>Contact / TA:</strong> <a href="mailto:Rakshit.Mittal@student.uantwerpen.be">Rakshit Mittal</a>.</li>
+</ul>
+<p></p>
+</div>
+</div>
+
+<h2>Goals</h2>
+<div class="portletBody">
+<div class="portletContent odd">
+<p>
+In this assignment, You will use the <a href="https://www.tapaal.net/" target="_blank">TAPAAL</a> tool to model a roundabout. You will learn:
+</p>
+<ol>
+    <li>How to build Petri nets and use them for safety analysis of Cyber-Physical Systems
+    </li><li>How properties, and in particular, temporal patterns (over behaviour traces) can be specified in the CTL property language.
+</li></ol>
+<p></p>
+    Make sure to clearly indicate which files implement which models in your report! This assignment expands on the roadways engineering case from the first two assignments, albeit at a different level of abstraction/detail and with different properties of interest.
+    <em>Carefully read and understand the full assignment before starting your solution!</em>
+<p></p>
+<p>
+    Note: building Petri Net models by hand is time consuming and error prone. In the <a href="http://msdl.uantwerpen.be/people/hv/teaching/MSBDesign/">Model Driven Engineering</a> (MDE) course, we start from a domain-specific visual notation and generate Petri Net models automatically by means of graph transformation.
+</p>
+</div>
+</div>
+
+<h2>TAPAAL</h2>
+<div class="portletBody">
+<div class="portletContent odd">
+<p>
+    You will use <a href="https://www.tapaal.net/">TAPAAL</a> with its modelling, simulation and analysis features to accomplish the tasks of this assignment.
+</p>
+<p>
+<span style="color: #ff0000;"> When creating a model, <em>it is not allowed to use time or game semantics</em>.</span> In other words, you are only allowed to use <i>Places</i>, <i>Transitions</i>, <i>(Inhibitor) Arcs</i>, and <i>Tokens</i>. You can do this in 2 ways:
+</p>
+<ul>
+    <li> Make sure to check that "timed" and "game" are set to "No" in the bottom-right corner of the GUI.</li>
+    <li> When creating a new model, you can select "No" from the 'Create a New Petri Net' dialog box.</li>
+</ul>
+
+<center>
+<img src="./Petri-Net Assignment_files/tapaal-semantics-not.png" width="500"><br>
+<span><b>Figure 1:</b> Two methods to ensure time or game semantics are not used in your assignment solution.</span>
+</center>
+
+<ul>
+<li> You can (and are encouraged to) make use of <i>Global Constants</i> for arc weights <b>whenever your weight is larger than 1</b>.</li>
+<li> You can also use multiple "components" to describe your system. Each component should contain a <em>representative</em> subset of the system you are building.
+<ul>
+    <li> Make sure to not overdo this (i.e., do not create a component for every place). This allows you to maintain an overview, whilst also creating much cleaner nets.</li>
+    <li> Use <i>Shared Places</i> to define interactions between multiple components.</li>
+    <li> <em>Do not use Shared Transitions!</em></li>
+    <li> <i>If you do not see the "Components", "Shared Places and Transitions" and "Global Constants"
+        sections on the lefthand-side of your screen, select "View" &gt; "Show advanced workspace".
+        Alternatively, you can enable these sections by checking the corresponding boxes in the "View" menu.</i></li>
+</ul>
+</li></ul>
+
+<center>
+<img src="./Petri-Net Assignment_files/tapaal-workspace.png" width="200"><br>
+<span><b>Figure 2:</b> Menu options to view the advanced workspace for making components in your Petri net.</span>
+</center>
+</div>
+</div>
+
+<h2>Problem Statement</h2>
+<div class="portletBody">
+<div class="portletContent odd">
+<p>
+The figure below shows the roundabout that we want to model.
+</p>
+<center>
+<img src="./Petri-Net Assignment_files/roundabout.png" width="300"><br>
+<span><b>Figure 3:</b> Roundabout case study. In the image, the roundabout is completely occupied. Notice also that there are multiple vehicles waiting at the East/West inputs.</span>
+</center>
+
+<p>
+The precise textual description of the roundabout is as follows:
+</p>
+<ul>
+    <li>There are two ways to enter the roundabout (East and West).</li>
+    <li>There are two ways to exit the roundabout (North and South).</li>
+    <li>There can be at most one vehicle at an output, but the number of vehicles at an input is unbounded. <span style="color: #ff0000;"> NOTE: By input, we mean the producer/generator pattern (as described in the lectures) and by output we mean the consumer/sink pattern (as described in the lectures).</span></li>
+    <li>These inputs and outputs model the environment of our System under Study.</li>
+    <li>The 'core' of the roundabout is made of four road segments, and each road-segment can hold upto one vehicle.</li>
+    <li>Vehicles are free to exit the roundabout in the South or North direction (non-deterministic). For example, a vehicle that enters from the West may exit the roundabout in the North or South directions or continue looping through the roundabout core.</li>
+    <li>If there is a vehicle on an output, no other vehicle can leave on that output i.e that output is blocked.</li>
+    <li>We can model the evolution over time of our System under Study by modelling a discrete "<i>clock</i>". Every time this clock "ticks", a single "step" is executed. What happens to the roundabout during a single (macro-)"step"  is defined by the following set of "micro-steps" (in no particular order).
+    <ul>
+        <li>On every input, a new vehicle may appear or not (non-deterministically).</li>
+        <li>On every output that contains a vehicle, the vehicle present can disappear or not (non-deterministically).</li>
+        <li>The 4 road-segments that form a cycle in the centre of the roundabout are collectively called the 'core' of the roundabout.
+        </li><li>The four road segments that are a buffer between the producers/consumers and the core road segments are called the North/South outroads and East/West inroads.
+        </li><li> If there is a vehicle on either of the North or South road segments of the core, it may either move to the corresponding outroad (if empty) or to the next East-West road segment of the core, if empty (non-deterministic).
+        </li><li> If there is a vehicle on either of the East or West road segments of the core, it has to move (deterministically) to the North or South road-segment of the core respectively, of-course only if the North/South road segment does not already contain a vehicle.
+        </li><li> A vehicle on a West/East inroad should enter the core, if the corresponding core road segment is empty. However, preference should be given to a vehicle that is on the corresponding North/South core road segment if that vehicle wants to move to that East/West core segment. (You will only be able to implement this by choosing the correct sequence of events in your clock!) 
+        </li><li>The total number of clock "ticks" upto now  (in essence, a counter) should be incremented.</li>
+    </ul>
+</li></ul>
+<p>
+<span style="color: #ff0000;"> NOTE: The above "micro-steps" are <b>NOT</b> given in a predefined order. The clock is important because it restricts the movement of each vehicle to a single position in every major clock tick (unless the vehicle can/does not move). Later in the assignment is described how you can model this clock easily.</span>
+</p>
+</div>
+</div>
+
+<h2>Tasks</h2>
+<div class="portletBody">
+<div class="portletContent odd">
+<p>
+You will need to perform the following tasks step by step.
+Store (and submit) a copy of your model after each finished (sub-)task. Provide an answer to <b>all</b> the questions asked.
+</p>
+<ol>
+<li> <b>Create and describe a Petri-Net</b> for the roundabout. Clearly identify all the aspects of the system and all used components.</li>
+<ul>
+    <li> (5%) Describe and validly construct the inputs and outputs for the roundabout.</li>
+    <li> (5%) Describe and validly construct the core unit of the roundabout.</li>
+    <li> (10%) Construct the full roundabout by linking your inputs and outputs to the core. Make sure to clearly denote (by appropriate naming) which input/output is which.</li>
+    <li> (15%) Introduce the clock into your model.</li>
+    <ul>
+        <li>Make sure the required events (see above) only happen <em>exactly once</em> for each "tick".</li>
+        <li>Clearly describe what constructs are used for the introduction of the clock.</li>
+        <li>Add a place that holds the number of clock ticks that have happened -&gt; the clock counter.</li>
+    </ul>
+</ul>
+<li> (10%) Provide a <b>(simulation) trace</b> for the following scenarios. Make sure to describe the full clock tick. You may assume that a vehicle will always exit the system when it is able to.</li>
+<ul>
+    <li>Two vehicle (one East and West) arrive at the roundabout in the same step. The simulation ends as soon as both vehicle have fully exited the roundabout.</li>
+    <li>Three vehicle arrive on the East input, enter the roundabout and try to exit through the North output. However, there is a vehicle which blocks the North output. The execution ends after the third vehicle has arrived.</li>
+</ul>
+<li> Use <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/assignments/PN/RC.py">this Python script</a> to do some preliminary analysis for the system. Take a look at the documentation at the top of the file for more info on how to execute the script. Clearly indicate which commands were used to generate your results.<br> <em>Note: The <tt>-g</tt> flag overrides the creation of a reachability/coverability graph to create an image of the Petri-Net itself.</em>
+<ul>
+    <li>(5%) <b>Reachability / Coverability</b>:</li>
+    <ul>
+    <li>Argue why your solution would (not) produce an infinite reachability graph.</li>
+    <li>Generate the reachability graph and discuss any patterns you identify.</li>
+    <ul>
+        <li>If your reachability graph is infinite, generate the graph for a representative variant of your model instead.</li>
+    </ul>
+    <li>Can you add/remove one/multiple place(s)/transition(s)/arc(s) such that the reachability graph becomes finite if it was infinite (or vice-versa)?</li>
+    <ul>
+        <li>Your new model does not have to conform to the requirements.</li>
+    </ul>
+    <li>Generate the coverability graph and discuss any patterns you identify.</li>
+    </ul>
+    <li>(5%) <b>Invariant Analysis</b>:</li>
+    <ul>
+    <li>Generate the P-invariants (place-invariants) for the model and explain what they mean in terms of the roundabout's dynamics.</li>
+    <li>Which invariants did you expect? Which ones are surprising? Why?</li>
+    <li>Can you add a single place/transition/arc to the model that changes these invariants (for better or worse)? Your new model does not have to conform to the requirements.</li>
+    </ul>
+</ul>
+</li><li>Use queries in TAPAAL to analyze the following aspects of the roundabout:</li>
+<ul>
+    <li>(6%) <b>Boundedness</b>:</li>
+    <ul>
+    <li>You may use the "<i>Check Boundedness</i>" feature in the Query modal to analyze the model's boundedness.</li>
+    <ul>
+        <li>(Logical) queries are expressed as CTL (Computation Tree Logic) formulas.</li>
+        <li>There used to be a bug in TAPAAL that breaks this feature. Starting from TAPAAL 3.9.3, the issue seems to be resolved.</li>
+        <li>"<i>Number of extra tokens</i>" identifies how many additional tokens may be used in the analysis.</li>
+        <ul>
+            <li>For instance, if the net contains 7 tokens and this value is set to 3, the 10-boundedness is analyzed.</li>
+        </ul>
+    </ul>
+    <li>Is the result what you expected? Why (not)?</li>
+    <li>Use one or multiple queries to check the boundedness of your net.</li>
+    <ul>
+        <li>You may use logic, reasoning and the already obtained P-invariants to simplify/minimize your queries, as long as you clearly describe your reasoning.</li>
+    </ul>
+    <li>Is the result what you expected? Why (not)?</li>
+    </ul>
+    <li>(6%) <b>Deadlock</b>:</li>
+    <ul>
+        <li>When enabling "<i>Some Trace</i>" in the "<i>Trace Options</i>" (when possible), a simulation trace is opened/shown after verification if it found a sequence of firings that caused the query to be satisfied.</li>
+        <li>Use a query to find whether or not there is a deadlock in your net.</li>
+        <ul>
+            <li>What firing sequence caused this? What does this mean for the roundabout?</li>
+        </ul>
+        <li>If there is a deadlock, describe how you can modify your net to make it deadlock-free.</li>
+        <li>Can you identify this deadlock in the Reachablity/Coverability graph?</li>
+        <ul>
+            <li>What would a deadlock look like in the Reachability/Coverability graph?</li>
+        </ul>
+        <li>If there is no deadlock, describe why there is no deadlock. </li>
+    </ul>
+    <li>(6%) <b>Liveness</b>:</li>
+    <ul>
+        <li>Pick interesting transitions in your net and determine their liveness using queries.</li>
+        <li>Can you add a single place/transition/arc to alter this result?</li>
+    </ul>
+    <li>(6%) <b>Fairness</b>:</li>
+    <ul>
+        <li>Argue convincingly that you've implemented "true" fairness.</li>
+        <li>This means that each clock event can only happen once for every clock tick.</li>
+        <ul>
+            <li>For instance, it is not possible for a vehicle to move through the entire roundabout in a single clock tick.</li>
+            <li>Your argument may consist of examples, queries, logical statements...</li>
+            <li>As long as you can validly and objectively argue that there is "true" fairness, this will be accepted.</li>
+        </ul>
+    </ul>
+    <li>(6%) <b>Safety</b>:</li>
+    <ul>
+        <li>Can two vehicle crash?</li>
+        <ul>
+            <li>This happens if there are more vehicle in the roundabout than its capacity allows.</li>
+            <li>Why (not)? Your argument may consist of examples, queries, logical statements...</li>
+        </ul>
+        <li>Provide a trace in which the vehicle do crash.</li>
+        <ul>
+            <li>Can you find an acceptable initial marking such that there is a collision?</li>
+            <li>Can you find a way to add/remove one transition/place/arc such that there is a possibility for crashes?</li>
+            <li>Note that your new net does not have to conform to the given requirements.</li>
+        </ul>
+    </ul>
+    <li> (5%) Write a <b>report</b> that explains your solution for this assigment.</li>
+    <ul>
+        <li>Include your models and discuss them.</li>
+        <li>Also clearly indicate which models can be found in which files.</li>
+        <li>Make sure to mention all your hypotheses, assumptions and conclusions.</li>
+        <li>See also the "<i>submission information</i>" at the top of this page.</li>
+        <li>Make sure to have a new model (or set thereof) for every sub-solution of this assignment; and do not for`get have an answer to all the questions posed here.</li>
+    </ul>
+</ul></ol>
+</div>
+</div>
+
+<h2>Clock and Fairness</h2>
+<div class="portletBody">
+<div class="portletContent odd">
+<p>
+In the <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/PN/clock-explanation.tapn">example TAPAAL Petri net</a>, is a description of a simple queueing system as shown below:
+</p>
+<center>
+<img src="./Petri-Net Assignment_files/example-net.png" width="300"><br>
+<span><b>Figure 4:</b> Example queueing system to demonstrate clock.</span>
+</center>
+As you browse the different models/components, the annotations will guide you through the reasoning used to make the clock for this net. You can even simulate the net to verify that the clock satisfies the requirements.
+</div>
+</div>
+
+<h2>Practical Issues</h2>
+<div class="portletBody">
+<div class="portletContent odd">
+<ul>
+    <li>This assignment is to be solved with <a href="https://www.tapaal.net/" target="_blank">TAPAAL</a>.</li>
+    <li>Reachability, coverability and P-invariant analysis are not part of TAPAAL, but should be solved by using <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/assignments/PN/RC.py">this Python 3.6+ script</a>. The documentation at the top of the file provides the required information on how to use it. Note that TAPAAL sometimes introduces inconsistencies in large models. They can cause the warning "<tt>No such place %s reachable from %s. Please recreate both to make your model valid.</tt>" to appear. To solve this issue, delete and recreate both listed transitions. Use the <tt>-g</tt> or <tt>--graphviz</tt> flag to create a GraphViz file for the internal net to verify inconsistency issues. If you found a bug or experience any issues with the script, please contact the TA.</li>
+</ul>
+</div>
+</div>
+</div>
+  </td> 
+ </tr>
+</tbody></table>
+
+<img src="./Petri-Net Assignment_files/red.jpg" border="0" width="100%" height="1"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+ <tbody><tr width="100%">
+  
+ </tr>
+ <tr>
+  <td align="left">Maintained by <a href="http://msdl.cs.mcgill.ca/people/hv">Hans Vangheluwe</a><a>.</a></td>
+  <td align="right">Last Modified: 2023/11/28 14:15:42.</td>
+ </tr>
+</tbody></table>
+
+
+
+
+</body></html>

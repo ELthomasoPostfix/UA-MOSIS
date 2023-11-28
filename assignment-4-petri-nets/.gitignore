@@ -1,0 +1,2 @@
+# Ignore TAPAAL binaries, they are opt-in downloads
+tapaal-*.zip
