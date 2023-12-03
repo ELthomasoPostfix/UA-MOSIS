@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<pnml xmlns="http://www.informatik.hu-berlin.de/top/pnml/ptNetb">
+  <net active="true" id="initial" type="P/T net">
+    <labels border="true" height="168" positionX="466" positionY="76" width="436">This is a simple queueing system.
+People "appear" at the queue, can be "serve"d and can "depart" from the system.
+Only when a server is available, they can be "serve"d.
+
+We want a clock that does the following, in the given order:
+1. A new customer may appear (non-deterministically).
+2. A customer may depart (non-deterministically).
+3. A customer must be served (deterministically).</labels>
+    <place displayName="true" id="queue" initialMarking="0" invariant="&lt; inf" name="queue" nameOffsetX="0" nameOffsetY="-1" positionX="330" positionY="300"/>
+    <place displayName="true" id="can_be_served" initialMarking="1" invariant="&lt; inf" name="can_be_served" nameOffsetX="0" nameOffsetY="0" positionX="580" positionY="300"/>
+    <place displayName="true" id="being_served" initialMarking="0" invariant="&lt; inf" name="being_served" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="390"/>
+    <transition angle="90" displayName="true" id="appear" infiniteServer="false" name="appear" nameOffsetX="0" nameOffsetY="0" player="0" positionX="330" positionY="225" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="serve" infiniteServer="false" name="serve" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="300" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="depart" infiniteServer="false" name="depart" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="525" priority="0" urgent="false"/>
+    <arc id="A0" inscription="1" nameOffsetX="0" nameOffsetY="0" source="appear" target="queue" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="345" yCoord="245"/>
+      <arcpath arcPointType="false" id="1" xCoord="345" yCoord="300"/>
+    </arc>
+    <arc id="A1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="queue" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="360" yCoord="315"/>
+      <arcpath arcPointType="false" id="1" xCoord="430" yCoord="316"/>
+    </arc>
+    <arc id="A2" inscription="1" nameOffsetX="0" nameOffsetY="0" source="serve" target="being_served" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="330"/>
+      <arcpath arcPointType="false" id="1" xCoord="435" yCoord="390"/>
+    </arc>
+    <arc id="A3" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="being_served" target="depart" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="420"/>
+      <arcpath arcPointType="false" id="1" xCoord="436" yCoord="525"/>
+    </arc>
+    <arc id="A4" inscription="1" nameOffsetX="0" nameOffsetY="0" source="depart" target="can_be_served" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="440" yCoord="541"/>
+      <arcpath arcPointType="false" id="1" xCoord="589" yCoord="535"/>
+      <arcpath arcPointType="false" id="2" xCoord="595" yCoord="330"/>
+    </arc>
+    <arc id="A5" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="can_be_served" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="580" yCoord="315"/>
+      <arcpath arcPointType="false" id="1" xCoord="440" yCoord="315"/>
+    </arc>
+  </net>
+  <net active="true" id="phases" type="P/T net">
+    <labels border="true" height="116" positionX="421" positionY="76" width="331">To create the clock, we add 3 phases: one for each action of the clock.
+
+Note that phase 1 and 2 have the possibility of not happening.
+We can use this knowledge to link the phases together already as shown.</labels>
+    <place displayName="true" id="queue" initialMarking="0" invariant="&lt; inf" name="queue" nameOffsetX="0" nameOffsetY="0" positionX="330" positionY="300"/>
+    <place displayName="true" id="can_be_served" initialMarking="1" invariant="&lt; inf" name="can_be_served" nameOffsetX="0" nameOffsetY="0" positionX="569" positionY="300"/>
+    <place displayName="true" id="being_served" initialMarking="0" invariant="&lt; inf" name="being_served" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="390"/>
+    <place displayName="true" id="phase1" initialMarking="1" invariant="&lt; inf" name="phase1" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="225"/>
+    <place displayName="true" id="phase2" initialMarking="0" invariant="&lt; inf" name="phase2" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="360"/>
+    <place displayName="true" id="phase3" initialMarking="0" invariant="&lt; inf" name="phase3" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="525"/>
+    <transition angle="90" displayName="true" id="appear" infiniteServer="false" name="appear" nameOffsetX="10" nameOffsetY="1" player="0" positionX="328" positionY="224" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="serve" infiniteServer="false" name="serve" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="300" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="depart" infiniteServer="false" name="depart" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="525" priority="0" urgent="false"/>
+    <transition angle="270" displayName="true" id="noone_appears" infiniteServer="false" name="noone_appears" nameOffsetX="0" nameOffsetY="0" player="0" positionX="195" positionY="285" priority="0" urgent="false"/>
+    <transition angle="90" displayName="true" id="noone_departs" infiniteServer="false" name="noone_departs" nameOffsetX="0" nameOffsetY="0" player="0" positionX="195" positionY="435" priority="0" urgent="false"/>
+    <arc id="A0" inscription="1" nameOffsetX="0" nameOffsetY="0" source="appear" target="queue" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="343" yCoord="243"/>
+      <arcpath arcPointType="false" id="1" xCoord="344" yCoord="300"/>
+    </arc>
+    <arc id="A1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="queue" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="359" yCoord="315"/>
+      <arcpath arcPointType="false" id="1" xCoord="429" yCoord="316"/>
+    </arc>
+    <arc id="A2" inscription="1" nameOffsetX="0" nameOffsetY="0" source="serve" target="being_served" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="330"/>
+      <arcpath arcPointType="false" id="1" xCoord="435" yCoord="390"/>
+    </arc>
+    <arc id="A3" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="being_served" target="depart" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="419"/>
+      <arcpath arcPointType="false" id="1" xCoord="436" yCoord="525"/>
+    </arc>
+    <arc id="A4" inscription="1" nameOffsetX="0" nameOffsetY="0" source="depart" target="can_be_served" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="439" yCoord="540"/>
+      <arcpath arcPointType="false" id="1" xCoord="589" yCoord="545"/>
+      <arcpath arcPointType="false" id="2" xCoord="584" yCoord="329"/>
+    </arc>
+    <arc id="A5" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="can_be_served" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="569" yCoord="315"/>
+      <arcpath arcPointType="false" id="1" xCoord="439" yCoord="315"/>
+    </arc>
+    <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase1" target="noone_appears" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="210" yCoord="255"/>
+      <arcpath arcPointType="false" id="1" xCoord="210" yCoord="295"/>
+    </arc>
+    <arc id="A9" inscription="1" nameOffsetX="0" nameOffsetY="0" source="noone_appears" target="phase2" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="211" yCoord="305"/>
+      <arcpath arcPointType="false" id="1" xCoord="210" yCoord="360"/>
+    </arc>
+    <arc id="A10" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase2" target="noone_departs" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="209" yCoord="389"/>
+      <arcpath arcPointType="false" id="1" xCoord="209" yCoord="444"/>
+    </arc>
+    <arc id="A11" inscription="1" nameOffsetX="0" nameOffsetY="0" source="noone_departs" target="phase3" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="209" yCoord="454"/>
+      <arcpath arcPointType="false" id="1" xCoord="209" yCoord="525"/>
+    </arc>
+  </net>
+  <net active="true" id="phasesLinked" type="P/T net">
+    <labels border="true" height="165" positionX="466" positionY="46" width="436">Next, we link the phases to the system, such that each phase can only happen if there is a token in the corresponding place.
+
+So, each of the three places gets an arc to the transition that starts the phase. Now, the phase may only begin if there is a token in the corresponding place. After the phase has ended, we should move to the next phase. This implies that we add an arc from the transition that ends the phase to the place that identifies the next phase.
+
+At the end, we link back to the beginning phase.</labels>
+    <place displayName="true" id="queue" initialMarking="0" invariant="&lt; inf" name="queue" nameOffsetX="0" nameOffsetY="0" positionX="330" positionY="300"/>
+    <place displayName="true" id="can_be_served" initialMarking="1" invariant="&lt; inf" name="can_be_served" nameOffsetX="0" nameOffsetY="0" positionX="579" positionY="300"/>
+    <place displayName="true" id="being_served" initialMarking="0" invariant="&lt; inf" name="being_served" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="390"/>
+    <place displayName="true" id="phase1" initialMarking="1" invariant="&lt; inf" name="phase1" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="225"/>
+    <place displayName="true" id="phase2" initialMarking="0" invariant="&lt; inf" name="phase2" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="360"/>
+    <place displayName="true" id="phase3" initialMarking="0" invariant="&lt; inf" name="phase3" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="525"/>
+    <transition angle="90" displayName="true" id="appear" infiniteServer="false" name="appear" nameOffsetX="0" nameOffsetY="0" player="0" positionX="327" positionY="225" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="serve" infiniteServer="false" name="serve" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="300" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="depart" infiniteServer="false" name="depart" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="525" priority="0" urgent="false"/>
+    <transition angle="270" displayName="true" id="noone_appears" infiniteServer="false" name="noone_appears" nameOffsetX="0" nameOffsetY="0" player="0" positionX="195" positionY="285" priority="0" urgent="false"/>
+    <transition angle="90" displayName="true" id="noone_departs" infiniteServer="false" name="noone_departs" nameOffsetX="0" nameOffsetY="0" player="0" positionX="195" positionY="435" priority="0" urgent="false"/>
+    <arc id="A0" inscription="1" nameOffsetX="0" nameOffsetY="0" source="appear" target="queue" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="342" yCoord="245"/>
+      <arcpath arcPointType="false" id="1" xCoord="344" yCoord="300"/>
+    </arc>
+    <arc id="A1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="queue" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="360" yCoord="314"/>
+      <arcpath arcPointType="false" id="1" xCoord="430" yCoord="311"/>
+    </arc>
+    <arc id="A2" inscription="1" nameOffsetX="0" nameOffsetY="0" source="serve" target="being_served" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="330"/>
+      <arcpath arcPointType="false" id="1" xCoord="435" yCoord="390"/>
+    </arc>
+    <arc id="A3" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="being_served" target="depart" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="420"/>
+      <arcpath arcPointType="false" id="1" xCoord="436" yCoord="525"/>
+    </arc>
+    <arc id="A4" inscription="1" nameOffsetX="0" nameOffsetY="0" source="depart" target="can_be_served" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="440" yCoord="541"/>
+      <arcpath arcPointType="false" id="1" xCoord="599" yCoord="545"/>
+      <arcpath arcPointType="false" id="2" xCoord="594" yCoord="330"/>
+    </arc>
+    <arc id="A5" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="can_be_served" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="579" yCoord="315"/>
+      <arcpath arcPointType="false" id="1" xCoord="440" yCoord="315"/>
+    </arc>
+    <arc id="A6" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase1" target="appear" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="225" yCoord="241"/>
+      <arcpath arcPointType="false" id="1" xCoord="327" yCoord="241"/>
+    </arc>
+    <arc id="A7" inscription="1" nameOffsetX="0" nameOffsetY="0" source="appear" target="phase2" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="342" yCoord="245"/>
+      <arcpath arcPointType="false" id="1" xCoord="221" yCoord="365"/>
+    </arc>
+    <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase1" target="noone_appears" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="211" yCoord="255"/>
+      <arcpath arcPointType="false" id="1" xCoord="211" yCoord="295"/>
+    </arc>
+    <arc id="A9" inscription="1" nameOffsetX="0" nameOffsetY="0" source="noone_appears" target="phase2" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="211" yCoord="305"/>
+      <arcpath arcPointType="false" id="1" xCoord="211" yCoord="360"/>
+    </arc>
+    <arc id="A10" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase2" target="noone_departs" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="210" yCoord="390"/>
+      <arcpath arcPointType="false" id="1" xCoord="209" yCoord="445"/>
+    </arc>
+    <arc id="A11" inscription="1" nameOffsetX="0" nameOffsetY="0" source="noone_departs" target="phase3" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="210" yCoord="455"/>
+      <arcpath arcPointType="false" id="1" xCoord="211" yCoord="525"/>
+    </arc>
+    <arc id="A12" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase2" target="depart" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="222" yCoord="384"/>
+      <arcpath arcPointType="false" id="1" xCoord="430" yCoord="536"/>
+    </arc>
+    <arc id="A13" inscription="1" nameOffsetX="0" nameOffsetY="0" source="depart" target="phase3" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="429" yCoord="546"/>
+      <arcpath arcPointType="false" id="1" xCoord="225" yCoord="541"/>
+    </arc>
+    <arc id="A19" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase3" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="221" yCoord="529"/>
+      <arcpath arcPointType="false" id="1" xCoord="429" yCoord="321"/>
+    </arc>
+    <arc id="A15" inscription="1" nameOffsetX="0" nameOffsetY="0" source="serve" target="phase1" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="436" yCoord="300"/>
+      <arcpath arcPointType="false" id="1" xCoord="439" yCoord="203"/>
+      <arcpath arcPointType="false" id="2" xCoord="209" yCoord="200"/>
+      <arcpath arcPointType="false" id="3" xCoord="210" yCoord="225"/>
+    </arc>
+  </net>
+  <net active="true" id="counterAndPhaseTerminal" type="P/T net">
+    <labels border="true" height="102" positionX="526" positionY="91" width="436">For clarity reasons, we add a "phases_done" place that collects tokens to identify that all phases have been done. In this simple example, there will only be a single token here, but in complex scenarios, you may need to wait for multiple tokens to arrive here.
+
+Additionally, we add a "ticks" counter to the system.</labels>
+    <place displayName="true" id="queue" initialMarking="0" invariant="&lt; inf" name="queue" nameOffsetX="0" nameOffsetY="0" positionX="330" positionY="300"/>
+    <place displayName="true" id="can_be_served" initialMarking="1" invariant="&lt; inf" name="can_be_served" nameOffsetX="0" nameOffsetY="0" positionX="570" positionY="300"/>
+    <place displayName="true" id="being_served" initialMarking="0" invariant="&lt; inf" name="being_served" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="390"/>
+    <place displayName="true" id="phase1" initialMarking="1" invariant="&lt; inf" name="phase1" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="225"/>
+    <place displayName="true" id="phase2" initialMarking="0" invariant="&lt; inf" name="phase2" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="360"/>
+    <place displayName="true" id="phase3" initialMarking="0" invariant="&lt; inf" name="phase3" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="525"/>
+    <place displayName="true" id="phases_done" initialMarking="0" invariant="&lt; inf" name="phases_done" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="150"/>
+    <place displayName="true" id="ticks" initialMarking="0" invariant="&lt; inf" name="ticks" nameOffsetX="0" nameOffsetY="0" positionX="105" positionY="150"/>
+    <transition angle="90" displayName="true" id="appear" infiniteServer="false" name="appear" nameOffsetX="0" nameOffsetY="0" player="0" positionX="300" positionY="225" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="serve" infiniteServer="false" name="serve" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="300" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="depart" infiniteServer="false" name="depart" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="525" priority="0" urgent="false"/>
+    <transition angle="270" displayName="true" id="noone_appears" infiniteServer="false" name="noone_appears" nameOffsetX="0" nameOffsetY="0" player="0" positionX="195" positionY="285" priority="0" urgent="false"/>
+    <transition angle="90" displayName="true" id="noone_departs" infiniteServer="false" name="noone_departs" nameOffsetX="0" nameOffsetY="0" player="0" positionX="195" positionY="435" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="restart" infiniteServer="false" name="restart" nameOffsetX="0" nameOffsetY="0" player="0" positionX="195" positionY="150" priority="0" urgent="false"/>
+    <arc id="A0" inscription="1" nameOffsetX="0" nameOffsetY="0" source="appear" target="queue" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="315" yCoord="245"/>
+      <arcpath arcPointType="false" id="1" xCoord="339" yCoord="301"/>
+    </arc>
+    <arc id="A1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="queue" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="360" yCoord="314"/>
+      <arcpath arcPointType="false" id="1" xCoord="430" yCoord="311"/>
+    </arc>
+    <arc id="A2" inscription="1" nameOffsetX="0" nameOffsetY="0" source="serve" target="being_served" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="330"/>
+      <arcpath arcPointType="false" id="1" xCoord="435" yCoord="390"/>
+    </arc>
+    <arc id="A3" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="being_served" target="depart" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="420"/>
+      <arcpath arcPointType="false" id="1" xCoord="436" yCoord="525"/>
+    </arc>
+    <arc id="A4" inscription="1" nameOffsetX="0" nameOffsetY="0" source="depart" target="can_be_served" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="440" yCoord="541"/>
+      <arcpath arcPointType="false" id="1" xCoord="599" yCoord="545"/>
+      <arcpath arcPointType="false" id="2" xCoord="586" yCoord="330"/>
+    </arc>
+    <arc id="A5" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="can_be_served" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="570" yCoord="315"/>
+      <arcpath arcPointType="false" id="1" xCoord="440" yCoord="315"/>
+    </arc>
+    <arc id="A6" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase1" target="appear" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="225" yCoord="241"/>
+      <arcpath arcPointType="false" id="1" xCoord="300" yCoord="241"/>
+    </arc>
+    <arc id="A7" inscription="1" nameOffsetX="0" nameOffsetY="0" source="appear" target="phase2" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="315" yCoord="245"/>
+      <arcpath arcPointType="false" id="1" xCoord="220" yCoord="363"/>
+    </arc>
+    <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase1" target="noone_appears" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="211" yCoord="255"/>
+      <arcpath arcPointType="false" id="1" xCoord="211" yCoord="295"/>
+    </arc>
+    <arc id="A9" inscription="1" nameOffsetX="0" nameOffsetY="0" source="noone_appears" target="phase2" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="211" yCoord="305"/>
+      <arcpath arcPointType="false" id="1" xCoord="211" yCoord="360"/>
+    </arc>
+    <arc id="A10" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase2" target="noone_departs" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="210" yCoord="390"/>
+      <arcpath arcPointType="false" id="1" xCoord="209" yCoord="445"/>
+    </arc>
+    <arc id="A11" inscription="1" nameOffsetX="0" nameOffsetY="0" source="noone_departs" target="phase3" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="210" yCoord="455"/>
+      <arcpath arcPointType="false" id="1" xCoord="211" yCoord="525"/>
+    </arc>
+    <arc id="A12" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase2" target="depart" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="222" yCoord="384"/>
+      <arcpath arcPointType="false" id="1" xCoord="430" yCoord="536"/>
+    </arc>
+    <arc id="A13" inscription="1" nameOffsetX="0" nameOffsetY="0" source="depart" target="phase3" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="430" yCoord="546"/>
+      <arcpath arcPointType="false" id="1" xCoord="225" yCoord="541"/>
+    </arc>
+    <arc id="A16" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phases_done" target="restart" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="420" yCoord="165"/>
+      <arcpath arcPointType="false" id="1" xCoord="215" yCoord="165"/>
+    </arc>
+    <arc id="A17" inscription="1" nameOffsetX="0" nameOffsetY="0" source="restart" target="phase1" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="211" yCoord="180"/>
+      <arcpath arcPointType="false" id="1" xCoord="211" yCoord="225"/>
+    </arc>
+    <arc id="A18" inscription="1" nameOffsetX="0" nameOffsetY="0" source="serve" target="phases_done" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="436" yCoord="300"/>
+      <arcpath arcPointType="false" id="1" xCoord="435" yCoord="180"/>
+    </arc>
+    <arc id="A19" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase3" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="221" yCoord="530"/>
+      <arcpath arcPointType="false" id="1" xCoord="430" yCoord="321"/>
+    </arc>
+    <arc id="A20" inscription="1" nameOffsetX="0" nameOffsetY="0" source="restart" target="ticks" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="205" yCoord="166"/>
+      <arcpath arcPointType="false" id="1" xCoord="135" yCoord="165"/>
+    </arc>
+  </net>
+  <net active="true" id="final" type="P/T net">
+    <labels border="true" height="133" positionX="721" positionY="181" width="271">We add additional transitions to prevent deadlock when:
+
+(1) we want to serve someone, but no server.
+(2) we want to serve someone, but no customer.
+
+This system now has a clock that does the predefined micro-steps in a certain order.</labels>
+    <place displayName="true" id="queue" initialMarking="0" invariant="&lt; inf" name="queue" nameOffsetX="0" nameOffsetY="0" positionX="330" positionY="300"/>
+    <place displayName="true" id="can_be_served" initialMarking="1" invariant="&lt; inf" name="can_be_served" nameOffsetX="0" nameOffsetY="0" positionX="570" positionY="300"/>
+    <place displayName="true" id="being_served" initialMarking="0" invariant="&lt; inf" name="being_served" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="390"/>
+    <place displayName="true" id="phase1" initialMarking="1" invariant="&lt; inf" name="phase1" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="225"/>
+    <place displayName="true" id="phase2" initialMarking="0" invariant="&lt; inf" name="phase2" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="360"/>
+    <place displayName="true" id="phase3" initialMarking="0" invariant="&lt; inf" name="phase3" nameOffsetX="0" nameOffsetY="0" positionX="195" positionY="525"/>
+    <place displayName="true" id="phases_done" initialMarking="0" invariant="&lt; inf" name="phases_done" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="150"/>
+    <place displayName="true" id="ticks" initialMarking="0" invariant="&lt; inf" name="ticks" nameOffsetX="0" nameOffsetY="0" positionX="105" positionY="150"/>
+    <transition angle="90" displayName="true" id="appear" infiniteServer="false" name="appear" nameOffsetX="0" nameOffsetY="0" player="0" positionX="300" positionY="225" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="serve" infiniteServer="false" name="serve" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="300" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="depart" infiniteServer="false" name="depart" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="525" priority="0" urgent="false"/>
+    <transition angle="270" displayName="true" id="noone_appears" infiniteServer="false" name="noone_appears" nameOffsetX="0" nameOffsetY="0" player="0" positionX="195" positionY="285" priority="0" urgent="false"/>
+    <transition angle="90" displayName="true" id="noone_departs" infiniteServer="false" name="noone_departs" nameOffsetX="0" nameOffsetY="0" player="0" positionX="195" positionY="435" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="restart" infiniteServer="false" name="restart" nameOffsetX="0" nameOffsetY="0" player="0" positionX="195" positionY="150" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="cannot_be_served" infiniteServer="false" name="cannot_be_served" nameOffsetX="0" nameOffsetY="0" player="0" positionX="570" positionY="150" priority="0" urgent="false"/>
+    <transition angle="0" displayName="true" id="noone_to_serve" infiniteServer="false" name="noone_to_serve" nameOffsetX="0" nameOffsetY="0" player="0" positionX="573" positionY="93" priority="0" urgent="false"/>
+    <arc id="A0" inscription="1" nameOffsetX="0" nameOffsetY="0" source="appear" target="queue" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="314" yCoord="244"/>
+      <arcpath arcPointType="false" id="1" xCoord="339" yCoord="301"/>
+    </arc>
+    <arc id="A1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="queue" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="359" yCoord="314"/>
+      <arcpath arcPointType="false" id="1" xCoord="430" yCoord="311"/>
+    </arc>
+    <arc id="A2" inscription="1" nameOffsetX="0" nameOffsetY="0" source="serve" target="being_served" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="330"/>
+      <arcpath arcPointType="false" id="1" xCoord="435" yCoord="390"/>
+    </arc>
+    <arc id="A3" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="being_served" target="depart" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="419"/>
+      <arcpath arcPointType="false" id="1" xCoord="436" yCoord="525"/>
+    </arc>
+    <arc id="A4" inscription="1" nameOffsetX="0" nameOffsetY="0" source="depart" target="can_be_served" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="439" yCoord="540"/>
+      <arcpath arcPointType="false" id="1" xCoord="599" yCoord="545"/>
+      <arcpath arcPointType="false" id="2" xCoord="586" yCoord="329"/>
+    </arc>
+    <arc id="A5" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="can_be_served" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="570" yCoord="315"/>
+      <arcpath arcPointType="false" id="1" xCoord="439" yCoord="315"/>
+    </arc>
+    <arc id="A6" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase1" target="appear" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="225" yCoord="240"/>
+      <arcpath arcPointType="false" id="1" xCoord="299" yCoord="240"/>
+    </arc>
+    <arc id="A7" inscription="1" nameOffsetX="0" nameOffsetY="0" source="appear" target="phase2" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="314" yCoord="244"/>
+      <arcpath arcPointType="false" id="1" xCoord="219" yCoord="363"/>
+    </arc>
+    <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase1" target="noone_appears" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="210" yCoord="255"/>
+      <arcpath arcPointType="false" id="1" xCoord="210" yCoord="295"/>
+    </arc>
+    <arc id="A9" inscription="1" nameOffsetX="0" nameOffsetY="0" source="noone_appears" target="phase2" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="211" yCoord="305"/>
+      <arcpath arcPointType="false" id="1" xCoord="210" yCoord="360"/>
+    </arc>
+    <arc id="A10" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase2" target="noone_departs" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="209" yCoord="389"/>
+      <arcpath arcPointType="false" id="1" xCoord="209" yCoord="444"/>
+    </arc>
+    <arc id="A11" inscription="1" nameOffsetX="0" nameOffsetY="0" source="noone_departs" target="phase3" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="209" yCoord="454"/>
+      <arcpath arcPointType="false" id="1" xCoord="209" yCoord="525"/>
+    </arc>
+    <arc id="A12" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase2" target="depart" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="222" yCoord="384"/>
+      <arcpath arcPointType="false" id="1" xCoord="430" yCoord="536"/>
+    </arc>
+    <arc id="A13" inscription="1" nameOffsetX="0" nameOffsetY="0" source="depart" target="phase3" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="429" yCoord="546"/>
+      <arcpath arcPointType="false" id="1" xCoord="224" yCoord="540"/>
+    </arc>
+    <arc id="A16" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phases_done" target="restart" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="420" yCoord="165"/>
+      <arcpath arcPointType="false" id="1" xCoord="214" yCoord="165"/>
+    </arc>
+    <arc id="A17" inscription="1" nameOffsetX="0" nameOffsetY="0" source="restart" target="phase1" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="210" yCoord="180"/>
+      <arcpath arcPointType="false" id="1" xCoord="210" yCoord="225"/>
+    </arc>
+    <arc id="A18" inscription="1" nameOffsetX="0" nameOffsetY="0" source="serve" target="phases_done" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="436" yCoord="300"/>
+      <arcpath arcPointType="false" id="1" xCoord="435" yCoord="179"/>
+    </arc>
+    <arc id="A19" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase3" target="serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="220" yCoord="529"/>
+      <arcpath arcPointType="false" id="1" xCoord="429" yCoord="321"/>
+    </arc>
+    <arc id="A20" inscription="1" nameOffsetX="0" nameOffsetY="0" source="restart" target="ticks" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="204" yCoord="166"/>
+      <arcpath arcPointType="false" id="1" xCoord="134" yCoord="165"/>
+    </arc>
+    <arc id="A21" inscription="1" nameOffsetX="0" nameOffsetY="0" source="cannot_be_served" target="phases_done" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="579" yCoord="166"/>
+      <arcpath arcPointType="false" id="1" xCoord="449" yCoord="165"/>
+    </arc>
+    <arc id="I20" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="can_be_served" target="cannot_be_served" type="tapnInhibitor" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="585" yCoord="300"/>
+      <arcpath arcPointType="false" id="1" xCoord="585" yCoord="180"/>
+    </arc>
+    <arc id="A22" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase3" target="cannot_be_served" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="210" yCoord="554"/>
+      <arcpath arcPointType="false" id="1" xCoord="212" yCoord="595"/>
+      <arcpath arcPointType="false" id="2" xCoord="654" yCoord="593"/>
+      <arcpath arcPointType="false" id="3" xCoord="656" yCoord="167"/>
+      <arcpath arcPointType="false" id="4" xCoord="589" yCoord="165"/>
+    </arc>
+    <arc id="A23" inscription="1" nameOffsetX="0" nameOffsetY="0" source="noone_to_serve" target="phases_done" type="normal" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="583" yCoord="104"/>
+      <arcpath arcPointType="false" id="1" xCoord="449" yCoord="159"/>
+    </arc>
+    <arc id="A24" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="phase3" target="noone_to_serve" type="timed" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="210" yCoord="554"/>
+      <arcpath arcPointType="false" id="1" xCoord="212" yCoord="611"/>
+      <arcpath arcPointType="false" id="2" xCoord="684" yCoord="611"/>
+      <arcpath arcPointType="false" id="3" xCoord="682" yCoord="106"/>
+      <arcpath arcPointType="false" id="4" xCoord="593" yCoord="108"/>
+    </arc>
+    <arc id="I24" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="queue" target="noone_to_serve" type="tapnInhibitor" weight="1">
+      <arcpath arcPointType="false" id="0" xCoord="356" yCoord="305"/>
+      <arcpath arcPointType="false" id="1" xCoord="583" yCoord="109"/>
+    </arc>
+  </net>
+  <k-bound bound="3"/>
+  <feature isGame="false" isTimed="false"/>
+</pnml>
