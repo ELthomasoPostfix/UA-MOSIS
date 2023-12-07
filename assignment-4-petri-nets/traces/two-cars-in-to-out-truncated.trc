@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<trace>
+  <transition id="phase_1_outputs_outputs_start">
+    <token age="0" place="Shared_clock_outputs_start"/>
+  </transition>
+  <transition id="phase_1_outputs_skip_N">
+    <token age="0" place="phase_1_outputs_consider_N"/>
+  </transition>
+  <transition id="phase_1_outputs_skip_S">
+    <token age="0" place="phase_1_outputs_consider_S"/>
+  </transition>
+  <transition id="phase_1_outputs_outputs_end">
+    <token age="0" place="phase_1_outputs_finished_S"/>
+    <token age="0" place="phase_1_outputs_finished_N"/>
+  </transition>
+  <transition id="clock_run_exit_core">
+    <token age="0" place="Shared_clock_outputs_end"/>
+  </transition>
+  <transition id="phase_2_exit_core_exit_core_start">
+    <token age="0" place="Shared_clock_exit_core_start"/>
+  </transition>
+  <transition id="phase_2_exit_core_skip_N">
+    <token age="0" place="phase_2_exit_core_consider_N"/>
+  </transition>
+  <transition id="phase_2_exit_core_skip_S">
+    <token age="0" place="phase_2_exit_core_consider_S"/>
+  </transition>
+  <transition id="phase_2_exit_core_exit_core_end">
+    <token age="0" place="phase_2_exit_core_finish_S"/>
+    <token age="0" place="phase_2_exit_core_finish_N"/>
+  </transition>
+  <transition id="clock_run_cycle_core">
+    <token age="0" place="Shared_clock_exit_core_end"/>
+  </transition>
+  <transition id="phase_3_manage_core_cycle_skip">
+    <token age="0" place="Shared_clock_cycle_core_start"/>
+  </transition>
+  <transition id="clock_run_enter_core">
+    <token age="0" place="Shared_clock_cycle_core_end"/>
+  </transition>
+  <transition id="phase_4_enter_core_enter_core_start">
+    <token age="0" place="Shared_clock_enter_core_start"/>
+  </transition>
+  <transition id="phase_4_enter_core_skip_E">
+    <token age="0" place="phase_4_enter_core_consider_E"/>
+  </transition>
+  <transition id="phase_4_enter_core_skip_W">
+    <token age="0" place="phase_4_enter_core_consider_W"/>
+  </transition>
+  <transition id="phase_4_enter_core_enter_core_end">
+    <token age="0" place="phase_4_enter_core_finish_E"/>
+    <token age="0" place="phase_4_enter_core_finish_W"/>
+  </transition>
+  <transition id="clock_run_inputs">
+    <token age="0" place="Shared_clock_enter_core_end"/>
+  </transition>
+  <transition id="phase_5_inputs_inputs_start">
+    <token age="0" place="Shared_clock_inputs_start"/>
+  </transition>
+  <transition id="phase_5_inputs_generate_E">
+    <token age="0" place="phase_5_inputs_consider_E"/>
+  </transition>
+  <transition id="phase_5_inputs_generate_W">
+    <token age="0" place="phase_5_inputs_consider_W"/>
+  </transition>
+  <transition id="phase_5_inputs_inputs_end">
+    <token age="0" place="phase_5_inputs_finished_E"/>
+    <token age="0" place="phase_5_inputs_finished_W"/>
+  </transition>
+  <transition id="clock_clock_tick">
+    <token age="0" place="Shared_clock_inputs_end"/>
+  </transition>
+  <transition id="phase_1_outputs_outputs_start">
+    <token age="0" place="Shared_clock_outputs_start"/>
+  </transition>
+  <transition id="phase_1_outputs_skip_N">
+    <token age="0" place="phase_1_outputs_consider_N"/>
+  </transition>
+  <transition id="phase_1_outputs_skip_S">
+    <token age="0" place="phase_1_outputs_consider_S"/>
+  </transition>
+  <transition id="phase_1_outputs_outputs_end">
+    <token age="0" place="phase_1_outputs_finished_S"/>
+    <token age="0" place="phase_1_outputs_finished_N"/>
+  </transition>
+  <transition id="clock_run_exit_core">
+    <token age="0" place="Shared_clock_outputs_end"/>
+  </transition>
+  <transition id="phase_2_exit_core_exit_core_start">
+    <token age="0" place="Shared_clock_exit_core_start"/>
+  </transition>
+  <transition id="phase_2_exit_core_skip_N">
+    <token age="0" place="phase_2_exit_core_consider_N"/>
+  </transition>
+  <transition id="phase_2_exit_core_skip_S">
+    <token age="0" place="phase_2_exit_core_consider_S"/>
+  </transition>
+  <transition id="phase_2_exit_core_exit_core_end">
+    <token age="0" place="phase_2_exit_core_finish_S"/>
+    <token age="0" place="phase_2_exit_core_finish_N"/>
+  </transition>
+  <transition id="clock_run_cycle_core">
+    <token age="0" place="Shared_clock_exit_core_end"/>
+  </transition>
+  <transition id="phase_3_manage_core_cycle_skip">
+    <token age="0" place="Shared_clock_cycle_core_start"/>
+  </transition>
+  <transition id="clock_run_enter_core">
+    <token age="0" place="Shared_clock_cycle_core_end"/>
+  </transition>
+  <transition id="phase_4_enter_core_enter_core_start">
+    <token age="0" place="Shared_clock_enter_core_start"/>
+  </transition>
+  <transition id="phase_4_enter_core_enter_E">
+    <token age="0" place="Shared_input_E"/>
+    <token age="0" place="phase_4_enter_core_consider_E"/>
+  </transition>
+  <transition id="phase_4_enter_core_enter_W">
+    <token age="0" place="phase_4_enter_core_consider_W"/>
+    <token age="0" place="Shared_input_W"/>
+  </transition>
+  <transition id="phase_4_enter_core_enter_core_end">
+    <token age="0" place="phase_4_enter_core_finish_E"/>
+    <token age="0" place="phase_4_enter_core_finish_W"/>
+  </transition>
+  <transition id="clock_run_inputs">
+    <token age="0" place="Shared_clock_enter_core_end"/>
+  </transition>
+  <transition id="phase_5_inputs_inputs_start">
+    <token age="0" place="Shared_clock_inputs_start"/>
+  </transition>
+  <transition id="phase_5_inputs_skip_E">
+    <token age="0" place="phase_5_inputs_consider_E"/>
+  </transition>
+  <transition id="phase_5_inputs_skip_W">
+    <token age="0" place="phase_5_inputs_consider_W"/>
+  </transition>
+  <transition id="phase_5_inputs_inputs_end">
+    <token age="0" place="phase_5_inputs_finished_E"/>
+    <token age="0" place="phase_5_inputs_finished_W"/>
+  </transition>
+  <transition id="clock_clock_tick">
+    <token age="0" place="Shared_clock_inputs_end"/>
+  </transition>
+  <transition id="phase_1_outputs_outputs_start">
+    <token age="0" place="Shared_clock_outputs_start"/>
+  </transition>
+  <transition id="phase_1_outputs_skip_N">
+    <token age="0" place="phase_1_outputs_consider_N"/>
+  </transition>
+  <transition id="phase_1_outputs_skip_S">
+    <token age="0" place="phase_1_outputs_consider_S"/>
+  </transition>
+  <transition id="phase_1_outputs_outputs_end">
+    <token age="0" place="phase_1_outputs_finished_S"/>
+    <token age="0" place="phase_1_outputs_finished_N"/>
+  </transition>
+  <transition id="clock_run_exit_core">
+    <token age="0" place="Shared_clock_outputs_end"/>
+  </transition>
+  <transition id="phase_2_exit_core_exit_core_start">
+    <token age="0" place="Shared_clock_exit_core_start"/>
+  </transition>
+  <transition id="phase_2_exit_core_skip_N">
+    <token age="0" place="phase_2_exit_core_consider_N"/>
+  </transition>
+  <transition id="phase_2_exit_core_skip_S">
+    <token age="0" place="phase_2_exit_core_consider_S"/>
+  </transition>
+  <transition id="phase_2_exit_core_exit_core_end">
+    <token age="0" place="phase_2_exit_core_finish_S"/>
+    <token age="0" place="phase_2_exit_core_finish_N"/>
+  </transition>
+  <transition id="clock_run_cycle_core">
+    <token age="0" place="Shared_clock_exit_core_end"/>
+  </transition>
+  <transition id="phase_3_manage_core_action_start_N">
+    <token age="0" place="Shared_clock_cycle_core_start"/>
+  </transition>
+  <transition id="phase_3_move_core_cycle_N">
+    <token age="0" place="Shared_allow_action_N"/>
+  </transition>
+  <transition id="phase_3_move_core_move_E">
+    <token age="0" place="Shared_core_E"/>
+    <token age="0" place="Shared_allow_action_E"/>
+  </transition>
+  <transition id="phase_3_move_core_cycle_E">
+    <token age="0" place="Shared_allow_action_E"/>
+  </transition>
+  <transition id="phase_3_move_core_cycle_S">
+    <token age="0" place="Shared_allow_action_S"/>
+  </transition>
+  <transition id="phase_3_move_core_move_W">
+    <token age="0" place="Shared_core_W"/>
+    <token age="0" place="Shared_allow_action_W"/>
+  </transition>
+  <transition id="phase_3_move_core_cycle_W">
+    <token age="0" place="Shared_allow_action_W"/>
+  </transition>
+  <transition id="phase_3_manage_core_cycle_finish_N">
+    <token age="0" place="Shared_cycle_progress"/>
+    <token age="0" place="Shared_cycle_progress"/>
+    <token age="0" place="Shared_cycle_progress"/>
+    <token age="0" place="Shared_cycle_progress"/>
+    <token age="0" place="Shared_allow_action_N"/>
+  </transition>
+  <transition id="clock_run_enter_core">
+    <token age="0" place="Shared_clock_cycle_core_end"/>
+  </transition>
+  <transition id="phase_4_enter_core_enter_core_start">
+    <token age="0" place="Shared_clock_enter_core_start"/>
+  </transition>
+  <transition id="phase_4_enter_core_skip_E">
+    <token age="0" place="phase_4_enter_core_consider_E"/>
+  </transition>
+  <transition id="phase_4_enter_core_skip_W">
+    <token age="0" place="phase_4_enter_core_consider_W"/>
+  </transition>
+  <transition id="phase_4_enter_core_enter_core_end">
+    <token age="0" place="phase_4_enter_core_finish_E"/>
+    <token age="0" place="phase_4_enter_core_finish_W"/>
+  </transition>
+  <transition id="clock_run_inputs">
+    <token age="0" place="Shared_clock_enter_core_end"/>
+  </transition>
+  <transition id="phase_5_inputs_inputs_start">
+    <token age="0" place="Shared_clock_inputs_start"/>
+  </transition>
+  <transition id="phase_5_inputs_skip_E">
+    <token age="0" place="phase_5_inputs_consider_E"/>
+  </transition>
+  <transition id="phase_5_inputs_skip_W">
+    <token age="0" place="phase_5_inputs_consider_W"/>
+  </transition>
+  <transition id="phase_5_inputs_inputs_end">
+    <token age="0" place="phase_5_inputs_finished_E"/>
+    <token age="0" place="phase_5_inputs_finished_W"/>
+  </transition>
+  <transition id="clock_clock_tick">
+    <token age="0" place="Shared_clock_inputs_end"/>
+  </transition>
+  <transition id="phase_1_outputs_outputs_start">
+    <token age="0" place="Shared_clock_outputs_start"/>
+  </transition>
+  <transition id="phase_1_outputs_skip_N">
+    <token age="0" place="phase_1_outputs_consider_N"/>
+  </transition>
+  <transition id="phase_1_outputs_skip_S">
+    <token age="0" place="phase_1_outputs_consider_S"/>
+  </transition>
+  <transition id="phase_1_outputs_outputs_end">
+    <token age="0" place="phase_1_outputs_finished_S"/>
+    <token age="0" place="phase_1_outputs_finished_N"/>
+  </transition>
+  <transition id="clock_run_exit_core">
+    <token age="0" place="Shared_clock_outputs_end"/>
+  </transition>
+  <transition id="phase_2_exit_core_exit_core_start">
+    <token age="0" place="Shared_clock_exit_core_start"/>
+  </transition>
+  <transition id="phase_2_exit_core_exit_N">
+    <token age="0" place="phase_2_exit_core_consider_N"/>
+    <token age="0" place="Shared_core_N"/>
+  </transition>
+  <transition id="phase_2_exit_core_exit_S">
+    <token age="0" place="Shared_core_S"/>
+    <token age="0" place="phase_2_exit_core_consider_S"/>
+  </transition>
+  <transition id="phase_2_exit_core_exit_core_end">
+    <token age="0" place="phase_2_exit_core_finish_S"/>
+    <token age="0" place="phase_2_exit_core_finish_N"/>
+  </transition>
+  <transition id="clock_run_cycle_core">
+    <token age="0" place="Shared_clock_exit_core_end"/>
+  </transition>
+  <transition id="phase_3_manage_core_cycle_skip">
+    <token age="0" place="Shared_clock_cycle_core_start"/>
+  </transition>
+  <transition id="clock_run_enter_core">
+    <token age="0" place="Shared_clock_cycle_core_end"/>
+  </transition>
+  <transition id="phase_4_enter_core_enter_core_start">
+    <token age="0" place="Shared_clock_enter_core_start"/>
+  </transition>
+  <transition id="phase_4_enter_core_skip_E">
+    <token age="0" place="phase_4_enter_core_consider_E"/>
+  </transition>
+  <transition id="phase_4_enter_core_skip_W">
+    <token age="0" place="phase_4_enter_core_consider_W"/>
+  </transition>
+  <transition id="phase_4_enter_core_enter_core_end">
+    <token age="0" place="phase_4_enter_core_finish_E"/>
+    <token age="0" place="phase_4_enter_core_finish_W"/>
+  </transition>
+  <transition id="clock_run_inputs">
+    <token age="0" place="Shared_clock_enter_core_end"/>
+  </transition>
+  <transition id="phase_5_inputs_inputs_start">
+    <token age="0" place="Shared_clock_inputs_start"/>
+  </transition>
+  <transition id="phase_5_inputs_skip_E">
+    <token age="0" place="phase_5_inputs_consider_E"/>
+  </transition>
+  <transition id="phase_5_inputs_skip_W">
+    <token age="0" place="phase_5_inputs_consider_W"/>
+  </transition>
+  <transition id="phase_5_inputs_inputs_end">
+    <token age="0" place="phase_5_inputs_finished_E"/>
+    <token age="0" place="phase_5_inputs_finished_W"/>
+  </transition>
+  <transition id="clock_clock_tick">
+    <token age="0" place="Shared_clock_inputs_end"/>
+  </transition>
+  <transition id="phase_1_outputs_outputs_start">
+    <token age="0" place="Shared_clock_outputs_start"/>
+  </transition>
+  <transition id="phase_1_outputs_consume_N">
+    <token age="0" place="Shared_output_N"/>
+    <token age="0" place="phase_1_outputs_consider_N"/>
+  </transition>
+  <transition id="phase_1_outputs_consume_S">
+    <token age="0" place="Shared_output_S"/>
+    <token age="0" place="phase_1_outputs_consider_S"/>
+  </transition>
+</trace>
