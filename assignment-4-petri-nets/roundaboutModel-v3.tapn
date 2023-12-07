@@ -4,10 +4,10 @@
   <shared-place initialMarking="0" invariant="&lt; inf" name="input_W"/>
   <shared-place initialMarking="0" invariant="&lt; inf" name="input_E"/>
   <shared-place initialMarking="0" invariant="&lt; inf" name="core_N"/>
-  <shared-place initialMarking="1" invariant="&lt; inf" name="core_W"/>
-  <shared-place initialMarking="1" invariant="&lt; inf" name="core_S"/>
-  <shared-place initialMarking="1" invariant="&lt; inf" name="core_E"/>
-  <shared-place initialMarking="1" invariant="&lt; inf" name="output_N"/>
+  <shared-place initialMarking="0" invariant="&lt; inf" name="core_W"/>
+  <shared-place initialMarking="0" invariant="&lt; inf" name="core_S"/>
+  <shared-place initialMarking="0" invariant="&lt; inf" name="core_E"/>
+  <shared-place initialMarking="0" invariant="&lt; inf" name="output_N"/>
   <shared-place initialMarking="0" invariant="&lt; inf" name="output_S"/>
   <shared-place initialMarking="0" invariant="&lt; inf" name="allow_cycle_E_to_N"/>
   <shared-place initialMarking="0" invariant="&lt; inf" name="allow_cycle_S_to_E"/>
@@ -43,13 +43,13 @@
     <place displayName="true" id="clock_exit_core_end" initialMarking="0" invariant="&lt; inf" name="clock_exit_core_end" nameOffsetX="149" nameOffsetY="27" positionX="660" positionY="465"/>
     <place displayName="true" id="clock_enter_core_end" initialMarking="0" invariant="&lt; inf" name="clock_enter_core_end" nameOffsetX="-5" nameOffsetY="10" positionX="178" positionY="338"/>
     <place displayName="true" id="clock_ticks" initialMarking="0" invariant="&lt; inf" name="clock_ticks" nameOffsetX="25" nameOffsetY="-10" positionX="453" positionY="334"/>
-    <place displayName="true" id="core_E" initialMarking="1" invariant="&lt; inf" name="core_E" nameOffsetX="0" nameOffsetY="0" positionX="627" positionY="334"/>
+    <place displayName="true" id="core_E" initialMarking="0" invariant="&lt; inf" name="core_E" nameOffsetX="0" nameOffsetY="0" positionX="552" positionY="334"/>
     <place displayName="true" id="core_N" initialMarking="0" invariant="&lt; inf" name="core_N" nameOffsetX="0" nameOffsetY="0" positionX="453" positionY="245"/>
-    <place displayName="true" id="output_N" initialMarking="1" invariant="&lt; inf" name="output_N" nameOffsetX="0" nameOffsetY="0" positionX="455" positionY="180"/>
-    <place displayName="true" id="input_E" initialMarking="0" invariant="&lt; inf" name="input_E" nameOffsetX="0" nameOffsetY="0" positionX="542" positionY="336"/>
-    <place displayName="true" id="core_S" initialMarking="1" invariant="&lt; inf" name="core_S" nameOffsetX="0" nameOffsetY="0" positionX="455" positionY="409"/>
+    <place displayName="true" id="output_N" initialMarking="0" invariant="&lt; inf" name="output_N" nameOffsetX="0" nameOffsetY="0" positionX="455" positionY="180"/>
+    <place displayName="true" id="input_E" initialMarking="0" invariant="&lt; inf" name="input_E" nameOffsetX="0" nameOffsetY="0" positionX="642" positionY="336"/>
+    <place displayName="true" id="core_S" initialMarking="0" invariant="&lt; inf" name="core_S" nameOffsetX="0" nameOffsetY="0" positionX="455" positionY="409"/>
     <place displayName="true" id="output_S" initialMarking="0" invariant="&lt; inf" name="output_S" nameOffsetX="0" nameOffsetY="0" positionX="454" positionY="479"/>
-    <place displayName="true" id="core_W" initialMarking="1" invariant="&lt; inf" name="core_W" nameOffsetX="0" nameOffsetY="0" positionX="369" positionY="333"/>
+    <place displayName="true" id="core_W" initialMarking="0" invariant="&lt; inf" name="core_W" nameOffsetX="0" nameOffsetY="0" positionX="369" positionY="333"/>
     <place displayName="true" id="input_W" initialMarking="0" invariant="&lt; inf" name="input_W" nameOffsetX="0" nameOffsetY="0" positionX="282" positionY="333"/>
   </net>
   <net active="true" id="clock" type="P/T net">
@@ -117,8 +117,8 @@
   <net active="true" id="phase_1_outputs" type="P/T net">
     <place displayName="true" id="clock_outputs_start" initialMarking="1" invariant="&lt; inf" name="clock_outputs_start" nameOffsetX="0" nameOffsetY="0" positionX="213" positionY="19"/>
     <place displayName="true" id="clock_outputs_end" initialMarking="0" invariant="&lt; inf" name="clock_outputs_end" nameOffsetX="0" nameOffsetY="0" positionX="221" positionY="543"/>
-    <place displayName="true" id="output_N" initialMarking="1" invariant="&lt; inf" name="output_N" nameOffsetX="0" nameOffsetY="0" positionX="63" positionY="227"/>
-    <place displayName="true" id="output_S" initialMarking="0" invariant="&lt; inf" name="output_S" nameOffsetX="0" nameOffsetY="0" positionX="399" positionY="239"/>
+    <place displayName="true" id="output_N" initialMarking="0" invariant="&lt; inf" name="output_N" nameOffsetX="0" nameOffsetY="0" positionX="57" positionY="224"/>
+    <place displayName="true" id="output_S" initialMarking="0" invariant="&lt; inf" name="output_S" nameOffsetX="0" nameOffsetY="0" positionX="410" positionY="220"/>
     <place displayName="true" id="consider_N" initialMarking="0" invariant="&lt; inf" name="consider_N" nameOffsetX="0" nameOffsetY="0" positionX="155" positionY="224"/>
     <place displayName="true" id="consider_S" initialMarking="0" invariant="&lt; inf" name="consider_S" nameOffsetX="0" nameOffsetY="0" positionX="287" positionY="224"/>
     <place displayName="true" id="finished_N" initialMarking="0" invariant="&lt; inf" name="finished_N" nameOffsetX="0" nameOffsetY="0" positionX="150" positionY="375"/>
@@ -130,11 +130,11 @@
     <transition angle="90" displayName="true" id="skip_N" infiniteServer="false" name="skip_N" nameOffsetX="0" nameOffsetY="0" player="0" positionX="150" positionY="300" priority="0" urgent="false"/>
     <transition angle="270" displayName="true" id="skip_S" infiniteServer="false" name="skip_S" nameOffsetX="0" nameOffsetY="0" player="0" positionX="285" positionY="300" priority="0" urgent="false"/>
     <arc id="A0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="output_N" target="consume_N" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="76" yCoord="256"/>
+      <arcpath arcPointType="false" id="0" xCoord="71" yCoord="253"/>
       <arcpath arcPointType="false" id="1" xCoord="70" yCoord="308"/>
     </arc>
     <arc id="A1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="output_S" target="consume_S" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="416" yCoord="268"/>
+      <arcpath arcPointType="false" id="0" xCoord="424" yCoord="249"/>
       <arcpath arcPointType="false" id="1" xCoord="423" yCoord="317"/>
     </arc>
     <arc id="A2" inscription="1" nameOffsetX="0" nameOffsetY="0" source="outputs_start" target="consider_N" type="normal" weight="1">
@@ -195,16 +195,16 @@
     </arc>
   </net>
   <net active="true" id="phase_2_exit_core" type="P/T net">
-    <place displayName="true" id="core_S" initialMarking="1" invariant="&lt; inf" name="core_S" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="180"/>
+    <place displayName="true" id="core_S" initialMarking="0" invariant="&lt; inf" name="core_S" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="180"/>
     <place displayName="true" id="clock_exit_core_start" initialMarking="0" invariant="&lt; inf" name="clock_exit_core_start" nameOffsetX="0" nameOffsetY="0" positionX="255" positionY="30"/>
     <place displayName="true" id="clock_exit_core_end" initialMarking="0" invariant="&lt; inf" name="clock_exit_core_end" nameOffsetX="0" nameOffsetY="0" positionX="255" positionY="510"/>
     <place displayName="true" id="consider_S" initialMarking="0" invariant="&lt; inf" name="consider_S" nameOffsetX="-11" nameOffsetY="0" positionX="330" positionY="180"/>
     <place displayName="true" id="finish_N" initialMarking="0" invariant="&lt; inf" name="finish_N" nameOffsetX="0" nameOffsetY="0" positionX="165" positionY="330"/>
     <place displayName="true" id="finish_S" initialMarking="0" invariant="&lt; inf" name="finish_S" nameOffsetX="0" nameOffsetY="0" positionX="330" positionY="330"/>
     <place displayName="true" id="consider_N" initialMarking="0" invariant="&lt; inf" name="consider_N" nameOffsetX="0" nameOffsetY="0" positionX="165" positionY="180"/>
-    <place displayName="true" id="output_N" initialMarking="1" invariant="&lt; inf" name="output_N" nameOffsetX="0" nameOffsetY="0" positionX="75" positionY="330"/>
+    <place displayName="true" id="output_N" initialMarking="0" invariant="&lt; inf" name="output_N" nameOffsetX="0" nameOffsetY="0" positionX="75" positionY="330"/>
     <place displayName="true" id="output_S" initialMarking="0" invariant="&lt; inf" name="output_S" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="330"/>
-    <place displayName="true" id="core_N" initialMarking="0" invariant="&lt; inf" name="core_N" nameOffsetX="0" nameOffsetY="0" positionX="75" positionY="180"/>
+    <place displayName="true" id="core_N" initialMarking="0" invariant="&lt; inf" name="core_N" nameOffsetX="0" nameOffsetY="0" positionX="75" positionY="181"/>
     <transition angle="90" displayName="true" id="exit_core_start" infiniteServer="false" name="exit_core_start" nameOffsetX="0" nameOffsetY="0" player="0" positionX="255" positionY="105" priority="0" urgent="false"/>
     <transition angle="90" displayName="true" id="exit_core_end" infiniteServer="false" name="exit_core_end" nameOffsetX="0" nameOffsetY="0" player="0" positionX="255" positionY="405" priority="0" urgent="false"/>
     <transition angle="90" displayName="true" id="skip_N" infiniteServer="false" name="skip_N" nameOffsetX="0" nameOffsetY="0" player="0" positionX="165" positionY="255" priority="0" urgent="false"/>
@@ -244,7 +244,7 @@
       <arcpath arcPointType="false" id="1" xCoord="90" yCoord="330"/>
     </arc>
     <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_N" target="exit_N" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="88" yCoord="209"/>
+      <arcpath arcPointType="false" id="0" xCoord="88" yCoord="210"/>
       <arcpath arcPointType="false" id="1" xCoord="95" yCoord="265"/>
     </arc>
     <arc id="A9" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_S" target="skip_S" type="timed" weight="1">
@@ -298,9 +298,9 @@
   </net>
   <net active="true" id="phase_3_manage_core" type="P/T net">
     <place displayName="true" id="core_N" initialMarking="0" invariant="&lt; inf" name="core_N" nameOffsetX="0" nameOffsetY="0" positionX="480" positionY="59"/>
-    <place displayName="true" id="core_W" initialMarking="1" invariant="&lt; inf" name="core_W" nameOffsetX="-13" nameOffsetY="35" positionX="504" positionY="258"/>
-    <place displayName="true" id="core_S" initialMarking="1" invariant="&lt; inf" name="core_S" nameOffsetX="64" nameOffsetY="-5" positionX="731" positionY="52"/>
-    <place displayName="true" id="core_E" initialMarking="1" invariant="&lt; inf" name="core_E" nameOffsetX="71" nameOffsetY="42" positionX="735" positionY="258"/>
+    <place displayName="true" id="core_W" initialMarking="0" invariant="&lt; inf" name="core_W" nameOffsetX="-13" nameOffsetY="35" positionX="504" positionY="258"/>
+    <place displayName="true" id="core_S" initialMarking="0" invariant="&lt; inf" name="core_S" nameOffsetX="64" nameOffsetY="-5" positionX="731" positionY="52"/>
+    <place displayName="true" id="core_E" initialMarking="0" invariant="&lt; inf" name="core_E" nameOffsetX="71" nameOffsetY="42" positionX="735" positionY="258"/>
     <place displayName="true" id="cycle_progress" initialMarking="0" invariant="&lt; inf" name="cycle_progress" nameOffsetX="0" nameOffsetY="0" positionX="629" positionY="752"/>
     <place displayName="true" id="allow_action_E" initialMarking="0" invariant="&lt; inf" name="allow_action_E" nameOffsetX="113" nameOffsetY="-3" positionX="976" positionY="200"/>
     <place displayName="true" id="allow_action_N" initialMarking="0" invariant="&lt; inf" name="allow_action_N" nameOffsetX="0" nameOffsetY="0" positionX="271" positionY="98"/>
@@ -489,9 +489,9 @@
   </net>
   <net active="true" id="phase_3_move_core" type="P/T net">
     <place displayName="true" id="core_N" initialMarking="0" invariant="&lt; inf" name="core_N" nameOffsetX="31" nameOffsetY="-15" positionX="632" positionY="80"/>
-    <place displayName="true" id="core_W" initialMarking="1" invariant="&lt; inf" name="core_W" nameOffsetX="-25" nameOffsetY="16" positionX="186" positionY="517"/>
-    <place displayName="true" id="core_S" initialMarking="1" invariant="&lt; inf" name="core_S" nameOffsetX="26" nameOffsetY="60" positionX="634" positionY="925"/>
-    <place displayName="true" id="core_E" initialMarking="1" invariant="&lt; inf" name="core_E" nameOffsetX="85" nameOffsetY="12" positionX="1097" positionY="519"/>
+    <place displayName="true" id="core_W" initialMarking="0" invariant="&lt; inf" name="core_W" nameOffsetX="-25" nameOffsetY="16" positionX="186" positionY="517"/>
+    <place displayName="true" id="core_S" initialMarking="0" invariant="&lt; inf" name="core_S" nameOffsetX="26" nameOffsetY="60" positionX="634" positionY="925"/>
+    <place displayName="true" id="core_E" initialMarking="0" invariant="&lt; inf" name="core_E" nameOffsetX="85" nameOffsetY="12" positionX="1097" positionY="519"/>
     <place displayName="true" id="cycle_progress" initialMarking="0" invariant="&lt; inf" name="cycle_progress" nameOffsetX="0" nameOffsetY="0" positionX="619" positionY="502"/>
     <place displayName="true" id="allow_action_E" initialMarking="0" invariant="&lt; inf" name="allow_action_E" nameOffsetX="117" nameOffsetY="28" positionX="824" positionY="297"/>
     <place displayName="true" id="allow_action_N" initialMarking="0" invariant="&lt; inf" name="allow_action_N" nameOffsetX="-7" nameOffsetY="31" positionX="412" positionY="292"/>
@@ -766,8 +766,8 @@
     <place displayName="true" id="finish_W" initialMarking="0" invariant="&lt; inf" name="finish_W" nameOffsetX="0" nameOffsetY="0" positionX="165" positionY="330"/>
     <place displayName="true" id="finish_E" initialMarking="0" invariant="&lt; inf" name="finish_E" nameOffsetX="0" nameOffsetY="0" positionX="330" positionY="330"/>
     <place displayName="true" id="consider_W" initialMarking="0" invariant="&lt; inf" name="consider_W" nameOffsetX="0" nameOffsetY="0" positionX="165" positionY="180"/>
-    <place displayName="true" id="core_W" initialMarking="1" invariant="&lt; inf" name="core_W" nameOffsetX="0" nameOffsetY="0" positionX="75" positionY="330"/>
-    <place displayName="true" id="core_E" initialMarking="1" invariant="&lt; inf" name="core_E" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="330"/>
+    <place displayName="true" id="core_W" initialMarking="0" invariant="&lt; inf" name="core_W" nameOffsetX="0" nameOffsetY="0" positionX="75" positionY="330"/>
+    <place displayName="true" id="core_E" initialMarking="0" invariant="&lt; inf" name="core_E" nameOffsetX="0" nameOffsetY="0" positionX="420" positionY="330"/>
     <place displayName="true" id="input_W" initialMarking="0" invariant="&lt; inf" name="input_W" nameOffsetX="0" nameOffsetY="0" positionX="75" positionY="180"/>
     <transition angle="90" displayName="true" id="enter_core_start" infiniteServer="false" name="enter_core_start" nameOffsetX="0" nameOffsetY="0" player="0" positionX="255" positionY="105" priority="0" urgent="false"/>
     <transition angle="90" displayName="true" id="enter_core_end" infiniteServer="false" name="enter_core_end" nameOffsetX="0" nameOffsetY="0" player="0" positionX="255" positionY="405" priority="0" urgent="false"/>
@@ -792,8 +792,8 @@
       <arcpath arcPointType="false" id="1" xCoord="179" yCoord="264"/>
     </arc>
     <arc id="A4" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_W" target="enter_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="167" yCoord="203"/>
-      <arcpath arcPointType="false" id="1" xCoord="85" yCoord="264"/>
+      <arcpath arcPointType="false" id="0" xCoord="168" yCoord="204"/>
+      <arcpath arcPointType="false" id="1" xCoord="95" yCoord="265"/>
     </arc>
     <arc id="A5" inscription="1" nameOffsetX="0" nameOffsetY="0" source="skip_W" target="finish_W" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="179" yCoord="274"/>
@@ -808,8 +808,8 @@
       <arcpath arcPointType="false" id="1" xCoord="90" yCoord="330"/>
     </arc>
     <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="input_W" target="enter_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="88" yCoord="209"/>
-      <arcpath arcPointType="false" id="1" xCoord="95" yCoord="265"/>
+      <arcpath arcPointType="false" id="0" xCoord="91" yCoord="209"/>
+      <arcpath arcPointType="false" id="1" xCoord="85" yCoord="264"/>
     </arc>
     <arc id="A9" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_E" target="skip_E" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="344" yCoord="209"/>
