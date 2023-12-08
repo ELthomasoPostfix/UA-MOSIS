@@ -10,8 +10,8 @@
     <token age="0" place="phase_1_outputs_consider_S"/>
   </transition>
   <transition id="phase_1_outputs_outputs_end">
-    <token age="0" place="phase_1_outputs_finished_S"/>
-    <token age="0" place="phase_1_outputs_finished_N"/>
+    <token age="0" place="phase_1_outputs_finish_S"/>
+    <token age="0" place="phase_1_outputs_finish_N"/>
   </transition>
   <transition id="clock_run_exit_core">
     <token age="0" place="Shared_clock_outputs_end"/>
@@ -64,8 +64,8 @@
     <token age="0" place="phase_5_inputs_consider_W"/>
   </transition>
   <transition id="phase_5_inputs_inputs_end">
-    <token age="0" place="phase_5_inputs_finished_E"/>
-    <token age="0" place="phase_5_inputs_finished_W"/>
+    <token age="0" place="phase_5_inputs_finish_E"/>
+    <token age="0" place="phase_5_inputs_finish_W"/>
   </transition>
   <transition id="clock_clock_tick">
     <token age="0" place="Shared_clock_inputs_end"/>
@@ -80,8 +80,8 @@
     <token age="0" place="phase_1_outputs_consider_S"/>
   </transition>
   <transition id="phase_1_outputs_outputs_end">
-    <token age="0" place="phase_1_outputs_finished_S"/>
-    <token age="0" place="phase_1_outputs_finished_N"/>
+    <token age="0" place="phase_1_outputs_finish_S"/>
+    <token age="0" place="phase_1_outputs_finish_N"/>
   </transition>
   <transition id="clock_run_exit_core">
     <token age="0" place="Shared_clock_outputs_end"/>
@@ -135,8 +135,8 @@
     <token age="0" place="phase_5_inputs_consider_W"/>
   </transition>
   <transition id="phase_5_inputs_inputs_end">
-    <token age="0" place="phase_5_inputs_finished_E"/>
-    <token age="0" place="phase_5_inputs_finished_W"/>
+    <token age="0" place="phase_5_inputs_finish_E"/>
+    <token age="0" place="phase_5_inputs_finish_W"/>
   </transition>
   <transition id="clock_clock_tick">
     <token age="0" place="Shared_clock_inputs_end"/>
@@ -151,8 +151,8 @@
     <token age="0" place="phase_1_outputs_consider_S"/>
   </transition>
   <transition id="phase_1_outputs_outputs_end">
-    <token age="0" place="phase_1_outputs_finished_S"/>
-    <token age="0" place="phase_1_outputs_finished_N"/>
+    <token age="0" place="phase_1_outputs_finish_S"/>
+    <token age="0" place="phase_1_outputs_finish_N"/>
   </transition>
   <transition id="clock_run_exit_core">
     <token age="0" place="Shared_clock_outputs_end"/>
