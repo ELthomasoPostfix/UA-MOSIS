@@ -26,7 +26,7 @@
   <shared-place initialMarking="0" invariant="&lt; inf" name="allow_action_S"/>
   <constant name="cycle_length" value="4"/>
   <net active="true" id="visualisation" type="P/T net">
-    <labels border="true" height="119" positionX="441" positionY="18" width="45"> </labels>
+    <labels border="true" height="120" positionX="442" positionY="19" width="46"> </labels>
     <place displayName="true" id="clock_outputs_start" initialMarking="1" invariant="&lt; inf" name="clock_outputs_start" nameOffsetX="103" nameOffsetY="-14" positionX="525" positionY="84"/>
     <place displayName="true" id="clock_inputs_end" initialMarking="0" invariant="&lt; inf" name="clock_inputs_end" nameOffsetX="25" nameOffsetY="-16" positionX="379" positionY="85"/>
     <place displayName="true" id="clock_outputs_end" initialMarking="0" invariant="&lt; inf" name="clock_outputs_end" nameOffsetX="118" nameOffsetY="-11" positionX="640" positionY="165"/>
@@ -65,11 +65,11 @@
     <transition angle="315" displayName="true" id="run_inputs" infiniteServer="false" name="run_inputs" nameOffsetX="91" nameOffsetY="40" player="0" positionX="145" positionY="136" priority="0" urgent="false"/>
     <transition angle="180" displayName="true" id="clock_tick" infiniteServer="false" name="clock_tick" nameOffsetX="34" nameOffsetY="-16" player="0" positionX="314" positionY="46" priority="0" urgent="false"/>
     <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_inputs_end" target="clock_tick" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="264" yCoord="69"/>
+      <arcpath arcPointType="false" id="0" xCoord="263" yCoord="68"/>
       <arcpath arcPointType="false" id="1" xCoord="324" yCoord="60"/>
     </arc>
     <arc id="A9" inscription="1" nameOffsetX="0" nameOffsetY="0" source="clock_tick" target="clock_outputs_start" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="334" yCoord="59"/>
+      <arcpath arcPointType="false" id="0" xCoord="334" yCoord="60"/>
       <arcpath arcPointType="false" id="1" xCoord="392" yCoord="68"/>
     </arc>
     <arc id="A2" inscription="1" nameOffsetX="0" nameOffsetY="0" source="clock_tick" target="clock_ticks" type="normal" weight="1">
@@ -78,30 +78,30 @@
     </arc>
     <arc id="A3" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_enter_core_end" target="run_inputs" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="149" yCoord="198"/>
-      <arcpath arcPointType="false" id="1" xCoord="156" yCoord="154"/>
+      <arcpath arcPointType="false" id="1" xCoord="156" yCoord="155"/>
     </arc>
     <arc id="A4" inscription="1" nameOffsetX="0" nameOffsetY="0" source="run_inputs" target="clock_inputs_start" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="164" yCoord="147"/>
-      <arcpath arcPointType="false" id="1" xCoord="191" yCoord="116"/>
+      <arcpath arcPointType="false" id="0" xCoord="163" yCoord="147"/>
+      <arcpath arcPointType="false" id="1" xCoord="190" yCoord="117"/>
     </arc>
     <arc id="A5" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_cycle_core_end" target="run_enter_core" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="236" yCoord="399"/>
-      <arcpath arcPointType="false" id="1" xCoord="189" yCoord="377"/>
+      <arcpath arcPointType="false" id="0" xCoord="235" yCoord="399"/>
+      <arcpath arcPointType="false" id="1" xCoord="190" yCoord="377"/>
     </arc>
     <arc id="A6" inscription="1" nameOffsetX="0" nameOffsetY="0" source="run_enter_core" target="clock_enter_core_start" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="182" yCoord="370"/>
-      <arcpath arcPointType="false" id="1" xCoord="149" yCoord="327"/>
+      <arcpath arcPointType="false" id="1" xCoord="150" yCoord="327"/>
     </arc>
     <arc id="A7" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_exit_core_end" target="run_cycle_core" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="499" yCoord="332"/>
       <arcpath arcPointType="false" id="1" xCoord="479" yCoord="371"/>
     </arc>
     <arc id="A10" inscription="1" nameOffsetX="0" nameOffsetY="0" source="run_cycle_core" target="clock_cycle_core_start" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="471" yCoord="379"/>
+      <arcpath arcPointType="false" id="0" xCoord="472" yCoord="379"/>
       <arcpath arcPointType="false" id="1" xCoord="422" yCoord="402"/>
     </arc>
     <arc id="A11" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_outputs_end" target="run_exit_core" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="471" yCoord="119"/>
+      <arcpath arcPointType="false" id="0" xCoord="471" yCoord="118"/>
       <arcpath arcPointType="false" id="1" xCoord="486" yCoord="144"/>
     </arc>
     <arc id="A12" inscription="1" nameOffsetX="0" nameOffsetY="0" source="run_exit_core" target="clock_exit_core_start" type="normal" weight="1">
@@ -138,7 +138,7 @@
     </arc>
     <arc id="A3" inscription="1" nameOffsetX="0" nameOffsetY="0" source="outputs_start" target="consider_S" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="241" yCoord="142"/>
-      <arcpath arcPointType="false" id="1" xCoord="301" yCoord="225"/>
+      <arcpath arcPointType="false" id="1" xCoord="301" yCoord="224"/>
     </arc>
     <arc id="A4" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_outputs_start" target="outputs_start" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="242" yCoord="46"/>
@@ -149,7 +149,7 @@
       <arcpath arcPointType="false" id="1" xCoord="88" yCoord="307"/>
     </arc>
     <arc id="A6" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_N" target="skip_N" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="176" yCoord="250"/>
+      <arcpath arcPointType="false" id="0" xCoord="177" yCoord="250"/>
       <arcpath arcPointType="false" id="1" xCoord="174" yCoord="307"/>
     </arc>
     <arc id="A7" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_S" target="skip_S" type="timed" weight="1">
@@ -161,7 +161,7 @@
       <arcpath arcPointType="false" id="1" xCoord="413" yCoord="316"/>
     </arc>
     <arc id="A9" inscription="1" nameOffsetX="0" nameOffsetY="0" source="consume_N" target="finish_N" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="84" yCoord="316"/>
+      <arcpath arcPointType="false" id="0" xCoord="83" yCoord="316"/>
       <arcpath arcPointType="false" id="1" xCoord="161" yCoord="378"/>
     </arc>
     <arc id="A10" inscription="1" nameOffsetX="0" nameOffsetY="0" source="skip_N" target="finish_N" type="normal" weight="1">
@@ -169,12 +169,12 @@
       <arcpath arcPointType="false" id="1" xCoord="173" yCoord="373"/>
     </arc>
     <arc id="A11" inscription="1" nameOffsetX="0" nameOffsetY="0" source="skip_S" target="finish_S" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="310" yCoord="318"/>
+      <arcpath arcPointType="false" id="0" xCoord="309" yCoord="318"/>
       <arcpath arcPointType="false" id="1" xCoord="308" yCoord="372"/>
     </arc>
     <arc id="A12" inscription="1" nameOffsetX="0" nameOffsetY="0" source="consume_S" target="finish_S" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="404" yCoord="322"/>
-      <arcpath arcPointType="false" id="1" xCoord="320" yCoord="379"/>
+      <arcpath arcPointType="false" id="0" xCoord="403" yCoord="322"/>
+      <arcpath arcPointType="false" id="1" xCoord="320" yCoord="378"/>
     </arc>
     <arc id="A13" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="finish_S" target="outputs_end" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="298" yCoord="398"/>
@@ -185,7 +185,7 @@
       <arcpath arcPointType="false" id="1" xCoord="243" yCoord="475"/>
     </arc>
     <arc id="A15" inscription="1" nameOffsetX="0" nameOffsetY="0" source="outputs_end" target="clock_outputs_end" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="239" yCoord="485"/>
+      <arcpath arcPointType="false" id="0" xCoord="238" yCoord="485"/>
       <arcpath arcPointType="false" id="1" xCoord="238" yCoord="556"/>
     </arc>
   </net>
@@ -208,11 +208,11 @@
     <transition angle="90" displayName="true" id="exit_S" infiniteServer="false" name="exit_S" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="255" priority="0" urgent="false"/>
     <arc id="A0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="finish_S" target="exit_core_end" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="333" yCoord="354"/>
-      <arcpath arcPointType="false" id="1" xCoord="261" yCoord="415"/>
+      <arcpath arcPointType="false" id="1" xCoord="262" yCoord="415"/>
     </arc>
     <arc id="A1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="finish_N" target="exit_core_end" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="190" yCoord="355"/>
-      <arcpath arcPointType="false" id="1" xCoord="251" yCoord="414"/>
+      <arcpath arcPointType="false" id="1" xCoord="252" yCoord="414"/>
     </arc>
     <arc id="A2" inscription="1" nameOffsetX="0" nameOffsetY="0" source="exit_core_end" target="clock_exit_core_end" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="257" yCoord="424"/>
@@ -223,7 +223,7 @@
       <arcpath arcPointType="false" id="1" xCoord="179" yCoord="264"/>
     </arc>
     <arc id="A4" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_N" target="exit_N" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="168" yCoord="204"/>
+      <arcpath arcPointType="false" id="0" xCoord="167" yCoord="203"/>
       <arcpath arcPointType="false" id="1" xCoord="85" yCoord="264"/>
     </arc>
     <arc id="A5" inscription="1" nameOffsetX="0" nameOffsetY="0" source="skip_N" target="finish_N" type="normal" weight="1">
@@ -231,11 +231,11 @@
       <arcpath arcPointType="false" id="1" xCoord="179" yCoord="330"/>
     </arc>
     <arc id="A6" inscription="1" nameOffsetX="0" nameOffsetY="0" source="exit_N" target="finish_N" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="91" yCoord="275"/>
-      <arcpath arcPointType="false" id="1" xCoord="168" yCoord="336"/>
+      <arcpath arcPointType="false" id="0" xCoord="90" yCoord="275"/>
+      <arcpath arcPointType="false" id="1" xCoord="168" yCoord="335"/>
     </arc>
     <arc id="A7" inscription="1" nameOffsetX="0" nameOffsetY="0" source="exit_N" target="output_N" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="91" yCoord="275"/>
+      <arcpath arcPointType="false" id="0" xCoord="90" yCoord="275"/>
       <arcpath arcPointType="false" id="1" xCoord="90" yCoord="330"/>
     </arc>
     <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_N" target="exit_N" type="timed" weight="1">
@@ -268,7 +268,7 @@
     </arc>
     <arc id="A15" inscription="1" nameOffsetX="0" nameOffsetY="0" source="exit_core_start" target="consider_S" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="264" yCoord="125"/>
-      <arcpath arcPointType="false" id="1" xCoord="334" yCoord="185"/>
+      <arcpath arcPointType="false" id="1" xCoord="333" yCoord="185"/>
     </arc>
     <arc id="A16" inscription="1" nameOffsetX="0" nameOffsetY="0" source="exit_core_start" target="consider_N" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="264" yCoord="125"/>
@@ -279,15 +279,15 @@
       <arcpath arcPointType="false" id="1" xCoord="264" yCoord="115"/>
     </arc>
     <arc id="I18" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="output_S" target="exit_S" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="449" yCoord="345"/>
-      <arcpath arcPointType="false" id="1" xCoord="499" yCoord="348"/>
-      <arcpath arcPointType="false" id="2" xCoord="500" yCoord="270"/>
-      <arcpath arcPointType="false" id="3" xCoord="449" yCoord="271"/>
+      <arcpath arcPointType="false" id="0" xCoord="448" yCoord="346"/>
+      <arcpath arcPointType="false" id="1" xCoord="503" yCoord="352"/>
+      <arcpath arcPointType="false" id="2" xCoord="504" yCoord="274"/>
+      <arcpath arcPointType="false" id="3" xCoord="449" yCoord="270"/>
     </arc>
     <arc id="I19" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="output_N" target="exit_N" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="75" yCoord="344"/>
-      <arcpath arcPointType="false" id="1" xCoord="28" yCoord="343"/>
-      <arcpath arcPointType="false" id="2" xCoord="28" yCoord="269"/>
+      <arcpath arcPointType="false" id="0" xCoord="75" yCoord="345"/>
+      <arcpath arcPointType="false" id="1" xCoord="32" yCoord="347"/>
+      <arcpath arcPointType="false" id="2" xCoord="32" yCoord="273"/>
       <arcpath arcPointType="false" id="3" xCoord="75" yCoord="269"/>
     </arc>
   </net>
@@ -331,7 +331,7 @@
     </arc>
     <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_cycle_core_start" target="action_start_N" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="611" yCoord="78"/>
-      <arcpath arcPointType="false" id="1" xCoord="516" yCoord="186"/>
+      <arcpath arcPointType="false" id="1" xCoord="520" yCoord="190"/>
       <arcpath arcPointType="false" id="2" xCoord="413" yCoord="118"/>
     </arc>
     <arc id="A9" inscription="1" nameOffsetX="0" nameOffsetY="0" source="action_start_N" target="allow_action_N" type="normal" weight="1">
@@ -340,7 +340,7 @@
     </arc>
     <arc id="A10" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_cycle_core_start" target="action_start_W" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="611" yCoord="78"/>
-      <arcpath arcPointType="false" id="1" xCoord="518" yCoord="187"/>
+      <arcpath arcPointType="false" id="1" xCoord="522" yCoord="191"/>
       <arcpath arcPointType="false" id="2" xCoord="417" yCoord="211"/>
     </arc>
     <arc id="A11" inscription="1" nameOffsetX="0" nameOffsetY="0" source="action_start_W" target="allow_action_W" type="normal" weight="1">
@@ -349,7 +349,7 @@
     </arc>
     <arc id="A12" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_cycle_core_start" target="action_start_S" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="632" yCoord="77"/>
-      <arcpath arcPointType="false" id="1" xCoord="772" yCoord="204"/>
+      <arcpath arcPointType="false" id="1" xCoord="776" yCoord="208"/>
       <arcpath arcPointType="false" id="2" xCoord="841" yCoord="131"/>
     </arc>
     <arc id="A13" inscription="1" nameOffsetX="0" nameOffsetY="0" source="action_start_S" target="allow_action_S" type="normal" weight="1">
@@ -358,7 +358,7 @@
     </arc>
     <arc id="A14" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_cycle_core_start" target="action_start_E" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="632" yCoord="77"/>
-      <arcpath arcPointType="false" id="1" xCoord="768" yCoord="201"/>
+      <arcpath arcPointType="false" id="1" xCoord="772" yCoord="205"/>
       <arcpath arcPointType="false" id="2" xCoord="841" yCoord="211"/>
     </arc>
     <arc id="A15" inscription="1" nameOffsetX="0" nameOffsetY="0" source="action_start_E" target="allow_action_E" type="normal" weight="1">
@@ -410,8 +410,8 @@
       <arcpath arcPointType="false" id="1" xCoord="620" yCoord="192"/>
     </arc>
     <arc id="A25" inscription="1" nameOffsetX="0" nameOffsetY="0" source="cycle_stall" target="core_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="626" yCoord="193"/>
-      <arcpath arcPointType="false" id="1" xCoord="531" yCoord="264"/>
+      <arcpath arcPointType="false" id="0" xCoord="619" yCoord="192"/>
+      <arcpath arcPointType="false" id="1" xCoord="530" yCoord="263"/>
     </arc>
     <arc id="A26" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_N" target="cycle_stall" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="506" yCoord="83"/>
@@ -455,30 +455,30 @@
     </arc>
     <arc id="A34" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_W" target="cycle_finish_W" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="278" yCoord="219"/>
-      <arcpath arcPointType="false" id="1" xCoord="187" yCoord="220"/>
-      <arcpath arcPointType="false" id="2" xCoord="187" yCoord="602"/>
-      <arcpath arcPointType="false" id="3" xCoord="423" yCoord="600"/>
+      <arcpath arcPointType="false" id="1" xCoord="191" yCoord="224"/>
+      <arcpath arcPointType="false" id="2" xCoord="191" yCoord="606"/>
+      <arcpath arcPointType="false" id="3" xCoord="427" yCoord="604"/>
       <arcpath arcPointType="false" id="4" xCoord="425" yCoord="505"/>
     </arc>
     <arc id="A35" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_N" target="cycle_finish_N" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="280" yCoord="116"/>
-      <arcpath arcPointType="false" id="1" xCoord="119" yCoord="117"/>
-      <arcpath arcPointType="false" id="2" xCoord="120" yCoord="702"/>
-      <arcpath arcPointType="false" id="3" xCoord="545" yCoord="695"/>
+      <arcpath arcPointType="false" id="1" xCoord="123" yCoord="121"/>
+      <arcpath arcPointType="false" id="2" xCoord="124" yCoord="706"/>
+      <arcpath arcPointType="false" id="3" xCoord="549" yCoord="699"/>
       <arcpath arcPointType="false" id="4" xCoord="547" yCoord="505"/>
     </arc>
     <arc id="A36" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_E" target="cycle_finish_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="1005" yCoord="214"/>
-      <arcpath arcPointType="false" id="1" xCoord="1113" yCoord="214"/>
-      <arcpath arcPointType="false" id="2" xCoord="1114" yCoord="592"/>
-      <arcpath arcPointType="false" id="3" xCoord="883" yCoord="596"/>
+      <arcpath arcPointType="false" id="0" xCoord="1005" yCoord="215"/>
+      <arcpath arcPointType="false" id="1" xCoord="1117" yCoord="218"/>
+      <arcpath arcPointType="false" id="2" xCoord="1118" yCoord="596"/>
+      <arcpath arcPointType="false" id="3" xCoord="887" yCoord="600"/>
       <arcpath arcPointType="false" id="4" xCoord="882" yCoord="513"/>
     </arc>
     <arc id="A37" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_S" target="cycle_finish_S" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="1003" yCoord="123"/>
-      <arcpath arcPointType="false" id="1" xCoord="1205" yCoord="123"/>
-      <arcpath arcPointType="false" id="2" xCoord="1205" yCoord="685"/>
-      <arcpath arcPointType="false" id="3" xCoord="729" yCoord="694"/>
+      <arcpath arcPointType="false" id="0" xCoord="1003" yCoord="124"/>
+      <arcpath arcPointType="false" id="1" xCoord="1209" yCoord="127"/>
+      <arcpath arcPointType="false" id="2" xCoord="1209" yCoord="689"/>
+      <arcpath arcPointType="false" id="3" xCoord="733" yCoord="698"/>
       <arcpath arcPointType="false" id="4" xCoord="732" yCoord="516"/>
     </arc>
   </net>
@@ -494,7 +494,7 @@
     <place displayName="true" id="allow_action_S" initialMarking="0" invariant="&lt; inf" name="allow_action_S" nameOffsetX="114" nameOffsetY="9" positionX="836" positionY="687"/>
     <transition angle="90" displayName="true" id="cycle_W" infiniteServer="false" name="cycle_W" nameOffsetX="0" nameOffsetY="0" player="0" positionX="414" positionY="496" priority="0" urgent="false"/>
     <transition angle="0" displayName="true" id="cycle_S" infiniteServer="false" name="cycle_S" nameOffsetX="37" nameOffsetY="59" player="0" positionX="615" positionY="692" priority="0" urgent="false"/>
-    <transition angle="0" displayName="true" id="cycle_E" infiniteServer="false" name="cycle_E" nameOffsetX="85" nameOffsetY="4" player="0" positionX="834" positionY="492" priority="0" urgent="false"/>
+    <transition angle="90" displayName="true" id="cycle_E" infiniteServer="false" name="cycle_E" nameOffsetX="85" nameOffsetY="4" player="0" positionX="834" positionY="492" priority="0" urgent="false"/>
     <transition angle="0" displayName="true" id="cycle_N" infiniteServer="false" name="cycle_N" nameOffsetX="30" nameOffsetY="-7" player="0" positionX="619" positionY="292" priority="0" urgent="false"/>
     <transition angle="135" displayName="true" id="move_S" infiniteServer="false" name="move_S" nameOffsetX="67" nameOffsetY="48" player="0" positionX="934" positionY="798" priority="0" urgent="false"/>
     <transition angle="45" displayName="true" id="move_E" infiniteServer="false" name="move_E" nameOffsetX="88" nameOffsetY="-15" player="0" positionX="952" positionY="183" priority="0" urgent="false"/>
@@ -503,215 +503,215 @@
     <transition angle="135" displayName="true" id="stall_W" infiniteServer="false" name="stall_W" nameOffsetX="0" nameOffsetY="0" player="0" positionX="513" positionY="583" priority="0" urgent="false"/>
     <transition angle="315" displayName="true" id="stall_E" infiniteServer="false" name="stall_E" nameOffsetX="0" nameOffsetY="0" player="0" positionX="728" positionY="391" priority="0" urgent="false"/>
     <arc id="A4" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_E" target="move_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="1108" yCoord="489"/>
-      <arcpath arcPointType="false" id="1" xCoord="970" yCoord="201"/>
+      <arcpath arcPointType="false" id="0" xCoord="1108" yCoord="490"/>
+      <arcpath arcPointType="false" id="1" xCoord="970" yCoord="202"/>
     </arc>
     <arc id="A5" inscription="1" nameOffsetX="0" nameOffsetY="0" source="move_E" target="core_N" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="959" yCoord="198"/>
-      <arcpath arcPointType="false" id="1" xCoord="654" yCoord="98"/>
+      <arcpath arcPointType="false" id="1" xCoord="655" yCoord="99"/>
     </arc>
     <arc id="A6" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_N" target="move_N" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="625" yCoord="99"/>
-      <arcpath arcPointType="false" id="1" xCoord="325" yCoord="207"/>
+      <arcpath arcPointType="false" id="0" xCoord="626" yCoord="99"/>
+      <arcpath arcPointType="false" id="1" xCoord="325" yCoord="208"/>
     </arc>
     <arc id="A7" inscription="1" nameOffsetX="0" nameOffsetY="0" source="move_N" target="core_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="321" yCoord="219"/>
-      <arcpath arcPointType="false" id="1" xCoord="208" yCoord="492"/>
+      <arcpath arcPointType="false" id="0" xCoord="322" yCoord="219"/>
+      <arcpath arcPointType="false" id="1" xCoord="209" yCoord="492"/>
     </arc>
     <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_W" target="move_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="206" yCoord="520"/>
-      <arcpath arcPointType="false" id="1" xCoord="285" yCoord="814"/>
+      <arcpath arcPointType="false" id="0" xCoord="207" yCoord="520"/>
+      <arcpath arcPointType="false" id="1" xCoord="286" yCoord="815"/>
     </arc>
     <arc id="A9" inscription="1" nameOffsetX="0" nameOffsetY="0" source="move_W" target="core_S" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="294" yCoord="821"/>
-      <arcpath arcPointType="false" id="1" xCoord="621" yCoord="933"/>
+      <arcpath arcPointType="false" id="0" xCoord="295" yCoord="821"/>
+      <arcpath arcPointType="false" id="1" xCoord="622" yCoord="933"/>
     </arc>
     <arc id="A10" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_S" target="move_S" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="649" yCoord="932"/>
+      <arcpath arcPointType="false" id="0" xCoord="650" yCoord="933"/>
       <arcpath arcPointType="false" id="1" xCoord="945" yCoord="816"/>
     </arc>
     <arc id="A11" inscription="1" nameOffsetX="0" nameOffsetY="0" source="move_S" target="core_E" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="948" yCoord="805"/>
-      <arcpath arcPointType="false" id="1" xCoord="1107" yCoord="516"/>
+      <arcpath arcPointType="false" id="1" xCoord="1108" yCoord="516"/>
     </arc>
     <arc id="A12" inscription="1" nameOffsetX="0" nameOffsetY="0" source="cycle_N" target="allow_action_E" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="638" yCoord="307"/>
-      <arcpath arcPointType="false" id="1" xCoord="833" yCoord="302"/>
+      <arcpath arcPointType="false" id="0" xCoord="639" yCoord="307"/>
+      <arcpath arcPointType="false" id="1" xCoord="833" yCoord="303"/>
     </arc>
     <arc id="A13" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_E" target="cycle_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="848" yCoord="316"/>
-      <arcpath arcPointType="false" id="1" xCoord="849" yCoord="492"/>
+      <arcpath arcPointType="false" id="0" xCoord="848" yCoord="317"/>
+      <arcpath arcPointType="false" id="1" xCoord="848" yCoord="502"/>
     </arc>
     <arc id="A14" inscription="1" nameOffsetX="0" nameOffsetY="0" source="cycle_E" target="allow_action_S" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="849" yCoord="522"/>
-      <arcpath arcPointType="false" id="1" xCoord="850" yCoord="687"/>
+      <arcpath arcPointType="false" id="0" xCoord="854" yCoord="512"/>
+      <arcpath arcPointType="false" id="1" xCoord="852" yCoord="687"/>
     </arc>
     <arc id="A16" inscription="1" nameOffsetX="0" nameOffsetY="0" source="cycle_S" target="allow_action_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="624" yCoord="707"/>
+      <arcpath arcPointType="false" id="0" xCoord="625" yCoord="707"/>
       <arcpath arcPointType="false" id="1" xCoord="441" yCoord="707"/>
     </arc>
     <arc id="A17" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_W" target="cycle_W" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="426" yCoord="692"/>
-      <arcpath arcPointType="false" id="1" xCoord="428" yCoord="515"/>
+      <arcpath arcPointType="false" id="1" xCoord="428" yCoord="516"/>
     </arc>
     <arc id="A18" inscription="1" nameOffsetX="0" nameOffsetY="0" source="cycle_W" target="allow_action_N" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="423" yCoord="505"/>
-      <arcpath arcPointType="false" id="1" xCoord="426" yCoord="321"/>
+      <arcpath arcPointType="false" id="0" xCoord="423" yCoord="506"/>
+      <arcpath arcPointType="false" id="1" xCoord="426" yCoord="322"/>
     </arc>
     <arc id="A19" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_N" target="cycle_N" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="441" yCoord="306"/>
-      <arcpath arcPointType="false" id="1" xCoord="629" yCoord="302"/>
+      <arcpath arcPointType="false" id="0" xCoord="442" yCoord="306"/>
+      <arcpath arcPointType="false" id="1" xCoord="629" yCoord="303"/>
     </arc>
     <arc id="I20" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_W" target="cycle_W" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="217" yCoord="506"/>
-      <arcpath arcPointType="false" id="1" xCoord="413" yCoord="511"/>
+      <arcpath arcPointType="false" id="0" xCoord="218" yCoord="506"/>
+      <arcpath arcPointType="false" id="1" xCoord="414" yCoord="512"/>
     </arc>
     <arc id="I21" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_E" target="cycle_E" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="1100" yCoord="503"/>
-      <arcpath arcPointType="false" id="1" xCoord="853" yCoord="507"/>
+      <arcpath arcPointType="false" id="0" xCoord="1100" yCoord="504"/>
+      <arcpath arcPointType="false" id="1" xCoord="864" yCoord="507"/>
     </arc>
     <arc id="A22" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_N" target="move_N" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="415" yCoord="297"/>
-      <arcpath arcPointType="false" id="1" xCoord="332" yCoord="223"/>
+      <arcpath arcPointType="false" id="1" xCoord="333" yCoord="224"/>
     </arc>
     <arc id="A23" inscription="1" nameOffsetX="0" nameOffsetY="0" source="move_N" target="allow_action_N" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="332" yCoord="223"/>
+      <arcpath arcPointType="false" id="0" xCoord="333" yCoord="224"/>
       <arcpath arcPointType="false" id="1" xCoord="415" yCoord="297"/>
     </arc>
     <arc id="A24" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_E" target="move_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="859" yCoord="292"/>
+      <arcpath arcPointType="false" id="0" xCoord="859" yCoord="293"/>
       <arcpath arcPointType="false" id="1" xCoord="956" yCoord="208"/>
     </arc>
     <arc id="A25" inscription="1" nameOffsetX="0" nameOffsetY="0" source="move_E" target="allow_action_E" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="956" yCoord="208"/>
-      <arcpath arcPointType="false" id="1" xCoord="859" yCoord="292"/>
+      <arcpath arcPointType="false" id="1" xCoord="859" yCoord="293"/>
     </arc>
     <arc id="A26" inscription="1" nameOffsetX="0" nameOffsetY="0" source="move_S" target="allow_action_S" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="938" yCoord="802"/>
-      <arcpath arcPointType="false" id="1" xCoord="860" yCoord="713"/>
+      <arcpath arcPointType="false" id="0" xCoord="938" yCoord="803"/>
+      <arcpath arcPointType="false" id="1" xCoord="861" yCoord="714"/>
     </arc>
     <arc id="A27" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_S" target="move_S" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="860" yCoord="713"/>
-      <arcpath arcPointType="false" id="1" xCoord="938" yCoord="802"/>
+      <arcpath arcPointType="false" id="0" xCoord="861" yCoord="714"/>
+      <arcpath arcPointType="false" id="1" xCoord="938" yCoord="803"/>
     </arc>
     <arc id="A28" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_W" target="move_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="414" yCoord="716"/>
-      <arcpath arcPointType="false" id="1" xCoord="301" yCoord="807"/>
+      <arcpath arcPointType="false" id="0" xCoord="415" yCoord="716"/>
+      <arcpath arcPointType="false" id="1" xCoord="302" yCoord="807"/>
     </arc>
     <arc id="A29" inscription="1" nameOffsetX="0" nameOffsetY="0" source="move_W" target="allow_action_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="301" yCoord="807"/>
-      <arcpath arcPointType="false" id="1" xCoord="414" yCoord="716"/>
+      <arcpath arcPointType="false" id="0" xCoord="302" yCoord="807"/>
+      <arcpath arcPointType="false" id="1" xCoord="415" yCoord="716"/>
     </arc>
     <arc id="I30" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_E" target="move_S" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="1122" yCoord="516"/>
-      <arcpath arcPointType="true" id="1" xCoord="1129" yCoord="580"/>
-      <arcpath arcPointType="false" id="2" xCoord="952" yCoord="808"/>
+      <arcpath arcPointType="false" id="0" xCoord="1123" yCoord="516"/>
+      <arcpath arcPointType="true" id="1" xCoord="1133" yCoord="584"/>
+      <arcpath arcPointType="false" id="2" xCoord="952" yCoord="809"/>
     </arc>
     <arc id="I31" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_S" target="move_W" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="627" yCoord="950"/>
-      <arcpath arcPointType="true" id="1" xCoord="578" yCoord="982"/>
-      <arcpath arcPointType="false" id="2" xCoord="289" yCoord="825"/>
+      <arcpath arcPointType="false" id="0" xCoord="629" yCoord="951"/>
+      <arcpath arcPointType="true" id="1" xCoord="582" yCoord="986"/>
+      <arcpath arcPointType="false" id="2" xCoord="290" yCoord="825"/>
     </arc>
     <arc id="I32" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_W" target="move_N" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="189" yCoord="500"/>
-      <arcpath arcPointType="true" id="1" xCoord="175" yCoord="481"/>
+      <arcpath arcPointType="false" id="0" xCoord="189" yCoord="501"/>
+      <arcpath arcPointType="true" id="1" xCoord="179" yCoord="485"/>
       <arcpath arcPointType="false" id="2" xCoord="318" yCoord="215"/>
     </arc>
     <arc id="I33" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_N" target="move_E" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="653" yCoord="87"/>
-      <arcpath arcPointType="true" id="1" xCoord="732" yCoord="78"/>
-      <arcpath arcPointType="false" id="2" xCoord="962" yCoord="194"/>
+      <arcpath arcPointType="false" id="0" xCoord="655" yCoord="88"/>
+      <arcpath arcPointType="true" id="1" xCoord="736" yCoord="82"/>
+      <arcpath arcPointType="false" id="2" xCoord="963" yCoord="195"/>
     </arc>
     <arc id="I35" inscription="[0,inf)" nameOffsetX="66" nameOffsetY="-32" source="cycle_progress" target="cycle_E" type="tapnInhibitor" weight="cycle_length">
-      <arcpath arcPointType="false" id="0" xCoord="645" yCoord="522"/>
-      <arcpath arcPointType="true" id="1" xCoord="804" yCoord="605"/>
-      <arcpath arcPointType="false" id="2" xCoord="849" yCoord="522"/>
+      <arcpath arcPointType="false" id="0" xCoord="645" yCoord="523"/>
+      <arcpath arcPointType="true" id="1" xCoord="808" yCoord="609"/>
+      <arcpath arcPointType="false" id="2" xCoord="848" yCoord="512"/>
     </arc>
     <arc id="I36" inscription="[0,inf)" nameOffsetX="31" nameOffsetY="-61" source="cycle_progress" target="cycle_N" type="tapnInhibitor" weight="cycle_length">
-      <arcpath arcPointType="false" id="0" xCoord="624" yCoord="500"/>
-      <arcpath arcPointType="true" id="1" xCoord="575" yCoord="395"/>
-      <arcpath arcPointType="false" id="2" xCoord="628" yCoord="312"/>
+      <arcpath arcPointType="false" id="0" xCoord="625" yCoord="501"/>
+      <arcpath arcPointType="true" id="1" xCoord="579" yCoord="399"/>
+      <arcpath arcPointType="false" id="2" xCoord="629" yCoord="313"/>
     </arc>
     <arc id="I37" inscription="[0,inf)" nameOffsetX="1" nameOffsetY="51" source="cycle_progress" target="cycle_W" type="tapnInhibitor" weight="cycle_length">
-      <arcpath arcPointType="false" id="0" xCoord="624" yCoord="500"/>
-      <arcpath arcPointType="true" id="1" xCoord="515" yCoord="449"/>
-      <arcpath arcPointType="false" id="2" xCoord="428" yCoord="505"/>
+      <arcpath arcPointType="false" id="0" xCoord="625" yCoord="501"/>
+      <arcpath arcPointType="true" id="1" xCoord="519" yCoord="453"/>
+      <arcpath arcPointType="false" id="2" xCoord="428" yCoord="506"/>
     </arc>
     <arc id="A15" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_S" target="cycle_S" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="836" yCoord="702"/>
-      <arcpath arcPointType="false" id="1" xCoord="634" yCoord="712"/>
+      <arcpath arcPointType="false" id="0" xCoord="836" yCoord="703"/>
+      <arcpath arcPointType="false" id="1" xCoord="635" yCoord="712"/>
     </arc>
     <arc id="I34" inscription="[0,inf)" nameOffsetX="25" nameOffsetY="58" source="cycle_progress" target="cycle_S" type="tapnInhibitor" weight="cycle_length">
-      <arcpath arcPointType="false" id="0" xCoord="647" yCoord="519"/>
-      <arcpath arcPointType="true" id="1" xCoord="747" yCoord="657"/>
+      <arcpath arcPointType="false" id="0" xCoord="647" yCoord="520"/>
+      <arcpath arcPointType="true" id="1" xCoord="751" yCoord="661"/>
       <arcpath arcPointType="false" id="2" xCoord="635" yCoord="702"/>
     </arc>
     <arc id="A34" inscription="1" nameOffsetX="0" nameOffsetY="0" source="cycle_S" target="cycle_progress" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="630" yCoord="692"/>
-      <arcpath arcPointType="false" id="1" xCoord="634" yCoord="525"/>
+      <arcpath arcPointType="false" id="0" xCoord="631" yCoord="692"/>
+      <arcpath arcPointType="false" id="1" xCoord="635" yCoord="526"/>
     </arc>
     <arc id="A35" inscription="1" nameOffsetX="0" nameOffsetY="0" source="cycle_E" target="cycle_progress" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="843" yCoord="507"/>
-      <arcpath arcPointType="false" id="1" xCoord="649" yCoord="510"/>
+      <arcpath arcPointType="false" id="0" xCoord="834" yCoord="507"/>
+      <arcpath arcPointType="false" id="1" xCoord="650" yCoord="511"/>
     </arc>
     <arc id="A36" inscription="1" nameOffsetX="0" nameOffsetY="0" source="cycle_N" target="cycle_progress" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="634" yCoord="322"/>
-      <arcpath arcPointType="false" id="1" xCoord="634" yCoord="496"/>
+      <arcpath arcPointType="false" id="0" xCoord="635" yCoord="322"/>
+      <arcpath arcPointType="false" id="1" xCoord="635" yCoord="496"/>
     </arc>
     <arc id="A37" inscription="1" nameOffsetX="0" nameOffsetY="0" source="cycle_W" target="cycle_progress" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="443" yCoord="511"/>
-      <arcpath arcPointType="false" id="1" xCoord="620" yCoord="511"/>
+      <arcpath arcPointType="false" id="0" xCoord="444" yCoord="512"/>
+      <arcpath arcPointType="false" id="1" xCoord="620" yCoord="512"/>
     </arc>
     <arc id="A40" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_E" target="stall_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="1100" yCoord="499"/>
+      <arcpath arcPointType="false" id="0" xCoord="1101" yCoord="499"/>
       <arcpath arcPointType="false" id="1" xCoord="750" yCoord="406"/>
     </arc>
     <arc id="A41" inscription="1" nameOffsetX="0" nameOffsetY="0" source="stall_E" target="core_E" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="750" yCoord="407"/>
-      <arcpath arcPointType="false" id="1" xCoord="1100" yCoord="499"/>
+      <arcpath arcPointType="false" id="0" xCoord="751" yCoord="407"/>
+      <arcpath arcPointType="false" id="1" xCoord="1101" yCoord="499"/>
     </arc>
     <arc id="A42" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_N" target="stall_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="644" yCoord="108"/>
-      <arcpath arcPointType="false" id="1" xCoord="732" yCoord="394"/>
+      <arcpath arcPointType="false" id="0" xCoord="645" yCoord="108"/>
+      <arcpath arcPointType="false" id="1" xCoord="733" yCoord="395"/>
     </arc>
     <arc id="A43" inscription="1" nameOffsetX="0" nameOffsetY="0" source="stall_E" target="core_N" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="732" yCoord="394"/>
-      <arcpath arcPointType="false" id="1" xCoord="644" yCoord="108"/>
+      <arcpath arcPointType="false" id="0" xCoord="733" yCoord="395"/>
+      <arcpath arcPointType="false" id="1" xCoord="645" yCoord="108"/>
     </arc>
     <arc id="A44" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_W" target="stall_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="217" yCoord="509"/>
+      <arcpath arcPointType="false" id="0" xCoord="217" yCoord="510"/>
       <arcpath arcPointType="false" id="1" xCoord="517" yCoord="587"/>
     </arc>
     <arc id="A45" inscription="1" nameOffsetX="0" nameOffsetY="0" source="stall_W" target="core_W" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="517" yCoord="587"/>
-      <arcpath arcPointType="false" id="1" xCoord="217" yCoord="509"/>
+      <arcpath arcPointType="false" id="1" xCoord="217" yCoord="510"/>
     </arc>
     <arc id="A46" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_S" target="stall_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="631" yCoord="923"/>
+      <arcpath arcPointType="false" id="0" xCoord="632" yCoord="924"/>
       <arcpath arcPointType="false" id="1" xCoord="538" yCoord="609"/>
     </arc>
     <arc id="A47" inscription="1" nameOffsetX="0" nameOffsetY="0" source="stall_W" target="core_S" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="538" yCoord="609"/>
-      <arcpath arcPointType="false" id="1" xCoord="631" yCoord="923"/>
+      <arcpath arcPointType="false" id="1" xCoord="632" yCoord="924"/>
     </arc>
     <arc id="A48" inscription="1" nameOffsetX="10" nameOffsetY="33" source="stall_W" target="cycle_progress" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="531" yCoord="593"/>
-      <arcpath arcPointType="false" id="1" xCoord="623" yCoord="520"/>
+      <arcpath arcPointType="false" id="0" xCoord="531" yCoord="594"/>
+      <arcpath arcPointType="false" id="1" xCoord="624" yCoord="521"/>
     </arc>
     <arc id="A49" inscription="1" nameOffsetX="0" nameOffsetY="0" source="stall_E" target="cycle_progress" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="743" yCoord="413"/>
-      <arcpath arcPointType="false" id="1" xCoord="646" yCoord="500"/>
+      <arcpath arcPointType="false" id="0" xCoord="744" yCoord="414"/>
+      <arcpath arcPointType="false" id="1" xCoord="646" yCoord="501"/>
     </arc>
     <arc id="I48" inscription="[0,inf)" nameOffsetX="33" nameOffsetY="50" source="cycle_progress" target="stall_W" type="tapnInhibitor" weight="cycle_length">
-      <arcpath arcPointType="false" id="0" xCoord="631" yCoord="525"/>
-      <arcpath arcPointType="true" id="1" xCoord="567" yCoord="615"/>
+      <arcpath arcPointType="false" id="0" xCoord="632" yCoord="526"/>
+      <arcpath arcPointType="true" id="1" xCoord="571" yCoord="619"/>
       <arcpath arcPointType="false" id="2" xCoord="538" yCoord="609"/>
     </arc>
     <arc id="I49" inscription="[0,inf)" nameOffsetX="52" nameOffsetY="-2" source="cycle_progress" target="stall_E" type="tapnInhibitor" weight="cycle_length">
-      <arcpath arcPointType="false" id="0" xCoord="641" yCoord="497"/>
-      <arcpath arcPointType="false" id="1" xCoord="673" yCoord="428"/>
-      <arcpath arcPointType="true" id="2" xCoord="699" yCoord="404"/>
-      <arcpath arcPointType="false" id="3" xCoord="739" yCoord="410"/>
+      <arcpath arcPointType="false" id="0" xCoord="642" yCoord="498"/>
+      <arcpath arcPointType="false" id="1" xCoord="677" yCoord="432"/>
+      <arcpath arcPointType="true" id="2" xCoord="703" yCoord="408"/>
+      <arcpath arcPointType="false" id="3" xCoord="740" yCoord="410"/>
     </arc>
     <arc id="A50" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_W" target="stall_W" type="timed" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="436" yCoord="695"/>
@@ -719,39 +719,39 @@
     </arc>
     <arc id="A51" inscription="1" nameOffsetX="0" nameOffsetY="0" source="stall_W" target="allow_action_N" type="normal" weight="1">
       <arcpath arcPointType="false" id="0" xCoord="517" yCoord="587"/>
-      <arcpath arcPointType="false" id="1" xCoord="431" yCoord="321"/>
+      <arcpath arcPointType="false" id="1" xCoord="432" yCoord="321"/>
     </arc>
     <arc id="A52" inscription="1" nameOffsetX="0" nameOffsetY="0" source="stall_E" target="allow_action_S" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="753" yCoord="416"/>
-      <arcpath arcPointType="false" id="1" xCoord="846" yCoord="687"/>
+      <arcpath arcPointType="false" id="0" xCoord="754" yCoord="416"/>
+      <arcpath arcPointType="false" id="1" xCoord="846" yCoord="688"/>
     </arc>
     <arc id="A53" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="allow_action_E" target="stall_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="836" yCoord="312"/>
-      <arcpath arcPointType="false" id="1" xCoord="743" yCoord="398"/>
+      <arcpath arcPointType="false" id="0" xCoord="836" yCoord="313"/>
+      <arcpath arcPointType="false" id="1" xCoord="744" yCoord="399"/>
     </arc>
     <arc id="I54" inscription="[0,inf)" nameOffsetX="-105" nameOffsetY="82" source="cycle_progress" target="move_W" type="tapnInhibitor" weight="cycle_length">
-      <arcpath arcPointType="false" id="0" xCoord="629" yCoord="524"/>
-      <arcpath arcPointType="false" id="1" xCoord="556" yCoord="696"/>
-      <arcpath arcPointType="true" id="2" xCoord="378" yCoord="817"/>
+      <arcpath arcPointType="false" id="0" xCoord="629" yCoord="525"/>
+      <arcpath arcPointType="false" id="1" xCoord="560" yCoord="700"/>
+      <arcpath arcPointType="true" id="2" xCoord="382" yCoord="821"/>
       <arcpath arcPointType="false" id="3" xCoord="297" yCoord="818"/>
     </arc>
     <arc id="I55" inscription="[0,inf)" nameOffsetX="129" nameOffsetY="141" source="cycle_progress" target="move_S" type="tapnInhibitor" weight="cycle_length">
-      <arcpath arcPointType="false" id="0" xCoord="646" yCoord="521"/>
-      <arcpath arcPointType="false" id="1" xCoord="769" yCoord="631"/>
-      <arcpath arcPointType="true" id="2" xCoord="859" yCoord="764"/>
-      <arcpath arcPointType="false" id="3" xCoord="938" yCoord="802"/>
+      <arcpath arcPointType="false" id="0" xCoord="646" yCoord="522"/>
+      <arcpath arcPointType="false" id="1" xCoord="773" yCoord="635"/>
+      <arcpath arcPointType="true" id="2" xCoord="863" yCoord="768"/>
+      <arcpath arcPointType="false" id="3" xCoord="938" yCoord="803"/>
     </arc>
     <arc id="I56" inscription="[0,inf)" nameOffsetX="146" nameOffsetY="-109" source="cycle_progress" target="move_E" type="tapnInhibitor" weight="cycle_length">
-      <arcpath arcPointType="false" id="0" xCoord="641" yCoord="497"/>
-      <arcpath arcPointType="false" id="1" xCoord="700" yCoord="371"/>
-      <arcpath arcPointType="true" id="2" xCoord="885" yCoord="220"/>
+      <arcpath arcPointType="false" id="0" xCoord="642" yCoord="498"/>
+      <arcpath arcPointType="false" id="1" xCoord="704" yCoord="375"/>
+      <arcpath arcPointType="true" id="2" xCoord="889" yCoord="224"/>
       <arcpath arcPointType="false" id="3" xCoord="956" yCoord="208"/>
     </arc>
     <arc id="I57" inscription="[0,inf)" nameOffsetX="-63" nameOffsetY="-125" source="cycle_progress" target="move_N" type="tapnInhibitor" weight="cycle_length">
-      <arcpath arcPointType="false" id="0" xCoord="624" yCoord="500"/>
-      <arcpath arcPointType="false" id="1" xCoord="573" yCoord="446"/>
-      <arcpath arcPointType="true" id="2" xCoord="402" yCoord="250"/>
-      <arcpath arcPointType="false" id="3" xCoord="332" yCoord="223"/>
+      <arcpath arcPointType="false" id="0" xCoord="625" yCoord="501"/>
+      <arcpath arcPointType="false" id="1" xCoord="577" yCoord="450"/>
+      <arcpath arcPointType="true" id="2" xCoord="406" yCoord="254"/>
+      <arcpath arcPointType="false" id="3" xCoord="333" yCoord="224"/>
     </arc>
   </net>
   <net active="true" id="phase_4_enter_core" type="P/T net">
@@ -772,88 +772,88 @@
     <transition angle="90" displayName="true" id="skip_E" infiniteServer="false" name="skip_E" nameOffsetX="0" nameOffsetY="0" player="0" positionX="330" positionY="255" priority="0" urgent="false"/>
     <transition angle="90" displayName="true" id="enter_E" infiniteServer="false" name="enter_E" nameOffsetX="0" nameOffsetY="0" player="0" positionX="420" positionY="255" priority="0" urgent="false"/>
     <arc id="A0" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="finish_E" target="enter_core_end" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="334" yCoord="355"/>
-      <arcpath arcPointType="false" id="1" xCoord="274" yCoord="415"/>
+      <arcpath arcPointType="false" id="0" xCoord="338" yCoord="359"/>
+      <arcpath arcPointType="false" id="1" xCoord="278" yCoord="419"/>
     </arc>
     <arc id="A1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="finish_W" target="enter_core_end" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="191" yCoord="354"/>
-      <arcpath arcPointType="false" id="1" xCoord="264" yCoord="414"/>
+      <arcpath arcPointType="false" id="0" xCoord="195" yCoord="358"/>
+      <arcpath arcPointType="false" id="1" xCoord="268" yCoord="418"/>
     </arc>
     <arc id="A2" inscription="1" nameOffsetX="0" nameOffsetY="0" source="enter_core_end" target="clock_enter_core_end" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="269" yCoord="424"/>
-      <arcpath arcPointType="false" id="1" xCoord="269" yCoord="510"/>
+      <arcpath arcPointType="false" id="0" xCoord="273" yCoord="428"/>
+      <arcpath arcPointType="false" id="1" xCoord="273" yCoord="514"/>
     </arc>
     <arc id="A3" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_W" target="skip_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="179" yCoord="209"/>
-      <arcpath arcPointType="false" id="1" xCoord="179" yCoord="264"/>
+      <arcpath arcPointType="false" id="0" xCoord="183" yCoord="213"/>
+      <arcpath arcPointType="false" id="1" xCoord="183" yCoord="268"/>
     </arc>
     <arc id="A4" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_W" target="enter_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="167" yCoord="203"/>
-      <arcpath arcPointType="false" id="1" xCoord="85" yCoord="264"/>
+      <arcpath arcPointType="false" id="0" xCoord="171" yCoord="207"/>
+      <arcpath arcPointType="false" id="1" xCoord="89" yCoord="268"/>
     </arc>
     <arc id="A5" inscription="1" nameOffsetX="0" nameOffsetY="0" source="skip_W" target="finish_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="179" yCoord="274"/>
-      <arcpath arcPointType="false" id="1" xCoord="179" yCoord="330"/>
+      <arcpath arcPointType="false" id="0" xCoord="183" yCoord="278"/>
+      <arcpath arcPointType="false" id="1" xCoord="183" yCoord="334"/>
     </arc>
     <arc id="A6" inscription="1" nameOffsetX="0" nameOffsetY="0" source="enter_W" target="finish_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="90" yCoord="275"/>
-      <arcpath arcPointType="false" id="1" xCoord="168" yCoord="335"/>
+      <arcpath arcPointType="false" id="0" xCoord="94" yCoord="279"/>
+      <arcpath arcPointType="false" id="1" xCoord="172" yCoord="339"/>
     </arc>
     <arc id="A7" inscription="1" nameOffsetX="0" nameOffsetY="0" source="enter_W" target="core_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="90" yCoord="275"/>
-      <arcpath arcPointType="false" id="1" xCoord="90" yCoord="330"/>
+      <arcpath arcPointType="false" id="0" xCoord="94" yCoord="279"/>
+      <arcpath arcPointType="false" id="1" xCoord="94" yCoord="334"/>
     </arc>
     <arc id="A8" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="input_W" target="enter_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="88" yCoord="209"/>
-      <arcpath arcPointType="false" id="1" xCoord="95" yCoord="265"/>
+      <arcpath arcPointType="false" id="0" xCoord="92" yCoord="213"/>
+      <arcpath arcPointType="false" id="1" xCoord="99" yCoord="269"/>
     </arc>
     <arc id="A9" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_E" target="skip_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="344" yCoord="209"/>
-      <arcpath arcPointType="false" id="1" xCoord="344" yCoord="264"/>
+      <arcpath arcPointType="false" id="0" xCoord="348" yCoord="213"/>
+      <arcpath arcPointType="false" id="1" xCoord="348" yCoord="268"/>
     </arc>
     <arc id="A10" inscription="1" nameOffsetX="0" nameOffsetY="0" source="skip_E" target="finish_E" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="344" yCoord="274"/>
-      <arcpath arcPointType="false" id="1" xCoord="344" yCoord="330"/>
+      <arcpath arcPointType="false" id="0" xCoord="348" yCoord="278"/>
+      <arcpath arcPointType="false" id="1" xCoord="348" yCoord="334"/>
     </arc>
     <arc id="A11" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="input_E" target="enter_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="435" yCoord="209"/>
-      <arcpath arcPointType="false" id="1" xCoord="439" yCoord="265"/>
+      <arcpath arcPointType="false" id="0" xCoord="439" yCoord="213"/>
+      <arcpath arcPointType="false" id="1" xCoord="443" yCoord="269"/>
     </arc>
     <arc id="A12" inscription="1" nameOffsetX="0" nameOffsetY="0" source="enter_E" target="core_E" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="434" yCoord="274"/>
-      <arcpath arcPointType="false" id="1" xCoord="434" yCoord="330"/>
+      <arcpath arcPointType="false" id="0" xCoord="438" yCoord="278"/>
+      <arcpath arcPointType="false" id="1" xCoord="438" yCoord="334"/>
     </arc>
     <arc id="A13" inscription="1" nameOffsetX="0" nameOffsetY="0" source="enter_E" target="finish_E" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="434" yCoord="274"/>
-      <arcpath arcPointType="false" id="1" xCoord="356" yCoord="335"/>
+      <arcpath arcPointType="false" id="0" xCoord="438" yCoord="278"/>
+      <arcpath arcPointType="false" id="1" xCoord="360" yCoord="339"/>
     </arc>
     <arc id="A14" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_E" target="enter_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="356" yCoord="204"/>
-      <arcpath arcPointType="false" id="1" xCoord="429" yCoord="264"/>
+      <arcpath arcPointType="false" id="0" xCoord="360" yCoord="208"/>
+      <arcpath arcPointType="false" id="1" xCoord="433" yCoord="268"/>
     </arc>
     <arc id="A15" inscription="1" nameOffsetX="0" nameOffsetY="0" source="enter_core_start" target="consider_E" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="269" yCoord="124"/>
-      <arcpath arcPointType="false" id="1" xCoord="334" yCoord="184"/>
+      <arcpath arcPointType="false" id="0" xCoord="273" yCoord="128"/>
+      <arcpath arcPointType="false" id="1" xCoord="338" yCoord="188"/>
     </arc>
     <arc id="A16" inscription="1" nameOffsetX="0" nameOffsetY="0" source="enter_core_start" target="consider_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="269" yCoord="124"/>
-      <arcpath arcPointType="false" id="1" xCoord="191" yCoord="185"/>
+      <arcpath arcPointType="false" id="0" xCoord="273" yCoord="128"/>
+      <arcpath arcPointType="false" id="1" xCoord="195" yCoord="189"/>
     </arc>
     <arc id="A17" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_enter_core_start" target="enter_core_start" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="269" yCoord="59"/>
-      <arcpath arcPointType="false" id="1" xCoord="269" yCoord="114"/>
+      <arcpath arcPointType="false" id="0" xCoord="273" yCoord="63"/>
+      <arcpath arcPointType="false" id="1" xCoord="273" yCoord="118"/>
     </arc>
     <arc id="I18" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_E" target="enter_E" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="449" yCoord="345"/>
-      <arcpath arcPointType="false" id="1" xCoord="499" yCoord="347"/>
-      <arcpath arcPointType="false" id="2" xCoord="500" yCoord="268"/>
-      <arcpath arcPointType="false" id="3" xCoord="449" yCoord="270"/>
+      <arcpath arcPointType="false" id="0" xCoord="453" yCoord="349"/>
+      <arcpath arcPointType="false" id="1" xCoord="503" yCoord="351"/>
+      <arcpath arcPointType="false" id="2" xCoord="504" yCoord="272"/>
+      <arcpath arcPointType="false" id="3" xCoord="453" yCoord="274"/>
     </arc>
     <arc id="I19" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="core_W" target="enter_W" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="75" yCoord="345"/>
-      <arcpath arcPointType="false" id="1" xCoord="27" yCoord="346"/>
-      <arcpath arcPointType="false" id="2" xCoord="31" yCoord="270"/>
-      <arcpath arcPointType="false" id="3" xCoord="75" yCoord="269"/>
+      <arcpath arcPointType="false" id="0" xCoord="79" yCoord="349"/>
+      <arcpath arcPointType="false" id="1" xCoord="31" yCoord="350"/>
+      <arcpath arcPointType="false" id="2" xCoord="35" yCoord="274"/>
+      <arcpath arcPointType="false" id="3" xCoord="79" yCoord="273"/>
     </arc>
   </net>
   <net active="true" id="phase_5_inputs" type="P/T net">
@@ -872,71 +872,71 @@
     <transition angle="90" displayName="true" id="generate_W" infiniteServer="false" name="generate_W" nameOffsetX="0" nameOffsetY="0" player="0" positionX="60" positionY="225" priority="0" urgent="false"/>
     <transition angle="90" displayName="true" id="skip_E" infiniteServer="false" name="skip_E" nameOffsetX="0" nameOffsetY="0" player="0" positionX="315" positionY="225" priority="0" urgent="false"/>
     <arc id="A0" inscription="1" nameOffsetX="0" nameOffsetY="0" source="inputs_end" target="clock_inputs_end" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="254" yCoord="394"/>
-      <arcpath arcPointType="false" id="1" xCoord="254" yCoord="480"/>
+      <arcpath arcPointType="false" id="0" xCoord="258" yCoord="398"/>
+      <arcpath arcPointType="false" id="1" xCoord="258" yCoord="484"/>
     </arc>
     <arc id="A1" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_inputs_start" target="inputs_start" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="239" yCoord="44"/>
-      <arcpath arcPointType="false" id="1" xCoord="239" yCoord="114"/>
+      <arcpath arcPointType="false" id="0" xCoord="243" yCoord="48"/>
+      <arcpath arcPointType="false" id="1" xCoord="243" yCoord="118"/>
     </arc>
     <arc id="A2" inscription="1" nameOffsetX="0" nameOffsetY="0" source="inputs_start" target="consider_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="239" yCoord="124"/>
-      <arcpath arcPointType="false" id="1" xCoord="176" yCoord="171"/>
+      <arcpath arcPointType="false" id="0" xCoord="243" yCoord="128"/>
+      <arcpath arcPointType="false" id="1" xCoord="180" yCoord="175"/>
     </arc>
     <arc id="A3" inscription="1" nameOffsetX="0" nameOffsetY="0" source="inputs_start" target="consider_E" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="239" yCoord="124"/>
-      <arcpath arcPointType="false" id="1" xCoord="317" yCoord="172"/>
+      <arcpath arcPointType="false" id="0" xCoord="243" yCoord="128"/>
+      <arcpath arcPointType="false" id="1" xCoord="321" yCoord="176"/>
     </arc>
     <arc id="A4" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_W" target="generate_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="151" yCoord="187"/>
-      <arcpath arcPointType="false" id="1" xCoord="74" yCoord="234"/>
+      <arcpath arcPointType="false" id="0" xCoord="155" yCoord="191"/>
+      <arcpath arcPointType="false" id="1" xCoord="78" yCoord="238"/>
     </arc>
     <arc id="A5" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_W" target="skip_W" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="164" yCoord="194"/>
-      <arcpath arcPointType="false" id="1" xCoord="164" yCoord="234"/>
+      <arcpath arcPointType="false" id="0" xCoord="168" yCoord="198"/>
+      <arcpath arcPointType="false" id="1" xCoord="168" yCoord="238"/>
     </arc>
     <arc id="A6" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_E" target="skip_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="329" yCoord="194"/>
-      <arcpath arcPointType="false" id="1" xCoord="329" yCoord="234"/>
+      <arcpath arcPointType="false" id="0" xCoord="333" yCoord="198"/>
+      <arcpath arcPointType="false" id="1" xCoord="333" yCoord="238"/>
     </arc>
     <arc id="A7" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="consider_E" target="generate_E" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="342" yCoord="187"/>
-      <arcpath arcPointType="false" id="1" xCoord="419" yCoord="234"/>
+      <arcpath arcPointType="false" id="0" xCoord="346" yCoord="191"/>
+      <arcpath arcPointType="false" id="1" xCoord="423" yCoord="238"/>
     </arc>
     <arc id="A8" inscription="1" nameOffsetX="0" nameOffsetY="0" source="generate_E" target="input_E" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="419" yCoord="244"/>
-      <arcpath arcPointType="false" id="1" xCoord="419" yCoord="285"/>
+      <arcpath arcPointType="false" id="0" xCoord="423" yCoord="248"/>
+      <arcpath arcPointType="false" id="1" xCoord="423" yCoord="289"/>
     </arc>
     <arc id="A9" inscription="1" nameOffsetX="0" nameOffsetY="0" source="generate_W" target="input_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="74" yCoord="244"/>
-      <arcpath arcPointType="false" id="1" xCoord="74" yCoord="285"/>
+      <arcpath arcPointType="false" id="0" xCoord="78" yCoord="248"/>
+      <arcpath arcPointType="false" id="1" xCoord="78" yCoord="289"/>
     </arc>
     <arc id="A10" inscription="1" nameOffsetX="0" nameOffsetY="0" source="skip_W" target="finish_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="164" yCoord="244"/>
-      <arcpath arcPointType="false" id="1" xCoord="164" yCoord="285"/>
+      <arcpath arcPointType="false" id="0" xCoord="168" yCoord="248"/>
+      <arcpath arcPointType="false" id="1" xCoord="168" yCoord="289"/>
     </arc>
     <arc id="A11" inscription="1" nameOffsetX="0" nameOffsetY="0" source="generate_W" target="finish_W" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="74" yCoord="244"/>
-      <arcpath arcPointType="false" id="1" xCoord="152" yCoord="292"/>
+      <arcpath arcPointType="false" id="0" xCoord="78" yCoord="248"/>
+      <arcpath arcPointType="false" id="1" xCoord="156" yCoord="296"/>
     </arc>
     <arc id="A12" inscription="1" nameOffsetX="0" nameOffsetY="0" source="generate_E" target="finish_E" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="419" yCoord="244"/>
-      <arcpath arcPointType="false" id="1" xCoord="342" yCoord="291"/>
+      <arcpath arcPointType="false" id="0" xCoord="423" yCoord="248"/>
+      <arcpath arcPointType="false" id="1" xCoord="346" yCoord="295"/>
     </arc>
     <arc id="A13" inscription="1" nameOffsetX="0" nameOffsetY="0" source="skip_E" target="finish_E" type="normal" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="329" yCoord="244"/>
-      <arcpath arcPointType="false" id="1" xCoord="329" yCoord="285"/>
+      <arcpath arcPointType="false" id="0" xCoord="333" yCoord="248"/>
+      <arcpath arcPointType="false" id="1" xCoord="333" yCoord="289"/>
     </arc>
     <arc id="A14" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="finish_E" target="inputs_end" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="320" yCoord="311"/>
-      <arcpath arcPointType="false" id="1" xCoord="259" yCoord="385"/>
+      <arcpath arcPointType="false" id="0" xCoord="324" yCoord="315"/>
+      <arcpath arcPointType="false" id="1" xCoord="263" yCoord="389"/>
     </arc>
     <arc id="A15" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="finish_W" target="inputs_end" type="timed" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="175" yCoord="310"/>
-      <arcpath arcPointType="false" id="1" xCoord="249" yCoord="384"/>
+      <arcpath arcPointType="false" id="0" xCoord="179" yCoord="314"/>
+      <arcpath arcPointType="false" id="1" xCoord="253" yCoord="388"/>
     </arc>
   </net>
-  <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="20" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="null" gcd="false" hashTableSize="null" inclusionPlaces="*NONE*" name="Query Comment/deadlock-check" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="SOME" type="CTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
+  <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="20" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="AUTOMATIC" gcd="false" hashTableSize="MB_16" inclusionPlaces="*NONE*" name="Query Comment/deadlock-check" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="SOME" type="CTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
     <formula>
       <exists-path>
         <finally>
