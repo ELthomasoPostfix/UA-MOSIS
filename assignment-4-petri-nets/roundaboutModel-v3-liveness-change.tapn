@@ -109,7 +109,7 @@
       <arcpath arcPointType="false" id="1" xCoord="499" yCoord="194"/>
     </arc>
     <arc id="I11" inscription="[0,inf)" nameOffsetX="0" nameOffsetY="0" source="clock_ticks" target="clock_tick" type="tapnInhibitor" weight="1">
-      <arcpath arcPointType="false" id="0" xCoord="349" yCoord="209"/>
+      <arcpath arcPointType="false" id="0" xCoord="334" yCoord="200"/>
       <arcpath arcPointType="false" id="1" xCoord="328" yCoord="76"/>
     </arc>
   </net>
@@ -1168,6 +1168,19 @@
       </exists-path>
     </formula>
   </query>
+  <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="20" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="null" gcd="false" hashTableSize="null" inclusionPlaces="*NONE*" name="Query Comment/cycle-stall-liveness-L0" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="SOME" type="CTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
+    <formula>
+      <all-paths>
+        <globally>
+          <negation>
+            <is-fireable>
+              <transition>phase_3_manage_core.cycle_stall</transition>
+            </is-fireable>
+          </negation>
+        </globally>
+      </all-paths>
+    </formula>
+  </query>
   <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="20" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="AUTOMATIC" gcd="false" hashTableSize="MB_16" inclusionPlaces="*NONE*" name="Query Comment/cycle-stall-liveness-L1" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="SOME" type="CTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
     <formula>
       <exists-path>
@@ -1205,7 +1218,7 @@
       </all-paths>
     </formula>
   </query>
-  <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="20" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="null" gcd="false" hashTableSize="null" inclusionPlaces="*NONE*" name="Query Comment/clock-liveness-L1" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="SOME" type="LTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
+  <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="20" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="null" gcd="false" hashTableSize="null" inclusionPlaces="*NONE*" name="Query Comment/clock-liveness-not-L2" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="SOME" type="LTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
     <formula>
       <exists-path>
         <finally>
@@ -1214,9 +1227,51 @@
               <transition>clock.clock_tick</transition>
             </is-fireable>
             <next>
+              <negation>
+                <finally>
+                  <is-fireable>
+                    <transition>clock.clock_tick</transition>
+                  </is-fireable>
+                </finally>
+              </negation>
+            </next>
+          </conjunction>
+        </finally>
+      </exists-path>
+    </formula>
+  </query>
+  <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="20" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="null" gcd="false" hashTableSize="null" inclusionPlaces="*NONE*" name="Query Comment/inputs-E-liveness-L2" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="SOME" type="LTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
+    <formula>
+      <exists-path>
+        <finally>
+          <conjunction>
+            <is-fireable>
+              <transition>phase_5_inputs.generate_E</transition>
+            </is-fireable>
+            <next>
               <finally>
                 <is-fireable>
-                  <transition>clock.clock_tick</transition>
+                  <transition>phase_5_inputs.generate_E</transition>
+                </is-fireable>
+              </finally>
+            </next>
+          </conjunction>
+        </finally>
+      </exists-path>
+    </formula>
+  </query>
+  <query active="true" algorithmOption="CERTAIN_ZERO" approximationDenominator="0" capacity="20" discreteInclusion="false" enableOverApproximation="false" enableUnderApproximation="false" extrapolationOption="null" gcd="false" hashTableSize="null" inclusionPlaces="*NONE*" name="Query Comment/inputs-W-liveness-L2" overApproximation="false" pTrie="false" reduction="true" reductionOption="VerifyPN" searchOption="HEURISTIC" symmetry="false" timeDarts="false" traceOption="SOME" type="LTL" useQueryReduction="true" useSiphonTrapAnalysis="false" useStubbornReduction="true" useTarOption="false" useTarjan="true">
+    <formula>
+      <exists-path>
+        <finally>
+          <conjunction>
+            <is-fireable>
+              <transition>phase_5_inputs.generate_W</transition>
+            </is-fireable>
+            <next>
+              <finally>
+                <is-fireable>
+                  <transition>phase_5_inputs.generate_W</transition>
                 </is-fireable>
               </finally>
             </next>
