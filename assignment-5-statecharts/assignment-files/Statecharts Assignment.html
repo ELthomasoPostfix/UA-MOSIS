@@ -1,0 +1,536 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0074)http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Statecharts -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-15">
+<!--<base href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Statecharts/">--><base href=".">
+
+ 
+ <meta name="author" content="Hans Vangheluwe">
+ <meta name="generator" content="None">
+ <link rel="stylesheet" type="text/css" href="./Statecharts Assignment_files/standard_msdl_style.css" title="MSDL stylesheet">
+ <link rel="shortcut icon" href="http://msdl.uantwerpen.be/images/favicon.ico">
+ <title>Statecharts Assignment</title>
+<script src="chrome-extension://nngceckbapebfimnlniiiahkandclblb/content/fido2/page-script.js"></script></head>
+<body bgcolor="#ffffff">
+
+<div class="portlet">    
+ <div class="portletBody">
+
+     <table border="0" cellpadding="4" cellspacing="0" width="100%" summary="table for MSDL standard page banner">
+
+ <tbody><tr>
+<!--  
+  <td valign="top" width="214" align="left">
+   <a href="http://msdl.cs.mcgill.ca/"><img border="0" src="/images/MSDLlogo.2.small.gif" align="left"></a>
+  </td>
+-->
+
+  <td valign="middle" align="right" width="100%" cellpadding="3">
+   <div class="pagetitle">Statecharts Assignment&nbsp;</div>
+  </td>
+ </tr>
+
+</tbody></table>
+
+
+  
+  
+ </div>
+</div>
+
+<table border="0" cellpadding="0" cellspacing="0" summary="home page" width="100%">
+ <tbody><tr>
+  <td valign="top" align="left">
+
+  <style>
+    h5 {
+       background: unset !important;
+       border: unset !important;
+       padding: unset !important;
+       text-transform: unset !important;
+       font-weight: bold !important;
+    }
+  </style>
+
+  <div class="portlet">
+
+    <h2>Practical stuff</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <ul>
+          <li> <b>Due Date:</b> 15 December 2023, before 23:59 (Blackboard's clock).</li>
+
+          <li> <b>Team Size:</b> 2 (pair design/programming)!<br>
+          <i>Note that as of the 2017-2018 Academic Year, each International student should team up with "local"
+            (i.e., whose Bachelor degree was obtained at the University of Antwerp).</i></li>
+
+          <li><b>Assignment overview:</b>
+            <ol>
+              <li>Solve exercises</li>
+              <li>Solve assignment, iteratively:
+                <ul>
+                  <li>Implement Statechart wrt. requirements</li>
+                  <li>Generate Python code from the Statechart</li>
+                  <li>Test your solution</li>
+                  <ul>
+                    <li>Solution should pass given scenarios</li>
+                    <li>Implement one extra test sceneario</li>
+                  </ul>
+                </ul>
+              </li>
+              <li>Write report</li>
+            </ol>
+          </li>
+
+          <li> <b>Submitting your solution:</b>
+            <ul>
+              <li>
+                <em>Only one</em> member of each team submits a full solution. This must be a ZIP-archive that includes:
+                <ul>
+                  <li>Your report (HTML or PDF)</li>
+                  <li>All the files needed to run your solution, including the files from the "starting point" that you were not allowed to edit, and your generated Python code</li>
+                </ul>
+              </li>
+              <li>
+                The other team member <em>must</em> submit a single (plain text or HTML) file containing <em>only</em> the names of both team members. This will allow us to put in grades for both team members in BlackBoard.
+              </li>
+            </ul>
+          </li>
+
+          <li> <b>Submission Medium:</b>
+            <a href="http://blackboard.uantwerpen.be/">BlackBoard</a>.
+          </li>
+
+          <li> <b>Contact / TA:</b>
+              <a href="mailto:Joeri.Exelmans@uantwerpen.be">Joeri Exelmans</a>.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Goals</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>
+          The goal of this assignment is to familiarize yourself with Statechart modeling, simulation, testing and code generation. We will use <a href="https://www.itemis.com/en/yakindu/state-machine/">itemis CREATE</a> (formerly called "YAKINDU Statechart Tools").
+        </p>
+      </div>
+    </div>
+
+    <style>
+      figcaption {
+        font-style: italic;
+      }
+      ol.requirements > li::marker {
+        content: "R" counter(list-item) ". ";
+      }
+      ol.stepped > li::marker {
+        content: "Step " counter(list-item) ": ";
+      }
+      ol.stepped > li {
+        margin-left: 10pt;
+      }
+      .interface {
+        background-color: #faebd2;
+        padding: 2pt;
+        padding-left: 20pt;
+        border-width: 1px;
+        border-color: #000;
+        border-style: solid;
+      }
+      .tip {
+        background-color: #eee;
+        padding: 6pt;
+        border-width: 1px;
+        border-color: #000;
+        border-style: solid;
+        display: inline-block;
+        margin: 4pt;
+      }
+      table {
+        border-collapse: collapse;
+      }
+      table, tr, td, th {
+        border:1px solid black;
+        padding: 4pt;
+      }
+    </style>
+
+    <h2 id="getting-started">Getting Started</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <div class="tip">
+          Note: On the university PCs, itemis CREATE is pre-installed and ready-to-use.
+        </div>
+        <ol>
+          <li> Download <a href="https://www.itemis.com/en/products/itemis-create/download-options/">itemis CREATE</a>.</li>
+          <li> Get a <a href="https://info.itemis.com/products/itemis-create/academic/order/?utm_referrer=https%3A%2F%2Fwww.itemis.com%2F">free academic license</a> (sign up with your university e-mail).</li>
+          <li> Start itemis CREATE and create a new workspace.</li>
+          <li> Download the <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Statecharts/Mosis23StartingPoint.zip">Mosis23StartingPoint.zip</a> file, and import it as a project into itemis CREATE. It contains the following:
+            <ul>
+              <li><b>exercises/</b>: directory that contains the <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Statecharts/#exercises">exercises</a>.</li>
+
+              <li><b>exercises_test.py</b>: similar to trafficlight_test.py, but instead runs tests on the Statecharts from the exercises. Feel free to edit and run this file to understand the exercises better.</li>
+
+              <li><b>Statechart.ysc</b>: this is the Statechart model, which you have to edit.</li>
+
+              <li><b>trafficlight_gui.py</b>: this script runs a TkInter GUI that allows you to interact with your Statechart (you must generate Python code in itemis first)</li>
+
+              <li><b>trafficlight_test.py</b>: this script is an automated test runner for your Statechart (you must generate Python code in itemis first). It already includes 3 test scenarios. Your solution <b>must</b> pass these tests! You are not allowed to modify the existing tests. You must however add one test to it. </li>
+
+              <li><b>PythonGenerator.sgen</b>: specifies how itemis CREATE should generate Python code from your model. You should not edit this file.</li>
+
+              <li><b>src/</b>: do not edit</li>
+              <li><b>lib/</b>: do not edit</li>
+            </ul>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <h2 id="exercises">Exercises</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>Before you start working on this assignment, you <b>must</b> solve 6 small exercises. Each exercise shows you a small Statechart model, and asks a question about its behavior. You should include the answers to the exercises in your report.</p>
+        <p>The exercises can be found in the <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Statecharts/#getting-started">Mosis23StartingPoint.zip</a> file. In the `exercises' directory, you'll find 5 files (A.ysc, B.ysc, ...). Each of them is a Statechart model that you should open in itemis CREATE. Each model includes a question (in a 'comment' element). You must answer this question, and include your answer in your report.</p>
+        <figure>
+          <img src="./Statecharts Assignment_files/exercise.png">
+          <figcaption>Example: one of the exercises</figcaption>
+        </figure>
+        <p>Feel free to run the models in itemis CREATE.</p>
+        <p>There also exists a test script (exercises_test.py) that runs all of the examples with a fixed sequence of input events, and checks if the expected output events occur. To run this script, you must first generate Python code: in itemis right-click on PythonGenerator.sgen, Generate Code Artifacts). Also have a look at the source code of the script. You will test your solution to the assignment in a similar fashion.</p>
+
+        <div class="tip">
+          To solve the exercises, you <b>must have a good understanding of the precise semantics of itemis CREATE</b>.
+          The semantics are as follows:
+          <ul>
+            <li>The execution of a Statechart is a sequence of Run-To-Completion (RTC) steps</li>
+            <li>An RTC-step can only triggered by:</li>
+            <ul>
+              <li>An input event</li>
+              <li>A timer that elapses (actually, an elapsing timer generates an input event behind the scenes)</li>
+            </ul>
+            <li>An RTC-step is instanteneous: it takes zero time.</li>
+            <li>In between RTC-steps, the Statechart is idle (it will not change its state), and time may pass.</li>
+            <li>An RTC-step consists of one or more fair-steps:</li>
+            <ul>
+              <li>During the first fair-step, only the input event that triggered the RTC-step is active.</li>
+              <li>During a fair-step, orthogonal regions are visited left-to-right, or top-to-bottom:
+                <ul>
+                  <li>Within one fair step, every (orthogonal / non-overlapping) region is allowed to fire at most one transition. A region will fire a transition only if it has an enabled transition (wrt. the currently active event, and the transition's guard condition).</li>
+                  <ul>
+                    <li>When a transition fires: first, all the exit actions of all the exited states are executed (in order: child to parent), then the action of the transition itself, followed by the enter actions of the entered states (in order: parent to child)
+                      <figure>
+                        <img src="./Statecharts Assignment_files/enter-exit.png">
+                        <figcaption>In this example, when firing the transition from A to F, first the exit actions of A, B, and C are executed, then the actions of the transition itself, and finally the enter actions of D, E and F (in that order).</figcaption>
+                      </figure>
+                    </li>
+                    <li>Any internal events that are raised (as a result of firing transitions), are added to the internal event (FIFO) queue.</li>
+                  </ul>
+                </ul>
+              </li>
+              <li>When a fair-step has completed:
+                <ul>
+                  <li>if the internal event (FIFO) queue is not empty, then a new fair-step starts. The next event is popped from the queue, and it becomes the new active event.</li>
+                  <li>if the internal event queue is empty, then no more fair-steps are executed, and the RTC-step ends.</li>
+                </ul>
+              </li>
+            </ul>
+          </ul>
+          <p><b>Example:</b>
+            Consider the following Statechart in the figure below.
+            After initialization, the current states are: OrthogonalState, A, C, E.
+            Then, the Statechart remains idle until it receives an input event. Suppose at time T=5s, the input event <em>e</em> is received. This triggers the execution of an RTC step.
+            The RTC step starts with a fair-step, where regions <em>r1</em>, <em>r2</em> and <em>r3</em> (in that order) are allowed to fire at most one transition each.
+            Only <em>r1</em> has an enabled transition (because event <em>e</em> is active), so only <em>r1</em> fires.
+            During the firing of that transition, the internal event <em>f</em> is raised, an appended to the internal event queue.
+            The fair-step ends, and one more fair-step is executed, because the internal event queue is not empty.
+            So again, <em>r1</em>, <em>r2</em> and <em>r3</em> are allowed to fire at most one transition.
+            This time, the regions <em>r2</em> and <em>r3</em> will fire, because event <em>f</em> is active.
+            The second fair-step ends, and since the internal event queue is empty, the RTC step also ends.
+            Even though all transitions fired in a certain order, all of it happened at the same point in (simulated) time.
+            Now, the Statechart will again remain idle until another input event occurs.
+            </p><figure>
+              <img src="./Statecharts Assignment_files/semantics-example.png">
+              <table>
+                <tbody><tr><th>Time</th><th></th>                                  <th></th>                             <th><em>r1</em></th>                                         <th><em>r2</em></th>      <th><em>r3</em></th>       </tr>
+                <tr><td>=0</td><td>Initialization</td>              <td></td>                             <td>enter <em>A</em></td>                                    <td>enter <em>C</em></td> <td>enter <em>E</em></td>  </tr>
+                <tr><td>&gt;0 &amp;&amp; &lt;5s</td><td>Idle</td>              </tr>
+                <tr><td>=5s</td><td>RTC step (input=<em>e</em>)</td> <td>Fair-step (event=<em>e</em>)</td> <td>fire (exit <em>A</em>, raise <em>f</em>, enter <em>B</em>)</td> <td></td>                 <td></td>                  </tr>
+                <tr><td></td><td>                           </td> <td>Fair-step (event=<em>f</em>)</td> <td>                                                         </td><td>fire (exit <em>C</em>, enter <em>D)</em></td>  <td>fire (exit <em>E</em>, enter <em>F</em>)</td></tr>
+                <tr><td>=5s</td><td>End of RTC step</td></tr>
+              </tbody></table>
+            </figure>
+          <p></p>
+          Please remember that these precise semantics are specific to itemis CREATE. Other Statechart tools (e.g., STATEMATE, Rhapsody, StateFlow) have different semantics.
+        </div>
+      </div>
+    </div>
+
+    <h2>Attention!</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>Once you've completed the exercises, you'll probably understand that if you ensure that your transitions always have an event trigger or after-trigger, you have much more control over when your transition will fire, resulting in a solution that is more likely correct and understandable.</p>
+
+        <p>Therefore, <b>ensure that every transition always has either an event trigger, or an after-trigger</b>.</p>
+
+        <p><b>Never</b> use the following triggers:
+          </p><ul>
+            <li>after 0 s (can give strange behavior)</li>
+            <li>after 1 ms (unless of course you really want to wait 1ms)</li>
+            <li>always</li>
+            <li>every X s</li>
+            <li>(no trigger)</li>
+          </ul>
+          <b style="color:red">Every time you violate this rule, 5% will be subtracted from your grade on this assignment.</b>
+        <p></p>
+      </div>
+    </div>
+
+    <h2>Introduction to Assignment</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>We will use the Statecharts formalism to model the software controller of a "smart" traffic light. The traffic light detects car traffic via an induction loop, and will extend the period where the light is green, if there is traffic.</p>
+
+        <figure>
+          <img src="./Statecharts Assignment_files/trafficlight.png">
+          <figcaption>Artistic impression of our system under study</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <h2>Controller Interface</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>The interface between the controller and its environment is fixed: you are not allowed to change it. It consists of the following set of input and output events:</p>
+
+        <table>
+          <tbody><tr>
+            <th>Input event</th><th>Received when...</th>
+          </tr>
+          <tr>
+            <td>buttonPressed</td>
+            <td>indicates that the TOGGLE MODE button is pressed down</td>
+          </tr>
+          <tr>
+            <td>buttonReleased</td>
+            <td>indicates that the TOGGLE MODE button is released</td>
+          </tr>
+          <tr>
+            <td>carDetected</td>
+            <td>indicates that a car was detected (via the inductive loop)</td>
+          </tr>
+        </tbody></table>
+        <br>
+
+        <table>
+          <tbody><tr>
+            <th>Output event</th><th>Effect</th>
+          </tr>
+          <tr>
+            <td>setLED(boolean)</td>
+            <td>Controls the status LED (true = on, false = off)</td>
+          </tr>
+          <tr>
+            <td>setRed(boolean)</td>
+            <td>Controls the red light (true = on, false = off)</td>
+          </tr>
+          <tr>
+            <td>setYellow(boolean)</td>
+            <td>Controls the yellow light (true = on, false = off)</td>
+          </tr>
+          <tr>
+            <td>setGreen(boolean)</td>
+            <td>Controls the green light (true = on, false = off)</td>
+          </tr>
+        </tbody></table>
+      </div>
+    </div>
+
+    <h2>Controller Requirements</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <ol start="0" class="requirements">
+          <li>Initially, when the controller starts, the traffic light is set to red, and is in "dumb mode".</li>
+
+          <li>In "dumb mode", the traffic light cycles through red, green, yellow and then red again. The light will be red for 2 seconds, green for 2 seconds, and yellow for 1 second.
+            <br>
+            <div class="tip">
+              Note: These time durations are not realistic, but they make it easier to (interactively) test your solution.
+            </div>
+          </li>
+
+          <li>The light can be switched from "dumb mode" to "smart mode" (and back) by pressing the TOGGLE MODE-button, and releasing the button quickly (pressed down for strictly less than 2 seconds).</li>
+
+          <li>In "smart mode", the behavior is identical to "dumb mode", except that when the light is green, and a car is detected, the light will not turn yellow until 2 seconds have passed since the car-detection-event. For instance, if the light has been green for 1.1 seconds, and a car is detected, then the light will stay green for a total duration of 3.1 seconds.</li>
+
+          <li>Even in "smart mode", there is still a limit on how far the green period can be extended: the total green light duration must never be greater than 5 seconds.</li>
+
+          <li>There is a status LED that must be on <i>if and only if</i> "smart mode" is activated.</li>
+
+          <li>Switching between "dumb mode" and "smart mode" must be seamless: the light should not be reset (e.g., to red). The only difference between these modes is whether new car-detection-events are responded to or not. For instance:
+            <ul>
+              <li>if the light is in "dumb mode", and has been red for 0.2 seconds, and then switches to "smart mode", it should remain red for the remaining 1.8 seconds.</li>
+              <li>going from "dumb mode" to "smart mode", the traffic light simply starts responding to car-detection-events, possibly extending the current green period (up to a maximum of 5 seconds, even if the switch from "dumb" to "smart" happened at some point during those 5 seconds)</li>
+              <li>going from "smart mode" to "dumb mode", the traffic light simply stops responding to car-detection events. If the current green period was already extended (due to car-detection-events before switching to "dumb mode"), then the green period remains extended.</li>
+            </ul>
+          </li>
+
+          <li>Pressing and holding the TOGGLE MODE-button for at least 2 seconds, and then releasing it, starts or ends a "police interrupt". A police interrupt completely overrides the functionality of the traffic light. A police interrupt shows a blinking yellow light. When a police interrupt starts, the yellow light turns on immediately, and stays on for 500 milliseconds, and then off for 500 milliseconds, then on again, etc.</li>
+
+          <li>During a "police interrupt", "smart mode" can still be turned on or off in the usual manner (and the status LED should turn on and off accordingly). Of course, the chosen mode has no impact on the traffic light's behavior during a police interrupt.</li>
+
+          <li>When a "police interrupt" ends, the traffic light is reset to a red light (for safety reasons), and resumes normal behavior ("dumb" or "smart", depending on the active mode).</li>
+        </ol>
+      </div>
+    </div>
+
+    <h2>Testing your solution</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        There are three ways you can test your solution:
+        <ul>
+          <li><b>Use itemis' debugger.</b> This allows you to see your model execute in real-time. You can observe which states are active, and which transitions are being made. You can manually raise input events and observe raised output events.
+            <figure>
+              <img src="./Statecharts Assignment_files/debug-itemis.png">
+            </figure>
+          </li>
+          <li><b>Generate code and run the GUI</b> (trafficlight_gui.py). Here you can see how your model interacts with the `real' system. Input and output events are logged to terminal. You cannot see which states are active, or transitions are made. Upon exiting, a complete trace of all input/output events that occured, will be printed to the terminal.
+            <figure>
+              <img src="./Statecharts Assignment_files/trafficlight-gui.png">
+              <figcaption>Screenshot of the GUI. At the bottom of the window, you see the TOGGLE MODE button and the status LED. The PRETEND CAR DETECTED button will trigger a carDetected input event.</figcaption>
+            </figure>
+          </li>
+          <li><b>Generate code and run the test script</b> (trafficlight_test.py).
+                 This script will run (the generated code from) your model, but in a non-interactive manner (as opposed to the GUI), and as-fast-as-possible (as opposed to the GUI, which runs in real-time).
+                 <br><br>
+                 The test script contains 3 hard-coded test scenarios, which you are <b>not allowed to alter</b>, and which your model <b>must pass</b>.
+                 Each scenario specifies a sequence of (timed) input events, which the test runner will give to your model as inputs, and an "expected" sequence of (timed) output events, which it expects from your model.
+                 A test scenario passes if the model's "actual" sequence of output events matches the expected sequence.
+                 <div class="tip">
+                  Note: The actual and expected sequences of output events do not have to match exactly.
+                  For instance, raising the output event setRed(False) three times in a row has the same effect as raising it once (because of <a href="https://en.wikipedia.org/wiki/Idempotence">idempotence</a>).
+                  Behind the scenes, both sequences are pre-processed to a <a href="https://en.wikipedia.org/wiki/Canonical_form">canonical form</a>, where duplicated events are removed, and therefore ignored by the comparison algorithm.
+                 </div>
+            <figure>
+              <img style="border: 1px solid #000;" src="./Statecharts Assignment_files/trafficlight-test.png">
+              <figcaption>Screenshot of test runner</figcaption>
+            </figure>
+            Further, you <b>must add one extra scenario</b> to this file. This scenario should test a requirement that is not yet covered by the existing tests. Please do not blindly copy an input/output trace that was generated by the GUI. If you do use the GUI to generate a trace, read it, and add comments to it that explain what goes on (similar to the existing scenarios).
+          </li>
+        </ul>
+
+<h3>Overview of different testing approaches</h3>
+<table>
+  <tbody><tr>
+    <th></th>
+    <th>itemis debugger</th>
+    <th>Python GUI</th>
+    <th>Python test runner</th>
+  </tr>
+  <tr>
+    <td>white box<br>(e.g., can see what are the current states?)</td>
+    <td>yes</td>
+    <td>no</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>interactive or automated?</td>
+    <td>interactive (real-time)</td>
+    <td>interactive (real-time)</td>
+    <td>automated (as-fast-as-possible)</td>
+  </tr>
+  <tr>
+    <td>returns</td>
+    <td>nothing</td>
+    <td>execution trace</td>
+    <td>pass or fail (+diff)</td>
+  </tr>
+</tbody></table>
+
+      </div>
+    </div>
+
+    <h2>Report</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+
+        <p>You are also <b>required</b> to write a small (HTML or PDF) report.</p>
+        <p>At the beginning, you list the following things:</p>
+        <ul>
+          <li>The <b>names and student IDs</b> of the team members</li>
+          <li>The amount of <b>time spent</b> working on the project: Please be honest, this helps us estimate the workload for future assignments.</li>
+          <li>Your answers to the exercises (A to E).</li>
+        </ul>
+        <p>Then, in a structure you are free to choose, describe:</p>
+        <ul>
+          <li>Your <em>workflow</em>: How did you work together? (pair programming / divided the work / ...) In what order did you implement different features? Encountered any difficulties?
+          </li><li>An <em>overview of your final solution</em> (but please do not describe every tiny detail!)
+          </li><li>Also explain the extra test scenario you added: why this scenario, what requirements does it cover, ...</li>
+        </ul>
+        <p>Include screenshots where appropriate: <i>A picture is worth a thousand words!</i></p>
+      </div>
+    </div>
+
+    <h2>Tips</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <p>The assignment has been designed specifically to encourage use of as many Statechart features as possible:</p>
+        <ul>
+          <li>composite states</li>
+          <li>orthogonal states</li>
+          <li>timed transitions</li>
+          <li>guard conditions</li>
+          <li>transition actions</li>
+          <li>enter/exit actions</li>
+          <li>internal variables</li>
+          <li>internal events</li>
+          <li>(history)</li>
+        </ul>
+        <p>Make sure you understand these features, and use them, where you think they are appropriate.</p>
+        <p>To give you an indication of the complexity, my own solution consists of 11 states (not counting "regions") and 13 transitions.</p>
+      </div>
+    </div>
+
+    <h2>Resources</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <ul>
+          <li>Project files from the tutorial: <a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Statecharts/TutorialMicrowaveExamples.zip">TutorialMicrowaveExamples.zip</a></li>
+
+          <li>itemis CREATE <a href="https://www.itemis.com/en/yakindu/state-machine/documentation/">official documentation</a></li>
+
+          <li>
+            Recording of an older YAKINDU tutorial (from August 2022): Recording (<a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Statecharts/2ndterm-tutorial.mp4">2ndterm-tutorial.mp4</a>) and the project files (<a href="http://msdl.uantwerpen.be/people/hv/teaching/MoSIS/assignments/Statecharts/2ndterm-trafficlight-example-project.zip">2ndterm-trafficlight-example-project.zip</a>).
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Why we don't use itemis CREATE's builtin testing framework</h2>
+    <div class="portletBody">
+      <div class="portletContent odd">
+        <ul>
+          <li>No ability to view an input/output trace, which is of didactic importance.</li>
+          <li>Output events are not instantaneous. Instead, they remain active until the next RTC step occurs (this is <u>wrong</u>).</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  </td> 
+ </tr>
+</tbody></table>
+
+<img src="./Statecharts Assignment_files/red.jpg" border="0" width="100%" height="1"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+ <tbody><tr width="100%">
+  
+ </tr>
+ <tr>
+  <td align="left">Maintained by <a href="http://msdl.cs.mcgill.ca/people/hv">Hans Vangheluwe</a><a>.</a></td>
+  <td align="right">Last Modified: 2023/12/04 20:54:12.</td>
+ </tr>
+</tbody></table>
+
+
+
+</body></html>
