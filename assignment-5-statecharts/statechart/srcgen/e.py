@@ -32,7 +32,10 @@ class E:
 		self.y = None
 		self.y_observable = Observable()
 		
+		self.__internal_event_queue = queue.Queue()
 		self.in_event_queue = queue.Queue()
+		self.z = None
+		
 		# enumeration of all states:
 		self.__State = E.State
 		self.__state_conf_vector_changed = None
@@ -90,9 +93,22 @@ class E:
 		func()
 	
 	def __get_next_event(self):
+		if not self.__internal_event_queue.empty():
+			return self.__internal_event_queue.get()
 		if not self.in_event_queue.empty():
 			return self.in_event_queue.get()
 		return None
+	
+	
+	def raise_z(self):
+		"""Raise method for event z.
+		"""
+		self.__internal_event_queue.put(self.__raise_z_call)
+	
+	def __raise_z_call(self):
+		"""Raise callback for event z.
+		"""
+		self.z = True
 	
 	def __entry_action_main_region_orthogonal_state_r2_state_b(self):
 		"""Entry action for state 'StateB'..
@@ -218,6 +234,7 @@ class E:
 			if self.v == 0:
 				self.__exit_sequence_main_region_orthogonal_state_r1_state_a()
 				self.x_observable.next()
+				self.raise_z()
 				self.__enter_sequence_main_region_orthogonal_state_r1_state_a_default()
 				transitioned_after = 0
 		return transitioned_after
@@ -247,6 +264,12 @@ class E:
 		"""Implementation of __clear_in_events function.
 		"""
 		self.__time_events[0] = False
+	
+	
+	def __clear_internal_events(self):
+		"""Implementation of __clear_internal_events function.
+		"""
+		self.z = False
 	
 	
 	def __micro_step(self):
@@ -280,6 +303,7 @@ class E:
 		while condition_0:
 			self.__micro_step()
 			self.__clear_in_events()
+			self.__clear_internal_events()
 			condition_0 = False
 			next_event = self.__get_next_event()
 			if next_event is not None:

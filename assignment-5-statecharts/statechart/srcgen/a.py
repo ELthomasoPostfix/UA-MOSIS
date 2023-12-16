@@ -28,6 +28,8 @@ class A:
 		self.x_observable = Observable()
 		self.y = None
 		self.y_observable = Observable()
+		self.e = None
+		self.e_observable = Observable()
 		
 		self.in_event_queue = queue.Queue()
 		# enumeration of all states:

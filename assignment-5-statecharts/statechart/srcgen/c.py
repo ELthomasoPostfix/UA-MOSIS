@@ -43,6 +43,8 @@ class C:
 		# initializations:
 		#Default init sequence for statechart C
 		self.x = 0
+		self.__completed = False
+		self.__do_completion = False
 		self.__is_executing = False
 	
 	def is_active(self):
@@ -90,6 +92,11 @@ class C:
 			return self.in_event_queue.get()
 		return None
 	
+	def __entry_action_main_region_temp(self):
+		""".
+		"""
+		self.__completed = True
+		
 	def __entry_action_main_region_initial(self):
 		"""Entry action for state 'Initial'..
 		"""
@@ -106,6 +113,7 @@ class C:
 		"""'default' enter sequence for state Temp.
 		"""
 		#'default' enter sequence for state Temp
+		self.__entry_action_main_region_temp()
 		self.__state_vector[0] = self.State.main_region_temp
 		self.__state_conf_vector_changed = True
 		
@@ -194,20 +202,16 @@ class C:
 		"""
 		#The reactions of state Temp.
 		transitioned_after = transitioned_before
-		if transitioned_after < 0:
-			if self.x == 0:
-				self.__exit_sequence_main_region_temp()
-				self.__enter_sequence_main_region_zero_default()
-				self.__react(0)
-				transitioned_after = 0
-			elif self.x == 1:
-				self.__exit_sequence_main_region_temp()
+		if self.__do_completion:
+			#Default exit sequence for state Temp
+			self.__state_vector[0] = self.State.null_state
+			#The reactions of state null.
+			if self.x == 1:
 				self.__enter_sequence_main_region_one_default()
-				self.__react(0)
-				transitioned_after = 0
-		#If no transition was taken
-		if transitioned_after == transitioned_before:
-			#then execute local reactions.
+			elif self.x == 0:
+				self.__enter_sequence_main_region_zero_default()
+		else:
+			#Always execute local reactions.
 			transitioned_after = self.__react(transitioned_before)
 		return transitioned_after
 	
@@ -217,8 +221,9 @@ class C:
 		"""
 		#The reactions of state Zero.
 		transitioned_after = transitioned_before
-		#Always execute local reactions.
-		transitioned_after = self.__react(transitioned_before)
+		if not self.__do_completion:
+			#Always execute local reactions.
+			transitioned_after = self.__react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -227,8 +232,9 @@ class C:
 		"""
 		#The reactions of state One.
 		transitioned_after = transitioned_before
-		#Always execute local reactions.
-		transitioned_after = self.__react(transitioned_before)
+		if not self.__do_completion:
+			#Always execute local reactions.
+			transitioned_after = self.__react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -237,18 +243,19 @@ class C:
 		"""
 		#The reactions of state Initial.
 		transitioned_after = transitioned_before
-		if transitioned_after < 0:
-			if self.__time_events[0]:
-				self.__exit_sequence_main_region_initial()
-				self.x = self.x + 1
-				self.__time_events[0] = False
-				self.__enter_sequence_main_region_temp_default()
-				self.__react(0)
-				transitioned_after = 0
-		#If no transition was taken
-		if transitioned_after == transitioned_before:
-			#then execute local reactions.
-			transitioned_after = self.__react(transitioned_before)
+		if not self.__do_completion:
+			if transitioned_after < 0:
+				if self.__time_events[0]:
+					self.__exit_sequence_main_region_initial()
+					self.x = self.x + 1
+					self.__time_events[0] = False
+					self.__enter_sequence_main_region_temp_default()
+					self.__react(0)
+					transitioned_after = 0
+			#If no transition was taken
+			if transitioned_after == transitioned_before:
+				#then execute local reactions.
+				transitioned_after = self.__react(transitioned_before)
 		return transitioned_after
 	
 	
@@ -287,7 +294,15 @@ class C:
 			self.__execute_queued_event(next_event)
 		condition_0 = True
 		while condition_0:
-			self.__micro_step()
+			self.__do_completion = False
+			condition_1 = True
+			while condition_1:
+				if self.__completed:
+					self.__do_completion = True
+				self.__completed = False
+				self.__micro_step()
+				self.__do_completion = False
+				condition_1 = self.__completed
 			self.__clear_in_events()
 			condition_0 = False
 			next_event = self.__get_next_event()
@@ -309,6 +324,15 @@ class C:
 		self.__is_executing = True
 		#Default enter sequence for statechart C
 		self.__enter_sequence_main_region_default()
+		self.__do_completion = False
+		condition_0 = True
+		while condition_0:
+			if self.__completed:
+				self.__do_completion = True
+			self.__completed = False
+			self.__micro_step()
+			self.__do_completion = False
+			condition_0 = self.__completed
 		self.__is_executing = False
 	
 	

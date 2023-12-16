@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:sgraph="http://www.yakindu.org/sct/sgraph/2.0.0">
-  <sgraph:Statechart xmi:id="_Zj_B0I-JEe6T3aFB4BWOHg" specification="@EventDriven&#xA;@SuperSteps(no)&#xA;&#xA;interface:&#xA;&#x9;out event x&#xA;&#x9;out event y&#xA;&#x9;var v: integer = 0" name="E">
+  <sgraph:Statechart xmi:id="_Zj_B0I-JEe6T3aFB4BWOHg" specification="@EventDriven&#xA;@SuperSteps(no)&#xA;&#xA;internal:&#xA;&#x9;event z&#xA;&#xA;interface:&#xA;&#x9;out event x&#xA;&#x9;out event y&#xA;&#xA;&#x9;var v: integer = 0" name="E">
     <regions xmi:id="_ZkFIc4-JEe6T3aFB4BWOHg" name="main region">
       <vertices xsi:type="sgraph:State" xmi:id="__L4BcI-PEe6T3aFB4BWOHg" name="OrthogonalState" incomingTransitions="_ezrVoI-QEe6T3aFB4BWOHg">
         <regions xmi:id="__L5Pko-PEe6T3aFB4BWOHg" name="r1">
           <vertices xsi:type="sgraph:State" xmi:id="_ZkFvgI-JEe6T3aFB4BWOHg" name="StateA" incomingTransitions="_ZkFIdY-JEe6T3aFB4BWOHg _3l5WQI-JEe6T3aFB4BWOHg">
-            <outgoingTransitions xmi:id="_3l5WQI-JEe6T3aFB4BWOHg" specification="[v==0] / raise x" target="_ZkFvgI-JEe6T3aFB4BWOHg"/>
+            <outgoingTransitions xmi:id="_3l5WQI-JEe6T3aFB4BWOHg" specification="[v==0] / raise x; raise z" target="_ZkFvgI-JEe6T3aFB4BWOHg"/>
           </vertices>
           <vertices xsi:type="sgraph:Entry" xmi:id="_ZkFIdI-JEe6T3aFB4BWOHg">
             <outgoingTransitions xmi:id="_ZkFIdY-JEe6T3aFB4BWOHg" target="_ZkFvgI-JEe6T3aFB4BWOHg"/>
@@ -32,17 +32,17 @@
         <layoutConstraint xsi:type="notation:Location" xmi:id="_ZkIy1I-JEe6T3aFB4BWOHg"/>
       </children>
       <children xsi:type="notation:Shape" xmi:id="_ZkIy1Y-JEe6T3aFB4BWOHg" type="RegionCompartment" fontName="Verdana" lineColor="4210752">
-        <children xsi:type="notation:Shape" xmi:id="_-jdlUI-JEe6T3aFB4BWOHg" type="Note" fontName="Verdana" description="When running this model, the output trace will be as follows:&#xA;  1s : x&#xA;  1s : y&#xA;  2s: x&#xA;  2s: y&#xA;  ...&#xA;&#xA;1) Why does 'x' only fire when 'y' fires?&#xA;2) Why does 'x' always occur before 'y'?" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
-          <children xsi:type="notation:BasicDecorationNode" xmi:id="_-jezcI-JEe6T3aFB4BWOHg" type="DiagramName">
+        <children xsi:type="notation:Shape" xmi:id="_9TUUAJwqEe6cn9yaRPWyUQ" type="Note" fontName="Verdana" description="When running this model, the output trace will be as follows:&#xA;  1s : x&#xA;  1s : y&#xA;  2s: x&#xA;  2s: y&#xA;  ...&#xA;&#xA;1) Why does 'x' only fire when 'y' fires?&#xA;2) Why does 'x' always occur before 'y'?" fillColor="13369343" transparency="0" lineColor="6737151" lineWidth="1">
+          <children xsi:type="notation:BasicDecorationNode" xmi:id="_9TUUBZwqEe6cn9yaRPWyUQ" type="DiagramName">
             <element xsi:nil="true"/>
           </children>
-          <children xsi:type="notation:BasicDecorationNode" xmi:id="_-jezcY-JEe6T3aFB4BWOHg" type="Description">
+          <children xsi:type="notation:BasicDecorationNode" xmi:id="_9TUUBJwqEe6cn9yaRPWyUQ" type="Description">
             <element xsi:nil="true"/>
           </children>
-          <styles xsi:type="notation:TextStyle" xmi:id="_-jdlUY-JEe6T3aFB4BWOHg"/>
-          <styles xsi:type="notation:LineTypeStyle" xmi:id="_-jdlUo-JEe6T3aFB4BWOHg"/>
+          <styles xsi:type="notation:TextStyle" xmi:id="_9TUUA5wqEe6cn9yaRPWyUQ"/>
+          <styles xsi:type="notation:LineTypeStyle" xmi:id="_9TUUApwqEe6cn9yaRPWyUQ"/>
           <element xsi:nil="true"/>
-          <layoutConstraint xsi:type="notation:Bounds" xmi:id="_-jdlU4-JEe6T3aFB4BWOHg" x="310" y="363" width="356" height="222"/>
+          <layoutConstraint xsi:type="notation:Bounds" xmi:id="_9TUUAZwqEe6cn9yaRPWyUQ" x="310" y="363" width="356" height="222"/>
         </children>
         <children xmi:id="__L52oI-PEe6T3aFB4BWOHg" type="State" element="__L4BcI-PEe6T3aFB4BWOHg">
           <children xsi:type="notation:DecorationNode" xmi:id="__L6dsI-PEe6T3aFB4BWOHg" type="StateName">
