@@ -56,7 +56,11 @@ def compare_traces(expected, actual):
 
 
 def run_test(input_trace, expected_output_trace, statechart_class, INITIAL, IDEMPOTENT, verbose=False):
-    last_output_event_timestamp = expected_output_trace[-1][0]
+    # simulation will be run until timestamp of last event in expected output trace:
+    if len(expected_output_trace) > 0:
+        last_output_event_timestamp = expected_output_trace[-1][0]
+    else:
+        last_output_event_timestamp = 0
     actual_output_trace = []
 
     controller = Controller()
@@ -74,12 +78,6 @@ def run_test(input_trace, expected_output_trace, statechart_class, INITIAL, IDEM
     for attr in sc.__dict__:
         if type(sc.__dict__[attr]) is Observable:
             sc.__dict__[attr].subscribe(LoggingObserver(attr[:-11])) # strip '_observable' suffix from attr
-
-    # # Bind output events to callbacks
-    # sc.set_red_observable.subscribe(LoggingObserver("set_red"))
-    # sc.set_yellow_observable.subscribe(LoggingObserver("set_yellow"))
-    # sc.set_green_observable.subscribe(LoggingObserver("set_green"))
-    # sc.set_led_observable.subscribe(LoggingObserver("set_led"))
 
     # Put all input events into event queue:
     for tup in input_trace:
@@ -150,6 +148,6 @@ def run_scenarios(statechart_class, SCENARIOS, INITIAL, IDEMPOTENT, verbose=Fals
             passed = False
 
     if passed:
-        print("\nAll tests passed.")
+        print("All scenarios passed.")
     else:
-        print("\nSome tests failed.")
+        print("Some scenarios failed.")
