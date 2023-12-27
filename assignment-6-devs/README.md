@@ -52,6 +52,12 @@ source venv/bin/activate    # linux
 ./venv/Scripts/activate     # windows
 ```
 
+Then install the project requirements from the `assignment-6-devs` directory.
+
+```sh
+pip install -r requirements.txt
+```
+
 Next, check if the `PythonPDEVS-master` directory is found at `assignment-6-devs/` -- the root of this assignment subproject. If it is not, then locate the similarly named `.zip` in the [assignment-files directory](/assignment-6-devs/assignment-files/). Copy the archive and paste it one level up, then unzip it.
 
 The `PythonPDEVS-master` directory is now present. Install it (as according to the [documentation](https://msdl.uantwerpen.be/documentation/PythonPDEVS/installation.html)):
