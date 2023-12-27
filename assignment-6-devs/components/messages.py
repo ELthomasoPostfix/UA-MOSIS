@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from uuid import UUID
 
 
@@ -24,16 +24,20 @@ class Car:
     """ The maximal amount of acceleration possible for this Car on a single RoadSegment. Notice that this is not actually a velocity, but more of a velocity delta. Feel free to choose your own values, but 28 is a good suggestion."""
     dv_neg_max: float
     """ The maximal amount of deceleration possible for this Car on a single RoadSegment. Notice that this is not actually a velocity, but more of a velocity delta. Feel free to choose your own values, but 21 is a good suggestion."""
-    departure_time: float
+    departure_time: float = 0.0
     """ The (simulation) time at which the Car is created. This value is set afterwards, by the Generator."""
-    distance_traveled: float
+    distance_traveled: float = 0.0
     """ The total distance that the Car has traveled. This value is updated during simulation."""
-    v: float
+    v: float = None     # Default value None, so we can default to v_pref
     """ The current velocity. By default, it is initialized to be the same as v_pref, but may change during the simulation. This value is used for all the distance computations etc."""
-    no_gas: bool
+    no_gas: bool = False
     """ Indicator that the Car needs gas. Will be used later in the assignment."""
-    destination: str
+    destination: str = ""
     """ The target destination of the Car. This will help for path planning etc in a more detailed library. Later on in the assignment, this value will be used for CrossRoads."""
+
+    def __post_init__(self, *args, **kwargs):
+        if self.v is None:
+            self.v = self.v_pref
 
 
 @dataclass
