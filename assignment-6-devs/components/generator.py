@@ -24,4 +24,4 @@ class Generator(AtomicDEVS):
         :param destinations: A non-empty list of potential (string) destinations for the Cars. A random destination will be selected.
         :param limit: Upper limit of the number of Cars to generate.
         """
-        super().__init__(block_name)
+        super(Generator, self).__init__(block_name)

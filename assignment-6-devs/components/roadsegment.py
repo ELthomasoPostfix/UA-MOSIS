@@ -17,4 +17,4 @@ class RoadSegment(AtomicDEVS):
         :param priority: Whether or not this RoadSegment should have priority on a merge with other road segments. Defaults to False.
         :param lane: Indicator of the lane this Roadsegment is currently part of. Defaults to 0.
         """
-        super().__init__(block_name)
+        super(RoadSegment, self).__init__(block_name)

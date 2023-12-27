@@ -11,4 +11,4 @@ class SideMarker(AtomicDEVS):
         """
         :param block_name: The name for this model. Must be unique inside a Coupled DEVS.
         """
-        super().__init__(block_name)
+        super(SideMarker, self).__init__(block_name)

@@ -11,5 +11,5 @@ class Fork(RoadSegment):
     """
     def __init__(self, block_name: str, L: float, v_max: float,
                  observ_delay: float = 0.1, priority: bool = False, lane: int = 0):
-        super().__init__(block_name=block_name, L=L, v_max=v_max,
+        super(Fork, self).__init__(block_name=block_name, L=L, v_max=v_max,
                          observ_delay=observ_delay, priority=priority, lane=lane)

@@ -8,4 +8,4 @@ class Collector(AtomicDEVS):
         """
         :param block_name: The name for this model. Must be unique inside a Coupled DEVS.
         """
-        super().__init__(block_name)
+        super(Collector, self).__init__(block_name)

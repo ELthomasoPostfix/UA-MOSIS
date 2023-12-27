@@ -22,7 +22,7 @@ class CrossRoadSegment(RoadSegment):
         :param lane: Indicator of the lane this Roadsegment is currently part of. Defaults to 0.
         :param destinations: A list of destinations reachable when a car exits the crossroads at this location. This list will be initialized upon creation of the road map and should not be changed afterwards. It is used to make sure Cars exit the crossroads at the right time.
         """
-        super().__init__(block_name=block_name, L=L, v_max=v_max,
+        super(CrossRoadSegment, self).__init__(block_name=block_name, L=L, v_max=v_max,
                          observ_delay=observ_delay, priority=priority, lane=lane)
 
         self.destinations: list = destinations if destinations is not None else list()
@@ -46,4 +46,4 @@ class CrossRoads(CoupledDEVS):
         :param v_max: The maximal allowed velocity on the CrossRoads.
         :param observ_delay: The observ_delay for the CrossRoadSegments.
         """
-        super().__init__(block_name)
+        super(CrossRoads, self).__init__(block_name)

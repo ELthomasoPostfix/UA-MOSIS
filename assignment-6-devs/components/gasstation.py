@@ -13,4 +13,4 @@ class GasStation(AtomicDEVS):
         :param block_name: The name for this model. Must be unique inside a Coupled DEVS.
         :param observ_delay: The interval at which the GasStation must poll if the received QueryAck has an infinite delay.
         """
-        super().__init__(block_name)
+        super(GasStation, self).__init__(block_name)
