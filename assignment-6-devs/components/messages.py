@@ -16,7 +16,7 @@ class Car:
     of road segments and a large number of cars.
     """
 
-    ID: UUID
+    ID: UUID | int
     """ A unique identifier to uniquely distinguish between cars."""
     v_pref: float
     """ The preferred velocity of the car. This is the velocity the car tries to obtain whenever possible."""
@@ -40,7 +40,7 @@ class Car:
 class Query:
     """Represents the driver watching to the RoadSegment in front."""
 
-    ID: UUID
+    ID: UUID | int
     """The unique identifier of the Car that sends this Query."""
 
 
@@ -51,7 +51,7 @@ class QueryAck:
     logic can therefore be seen as "polling".
     """
 
-    ID: UUID
+    ID: UUID | int
     """The unique identifier of the Car that queried this data."""
     t_until_dep: float
     """An estimate for the time until the upcoming RoadSegment is available again."""
