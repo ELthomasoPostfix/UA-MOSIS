@@ -1,4 +1,4 @@
-from roadsegment import RoadSegment
+from components.roadsegment import RoadSegment
 
 
 

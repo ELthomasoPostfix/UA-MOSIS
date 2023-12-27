@@ -1,6 +1,6 @@
 from pypdevs.DEVS import CoupledDEVS
 
-from roadsegment import RoadSegment
+from components.roadsegment import RoadSegment
 
 
 
