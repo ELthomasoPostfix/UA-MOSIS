@@ -59,7 +59,7 @@ class QueryAck:
     """The unique identifier of the Car that queried this data."""
     t_until_dep: float
     """An estimate for the time until the upcoming RoadSegment is available again."""
-    lane: int
+    lane: int = 0
     """Indicates which lane the current RoadSegment applies to. If a Car wants to "change lanes" in a Fork, this value is used to identify which QueryAcks to take into account."""
     sideways: bool = False
     """Indicator that this QueryAck does not correspond to the RoadSegment in front, but rather another one the Car needs to keep track of. Defaults to false. Will be used later on in the assignment to allow for merges of RoadSegments."""
