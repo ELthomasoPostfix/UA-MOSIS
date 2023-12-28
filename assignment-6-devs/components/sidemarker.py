@@ -32,14 +32,6 @@ class SideMarker(AtomicDEVS):
         self.mo = self.addOutPort("mo")
         """Port that outputs the QueryAcks again, at the same time as they were entered."""
 
-    def extTransition(self, inputs):
-        """May edit state."""
-        if self.mi in inputs:
-            query_ack: QueryAck = inputs[self.mi]
-            query_ack.sideways = True
-            self.state.query_ack = query_ack    # Store QueryAck to pass along
-        return self.state
-
     def timeAdvance(self):
         """May NOT edit state."""
         # Immediately output QueryAck IF one is queued/stored
@@ -47,6 +39,14 @@ class SideMarker(AtomicDEVS):
             return 0.0
         # ELSE idle
         return INFINITY
+
+    def extTransition(self, inputs):
+        """May edit state."""
+        if self.mi in inputs:
+            query_ack: QueryAck = inputs[self.mi]
+            query_ack.sideways = True
+            self.state.query_ack = query_ack    # Store QueryAck to pass along
+        return self.state
     
     def outputFnc(self):
         """May NOT edit state."""
