@@ -7,11 +7,12 @@ from pypdevs.simulator import Simulator
 SM = 'sm'   # sidemarker
 CL = 'cl'   # collector
 GN = 'gn'   # generator
+GS = 'gs'   # gasstation
 test_names = [
-    SM, CL, GN
+    SM, CL, GN, GS
 ]
 
-test_name = test_names[2]
+test_name = test_names[3]
 
 
 
@@ -83,5 +84,41 @@ match test_name:
 
         cars = [x[1] for x in cl.state["data"]]
 
+    case 'gs':
+        from tests.helpers import *
+        from components.gasstation import GasStation
 
-print("\n"*4, "=== DONE ===")
+        n: int = 2#1000
+
+        model = CDEVS("model")
+        pre_cars = [(x, Car(x, 15, 5, 5, v=15, departure_time=x, no_gas=True)) for x in range(n)]
+        pre_sim_gas_total: int = sum([car.no_gas for _, car in pre_cars])
+
+        sc = model.addSubModel(Scheduler("sc", pre_cars))
+        pp = model.addSubModel(PingPong("pp"))
+        gs = model.addSubModel(GasStation("GASSTATION"))
+        cl = model.addSubModel(TestCollector("cl"))
+        model.connectPorts(sc.output, gs.car_in)
+        model.connectPorts(gs.Q_send, pp.inp)
+        model.connectPorts(pp.out, gs.Q_rack)
+        model.connectPorts(gs.car_out, cl.inp)
+
+        sim = Simulator(model)
+        sim.setClassicDEVS()
+        sim.setVerbose()
+        sim.simulate()
+
+        times = [x[0] - x[1].departure_time for x in cl.state["data"]]
+        cars = [x[1] for x in cl.state["data"]]
+
+        print("\n=== STATS ===\n")
+        print("set(c.ID for c in cars) == set(x for x in range(n))   : ",set(c.ID for c in cars) == set(x for x in range(n)))
+
+        avg_time = sum(times) / len(times)
+        print("avg_time : ", avg_time)
+        print("580 < avg_time < 620   : ", 580 < avg_time < 620)
+        print("min(times) >= 120      : ", min(times) >= 120)
+        print("sum([car.no_gas for car in cars]) (expect 0) :\n", "\tpre-sim : ", pre_sim_gas_total, "\n\tpost-sim: ", sum([car.no_gas for car in cars]))
+
+
+print("\n"*4, "=== DONE ===\n")
