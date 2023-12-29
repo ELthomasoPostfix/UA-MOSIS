@@ -18,6 +18,8 @@ class GasStationState:
     """Whether the GasStation is available. The component is available by default."""
     car_queue: List[Tuple[Car, float]] = field(default_factory=list)
     """The priority queue of pairs of Car events to output from the GasStation's car_out port AND their refuel delay time."""
+    next_car: Car | None = None
+    """The next Car event to output from the GasStation's car_out port."""
     next_car_Ack: QueryAck | None = None
     """The QueryAck that signifies that the next car may be sent to the car_out port."""
     # TODO next_car_delay_time necessary???
@@ -73,12 +75,13 @@ class GasStation(AtomicDEVS):
             return INFINITY
 
         # Yes Cars.
-        # If the component is available, THEN the non-refuel delay timers MUST currently be INFINITY.
-        # Else, other timers MUST take precedence, so assume INFINITY refuel delay.
+        # If the component is available, THEN the non-refuel delay timers are GUARANTEED to currently be INFINITY.
+        # Else, other timers MUST take precedence, so assume refuel delay to be INFINITY.
         shortest_refuel_delay: float = INFINITY
         if self._is_available():
             shortest_refuel_delay = self._get_shortest_refuel_delay_elem()[1]   # May or may not be 0.0s
 
+        # Always EXACTLY ONE of the following timers is finite, the rest are infinite.
         return min(shortest_refuel_delay,
                    self.state.observ_delay_time,
                    self.state.next_car_delay_time)
@@ -100,7 +103,7 @@ class GasStation(AtomicDEVS):
             # Least remaining delay is at back of queue (ascending order)
             self.state.car_queue = sorted(self.state.car_queue, key=lambda e: e[1], reverse=True)
 
-        # A QueryAck can induce one of two behaviors
+        # A QueryAck induces one of two possible behaviors
         #   1) do Query polling
         #   2) let new Car leave the gas station after QueryAck.t_until_dep
         if self.Q_rack in inputs:
@@ -116,6 +119,10 @@ class GasStation(AtomicDEVS):
             else:
                 self.state.observ_delay_time = INFINITY
                 self.state.next_car_delay_time = self.state.next_car_Ack.t_until_dep
+                # Select the Car to output
+                output_car_idx: int = self._get_leaving_car_idx()
+                self.state.next_car = self.state.car_queue[output_car_idx][0]
+                self.state.next_car.no_gas = False
 
         return self.state
     
@@ -134,9 +141,8 @@ class GasStation(AtomicDEVS):
 
         # ELSE car output, the outputFnc is reached when the next car delay
         # timer reaches 0.0s
-        leaving_car: Car = self.state.car_queue[self._get_leaving_car_idx()][0]
         return {
-            self.car_out: leaving_car
+            self.car_out: self.state.next_car
         }
 
 
@@ -159,6 +165,7 @@ class GasStation(AtomicDEVS):
             # Evict the leaving Car from the car queue
             output_car_idx: int = self._get_leaving_car_idx()
             self.state.car_queue.pop(output_car_idx)
+            self.state.next_car = None
             # Reset decision making state variables
             self.state.is_available = True
             self.state.next_car_Ack = None
