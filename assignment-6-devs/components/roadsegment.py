@@ -18,6 +18,10 @@ class RoadSegmentState:
     """The time until the current Car (i.e., the first one in cars_present) leaves the RoadSegment. If the Car's velocity is 0, this value is infinity. If no Car is present, this value is 0."""
     incoming_queries_queue: List[Tuple[Query, float]] = field(default_factory=list)
     """The FIFO queue of incoming/external Query events. Each queue element is a tuple containing (Query, remaining observe delay time). Because index 0 is the head of the queue, the remaining observe delay time will naturally be ordered in ascending order."""
+    next_car_Ack: QueryAck | None = None
+    """The QueryAck that signifies that the next car may be sent to the car_out port."""
+    observ_delay_time_outgoing: float = INFINITY     # Is in  [ 0.0s, self.observ_delay ] U INFINITY
+    """A delay variable used to decide when the next Query should be output, after some Car entered the RoadSegment. This timer is distinct from the observ delay timers kept for each incoming Query. This timer is used for outgoing Query events."""
     # Statistics
     n_enter: int = 0
     """The number of cars that have entered this RoadSegment. See the car_in port description."""
@@ -68,11 +72,13 @@ class RoadSegment(AtomicDEVS):
     def timeAdvance(self):
         """May NOT edit state."""
 
-        # The Query observ delay timer nearest to expiration.
+        # The incoming Query observ delay timer nearest to expiration.
         # Is a value in the range: [ 0.0, self.observ_delay ] U INFINITY
-        shortest_observ_delay: float = self._get_shortest_observ_delay()
+        shortest_observ_delay_time_incoming: float =\
+            self._get_shortest_observ_delay_incoming()
 
-        return min(shortest_observ_delay)
+        return min(shortest_observ_delay_time_incoming,
+                   self.state.observ_delay_time_outgoing)
 
     def extTransition(self, inputs):
         """May edit state."""
@@ -83,6 +89,18 @@ class RoadSegment(AtomicDEVS):
         if self.Q_recv in inputs:
             query: Query = inputs[self.Q_recv]
             self.state.incoming_queries_queue.append((query, self.observ_delay))
+
+        # A Car enters the RoadSegment
+        elif self.car_in in inputs:
+            new_car: Car = inputs[self.car_in]
+            self.car_enter(new_car)
+
+        # TODO ???? \/\/\/\/\/ ????
+        # See GasStation Q_rack extTransition
+        if self.Q_rack in inputs:
+            query_ack: QueryAck = inputs[self.Q_rack]
+            self.state.next_car_Ack = query_ack
+        # TODO ???? /\/\/\/\/\ ????
 
         return self.state
     
@@ -96,6 +114,11 @@ class RoadSegment(AtomicDEVS):
                 self.Q_sack: QueryAck(query.ID, self.state.t_until_dep, self.lane, sideways=False)
             }
 
+        elif self._should_send():
+            return {
+                self.Q_send: Query(self._get_current_car().ID)
+            }
+
         return {
         }
 
@@ -104,9 +127,13 @@ class RoadSegment(AtomicDEVS):
         # Pattern 3: multiple timers
         self._update_multiple_timers(self.timeAdvance())
 
-        # After sending a QueryAck in reply to a Query ...
+        # After sending a QueryAck in reply to a Query arriving ...
         if self._should_sack():
             self.state.incoming_queries_queue.pop(0)
+
+        # After sending a Query in response to a Car arriving ...
+        elif self._should_send():
+            self.state.observ_delay_time_outgoing = INFINITY
 
         return self.state
 
@@ -115,17 +142,29 @@ class RoadSegment(AtomicDEVS):
         
         Can be called to pre-fill the RoadSegment with a Car.
         """
-        if len(self.state.cars_present) >= 1:
+        # Handle collision
+        if self._is_car_present():
             # TODO Collision occurred
+            self.state.n_crash += 1
             return
         
+        # TODO ALSO INCREMENT FOR CRASHES???
+        # TODO ALSO INCREMENT FOR CRASHES???
+        # TODO ALSO INCREMENT FOR CRASHES???
+        self.state.n_enter += 1
         self.state.cars_present.append(car)
+        # Immediately send Query
+        self.state.observ_delay_time_outgoing = 0.0
 
     def _is_query_received(self) -> bool:
         """Check whether any incoming Query is currently being processed."""
         return len(self.state.incoming_queries_queue) > 0
     
-    def _get_shortest_observ_delay(self) -> float:
+    def _is_car_present(self) -> bool:
+        """Check whether any Car is present in the RoadSegment."""
+        return len(self.state.cars_present) > 0
+    
+    def _get_shortest_observ_delay_incoming(self) -> float:
         """Get the shortest remaining observe delay associated with any incoming Query.
         
         If there are no incoming Queries, then the output defaults to INFINITY.
@@ -135,8 +174,21 @@ class RoadSegment(AtomicDEVS):
         return INFINITY
 
     def _should_sack(self) -> bool:
-        """Check whether a QueryAck should be sent in response to the expiration of an observ delay timer for an incoming Query, according to the current state."""
-        return self._get_shortest_observ_delay() == 0.0
+        """Check whether a QueryAck should be sent on the Q_sack port in response to the expiration of an observ delay timer for an incoming Query, according to the current state."""
+        return self._get_shortest_observ_delay_incoming() == 0.0
+
+    def _should_send(self) -> bool:
+        """Check whether a Query should be sent on the Q_send port in response to the expiration of the query delay timer, according to the current state."""
+        return self.state.observ_delay_time_outgoing == 0
+
+    def _get_current_car(self) -> Car | None:
+        """Get the (frontmost) Car that is currently travelling down the RoadSegment.
+        
+        If no Car is present, return None instead.
+        """
+        if self._is_car_present():
+            return self.state.cars_present[0]
+        return None
 
     def _clamp(self, value: float, min_val: float, max_val: float) -> float:
         """Clamp the *value* to the fully closed interval `[ min_val, max_val ]`."""
@@ -153,5 +205,5 @@ class RoadSegment(AtomicDEVS):
             (query, observ_delay_remaining - time_delta)
             for query, observ_delay_remaining in self.state.incoming_queries_queue
         ]
-        # mex(0.0, timer) not needed for following timers, all are INFINITY except for the running/relevant timer
-        # TODO fill this section out???
+        # mex(0.0, timer) not needed for following timers, all are INFINITY except for the running/relevant timers
+        self.state.observ_delay_time_outgoing -= time_delta
