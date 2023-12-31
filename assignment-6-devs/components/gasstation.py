@@ -31,6 +31,17 @@ class GasStationState(QueryPollingState):
     def __post_init__(self, rng_seed: InitVar[int | None]):
         self.rng = np.random.default_rng(rng_seed)
 
+    def __repr__(self) -> str:
+        return f"""GasStation(
+                        is_available        = {self.is_available},
+                        awaiting_init_ack   = {self.awaiting_initial_ack}
+                        car_queue           = {[f'ID={car.ID} | no_gas={car.no_gas} | refuel_delay={refuel_delay}' for car, refuel_delay in self.car_queue]},
+                        reusable_query      = {self.reusable_query},
+                        received_ack        = {self.received_ack},
+                        polling_delay_time  = {self.polling_delay_time},
+                        next_car_delay_time = {self.next_car_delay_time})
+"""
+
 
 class GasStation(AtomicDEVS):
     """Represents the notion that some Cars need gas. It can store an infinite amount of Cars,
@@ -117,6 +128,7 @@ class GasStation(AtomicDEVS):
                 if query_ack.t_until_dep == INFINITY:
                     output_car: Car = self._get_car_queue_elem_shortest_refuel()[0]
                     self.state.start_polling(output_car)
+                    self.state.received_ack = query_ack     # Purely aesthetic for the output trace
                 # Initial QueryAck is finite
                 else:
                     final_ack = query_ack
@@ -148,22 +160,17 @@ class GasStation(AtomicDEVS):
 
         # ELIF polling, the outputFnc is reached when the observ delay
         # timer reaches 0.0s
-        elif self.state.should_continue_polling():
+        elif self.state.is_polling():
             return {
                 self.Q_send: self.state.get_query()
             }
 
         # ELSE car output, the outputFnc is reached when the next car delay
         # timer reaches 0.0s
-        elif self.state.next_car_delay_time == 0.0:
-            return {
-                self.car_out: self._get_car_queue_elem_shortest_refuel()[0]
-            }
+        return {
+            self.car_out: self._get_car_queue_elem_shortest_refuel()[0]
+        }
         
-        # Fallthrough, should never be reached
-        return {}
-
-
     def intTransition(self):
         """May edit state."""
         # Pattern 3: multiple timers
@@ -176,7 +183,7 @@ class GasStation(AtomicDEVS):
             self._set_awaiting_init_ack(True)
 
         # After sending a subsequent/polling Query ...
-        elif self.state.should_continue_polling():
+        elif self.state.should_poll_again():
             self.state.continue_polling(self.observ_delay)
 
         # After outputting a Car ...
