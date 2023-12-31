@@ -98,7 +98,7 @@ class QueryPollingState:
         """Check whether polling is currently in progress."""
         return self._is_query_stored()
 
-    def should_continue_polling(self) -> bool:
+    def should_poll_again(self) -> bool:
         """Check whether a Query should be sent / whether a poll should happen."""
         return self.polling_delay_time == 0.0
 
