@@ -43,7 +43,8 @@ class Generator(AtomicDEVS):
     """
 
     def __init__(self, block_name: str, IAT_min: float, IAT_max: float,
-                 v_pref_mu: float, v_pref_sigma: float, destinations: list, limit: int):
+                 v_pref_mu: float, v_pref_sigma: float, destinations: list, limit: int,
+                 rng_seed: int | None = None):
         """
         :param block_name: The name for this model. Must be unique inside a Coupled DEVS.
         :param IAT_min: Lower bound for the IAT uniform distribution.
@@ -57,7 +58,7 @@ class Generator(AtomicDEVS):
 
         assert len(destinations) > 0, f"The destinations list of a {self.__class__.__name__} MUST be non-empty"
 
-        self.state: GeneratorState = GeneratorState()
+        self.state: GeneratorState = GeneratorState(rng_seed=rng_seed)
 
         # Immutable members -- should NOT be part of the model state member
         self.IAT_min: float = IAT_min
