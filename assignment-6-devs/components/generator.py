@@ -9,7 +9,6 @@ from pypdevs.infinity import INFINITY
 from components.messages import Car, QueryAck, Query
 
 
-
 @dataclass
 class GeneratorState:
     n: int = 0
@@ -42,6 +41,7 @@ class Generator(AtomicDEVS):
     the generated car is output over the car_out port. Next, the Generator waits for some time before
     generating another Car. Upon generation, the Car's no_gas is randomly set to be either true or false.
     """
+
     def __init__(self, block_name: str, IAT_min: float, IAT_max: float,
                  v_pref_mu: float, v_pref_sigma: float, destinations: list, limit: int):
         """
@@ -64,7 +64,7 @@ class Generator(AtomicDEVS):
         self.IAT_max: float = IAT_max
         self.v_pref_mu: float = v_pref_mu
         self.v_pref_sigma: float = v_pref_sigma
-        self.destinations: list =destinations
+        self.destinations: list = destinations
         self.limit: int = limit
         self.DV_POS_MAX: float = 28.0
         self.DV_NEG_MAX: float = 21.0
@@ -87,7 +87,7 @@ class Generator(AtomicDEVS):
             return INFINITY
 
         car_is_generated: bool = self._car_is_generated()
-        ack_is_received: bool  = self._ack_is_received()
+        ack_is_received: bool = self._ack_is_received()
 
         # No Car? Schedule next car generation (wait IAT)
         if not car_is_generated:
@@ -96,7 +96,7 @@ class Generator(AtomicDEVS):
         # Immediately after Car generation, send out Query
         # OR Idle until QueryAck is received
         elif car_is_generated and not ack_is_received:
-            return self.state.query_delay_time      # Is 0.0 OR INFINITY
+            return self.state.query_delay_time  # Is 0.0 OR INFINITY
 
         elif car_is_generated and ack_is_received:
             return self.state.next_car_Ack.t_until_dep
@@ -117,11 +117,11 @@ class Generator(AtomicDEVS):
             # intTransition() executes AFTER outputFnc()
             self.state.next_car.departure_time = self.state.simulated_time + query_ack.t_until_dep
         return self.state
-    
+
     def outputFnc(self):
         """May NOT edit state."""
         car_is_generated: bool = self._car_is_generated()
-        ack_is_received: bool  = self._ack_is_received()
+        ack_is_received: bool = self._ack_is_received()
 
         if car_is_generated and not ack_is_received:
             return {
@@ -131,7 +131,7 @@ class Generator(AtomicDEVS):
             return {
                 self.car_out: self.state.next_car
             }
-        
+
         return {}
 
     def intTransition(self):
@@ -140,12 +140,12 @@ class Generator(AtomicDEVS):
         self.state.simulated_time += self.timeAdvance()
 
         car_is_generated: bool = self._car_is_generated()
-        ack_is_received: bool  = self._ack_is_received()
+        ack_is_received: bool = self._ack_is_received()
 
         # Generate Car, IAT expired
         if not car_is_generated:
             v_pref: float = max(0.0, self.state.rng.normal(self.v_pref_mu, self.v_pref_sigma))
-            no_gas: bool  = self.state.rng.binomial(1, 0.5)
+            no_gas: bool = self.state.rng.binomial(1, 0.5)
             destination: str = self.state.rng.choice(self.destinations)
             nxt_car: Car = Car(uuid.uuid4(), v_pref, self.DV_POS_MAX, self.DV_NEG_MAX,
                                no_gas=no_gas, destination=destination)
@@ -158,7 +158,7 @@ class Generator(AtomicDEVS):
             # Cleanup
             self.state.next_car = None
             self.state.next_car_Ack = None
-            self.state.query_delay_time = 0.0   # Reset the QueryAck receival delay
+            self.state.query_delay_time = 0.0  # Reset the QueryAck receival delay
             # Sample IAT
             self.state.next_car_IAT = self.state.rng.uniform(self.IAT_min, self.IAT_max)
             # Incrementing the count immediately after Car is output, prevents the IAT
