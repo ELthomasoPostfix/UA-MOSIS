@@ -25,10 +25,16 @@ class RoadSegmentState:
     incoming_queries_queue: List[Tuple[Query, float]] = field(default_factory=list)
 
     """The FIFO queue of incoming/external Query events. Each queue element is a tuple containing (Query, remaining observe delay time). Because index 0 is the head of the queue, the remaining observe delay time will naturally be ordered in ascending order."""
-    next_car_Ack: QueryAck | None = None
-    """The QueryAck that signifies that the next car may be sent to the car_out port."""
-    observ_delay_time_outgoing: float = INFINITY  # Is in  [ 0.0s, self.observ_delay ] U INFINITY
-    """A delay variable used to decide when the next Query should be output, after some Car entered the RoadSegment. This timer is distinct from the observ delay timers kept for each incoming Query. This timer is used for outgoing Query events."""
+
+    # Timers
+    t_until_send_query: float = INFINITY    # Is in  [ 0.0s, self.observ_delay ] U INFINITY
+    """A timer used to decide when the next Query should be output. This happens either after some Car entered the RoadSegment (send an initial Query) or when the Car's velocity is 0 (Query polling behavior). This timer is distinct from the observ delay timers kept for each incoming Query. This timer is used for outgoing Query events."""
+    t_until_v_update: float   = INFINITY    # Is either 0.0s or INFINITY
+    """The time until the current Car's velocity should be updated. If the Car's velocity is 0, this value is infinity."""
+    t_since_v_update: float   = INFINITY    # Reset to 0.0 after updating Car.v and then only increases
+    """The amount of time that passed since the current car's velocity was last updated."""
+    t_until_dep: float = 0.0        # Updated manually upon Car velocity updates
+    """The time until the current Car (i.e., the first one in cars_present) leaves the RoadSegment. If the Car's velocity is 0, this value is infinity. If no Car is present, this value is 0."""
 
     # Statistics
     n_enter: int = 0
@@ -105,28 +111,28 @@ class RoadSegment(AtomicDEVS):
         # Pattern 3: multiple timers
         self._update_multiple_timers(self.elapsed)
 
-        # Enqueue an incoming Query event on the FIFO queue
-        if self.Q_recv in inputs:
-            query: Query = inputs[self.Q_recv]
-            self.state.incoming_queries_queue.append((query, self.observ_delay))
 
         # A Car enters the RoadSegment
-        elif self.car_in in inputs:
+        if self.car_in in inputs:
             new_car: Car = inputs[self.car_in]
             self.car_enter(new_car)
 
+        # Enqueue an incoming Query event on the FIFO queue
+        elif self.Q_recv in inputs:
+            query: Query = inputs[self.Q_recv]
+            self.state.incoming_queries_queue.append((query, self.observ_delay))
+
         # See GasStation Q_rack extTransition
+        # TODO: check lane number in QueryAck
         elif self.Q_rack in inputs:
             query_ack: QueryAck = inputs[self.Q_rack]
             self.state.next_car_Ack = query_ack
 
             current_car: Car = self._get_current_car()
-            if current_car is None:
+            # TODO: In Fork, return self.state if query_ack.lane != car.no_gas
+            # Ignore ALL QueryAcks that are not meant for this AtomicDEVS component.
+            if current_car is None or current_car.ID != query_ack.ID:
                 return self.state
-
-            # Collect & update time since previous velocity update
-            t_no_coll: float = query_ack.t_until_dep
-
 
             def clamp_speed(car: Car, v_target: float):
                 """Return the new speed that the *car* would like to attain if possible.
@@ -146,6 +152,8 @@ class RoadSegment(AtomicDEVS):
                 else:
                     return v_target
 
+            # Collect & update time since previous velocity update
+            t_no_coll: float = query_ack.t_until_dep
             if not query_ack.sideways:
                 v_new = clamp_speed(current_car, current_car.v_pref)
                 t_exit = self.state.remaining_x / v_new
@@ -157,7 +165,7 @@ class RoadSegment(AtomicDEVS):
                 else:
                     pass
             else:
-                if not query_ack.priority:
+                if not self.priority:
                     # Decelerate to zero as fast as possible
                     # i.e. the target speed is 0.0
                     v_new = 0.0
@@ -166,29 +174,38 @@ class RoadSegment(AtomicDEVS):
 
             updated_car_v: float = clamp_speed(current_car, v_new)
             self.state.v_updates.append(updated_car_v)
-            self.state.v_apply_updates_time = 0.0
+            self.state.t_until_v_update = 0.0
+
         return self.state
 
     def outputFnc(self):
         """May NOT edit state."""
 
-        # TODO calling _should_sack() or _should_send() in outputFnc does not work!!!!
-        # TODO calling _should_sack() or _should_send() in outputFnc does not work!!!!
-        # TODO calling _should_sack() or _should_send() in outputFnc does not work!!!!
+        car = self._get_current_car()
 
-        # Should send QueryAck
-        if (self._get_shortest_observ_delay_incoming() - self.timeAdvance()) == 0.0:
+        # (1) Send Car to car_out port
+        if self._should_car_depart(False):
+            return {
+                self.car_out: Car(
+                    car.ID, car.v_pref, car.dv_pos_max, car.dv_neg_max, car.departure_time,
+                    car.distance_traveled + self.L, car.v, car.no_gas, car.destination
+                )
+            }
+
+        # (2) Send Query to Q_send port (via initial query or polling)
+        elif self._should_send_query(False):
+            return {
+                self.Q_send: Query(car.ID)
+            }
+
+        # (3) Send QueryAck to Q_sack port
+        elif self._should_send_ack(False):
             query: Query = self.state.incoming_queries_queue[0][0]
             # TODO is this t_until_dep given to the QueryAck correctly calculated at this moment????
             #   ==> See calculate_t_until_dep()
             #   ==> But why is there a t_until_dep in state then???
             return {
                 self.Q_sack: QueryAck(query.ID, self.state.t_until_dep, self.lane, sideways=False)
-            }
-
-        elif self._is_query_sent():
-            return {
-                self.Q_send: Query(self._get_current_car().ID)
             }
 
         return {
@@ -204,8 +221,8 @@ class RoadSegment(AtomicDEVS):
             self.state.incoming_queries_queue.pop(0)
 
         # (2) After sending a Query in response to a Car arriving ...
-        elif self._is_query_sent():
-            self.state.observ_delay_time_outgoing = INFINITY
+        elif self._should_send_query():
+            self.state.t_until_send_query = INFINITY
 
         # (3) After sending a Car to the Car output port ...
         elif self.state.t_until_dep == 0.0:
@@ -291,13 +308,28 @@ class RoadSegment(AtomicDEVS):
             return self.state.incoming_queries_queue[0][1]
         return INFINITY
 
-    def _is_ack_sent(self) -> bool:
-        """Check whether a QueryAck should be sent on the Q_sack port in response to the expiration of an observ delay timer for an incoming Query, according to the current state."""
-        return self._get_shortest_observ_delay_incoming() == 0.0
+    def _should_send_ack(self, timeUpdated: bool = True) -> bool:
+        """Check whether a QueryAck should be sent on the Q_sack port in response to the expiration of an observ delay timer for an incoming Query."""
+        return self._get_shortest_observ_delay_incoming() == (0.0 if timeUpdated else self.timeAdvance())
 
-    def _is_query_sent(self) -> bool:
-        """Check whether a Query should be sent on the Q_send port in response to the expiration of the query delay timer, according to the current state."""
-        return self.state.observ_delay_time_outgoing == 0.0
+    def _should_send_query(self, timeUpdated: bool = True) -> bool:
+        """Check whether the initial Query in response to a Car entering the RoadSegment or polling Query should be sent on the Q_send port."""
+        return self.state.t_until_send_query == (0.0 if timeUpdated else self.timeAdvance())
+
+    def _should_car_depart(self, timeUpdated: bool = True) -> bool:
+        """Check whether the current Car should be sent on the car_out port."""
+        return self.state.t_until_dep == (0.0 if timeUpdated else self.timeAdvance())
+
+    def _should_update_v(self) -> bool:
+        """Check whether the current Car's velocity should be updated."""
+        return self.state.t_until_v_update == 0.0
+
+    def _should_poll(self) -> bool:
+        """Check whether the current state indicates that polling should happen."""
+        current_car: Car = self._get_current_car()
+        if current_car is not None:
+            return current_car.v == 0.0
+        return False
 
     def _get_current_car(self) -> Car | None:
         """Get the (frontmost) Car that is currently travelling down the RoadSegment.

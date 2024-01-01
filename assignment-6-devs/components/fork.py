@@ -13,3 +13,12 @@ class Fork(RoadSegment):
                  observ_delay: float = 0.1, priority: bool = False, lane: int = 0):
         super(Fork, self).__init__(block_name=block_name, L=L, v_max=v_max,
                          observ_delay=observ_delay, priority=priority, lane=lane)
+
+    def extTransition(self, inputs):
+        """May edit state."""
+        return self.state
+
+
+    def intTransition(self):
+        """May edit state."""
+        return self.state
