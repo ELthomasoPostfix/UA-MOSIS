@@ -33,8 +33,8 @@ assignment-6-devs/
 │   └── experiment.py
 ├── other/
 ├── PythonPDEVS-master/
-|   └── pythonpdevs/
-|       └── ...
+│   └── pythonpdevs/
+│       └── ...
 ├── tests/
 │   ├── __init__.py
 │   └── ...
