@@ -49,14 +49,15 @@ class GasStation(AtomicDEVS):
 
     This component can be available (default) or unavailable
     """
-    def __init__(self, block_name: str, observ_delay: float = 0.1):
+    def __init__(self, block_name: str, observ_delay: float = 0.1,
+                 rng_seed: int | None = None):
         """
         :param block_name: The name for this model. Must be unique inside a Coupled DEVS.
         :param observ_delay: The interval at which the GasStation must poll if the received QueryAck has an infinite delay. Defaults to 0.1.
         """
         super(GasStation, self).__init__(block_name)
 
-        self.state: GasStationState = GasStationState()
+        self.state: GasStationState = GasStationState(rng_seed=rng_seed)
 
         # Immutable members -- should NOT be part of the model state member
         self.observ_delay: float = observ_delay

@@ -16,7 +16,7 @@ RNG_SEED: int | None = None
 # RNG_SEED = 0    # Comment this if random seed desired
 
 test_name = 'test'
-test_name = test_names[2]
+test_name = test_names[3]
 
 
 
@@ -101,7 +101,7 @@ match test_name:
 
         sc = model.addSubModel(Scheduler(Scheduler.__name__, pre_cars))
         pp = model.addSubModel(PingPong(PingPong.__name__, delay=5.0))
-        gs = model.addSubModel(GasStation(GasStation.__name__))
+        gs = model.addSubModel(GasStation(GasStation.__name__, rng_seed=RNG_SEED))
         cl = model.addSubModel(TestCollector(TestCollector.__name__))
         model.connectPorts(sc.output, gs.car_in)
         model.connectPorts(gs.Q_send, pp.inp)
