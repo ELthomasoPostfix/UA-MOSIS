@@ -13,17 +13,9 @@ class RoadSegmentState:
     """The remaining distance that the current Car (i.e., the first one in cars_present) should still travel on this RoadSegment."""
     cars_present: List[Car] = field(default_factory=list)
     """A list for all the Cars on this RoadSegment. Even though the existence of multiple Cars results in a collision, for extensibility purposes a list should be used."""
-    previous_v_update_time: float = INFINITY
-    """The amount of time that passed since the current car's velocity was last updated."""
     v_updates: List[float] = field(default_factory=list)
     """The list of car possible velocity updates collected at the exact same time."""
-    v_apply_updates_time: float = INFINITY      # Is either 0.0s or INFINITY
-    """A timer to trigger the application of one of the collected velocity updates, to the car."""
-
-    t_until_dep: float = 0.0
-    """The time until the current Car (i.e., the first one in cars_present) leaves the RoadSegment. If the Car's velocity is 0, this value is infinity. If no Car is present, this value is 0."""
     incoming_queries_queue: List[Tuple[Query, float]] = field(default_factory=list)
-
     """The FIFO queue of incoming/external Query events. Each queue element is a tuple containing (Query, remaining observe delay time). Because index 0 is the head of the queue, the remaining observe delay time will naturally be ordered in ascending order."""
 
     # Timers
@@ -39,18 +31,20 @@ class RoadSegmentState:
     # Statistics
     n_enter: int = 0
     """The number of cars that have entered this RoadSegment. See the car_in port description."""
-    n_crash: int = 0
+    collisions: int = 0
     """The number of crashes that have occurred in this RoadSegment. See the car_in port description."""
 
     def __repr__(self) -> str:
         return f"""RoadSegment(
-                        cars                = {[f'ID={car.ID} | v={car.v} | v_pref={car.v_pref}' for car in self.car_queue]},
-                        remaining_x         = {self.is_available},
+                        cars                = {[f'ID={car.ID} | v={car.v} | v_pref={car.v_pref}' for car in self.cars_present]},
+                        incoming_queries_q  = {[f'ID={query.ID} | rem_observ_delay={rem_observ_delay}' for query, rem_observ_delay in self.incoming_queries_queue]},
+                        remaining_x         = {self.remaining_x},
                         t_until_dep         = {self.t_until_dep}
-                        incoming_queries_q  = {[f'ID={query.ID} | rem_observ_delay={rem_observ_delay}' for query, rem_observ_delay in self.car_queue]},
-                        observ_delay_out    = {self.observ_delay_time_outgoing},
+                        t_until_send_query  = {self.t_until_send_query},
+                        t_until_v_update    = {self.t_until_v_update},
+                        t_since_v_update    = {self.t_since_v_update},
                         n_enter             = {self.n_enter},
-                        n_crash             = {self.n_crash},
+                        n_crash             = {self.collisions},
 """
 
 
@@ -100,11 +94,20 @@ class RoadSegment(AtomicDEVS):
     def timeAdvance(self):
         """May NOT edit state."""
 
+        # Car.v == 0.0, then t_until_send_query will ALWAYS be started.
+        # ==> polling will happen when needed if t_until_send_query is
+        #    always considered in the timeAdvance() output
+
+        # No Car on RoadSegment, so t_until_dep does not contribute to timeAdvance()
+        t_until_dep_time: float = self.state.t_until_dep
+        if self._get_current_car() is None:
+            t_until_dep_time = INFINITY
+
         # The closest action that will need to be taken ([1] acknowledging Query, [2] sending Query, [3] re-computing velocity)
         return min(self._get_shortest_observ_delay_incoming(),
-                   self.state.observ_delay_time_outgoing,
-                   self.state.v_apply_updates_time,
-                   self.state.t_until_dep)
+                   self.state.t_until_send_query,
+                   self.state.t_until_v_update,
+                   t_until_dep_time)
 
     def extTransition(self, inputs):
         """May edit state."""
@@ -126,7 +129,6 @@ class RoadSegment(AtomicDEVS):
         # TODO: check lane number in QueryAck
         elif self.Q_rack in inputs:
             query_ack: QueryAck = inputs[self.Q_rack]
-            self.state.next_car_Ack = query_ack
 
             current_car: Car = self._get_current_car()
             # TODO: In Fork, return self.state if query_ack.lane != car.no_gas
@@ -144,10 +146,10 @@ class RoadSegment(AtomicDEVS):
                 """
                 # Accel/Decel to v_target according to dv_pos_max/dv_neg_max
                 if car.v < v_target:
-                    speed_max_accel: float = car.v + car.dv_pos_max * self.state.previous_v_update_time
+                    speed_max_accel: float = car.v + car.dv_pos_max # * self.state.t_since_v_update
                     return min(speed_max_accel, v_target, self.v_max)
                 elif car.v > v_target:
-                    speed_max_decel: float = car.v - car.dv_neg_max * self.state.previous_v_update_time
+                    speed_max_decel: float = car.v - car.dv_neg_max # * self.state.t_since_v_update
                     return max(speed_max_decel, v_target, 0.0)
                 else:
                     return v_target
@@ -204,6 +206,7 @@ class RoadSegment(AtomicDEVS):
             # TODO is this t_until_dep given to the QueryAck correctly calculated at this moment????
             #   ==> See calculate_t_until_dep()
             #   ==> But why is there a t_until_dep in state then???
+            true_t_until_dep: float = self._calc_updated_t_until_dep(self._calc_updated_remaining_x(self.timeAdvance()))
             return {
                 self.Q_sack: QueryAck(query.ID, self.state.t_until_dep, self.lane, sideways=False)
             }
@@ -217,7 +220,7 @@ class RoadSegment(AtomicDEVS):
         self._update_multiple_timers(self.timeAdvance())
 
         # (1) After sending a QueryAck in reply to a Query arriving ...
-        if self._is_ack_sent():
+        if self._should_send_ack():
             self.state.incoming_queries_queue.pop(0)
 
         # (2) After sending a Query in response to a Car arriving ...
@@ -225,48 +228,53 @@ class RoadSegment(AtomicDEVS):
             self.state.t_until_send_query = INFINITY
 
         # (3) After sending a Car to the Car output port ...
-        elif self.state.t_until_dep == 0.0:
-            # The sole Car left, so reset t_until_dep to 0, so that any Car may enter
-            self.state.t_until_dep = 0.0
+        elif self._should_car_depart():
             # Set 'irrelevant' timers to neutral INFINITY to signify them being off
-            self.state.previous_v_update_time = INFINITY
+            # To be entirely safe, set ALL car-related timers to neutral values
+            self.state.t_until_send_query = INFINITY
+            self.state.t_until_v_update = INFINITY
+            self.state.t_since_v_update = INFINITY
+            self.state.t_until_dep = 0.0
+            # Evict Car from queue
+            self.state.remaining_x = self.L
+            self.state.cars_present.pop(0)
 
         # (4) After collecting possible velocity updates from
         # external QueryAck events ...
-        elif self.state.v_apply_updates_time == 0.0:
+        elif self._should_update_v():
             # TODO TAKE INTO ACCOUNT sideways and priority still?????
             # TODO TAKE INTO ACCOUNT sideways and priority still?????
             # TODO TAKE INTO ACCOUNT sideways and priority still?????
             # TODO TAKE INTO ACCOUNT sideways and priority still?????
             # TODO TAKE INTO ACCOUNT sideways and priority still?????
-            current_car: Car = self._get_current_car()
-            velocity_old: float = current_car.v
-            velocity_new: float = max(self.state.v_updates)
-
             # Update velocity
-            current_car.v = velocity_new
+            self._get_current_car().v = max(self.state.v_updates)
             self.state.v_updates.clear()
 
             # Update done, no next update until update explicitly requested
-            self.state.v_apply_updates_time = INFINITY
+            self.state.t_until_v_update = INFINITY
 
-            # The Car travelled some distance since the previous update.
-            distance_travelled: float = self.state.previous_v_update_time * velocity_old
-            self.state.remaining_x = max(0.0, self.state.remaining_x - distance_travelled)
-
-            # Update t_until_dep to take the new velocity into account.
-            # velocity = distance / time   ==>   time = distance / velocity
-            new_t_until_dep: float = INFINITY       # Default to assuming the new velocity is 0.0
-            if velocity_new > 0.0:
-                new_t_until_dep = self.state.remaining_x / current_car.v
-            self.state.t_until_dep = new_t_until_dep
+            # Consider changed Car velocity to update t_until_dep
+            self.state.t_until_dep = self._calc_updated_t_until_dep()
 
             # Update happened, reset time since previous update
-            self.state.previous_v_update_time = 0.0
-            # TODO If t_until_dep == INFINITY, then start a polling timer?????
-            # TODO If t_until_dep == INFINITY, then start a polling timer?????
-            # TODO If t_until_dep == INFINITY, then start a polling timer?????
-            # TODO If t_until_dep == INFINITY, then start a polling timer?????
+            self.state.t_since_v_update = 0.0
+
+            # After observ_delay, send Query (polling).
+            # This check will catch any case of a Car having velocity 0.0 within the RoadSegment, because:
+            #   1) If a Car enters and has 0.0 velocity, then an initial Query is sent.
+            #      The QueryAck that follows results in a velocity update, meaning
+            #      this elif in intTransition() is reached. If the updated velocity
+            #      remains 0.0, then this will be caught here.
+            #   2) If a Car enters and has > 0.0 velocity, then an initial Query is sent.
+            #      The QueryAck that follows results in a velocity update, meaning this
+            #      elif section in intTransition() is reached. If the new velocity becomes
+            #      0.0, then this will be caught here.
+            # ==> If the updated velocity is:
+            #   a) == 0.0, then polling will be started below
+            #   b)  > 0.0, then polling will NOT be started below
+            if self._get_current_car().v == 0.0:
+                self.state.t_until_send_query = self.observ_delay
 
         return self.state
 
@@ -279,17 +287,20 @@ class RoadSegment(AtomicDEVS):
         collision = self._is_car_present()
 
         self.state.n_enter += 1
-        self.state.cars_present.append(car)
 
         if collision:
-            self.state.n_crash += 1
+            self.state.collisions += 1
             self.state.cars_present = []
-
             return
 
+        self.state.cars_present.append(car)
+
         # Immediately send Query
-        self.state.previous_v_update_time = 0.0
-        self.state.observ_delay_time_outgoing = 0.0
+        self.state.t_since_v_update = 0.0
+        self.state.t_until_send_query = 0.0
+
+        # Initialize time until departed
+        self.state.t_until_dep = self._calc_updated_t_until_dep()
 
     def _is_query_received(self) -> bool:
         """Check whether any incoming Query is currently being processed."""
@@ -371,5 +382,36 @@ class RoadSegment(AtomicDEVS):
             for query, observ_delay_remaining in self.state.incoming_queries_queue
         ]
         # mex(0.0, timer) not needed for following timers, all are INFINITY except for the running/relevant timers
-        self.state.observ_delay_time_outgoing -= time_delta
-        self.state.previous_v_update_time += time_delta
+        self.state.t_until_send_query -= time_delta
+        self.state.t_since_v_update += time_delta
+
+        # Update remaining_x and t_until_dep
+        current_car: Car = self._get_current_car()
+        if current_car is not None:
+            # The Car travelled some distance since the previous update.
+            self.state.remaining_x = self._calc_updated_remaining_x(time_delta)
+            self.state.t_until_dep = self._calc_updated_t_until_dep()
+
+    def _calc_updated_remaining_x(self, time_delta: float):
+        """Calculate the updated remaining_x based on the current Car velocity and the specified *time_delta* travel time.
+
+        This method has NO side effects.
+        """
+        current_car: Car = self._get_current_car()
+        if current_car is None:
+            return self.state.remaining_x
+
+        distance_travelled: float = time_delta * current_car.v
+        return max(0.0, self.state.remaining_x - distance_travelled)
+
+    def _calc_updated_t_until_dep(self, rem_x: float = None) -> float:
+        """Update t_until_dep for the current velocity. Sets it to 0.0 if there is no Car.
+
+        This method has NO side effects.
+        """
+        rem_x = self.state.remaining_x if rem_x is None else rem_x
+        car: Car = self._get_current_car()
+        if car is None:
+            return 0.0
+        else:
+            return (rem_x / car.v) if car.v > 0.0 else INFINITY
