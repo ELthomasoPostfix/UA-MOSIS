@@ -12,8 +12,11 @@ test_names = [
     SM, CL, GN, GS
 ]
 
+RNG_SEED: int | None = None
+# RNG_SEED = 0    # Comment this if random seed desired
+
 test_name = 'test'
-test_name = test_names[3]
+test_name = test_names[2]
 
 
 
@@ -72,7 +75,7 @@ match test_name:
         limit: int = 4
         model = CDEVS("model")
         pp = model.addSubModel(PingPong("A"))
-        gen = model.addSubModel(Generator("GENERATOR", 5, 7, 10, 20, ["E"], limit=limit))
+        gen = model.addSubModel(Generator("GENERATOR", 5, 7, 10, 20, ["E"], limit=limit, rng_seed=RNG_SEED))
         cl = model.addSubModel(TestCollector("cl"))
         model.connectPorts(gen.Q_send, pp.inp)
         model.connectPorts(pp.out, gen.Q_rack)
