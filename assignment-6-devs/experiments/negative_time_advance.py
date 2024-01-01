@@ -4,7 +4,7 @@ from other.ping_pong_multi import PingPongMulti
 from tests.helpers import CDEVS, Scheduler, TestCollector
 
 from components.messages import Car
-from components.gasstation import GasStation
+from other.gasstation_realistic_polling import GasStation
 
 
 """
@@ -17,6 +17,25 @@ turorial, it seems? Run it enough times, and the last line of its output will
 read something similar to:
 
     DEVS Exception: Negative time advance in atomic model 'market.store' with value -1.8894358316271855 at time 66.012627
+
+Also, this experiment is a showcase of a GasStation implementation that makes use
+of realistic polling. By 'realistic polling', we mean the following: Suppose that the
+roundtrip time for a Query is 2s, then the following trace may occur:
+at global time 0.0s     GasStation sends Query 1
+at global time 1.0s     GasStation sends Query 2
+at global time 2.0s     GasStation receives QueryAck 1
+at global time 2.0s     GasStation sends Query 3
+at global time 3.0s     GasStation receives QueryAck 2
+at global time 4.0s     GasStation receives QueryAck 3
+
+This is as opposed to a simplified polling behavior:
+at global time 0.0s     GasStation send Query 1
+at global time 2.0s     GasStation receives Query 1
+at global time 3.0s     GasStation send Query 2
+at global time 5.0s     GasStation receives Query 2
+at global time 6.0s     GasStation send Query 3
+at global time 8.0s     GasStation receives Query 3
+
 
 """
 
