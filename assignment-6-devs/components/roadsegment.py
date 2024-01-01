@@ -97,7 +97,8 @@ class RoadSegment(AtomicDEVS):
         # The closest action that will need to be taken ([1] acknowledging Query, [2] sending Query, [3] re-computing velocity)
         return min(self._get_shortest_observ_delay_incoming(),
                    self.state.observ_delay_time_outgoing,
-                   self.state.v_apply_updates_time)
+                   self.state.v_apply_updates_time,
+                   self.state.t_until_dep)
 
     def extTransition(self, inputs):
         """May edit state."""
@@ -207,17 +208,48 @@ class RoadSegment(AtomicDEVS):
             self.state.observ_delay_time_outgoing = INFINITY
 
         # (3) After sending a Car to the Car output port ...
-        # elif ...
-        #     self.state.previous_v_update = INFINITY
+        elif self.state.t_until_dep == 0.0:
+            # The sole Car left, so reset t_until_dep to 0, so that any Car may enter
+            self.state.t_until_dep = 0.0
+            # Set 'irrelevant' timers to neutral INFINITY to signify them being off
+            self.state.previous_v_update_time = INFINITY
 
         # (4) After collecting possible velocity updates from
         # external QueryAck events ...
         elif self.state.v_apply_updates_time == 0.0:
-            applied_velocity: float = max(self.state.v_updates)
-            self._get_current_car().v = applied_velocity
+            # TODO TAKE INTO ACCOUNT sideways and priority still?????
+            # TODO TAKE INTO ACCOUNT sideways and priority still?????
+            # TODO TAKE INTO ACCOUNT sideways and priority still?????
+            # TODO TAKE INTO ACCOUNT sideways and priority still?????
+            # TODO TAKE INTO ACCOUNT sideways and priority still?????
+            current_car: Car = self._get_current_car()
+            velocity_old: float = current_car.v
+            velocity_new: float = max(self.state.v_updates)
+
+            # Update velocity
+            current_car.v = velocity_new
             self.state.v_updates.clear()
-            # Allow independent velocity updates
+
+            # Update done, no next update until update explicitly requested
             self.state.v_apply_updates_time = INFINITY
+
+            # The Car travelled some distance since the previous update.
+            distance_travelled: float = self.state.previous_v_update_time * velocity_old
+            self.state.remaining_x = max(0.0, self.state.remaining_x - distance_travelled)
+
+            # Update t_until_dep to take the new velocity into account.
+            # velocity = distance / time   ==>   time = distance / velocity
+            new_t_until_dep: float = INFINITY       # Default to assuming the new velocity is 0.0
+            if velocity_new > 0.0:
+                new_t_until_dep = self.state.remaining_x / current_car.v
+            self.state.t_until_dep = new_t_until_dep
+
+            # Update happened, reset time since previous update
+            self.state.previous_v_update_time = 0.0
+            # TODO If t_until_dep == INFINITY, then start a polling timer?????
+            # TODO If t_until_dep == INFINITY, then start a polling timer?????
+            # TODO If t_until_dep == INFINITY, then start a polling timer?????
+            # TODO If t_until_dep == INFINITY, then start a polling timer?????
 
         return self.state
 
@@ -302,9 +334,8 @@ class RoadSegment(AtomicDEVS):
         Implements the bulk of pattern 3: multiple timers.
         """
         # Update incoming Query observe delay timers
-        # mex(0.0, timer) not needed for following timers, each Query is responded to as soon as their timer reaches 0.0s.
         self.state.incoming_queries_queue = [
-            (query, observ_delay_remaining - time_delta)
+            (query, max(0.0, observ_delay_remaining - time_delta))
             for query, observ_delay_remaining in self.state.incoming_queries_queue
         ]
         # mex(0.0, timer) not needed for following timers, all are INFINITY except for the running/relevant timers
