@@ -97,7 +97,7 @@ match test_name:
         pre_sim_gas_total: int = sum([car.no_gas for _, car in pre_cars])
 
         sc = model.addSubModel(Scheduler(Scheduler.__name__, pre_cars))
-        pp = model.addSubModel(PingPongMulti(PingPongMulti.__name__, t_until_dep=5.0, pong_delay=0.2, first_x_inf=3))
+        pp = model.addSubModel(PingPong(PingPong.__name__, delay=5.0))
         gs = model.addSubModel(GasStation(GasStation.__name__))
         cl = model.addSubModel(TestCollector(TestCollector.__name__))
         model.connectPorts(sc.output, gs.car_in)
@@ -136,8 +136,8 @@ match test_name:
 
         model = CDEVS("model")
         sc = model.addSubModel(Scheduler(Scheduler.__name__, [
-            (t / 20, Query(t))
-            for t in range(6)
+            (t / 10, Query(t))
+            for t in range(10)
             
             
         ] + [
