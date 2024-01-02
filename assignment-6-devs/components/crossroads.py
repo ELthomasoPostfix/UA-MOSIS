@@ -1,4 +1,5 @@
 from pypdevs.DEVS import CoupledDEVS
+from pypdevs.simulator import Simulator
 
 from components.roadsegment import RoadSegment
 
@@ -134,3 +135,11 @@ class CrossRoads(CoupledDEVS):
             self.connectPorts(self.segments[i].car_out_cr, self.segments[next_seg].car_in_cr)
             self.connectPorts(self.segments[i].Q_send, self.segments[next_seg].Q_recv)
             self.connectPorts(self.segments[next_seg].Q_sack, self.segments[i].Q_rack)
+
+
+
+if __name__ == '__main__':
+    model = CrossRoads("crossroads", destinations=[["A"], ["B"], ["C"], ["D"]], L=100, v_max=5, observ_delay=0.1)
+    sim = Simulator(model)
+    sim.setDrawModel(True, "model.dot", False)
+    sim.simulate()

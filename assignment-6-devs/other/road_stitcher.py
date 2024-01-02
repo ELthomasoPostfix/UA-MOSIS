@@ -1,6 +1,6 @@
 from itertools import chain
 from typing import List
-from pypdevs.DEVS import AtomicDEVS
+from pypdevs.DEVS import AtomicDEVS, CoupledDEVS
 
 from components.roadsegment import RoadSegment
 

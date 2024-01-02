@@ -113,6 +113,11 @@ class Generator(AtomicDEVS):
         # Schedule new Car entering the simulation / leaving the generator
         if self.Q_rack in inputs:
             query_ack: QueryAck = inputs[self.Q_rack]
+
+            # Ignore ALL QueryAcks that are not meant for this AtomicDEVS component.
+            if self.state.next_car is None or self.state.next_car.ID != query_ack.ID:
+                return self.state
+
             self.state.next_car_Ack = query_ack
             # Set Car departure time, because outputFnc() may not do it and
             # intTransition() executes AFTER outputFnc()
