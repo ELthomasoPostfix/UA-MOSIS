@@ -188,8 +188,36 @@ class RoadSegment(AtomicDEVS):
                     v_new = current_car.v_pref
 
             updated_car_v: float = clamp_speed(current_car, v_new)
-            self.state.v_updates.append((priority_int, updated_car_v))
-            self.state.t_until_v_update = 0.0
+
+            if priority_int > self.state.v_current_priority_int:
+                self.state.v_current_priority_int = priority_int
+                current_car.v = updated_car_v
+            elif priority_int == self.state.v_current_priority_int:
+                # Priority 2: slowest as possible
+                # Priority 1: slowest as safe
+                # Priority 0: fastest as possible
+                current_car.v = (min if priority_int != 0 else max)(current_car.v, updated_car_v)
+            else:
+                pass
+
+            # Consider changed Car velocity to update t_until_dep
+            self.state.t_until_dep = self._calc_updated_t_until_dep()
+
+            # After observ_delay, send Query (polling).
+            # This check will catch any case of a Car having velocity 0.0 within the RoadSegment, because:
+            #   1) If a Car enters and has 0.0 velocity, then an initial Query is sent.
+            #      The QueryAck that follows results in a velocity update, meaning
+            #      this elif in intTransition() is reached. If the updated velocity
+            #      remains 0.0, then this will be caught here.
+            #   2) If a Car enters and has > 0.0 velocity, then an initial Query is sent.
+            #      The QueryAck that follows results in a velocity update, meaning this
+            #      elif section in intTransition() is reached. If the new velocity becomes
+            #      0.0, then this will be caught here.
+            # ==> If the updated velocity is:
+            #   a) == 0.0, then polling will be started below
+            #   b)  > 0.0, then polling will NOT be started below
+            if self._get_current_car().v == 0.0:
+                self.state.t_until_send_query = self.observ_delay
 
         return self.state
 
