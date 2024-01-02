@@ -34,13 +34,28 @@ class CrossRoadSegment(RoadSegment):
         self.car_out_cr = self.addOutPort("car_out_cr")
         """Outputs the Cars that must stay on the crossroads. In essence, these are all the Cars that have a destination not in this CrossRoadSegment's destinations field."""
 
-
     def extTransition(self, inputs):
         """May edit state."""
 
+        # Give car_in_cr precedence over the RoadSegment input ports.
         if self.car_in_cr in inputs:
+            # The super extTransition is not called, so be sure to update the timers appropriately
+            self._update_multiple_timers(self.elapsed)
+            # Actually handle entering the car
             self.car_enter(inputs[self.car_in_cr])
-            # del inputs[self.car_in_cr]
+
+            # After entering a car into the CrossRoads through the car_in_cr port,
+            # we HAVE TO return the state and NOT run the super extTransition.
+            #   1) Semantically, the extTransition function of an AtomicDEVS should
+            #      be deterministic, and all needed logic for entering the car through
+            #      the car_in_cr port is handled using the car_enter method. Running
+            #      the super extTransition is then redundant, because the car_in_cr
+            #      event was handled during this call.
+            #   2) Functionally, the car_enter method called above sets the t_until_send_query
+            #      timer to 0.0s. Calling the super extTransition as well will update
+            #      the t_until_send_query timer again be decreasing it by self.elapsed.
+            #      This will result in a negative timeAdvance() output.
+            return self.state
 
         return super(CrossRoadSegment, self).extTransition(inputs)
 
@@ -105,17 +120,17 @@ class CrossRoads(CoupledDEVS):
 
         # Couplings
         for i in range(num_branches):
+            next_seg = (i + 1) % num_branches
             # External connections
             self.connectPorts(self.car_in_x[i], self.segments[i].car_in)
-            self.connectPorts(self.Q_recv_x[i], self.segments[i].Q_recv)
-            self.connectPorts(self.Q_rack_x[i], self.segments[i].Q_rack)
-
-            self.connectPorts(self.segments[i].car_out, self.car_out_x[i])
-            self.connectPorts(self.segments[i].Q_send, self.Q_send_x[i])
             self.connectPorts(self.segments[i].Q_sack, self.Q_sack_x[i])
+            self.connectPorts(self.Q_recv_x[i], self.segments[i].Q_recv)
+
+            self.connectPorts(self.segments[i].car_out, self.car_out_x[next_seg])
+            self.connectPorts(self.Q_rack_x[next_seg], self.segments[i].Q_rack)
+            self.connectPorts(self.segments[i].Q_send, self.Q_send_x[next_seg])
 
             # Internal connections
-            next_seg = (i + 1) % num_branches
             self.connectPorts(self.segments[i].car_out_cr, self.segments[next_seg].car_in_cr)
             self.connectPorts(self.segments[i].Q_send, self.segments[next_seg].Q_recv)
             self.connectPorts(self.segments[next_seg].Q_sack, self.segments[i].Q_rack)
