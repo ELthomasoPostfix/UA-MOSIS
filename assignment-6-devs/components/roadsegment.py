@@ -112,6 +112,9 @@ class RoadSegment(AtomicDEVS):
         self.Q_sack = self.addOutPort("Q_sack")
         """Replies a QueryAck to a Query. The QueryAck's t_until_dep equals the remaining time of the current Car on the RoadSegment (which can be infinity if the Car's velocity is 0). If there is no Car, t_until_dep equals zero. The QueryAck's lane is set w.r.t. the RoadSegment's lane; and the QueryAck's sideways is set to be false here."""
 
+    def __repr__(self):
+        return self.state.__repr__()
+
     def timeAdvance(self):
         """May NOT edit state."""
 

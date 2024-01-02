@@ -71,6 +71,7 @@ if __name__ == '__main__':
     sim = Simulator(model)
     sim.setClassicDEVS()
     sim.setTerminationTime(100)
+    sim.setVerbose()
     sim.simulate()
 
     print("----------- Short simulation -----------")

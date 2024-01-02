@@ -27,6 +27,9 @@ class Collector(AtomicDEVS):
         self.car_in = self.addInPort("car_in")
         """Port that receives the Cars to collect. It can be useful to already compute some statistics upon the arrival of new Cars."""
 
+    def __repr__(self) -> str:
+        return self.state.__repr__()
+
     def extTransition(self, inputs):
         """May edit state."""
         # Update simulation time

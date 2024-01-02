@@ -39,7 +39,7 @@ class CrossRoadSegment(RoadSegment):
         """May edit state."""
 
         if self.car_in_cr in inputs:
-            self.state.cars_present.append(inputs[self.car_in_cr])
+            self.car_enter(inputs[self.car_in_cr])
             # del inputs[self.car_in_cr]
 
         return super(CrossRoadSegment, self).extTransition(inputs)
@@ -109,6 +109,7 @@ class CrossRoads(CoupledDEVS):
             self.connectPorts(self.car_in_x[i], self.segments[i].car_in)
             self.connectPorts(self.Q_recv_x[i], self.segments[i].Q_recv)
             self.connectPorts(self.Q_rack_x[i], self.segments[i].Q_rack)
+
             self.connectPorts(self.segments[i].car_out, self.car_out_x[i])
             self.connectPorts(self.segments[i].Q_send, self.Q_send_x[i])
             self.connectPorts(self.segments[i].Q_sack, self.Q_sack_x[i])
