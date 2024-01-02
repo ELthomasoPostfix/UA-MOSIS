@@ -216,17 +216,16 @@ class RoadSegment(AtomicDEVS):
             # After observ_delay, send Query (polling).
             # This check will catch any case of a Car having velocity 0.0 within the RoadSegment, because:
             #   1) If a Car enters and has 0.0 velocity, then an initial Query is sent.
-            #      The QueryAck that follows results in a velocity update, meaning
-            #      this elif in intTransition() is reached. If the updated velocity
-            #      remains 0.0, then this will be caught here.
+            #      The QueryAck that follows results in a velocity update in the code
+            #       above. If the updated velocity remains 0.0, then this will be caught here.
             #   2) If a Car enters and has > 0.0 velocity, then an initial Query is sent.
-            #      The QueryAck that follows results in a velocity update, meaning this
-            #      elif section in intTransition() is reached. If the new velocity becomes
-            #      0.0, then this will be caught here.
+            #      The QueryAck that follows results in a velocity update in the code
+            #      above. If the new velocity becomes 0.0, then this will be caught here.
+            #
             # ==> If the updated velocity is:
-            #   a) == 0.0, then polling will be started below
-            #   b)  > 0.0, then polling will NOT be started below
-            if self._get_current_car().v == 0.0:
+            #   a) == 0.0, then polling will be started/restarted below
+            #   b)  > 0.0, then polling will NOT be started/restarted below
+            if current_car.v == 0.0:
                 self.state.t_until_send_query = self.observ_delay
 
         return self.state
