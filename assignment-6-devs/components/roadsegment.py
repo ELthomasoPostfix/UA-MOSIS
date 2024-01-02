@@ -7,14 +7,30 @@ from pypdevs.infinity import INFINITY
 from components.messages import Car, QueryAck, Query
 
 
-
 class Priority:
     """The priority of different velocity updates within the same exact moment."""
-    PNone: int = -1  # Unassigned priority
-    P0: int = 0      # Lowest priority
-    P1: int = 1      # Middle priority
-    P2: int = 2      # Highest priority
+    PNone: int = -1
+    """Unassigned/Default priority"""
+    P0: int = 0
+    """Priority 0: car may go as fast as allowed by the road"""
+    P1: int = 1
+    """Priority 1: car may go as fast as allowed by the road AND collision speed"""
+    P2: int = 2
+    """Priority 2: car must go as slow as necessary"""
 
+    @staticmethod
+    def priority_to_str(priority: int):
+        match priority:
+            case Priority.PNone:
+                return 'UNSET'
+            case Priority.P0:
+                return 'P0'
+            case Priority.P1:
+                return 'P1'
+            case Priority.P2:
+                return 'P2'
+            case _:
+                return 'UNKNOWN'
 
 
 @dataclass
@@ -31,9 +47,9 @@ class RoadSegmentState:
     """The FIFO queue of incoming/external Query events. Each queue element is a tuple containing (Query, remaining observe delay time). Because index 0 is the head of the queue, the remaining observe delay time will naturally be ordered in ascending order."""
 
     # Timers
-    t_until_send_query: float = INFINITY    # Is in  [ 0.0s, self.observ_delay ] U INFINITY
+    t_until_send_query: float = INFINITY  # Is in  [ 0.0s, self.observ_delay ] U INFINITY
     """A timer used to decide when the next Query should be output. This happens either after some Car entered the RoadSegment (send an initial Query) or when the Car's velocity is 0 (Query polling behavior). This timer is distinct from the observ delay timers kept for each incoming Query. This timer is used for outgoing Query events."""
-    t_until_dep: float = 0.0        # Updated manually upon Car velocity updates
+    t_until_dep: float = 0.0  # Updated manually upon Car velocity updates
     """The time until the current Car (i.e., the first one in cars_present) leaves the RoadSegment. If the Car's velocity is 0, this value is infinity. If no Car is present, this value is 0."""
 
     # Statistics
@@ -160,20 +176,11 @@ class RoadSegment(AtomicDEVS):
                     v = v_target
                 return self._clamp(v, 0.0, self.v_max)
 
-
             # Collect & update time since previous velocity update
             t_no_coll: float = query_ack.t_until_dep
 
-
-
-            #Sideways: ( C > A > B/D )
-            # C: ZERO AS MUCH AS POSSIBLE, A: SAFE SPEED, B/D: PREFERRED SPEED
-            # If C: min speed
-            # If A: max A speed
-            # Else: max speed
             priority_int: int = Priority.P0
 
-            # A > B > C > D
             if not query_ack.sideways:
                 v_new = clamp_speed(current_car, current_car.v_pref)
                 t_exit = self.state.remaining_x / v_new
@@ -200,9 +207,6 @@ class RoadSegment(AtomicDEVS):
                 self.state.v_current_priority_int = priority_int
                 current_car.v = updated_car_v
             elif priority_int == self.state.v_current_priority_int:
-                # Priority 2: slowest as possible
-                # Priority 1: slowest as safe
-                # Priority 0: fastest as possible
                 current_car.v = (min if priority_int != 0 else max)(current_car.v, updated_car_v)
             else:
                 pass

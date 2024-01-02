@@ -13,12 +13,16 @@ class Fork(RoadSegment):
                  observ_delay: float = 0.1, priority: bool = False, lane: int = 0):
         super(Fork, self).__init__(block_name=block_name, L=L, v_max=v_max,
                          observ_delay=observ_delay, priority=priority, lane=lane)
+        self.car_out2 = self.addOutPort("car_out2")
+        """Outputs the Car on this RoadSegment if it has traveled it completely. The Car's distance_traveled should be increased by L."""
 
-    def extTransition(self, inputs):
-        """May edit state."""
-        return self.state
+    def outputFnc(self):
+        """May NOT edit state."""
 
-
-    def intTransition(self):
-        """May edit state."""
-        return self.state
+        output: dict = super(Fork, self).outputFnc()
+        if self.car_out in output:
+            car = output[self.car_out]
+            if car.no_gas:
+                output[self.car_out2] = car
+                del output[self.car_out]
+        return output
