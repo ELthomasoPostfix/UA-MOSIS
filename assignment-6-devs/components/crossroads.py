@@ -28,6 +28,33 @@ class CrossRoadSegment(RoadSegment):
         self.destinations: list = destinations if destinations is not None else list()
         """A list of destinations reachable when a car exits the crossroads at this location. Is immutable, so its should NOT be part of the model state member."""
 
+        # Ports
+        self.car_in_cr = self.addInPort("car_in_cr")
+        """Cars can enter on this segment as if it were the normal car_in port. However, this port is only used for Cars that were already on the crossroads. Potentially, this information may be stored in the cars_present list, but is merely used for a clean separation and to potentially allow other behaviour in the future."""
+        self.car_out_cr = self.addOutPort("car_out_cr")
+        """Outputs the Cars that must stay on the crossroads. In essence, these are all the Cars that have a destination not in this CrossRoadSegment's destinations field."""
+
+
+    def extTransition(self, inputs):
+        """May edit state."""
+
+        if self.car_in_cr in inputs:
+            self.state.cars_present.append(inputs[self.car_in_cr])
+            # del inputs[self.car_in_cr]
+
+        return super(CrossRoadSegment, self).extTransition(inputs)
+
+
+    def outputFnc(self):
+        """May NOT edit state."""
+
+        output: dict = super(CrossRoadSegment, self).outputFnc()
+        if self.car_out in output:
+            car = output[self.car_out]
+            if car.destination not in self.destinations:
+                output[self.car_out_cr] = car
+                del output[self.car_out]
+        return output
 
 
 class CrossRoads(CoupledDEVS):
@@ -47,3 +74,47 @@ class CrossRoads(CoupledDEVS):
         :param observ_delay: The observ_delay for the CrossRoadSegments.
         """
         super(CrossRoads, self).__init__(block_name)
+
+        # Immutable members -- should NOT be part of the model state member
+        self.destinations: list = destinations
+        self.L: float = L
+        self.v_max: float = v_max
+        self.observ_delay: float = observ_delay
+
+        num_branches = len(destinations)
+
+        # Components
+        self.segments = [
+            self.addSubModel(CrossRoadSegment(f"{block_name}_seg_{i}", L, v_max, observ_delay, lane=i, destinations=destinations[i]))
+            for i in range(num_branches)
+        ]
+
+        # Ports
+        self.car_in_x = [self.addInPort(f"car_in_{i}") for i in range(num_branches)]
+        """Cars can enter the crossroads through this port. The * indicates an integer representing which branch of the crossroads this port will be linked to. For each of the branches, a car_in_* port exists, which links to the same-index CrossRoadSegment."""
+        self.Q_recv_x = [self.addInPort(f"Q_recv_{i}") for i in range(num_branches)]
+        """Allows the crossroads to receive Query events on the associated branch. The * indicates an integer representing which branch of the crossroads this port will be linked to. For each of the branches, a Q_recv_* port exists, which links to the same-index CrossRoadSegment."""
+        self.Q_rack_x = [self.addInPort(f"Q_rack_{i}") for i in range(num_branches)]
+        """Allows the crossroads to receive QueryAck events. The * indicates an integer representing which branch of the crossroads this port will be linked to. For each of the branches, a Q_rack_* port exists, which links to the next-index CrossRoadSegment."""
+        self.car_out_x = [self.addOutPort(f"car_out_{i}") for i in range(num_branches)]
+        """Outputs the Cars on this branch of the crossroads. The * indicates an integer representing which branch of the crossroads this port will be linked to. For each of the branches, a car_out_* port exists, which comes from the next-index CrossRoadSegment."""
+        self.Q_send_x = [self.addOutPort(f"Q_send_{i}") for i in range(num_branches)]
+        """Outputs the Query events on this branch of the crossroads. The * indicates an integer representing which branch of the crossroads this port will be linked to. For each of the branches, a Q_send_* port exists, which comes from the next-index CrossRoadSegment. The Q_send_* port also links to the Q_recv_* port of the next CrossRoadSegment, making sure Cars can drive without issues over the crossroads."""
+        self.Q_sack_x = [self.addOutPort(f"Q_sack_{i}") for i in range(num_branches)]
+        """Outputs the QueryAck events on this branch of the crossroads. The * indicates an integer representing which branch of the crossroads this port will be linked to. For each of the branches, a Q_sack_* port exists, which comes from the same-index CrossRoadSegment. The Q_sack_* port also links to the Q_rack_* port of the previous CrossRoadSegment, making sure Cars can drive without issues over the crossroads."""
+
+        # Couplings
+        for i in range(num_branches):
+            # External connections
+            self.connectPorts(self.car_in_x[i], self.segments[i].car_in)
+            self.connectPorts(self.Q_recv_x[i], self.segments[i].Q_recv)
+            self.connectPorts(self.Q_rack_x[i], self.segments[i].Q_rack)
+            self.connectPorts(self.segments[i].car_out, self.car_out_x[i])
+            self.connectPorts(self.segments[i].Q_send, self.Q_send_x[i])
+            self.connectPorts(self.segments[i].Q_sack, self.Q_sack_x[i])
+
+            # Internal connections
+            next_seg = (i + 1) % num_branches
+            self.connectPorts(self.segments[i].car_out_cr, self.segments[next_seg].car_in_cr)
+            self.connectPorts(self.segments[i].Q_send, self.segments[next_seg].Q_recv)
+            self.connectPorts(self.segments[next_seg].Q_sack, self.segments[i].Q_rack)
