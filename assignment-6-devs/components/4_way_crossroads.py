@@ -75,7 +75,7 @@ if __name__ == '__main__':
     sim.simulate()
 
     print("----------- Short simulation -----------")
-    print(model.collector)
+    print(model.collectors)
     print("----------------------------------------")
 
     # Long simulation
@@ -86,5 +86,5 @@ if __name__ == '__main__':
     sim.simulate()
 
     print("----------- Long simulation -----------")
-    print(model.collector)
+    print(model.collectors)
     print("---------------------------------------")
