@@ -22,6 +22,7 @@ model.connectPorts(rs.Q_send, cls.inp)
 
 sim = Simulator(model)
 sim.setClassicDEVS()
+sim.setVerbose()
 sim.simulate()
 
 # model = CDEVS("model")

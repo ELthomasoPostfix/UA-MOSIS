@@ -39,8 +39,6 @@ class RoadSegmentState:
     """The remaining distance that the current Car (i.e., the first one in cars_present) should still travel on this RoadSegment."""
     cars_present: List[Car] = field(default_factory=list)
     """A list for all the Cars on this RoadSegment. Even though the existence of multiple Cars results in a collision, for extensibility purposes a list should be used."""
-    v_updates: List[Tuple[int, float]] = field(default_factory=list)
-    """The list of car possible velocity updates collected at the exact same time."""
     v_current_priority_int: int = Priority.PNone
     """The 'priority int' associated with the current Car's velocity. This int is used to determine whether a velocity change due to a QueryAck is allowed to happen."""
     incoming_queries_queue: List[Tuple[Query, float]] = field(default_factory=list)
@@ -63,6 +61,7 @@ class RoadSegmentState:
                         cars                = {[f'ID={car.ID} | v={car.v} | v_pref={car.v_pref}' for car in self.cars_present]},
                         incoming_queries_q  = {[f'ID={query.ID} | rem_observ_delay={rem_observ_delay}' for query, rem_observ_delay in self.incoming_queries_queue]},
                         remaining_x         = {self.remaining_x},
+                        v_curr_priority     = {Priority.priority_to_str(self.v_current_priority_int)}
                         t_until_dep         = {self.t_until_dep}
                         t_until_send_query  = {self.t_until_send_query},
                         n_enter             = {self.n_enter},
