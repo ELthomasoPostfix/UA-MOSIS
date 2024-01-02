@@ -58,7 +58,7 @@ class RoadSegmentState:
 
     def __repr__(self) -> str:
         return f"""RoadSegment(
-                        cars                = {[f'ID={car.ID} | v={car.v} | v_pref={car.v_pref}' for car in self.cars_present]},
+                        cars                = {[f'ID={car.ID} | v={car.v} | v_pref={car.v_pref} | dest={car.destination}' for car in self.cars_present]},
                         incoming_queries_q  = {[f'ID={query.ID} | rem_observ_delay={rem_observ_delay}' for query, rem_observ_delay in self.incoming_queries_queue]},
                         remaining_x         = {self.remaining_x},
                         v_curr_priority     = {Priority.priority_to_str(self.v_current_priority_int)}
@@ -238,13 +238,12 @@ class RoadSegment(AtomicDEVS):
 
         car = self._get_current_car()
 
-        # (1) Send Car to car_out port
-        if self._should_car_depart(False):
+        # (1) Send QueryAck to Q_sack port
+        if self._should_send_ack(False):
+            query: Query = self.state.incoming_queries_queue[0][0]
+            true_t_until_dep: float = self._calc_updated_t_until_dep(self._calc_updated_remaining_x(self.timeAdvance()))
             return {
-                self.car_out: Car(
-                    car.ID, car.v_pref, car.dv_pos_max, car.dv_neg_max, car.departure_time,
-                    car.distance_traveled + self.L, car.v, car.no_gas, car.destination
-                )
+                self.Q_sack: QueryAck(query.ID, true_t_until_dep, self.lane, sideways=False)
             }
 
         # (2) Send Query to Q_send port (via initial query or polling)
@@ -253,12 +252,13 @@ class RoadSegment(AtomicDEVS):
                 self.Q_send: Query(car.ID)
             }
 
-        # (3) Send QueryAck to Q_sack port
-        elif self._should_send_ack(False):
-            query: Query = self.state.incoming_queries_queue[0][0]
-            true_t_until_dep: float = self._calc_updated_t_until_dep(self._calc_updated_remaining_x(self.timeAdvance()))
+        # (3) Send Car to car_out port
+        elif self._should_car_depart(False):
             return {
-                self.Q_sack: QueryAck(query.ID, true_t_until_dep, self.lane, sideways=False)
+                self.car_out: Car(
+                    car.ID, car.v_pref, car.dv_pos_max, car.dv_neg_max, car.departure_time,
+                    car.distance_traveled + self.L, car.v, car.no_gas, car.destination
+                )
             }
 
         return {
@@ -328,6 +328,8 @@ class RoadSegment(AtomicDEVS):
         # Evict Car from queue
         self.state.remaining_x = self.L
         self.state.cars_present.pop(0)
+        # Reset for completeness
+        self.state.v_current_priority_int = Priority.PNone
 
     def _is_query_received(self) -> bool:
         """Check whether any incoming Query is currently being processed."""
@@ -356,7 +358,7 @@ class RoadSegment(AtomicDEVS):
 
     def _should_car_depart(self, timeUpdated: bool = True) -> bool:
         """Check whether the current Car should be sent on the car_out port."""
-        return self.state.t_until_dep == (0.0 if timeUpdated else self.timeAdvance())
+        return len(self.state.cars_present) and self.state.t_until_dep == (0.0 if timeUpdated else self.timeAdvance())
 
     def _get_current_car(self) -> Car | None:
         """Get the (frontmost) Car that is currently travelling down the RoadSegment.
