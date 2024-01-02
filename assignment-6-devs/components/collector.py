@@ -12,6 +12,12 @@ class CollectorState:
     n: int = 0
     """The amount of Cars that have exited the simulation/system."""
 
+    def __repr__(self) -> str:
+        return f"""Collector(
+                        simulated_time = {self.simulated_time},
+                                     n = {self.n})
+"""
+
 
 class Collector(AtomicDEVS):
     """Collects Cars from the simulation and stores all important information such that statistics can be computed afterwards."""

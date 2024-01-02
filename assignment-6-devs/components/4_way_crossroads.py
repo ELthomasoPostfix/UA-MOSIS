@@ -51,11 +51,6 @@ class NWayCrossroads(CoupledDEVS):
         self.crossroads = self.addSubModel(CrossRoads("cr", destinations=crossroads_destinations, L=100, v_max=5, observ_delay=0.1))
 
 
-        crossroads_destinations = [ [f"col_{i}"] for i in range(num_connections)]
-
-        self.crossroads = self.addSubModel(CrossRoads("cr", destinations=crossroads_destinations, L=100, v_max=5, observ_delay=0.1))
-
-
         # Couplings
         for i, generator in enumerate(self.generators):
             connect_segments(self, generator, self.generator_segments[i][0])
