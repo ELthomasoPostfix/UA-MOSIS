@@ -37,9 +37,9 @@ class RoadStretch(CoupledDEVS):
         self.upper_seg2 = self.addSubModel(RoadSegment("upper_seg2", L=100, v_max=5, observ_delay=0.1))
         self.upper_seg3 = self.addSubModel(RoadSegment("upper_seg3", L=100, v_max=5, observ_delay=0.1, priority=True))
 
-        self.lower_seg1 = self.addSubModel(RoadSegment("lower_seg1", L=100, v_max=5, observ_delay=0.1))
+        self.lower_seg1 = self.addSubModel(RoadSegment("lower_seg1", L=100, v_max=5, observ_delay=0.1, lane=1))
         self.lower_gas = self.addSubModel(GasStation("lower_gas", observ_delay=0.1))
-        self.lower_seg2 = self.addSubModel(RoadSegment("lower_seg2", L=100, v_max=5, observ_delay=0.1))
+        self.lower_seg2 = self.addSubModel(RoadSegment("lower_seg2", L=100, v_max=5, observ_delay=0.1, lane=1))
 
         self.merge_marker = self.addSubModel(SideMarker("merge_marker"))
 

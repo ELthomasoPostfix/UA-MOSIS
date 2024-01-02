@@ -26,21 +26,21 @@ class NWayCrossroads(CoupledDEVS):
         # Components
         self.collectors = [self.addSubModel(Collector(f"col_{i}")) for i in range(num_connections)]
         destinations = [collector.name for collector in self.collectors]
-        self.generators = [self.addSubModel(Generator(f"gen_{i}", IAT_min=0.5, IAT_max=1.5, v_pref_mu=5,
+        self.generators = [self.addSubModel(Generator(f"zgen_{i}", IAT_min=0.5, IAT_max=1.5, v_pref_mu=5,
                                                       v_pref_sigma=1, destinations=destinations, limit=100))
                            for i in range(num_connections)]
 
 
         self.collector_segments = [
             [
-                self.addSubModel(RoadSegment(f"col_{i}_seg_{j}", L=100, v_max=5, observ_delay=0.1))
+                self.addSubModel(RoadSegment(f"col_{i}_seg_{j}", L=50, v_max=5, observ_delay=0.1))
                 for j in range(num_connecting_roads)
             ]
             for i in range(num_connections)
         ]
         self.generator_segments = [
             [
-                self.addSubModel(RoadSegment(f"gen_{i}_seg_{j}", L=100, v_max=5, observ_delay=0.1))
+                self.addSubModel(RoadSegment(f"gen_{i}_seg_{j}", L=50, v_max=5, observ_delay=0.1))
                 for j in range(num_connecting_roads)
             ]
             for i in range(num_connections)
@@ -71,7 +71,8 @@ if __name__ == '__main__':
     model = NWayCrossroads("crossroads")
     sim = Simulator(model)
     sim.setClassicDEVS()
-    sim.setTerminationTime(1000)
+    # sim.setDrawModel(True, "model.dot", False)
+    sim.setTerminationTime(20000)
     sim.setVerbose()
     sim.simulate()
 
@@ -79,13 +80,13 @@ if __name__ == '__main__':
     print(model.collectors)
     print("----------------------------------------")
 
-    # Long simulation
-    model = NWayCrossroads("crossroads")
-    sim = Simulator(model)
-    sim.setClassicDEVS()
-    sim.setTerminationTime(1000)
-    sim.simulate()
-
-    print("----------- Long simulation -----------")
-    print(model.collectors)
-    print("---------------------------------------")
+    # # Long simulation
+    # model = NWayCrossroads("crossroads")
+    # sim = Simulator(model)
+    # sim.setClassicDEVS()
+    # sim.setTerminationTime(1000)
+    # sim.simulate()
+    #
+    # print("----------- Long simulation -----------")
+    # print(model.collectors)
+    # print("---------------------------------------")
