@@ -276,13 +276,7 @@ class RoadSegment(AtomicDEVS):
 
         # (3) After sending a Car to the Car output port ...
         elif self._should_car_depart():
-            # Set 'irrelevant' timers to neutral INFINITY to signify them being off
-            # To be entirely safe, set ALL car-related timers to neutral values
-            self.state.t_until_send_query = INFINITY
-            self.state.t_until_dep = 0.0
-            # Evict Car from queue
-            self.state.remaining_x = self.L
-            self.state.cars_present.pop(0)
+            self._car_exit()
 
         return self.state
 
@@ -298,9 +292,14 @@ class RoadSegment(AtomicDEVS):
 
         if collision:
             self.state.collisions += 1
-            self.state.cars_present = []
+            # Evict the current Car as if it is exiting,
+            # which resets the RoadSegment state
+            self._car_exit()
             return
 
+        # Do not append the colliding Car into the car_present
+        # queue. Not doing so allows us to simply call the car
+        # exit function.
         self.state.cars_present.append(car)
 
         # Immediately send Query
@@ -308,6 +307,24 @@ class RoadSegment(AtomicDEVS):
 
         # Initialize time until departed
         self.state.t_until_dep = self._calc_updated_t_until_dep()
+
+    def _car_exit(self) -> None:
+        """Handles all the logic of a *car* exiting the RoadSegment.
+
+        The current implementation assumes the RoadSegment contains
+        exactly one car at the time of calling.
+
+        This method Should be called in case of a crash as well, to
+        reset the RoadSegment state.
+        """
+        assert self._is_car_present(), f"Cannot handle Car exiting logic when no Car is present in the {self.__class__.__name__} instance."
+        # Set 'irrelevant' timers to neutral INFINITY to signify them being off.
+        # To be entirely safe, manually set ALL car-related timers to neutral values
+        self.state.t_until_send_query = INFINITY
+        self.state.t_until_dep = 0.0
+        # Evict Car from queue
+        self.state.remaining_x = self.L
+        self.state.cars_present.pop(0)
 
     def _is_query_received(self) -> bool:
         """Check whether any incoming Query is currently being processed."""
