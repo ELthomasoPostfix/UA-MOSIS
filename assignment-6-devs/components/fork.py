@@ -1,4 +1,5 @@
 from components.roadsegment import RoadSegment
+from components.messages import Car
 
 
 
@@ -13,6 +14,8 @@ class Fork(RoadSegment):
                  observ_delay: float = 0.1, priority: bool = False, lane: int = 0):
         super(Fork, self).__init__(block_name=block_name, L=L, v_max=v_max,
                          observ_delay=observ_delay, priority=priority, lane=lane)
+
+        # Ports
         self.car_out2 = self.addOutPort("car_out2")
         """Outputs the Car on this RoadSegment if it has traveled it completely. The Car's distance_traveled should be increased by L."""
 
@@ -20,8 +23,10 @@ class Fork(RoadSegment):
         """May NOT edit state."""
 
         output: dict = super(Fork, self).outputFnc()
+        # If a Car is in the outputFnc() output of the RoadSegment,
+        # then it must have travelled it completely
         if self.car_out in output:
-            car = output[self.car_out]
+            car: Car = output[self.car_out]
             if car.no_gas:
                 output[self.car_out2] = car
                 del output[self.car_out]
