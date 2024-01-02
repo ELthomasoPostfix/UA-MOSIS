@@ -45,6 +45,6 @@ def connect_crossroads(self, seg, cr, i, input=False):
         self.connectPorts(cr.Q_sack_x[i], seg.Q_rack)
     else:
         self.connectPorts(cr.car_out_x[i], seg.car_in)
-        self.connectPorts(cr.Q_recv_x[i], seg.Q_send)
+        self.connectPorts(cr.Q_send_x[i], seg.Q_recv)
         self.connectPorts(seg.Q_sack, cr.Q_rack_x[i])
 
