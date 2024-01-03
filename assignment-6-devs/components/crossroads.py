@@ -4,6 +4,9 @@ from pypdevs.simulator import Simulator
 from components.roadsegment import RoadSegment
 from components.sidemarker import SideMarker
 
+
+from other.helpers import *
+
 from other.road_stitcher import connect_segments
 
 
@@ -103,7 +106,7 @@ class CrossRoads(CoupledDEVS):
 
         # Components
         self.segments = [
-            self.addSubModel(CrossRoadSegment(f"{block_name}_seg_{i}", L, v_max, observ_delay, lane=i, destinations=destinations[i]))
+            self.addSubModel(CrossRoadSegment(f"{block_name}_seg_{i}", L, v_max, observ_delay, destinations=destinations[i]))
             for i in range(num_branches)
         ]
 
@@ -148,7 +151,7 @@ class ROWCrossRoads(CrossRoads):
         self.merge_markers = [self.addSubModel(SideMarker(f"merge_marker_{i}")) for i in range(len(destinations))]
 
         for i in range(len(destinations)):
-            prev_seg = i - 1 % len(destinations)
+            prev_seg = (i - 1) % len(destinations)
             self.connectPorts(self.Q_rack_x[i], self.merge_markers[i].mi)
             self.connectPorts(self.merge_markers[i].mo, self.segments[prev_seg].Q_rack)
             self.connectPorts(self.segments[prev_seg].Q_send, self.Q_send_x[i])

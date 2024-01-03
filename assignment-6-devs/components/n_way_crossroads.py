@@ -22,7 +22,7 @@ class NWayCrossroads(CoupledDEVS):
         # Components
         self.collectors = [self.addSubModel(Collector(f"col_{i}")) for i in range(branch_count)]
         destinations = [collector.name for collector in self.collectors]
-        self.generators = [self.addSubModel(Generator(f"zgen_{i}",
+        self.generators = [self.addSubModel(Generator(f"gen_{i}",
                                                       IAT_min=IAT_min,
                                                       IAT_max=IAT_max,
                                                       v_pref_mu=v_pref_mu,
