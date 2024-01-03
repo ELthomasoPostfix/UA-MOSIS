@@ -21,14 +21,16 @@ class GasStationState:
     """The next Car event to output from the GasStation's car_out port."""
     next_car_Ack: QueryAck | None = None
     """The QueryAck that signifies that the next car may be sent to the car_out port."""
-    next_car_delay_time: float = INFINITY
-    """A delay variable used to decide when the next car should be output."""
-    observ_delay_time: float = INFINITY
-    """A delay variable used to keep track of how much time passed since the previous Query was sent on Q_send."""
     rng_seed: InitVar[int | None] = None
     """The seed for the RNG. Defaults to seed None, which represents a randomized seed that is chosen at runtime. So the default seed does not guarantee that two sequential simulations will sample the same random values using the RNG."""
     rng: np.random.Generator = field(init=False)
     """The RNG used for sampling the Car refueling delay time values from a normal dist."""
+
+    # Timers
+    next_car_delay_time: float = INFINITY
+    """A delay variable used to decide when the next car should be output."""
+    observ_delay_time: float = INFINITY
+    """A delay variable used to keep track of how much time passed since the previous Query was sent on Q_send."""
 
     def __post_init__(self, rng_seed: InitVar[int | None]):
         self.rng = np.random.default_rng(rng_seed)
