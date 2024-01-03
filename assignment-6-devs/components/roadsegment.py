@@ -58,7 +58,7 @@ class RoadSegmentState:
 
     def __repr__(self) -> str:
         return f"""RoadSegment(
-                        cars                = {[f'ID={car.ID} | v={car.v} | v_pref={car.v_pref} | dest={car.destination}' for car in self.cars_present]},
+                        cars                = {[f'ID={car.ID} | v={car.v} | v_pref={car.v_pref} | dest={car.destination} | no_gas={car.no_gas}' for car in self.cars_present]},
                         incoming_queries_q  = {[f'ID={query.ID} | rem_observ_delay={rem_observ_delay}' for query, rem_observ_delay in self.incoming_queries_queue]},
                         remaining_x         = {self.remaining_x},
                         v_curr_priority     = {Priority.priority_to_str(self.v_current_priority_int)}

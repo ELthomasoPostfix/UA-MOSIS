@@ -166,7 +166,7 @@ class RoundaboutCrossRoads(CrossRoads):
         self.merge_markers = [self.addSubModel(SideMarker(f"merge_marker_{i}")) for i in range(len(destinations))]
 
         for i in range(len(destinations)):
-            prev_seg = i - 1 % len(destinations)
+            prev_seg = (i - 1) % len(destinations)
             self.connectPorts(self.segments[prev_seg].Q_sack, self.merge_markers[i].mi)
             self.connectPorts(self.merge_markers[i].mo, self.Q_sack_x[i])
             self.connectPorts(self.Q_recv_x[i], self.segments[prev_seg].Q_recv)
