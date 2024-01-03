@@ -7,62 +7,7 @@ from components.gasstation import GasStation
 from components.sidemarker import SideMarker
 from components.fork import Fork
 
-from other.road_stitcher import connect_pieces
-
-
-
-
-connecting_ports = [("car_out", "car_in"), ("Q_send", "Q_recv"), ("Q_rack", "Q_sack")]
-
-
-def is_connected(seg1: RoadSegment, seg2: RoadSegment, port1: str, port2: str) -> bool:
-    """
-    Check if *port1* is a name in the ports of *seg1* AND *port2* is a name in the ports of *seg*2.
-
-    :param seg1: The first RoadSegment.
-    :param seg2: The second RoadSegment.
-    :param port1: The name of the port on the first RoadSegment.
-    :param port2: The name of the port on the second RoadSegment.
-    :return: True if the two ports are connected, False otherwise.
-    """
-    port1 = next((p for p in seg1.ports if p.name == port1), None)
-    port2 = next((p for p in seg2.ports if p.name == port2), None)
-
-    if port1 and port2:
-        return port1 in port2.inline or port2 in port1.inline
-    return False
-
-def road_segments_connected(seg1: RoadSegment, seg2: RoadSegment) -> bool:
-    """
-    :param seg1: The first RoadSegment.
-    :param seg2: The second RoadSegment.
-    :return: True if the two RoadSegments are fully connected, False otherwise.
-    """
-    return all(is_connected(seg1, seg2, port1, port2) for port1, port2 in connecting_ports)
-
-
-def merge_roads(component: CoupledDEVS,
-                priority_seg: RoadSegment, regular_seg: RoadSegment, output_seg: RoadSegment,
-                merge_marker: SideMarker):
-    """Connect two RoadSegments to a SideMarker, representing a merge.
-
-    :param component: The CoupledDEVS to connect the components in.
-    :param priority_seg: The RoadSegment that has priority.
-    :param regular_seg: The RoadSegment that does not have priority.
-    :param output_seg: The RoadSegment that is the output of the merge.
-    :param merge_marker: The SideMarker to connect to.
-    """
-    priority_seg.priority = True
-
-    # Check if ports are already connected
-
-    if not road_segments_connected(priority_seg, output_seg):
-        connect_segments(priority_seg, output_seg)
-        connect_segments(regular_seg, output_seg)
-
-    component.connectPorts(regular_seg.Q_send, priority_seg.Q_recv)     # regular  -> priority
-    component.connectPorts(priority_seg.Q_sack, merge_marker.mi)        # priority -> marker
-    component.connectPorts(merge_marker.mo, regular_seg.Q_rack)         # marker   -> regular
+from other.road_stitcher import connect_pieces, merge_segments
 
 
 class RoadStretch(CoupledDEVS):
@@ -118,4 +63,4 @@ class RoadStretch(CoupledDEVS):
         ]
 
         connect_pieces(self, road_layout)
-        merge_roads(self, self.upper_seg3, self.lower_seg2, self.seg_col[0], self.merge_marker)
+        merge_segments(self, self.upper_seg3, self.lower_seg2, self.seg_col[0], self.merge_marker)

@@ -3,8 +3,10 @@ import json
 from pypdevs.simulator import Simulator
 
 from components.roadstretch import RoadStretch
-from components.four_way_crossroads import NWayCrossroads
+from components.n_way_crossroads import NWayCrossroads
+from components.crossroads import CrossRoads, ROWCrossRoads, RoundaboutCrossRoads
 
+from itertools import chain
 
 
 def print_rs_run_stats(model: RoadStretch, stats_header: str, output_file_path: str = ""):
@@ -145,11 +147,14 @@ def run_rs_simulation(simulation_time: int, L: float = 10.0, v_max: float = 12.0
 #             IAT_min: float = 10.0, IAT_max: float = 18.5, v_pref_mu: float = 15.0, v_pref_sigma: float = 1.0,
 #                  limit: int = 10, observ_delay: float = 0.1, rng_seed: int | None = None):
 
-def run_cw_simulation(simulation_time: int, modelType: NWayCrossroads, L: float = 10.0, L_cr: float = 5, v_max: float = 12.0,
+def run_cw_simulation(simulation_time: int, crossroad_type: CrossRoads = CrossRoads,
+                    branch_count: int = 4, branch_segment_amount: int = 3,
+                      L: float = 10.0, L_cr: float = 5, v_max: float = 12.0,
             IAT_min: float = 10.0, IAT_max: float = 18.5, v_pref_mu: float = 15.0, v_pref_sigma: float = 1.0,
                  limit: int = 10, observ_delay: float = 0.1, rng_seed: int | None = None,
                  verbose: bool = False, output_file_path: str = "", draw_dot = False):
-    model = modelType("crossroads", L=L, L_cr=L_cr, v_max=v_max, IAT_min=IAT_min, IAT_max=IAT_max,
+    model = NWayCrossroads(crossroad_type.__name__,crossroad_type=crossroad_type, branch_count=branch_count, branch_segment_amount=branch_segment_amount, L=L,
+                           L_cr=L_cr, v_max=v_max, IAT_min=IAT_min, IAT_max=IAT_max,
                            v_pref_mu=v_pref_mu, v_pref_sigma=v_pref_sigma, limit=limit, observ_delay=observ_delay,
                            rng_seed=rng_seed)
     sim = Simulator(model)

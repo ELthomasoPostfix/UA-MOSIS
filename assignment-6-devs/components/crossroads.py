@@ -2,7 +2,9 @@ from pypdevs.DEVS import CoupledDEVS
 from pypdevs.simulator import Simulator
 
 from components.roadsegment import RoadSegment
+from components.sidemarker import SideMarker
 
+from other.road_stitcher import connect_segments
 
 
 class CrossRoadSegment(RoadSegment):
@@ -135,6 +137,40 @@ class CrossRoads(CoupledDEVS):
             self.connectPorts(self.segments[i].car_out_cr, self.segments[next_seg].car_in_cr)
             self.connectPorts(self.segments[i].Q_send, self.segments[next_seg].Q_recv)
             self.connectPorts(self.segments[next_seg].Q_sack, self.segments[i].Q_rack)
+
+
+class ROWCrossRoads(CrossRoads):
+
+    def __init__(self, block_name: str, destinations: list, L: float,
+                 v_max: float, observ_delay: float):
+        super(ROWCrossRoads, self).__init__(block_name, destinations, L, v_max, observ_delay)
+
+        self.merge_markers = [self.addSubModel(SideMarker(f"merge_marker_{i}")) for i in range(len(destinations))]
+
+        for i in range(len(destinations)):
+            prev_seg = i - 1 % len(destinations)
+            self.connectPorts(self.Q_rack_x[i], self.merge_markers[i].mi)
+            self.connectPorts(self.merge_markers[i].mo, self.segments[prev_seg].Q_rack)
+            self.connectPorts(self.segments[prev_seg].Q_send, self.Q_send_x[i])
+
+
+class RoundaboutCrossRoads(CrossRoads):
+
+    def __init__(self, block_name: str, destinations: list, L: float,
+                 v_max: float, observ_delay: float):
+        super(RoundaboutCrossRoads, self).__init__(block_name, destinations, L, v_max, observ_delay)
+
+        self.merge_markers = [self.addSubModel(SideMarker(f"merge_marker_{i}")) for i in range(len(destinations))]
+
+        for i in range(len(destinations)):
+            prev_seg = i - 1 % len(destinations)
+            self.connectPorts(self.segments[prev_seg].Q_sack, self.merge_markers[i].mi)
+            self.connectPorts(self.merge_markers[i].mo, self.Q_sack_x[i])
+            self.connectPorts(self.Q_recv_x[i], self.segments[prev_seg].Q_recv)
+
+            self.segments[i].priority = True
+
+
 
 
 
