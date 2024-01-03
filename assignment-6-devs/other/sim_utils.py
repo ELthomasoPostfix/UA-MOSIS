@@ -6,7 +6,7 @@ from components.roadstretch import RoadStretch
 
 
 
-def print_run_stats(model: RoadStretch, stats_header: str, output_file_path: str = ""):
+def print_rs_run_stats(model: RoadStretch, stats_header: str, output_file_path: str = ""):
     """Print the statistics that can be collected from the
     given *model* AFTER the simulation has concluded.
     
@@ -63,7 +63,7 @@ def print_run_stats(model: RoadStretch, stats_header: str, output_file_path: str
     return num_crashes
 
 
-def run_simulation(simulation_time: int, L: float = 10.0, v_max: float = 12.0,
+def run_rs_simulation(simulation_time: int, L: float = 10.0, v_max: float = 12.0,
                    IAT_min: float = 10.0, IAT_max: float = 18.5, v_pref_mu: float = 15.0, v_pref_sigma: float = 1.0,
                    limit: int = 10, observ_delay: float = 0.1, rng_seed: int | None = None,
                    verbose: bool = False, output_file_path: str = ""):
@@ -77,7 +77,7 @@ def run_simulation(simulation_time: int, L: float = 10.0, v_max: float = 12.0,
     if verbose:
         sim.setVerbose()
     sim.simulate()
-    score = print_run_stats(model, f"=== {simulation_time} (termination time) ===", output_file_path)
+    score = print_rs_run_stats(model, f"=== {simulation_time} (termination time) ===", output_file_path)
 
     return score
 
