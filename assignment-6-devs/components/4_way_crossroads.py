@@ -35,21 +35,28 @@ class NWayCrossroads(CoupledDEVS):
         # Components
         self.collectors = [self.addSubModel(Collector(f"col_{i}")) for i in range(num_connections)]
         destinations = [collector.name for collector in self.collectors]
-        self.generators = [self.addSubModel(Generator(f"zgen_{i}", IAT_min=0.5, IAT_max=1.5, v_pref_mu=5,
-                                                      v_pref_sigma=1, destinations=destinations, limit=100))
+        self.generators = [self.addSubModel(Generator(f"zgen_{i}",
+                                                      IAT_min=IAT_min,
+                                                      IAT_max=IAT_max,
+                                                      v_pref_mu=v_pref_mu,
+                                                      v_pref_sigma=v_pref_sigma,
+                                                      destinations=destinations,
+                                                      limit=limit,
+                                                      rng_seed=rng_seed))
                            for i in range(num_connections)]
 
 
         self.collector_segments = [
             [
-                self.addSubModel(RoadSegment(f"col_{i}_seg_{j}", L=50, v_max=5, observ_delay=0.1))
+                self.addSubModel(RoadSegment(f"col_{i}_seg_{j}", L=L, v_max=v_max, observ_delay=observ_delay))
                 for j in range(num_connecting_roads)
             ]
             for i in range(num_connections)
         ]
         self.generator_segments = [
             [
-                self.addSubModel(RoadSegment(f"gen_{i}_seg_{j}", L=50, v_max=5, observ_delay=0.1))
+                self.addSubModel(RoadSegment(f"gen_{i}_seg_{j}", L=L,
+                                             v_max=v_max, observ_delay=observ_delay))
                 for j in range(num_connecting_roads)
             ]
             for i in range(num_connections)
@@ -57,7 +64,8 @@ class NWayCrossroads(CoupledDEVS):
 
         crossroads_destinations = [ [f"col_{i}"] for i in range(num_connections)]
 
-        self.crossroads = self.addSubModel(CrossRoads("cr", destinations=crossroads_destinations, L=100, v_max=5, observ_delay=0.1))
+        self.crossroads = self.addSubModel(CrossRoads("cr", destinations=crossroads_destinations,
+                                                      L=L_cr, v_max=v_max, observ_delay=observ_delay))
 
 
         # Couplings
