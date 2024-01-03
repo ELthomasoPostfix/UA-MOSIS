@@ -30,8 +30,9 @@ assignment-6-devs/
 │   └── sidemarker.py
 ├── experiments/
 │   ├── __init__.py
-│   └── experiment.py
+│   └── ...
 ├── other/
+│   ├── ...
 ├── PythonPDEVS-master/
 │   └── pythonpdevs/
 │       └── ...
@@ -41,6 +42,8 @@ assignment-6-devs/
 ├── venv/   (optional)
 └── __init__.py
 ```
+
+Note that the contents of the `assignment-6-devs/other/` and the `assignment-6-devs/experiments/` directories are not exhaustively listed in the structure description below. This is because the contents may fluctuate, both in number and filenames.
 
 
 # Setup
