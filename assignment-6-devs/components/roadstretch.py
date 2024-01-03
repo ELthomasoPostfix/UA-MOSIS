@@ -1,5 +1,4 @@
-from pypdevs.DEVS import CoupledDEVS, AtomicDEVS
-from pypdevs.simulator import Simulator
+from pypdevs.DEVS import CoupledDEVS
 
 from components.generator import Generator
 from components.collector import Collector
@@ -66,60 +65,3 @@ class RoadStretch(CoupledDEVS):
 
         self.connectPorts(self.upper_seg3.Q_sack, self.merge_marker.mi)
         self.connectPorts(self.merge_marker.mo, self.lower_seg2.Q_rack)
-
-
-
-def print_run_stats(model: RoadStretch):
-    num_departures = model.generator.state.n
-    num_arrivals = model.collector.state.n
-    segments = [
-        *model.seg_gen,
-        model.fork, model.upper_seg1, model.upper_seg2, model.upper_seg3,
-        model.lower_seg1, model.lower_seg2,
-        *model.seg_col
-    ]
-    crashes = [(component.name, component.state.collisions) for component in segments]
-    num_crashes = sum(collisions for (_, collisions) in crashes)
-
-    print(f"Departures: {num_departures}")
-    print(f"Arrivals: {num_arrivals}")
-    print(f"Arrivals percentage: {num_arrivals / num_departures * 100}%")
-    print(f"Total collisions: {2 * num_crashes}")
-
-    assert num_arrivals + 2 * num_crashes == num_departures, "Diff amount of cars outputted than existed in the system"
-    return num_crashes
-
-
-
-
-def run_simulation(simulation_time: int, L: float = 10.0, v_max: float = 12.0,
-            IAT_min: float = 10.0, IAT_max: float = 18.5, v_pref_mu: float = 15.0, v_pref_sigma: float = 1.0,
-                 limit: int = 10, observ_delay: float = 0.1, rng_seed: int | None = None):
-
-    model = RoadStretch("crossroads", L=L, v_max=v_max, IAT_min=IAT_min, IAT_max=IAT_max,
-                           v_pref_mu=v_pref_mu, v_pref_sigma=v_pref_sigma, limit=limit,
-                           observ_delay=observ_delay, rng_seed=rng_seed)
-    sim = Simulator(model)
-    sim.setClassicDEVS()
-    sim.setTerminationTime(simulation_time)
-    sim.setVerbose()
-    sim.simulate()
-    score = print_run_stats(model)
-
-    return score
-
-
-if __name__ == '__main__':
-    # Short simulation
-    run_simulation(5000, limit=100)
-
-    # # Long simulation
-    # model = RoadStretch("road_stretch")
-    # sim = Simulator(model)
-    # sim.setClassicDEVS()
-    # sim.setTerminationTime(L0)
-    # sim.simulate()
-    #
-    # print("----------- Long simulation -----------")
-    # print(model.collector)
-    # print("---------------------------------------")
