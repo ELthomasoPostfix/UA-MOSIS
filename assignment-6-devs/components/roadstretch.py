@@ -118,12 +118,4 @@ class RoadStretch(CoupledDEVS):
         ]
 
         connect_pieces(self, road_layout)
-        # merge_roads(self, self.upper_seg3, self.lower_seg2, self.seg_col[0], self.merge_marker)
-
-        # self.connectPorts(self.lower_seg2.Q_send, self.upper_seg3.Q_recv)  # regular  -> priority
-        # self.connectPorts(self.upper_seg3.Q_sack, self.merge_marker.mi)  # priority -> marker
-        # self.connectPorts(self.merge_marker.mo, self.lower_seg2.Q_rack)  # marker   -> regular
-
-        self.connectPorts(self.lower_seg2.Q_send, self.upper_seg3.Q_recv)  # regular  -> priority
-        self.connectPorts(self.upper_seg3.Q_sack, self.merge_marker.mi)
-        self.connectPorts(self.merge_marker.mo, self.lower_seg2.Q_rack)
+        merge_roads(self, self.upper_seg3, self.lower_seg2, self.seg_col[0], self.merge_marker)

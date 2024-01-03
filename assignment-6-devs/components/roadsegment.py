@@ -196,10 +196,24 @@ class RoadSegment(AtomicDEVS):
                     pass
             else:
                 if not self.priority:
-                    # Decelerate to zero as fast as possible
-                    # i.e. the target speed is 0.0
-                    v_new = 0.0
-                    priority_int = Priority.P2
+                    if t_no_coll == 0.0:
+                        # Keep driving as is
+                        priority_int = Priority.P1
+
+                        v_new = clamp_speed(current_car, current_car.v_pref)
+                        t_exit = self.state.remaining_x / v_new
+                        # Car will arrive at next RoadSegment while it is still occupied by another Car
+                        # Collision will occur, slow down to the minimum speed such that collision is avoided
+                        if t_no_coll > t_exit:
+                            v_new = self.state.remaining_x / t_no_coll
+                        else:
+                            pass
+                        # No collision, keep v_new as is
+                    else:
+                        # Decelerate to zero as fast as possible
+                        # i.e. the target speed is 0.0
+                        v_new = 0.0
+                        priority_int = Priority.P2
                 else:
                     v_new = current_car.v_pref
 

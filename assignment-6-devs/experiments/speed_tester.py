@@ -25,11 +25,7 @@ def clamp_speed(car: Car, v_target: float):
 
 
 
-current_car: Car = Car(
-    ID=1, v=15.0, v_pref=15.0, dv_pos_max=10.0, dv_neg_max=10.0, departure_time=0.0,
-    distance_traveled=0.0,  no_gas=False,
-    destination="A"
-)
+
 
 remaining_x = 10.0
 
