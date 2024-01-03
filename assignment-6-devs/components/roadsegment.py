@@ -256,8 +256,9 @@ class RoadSegment(AtomicDEVS):
         elif self._should_car_depart(False):
             return {
                 self.car_out: Car(
-                    car.ID, car.v_pref, car.dv_pos_max, car.dv_neg_max, car.departure_time,
-                    car.distance_traveled + self.L, car.v, car.no_gas, car.destination
+                    ID=car.ID, v_pref=car.v_pref, dv_pos_max=car.dv_pos_max, dv_neg_max=car.dv_neg_max,
+                    departure_time=car.departure_time, distance_traveled=car.distance_traveled + self.L,
+                    v=car.v, no_gas=car.no_gas, destination=car.destination
                 )
             }
 
@@ -391,7 +392,12 @@ class RoadSegment(AtomicDEVS):
         if current_car is not None:
             # The Car travelled some distance since the previous update.
             self.state.remaining_x = self._calc_updated_remaining_x(time_delta)
-            self.state.t_until_dep = self._calc_updated_t_until_dep()
+            # Do not recalculate the t_until_dep value using the remaining_x / Car.v
+            # metric, because this introduces floating point rounding errors.
+            # These errors can cause the same Car to be output multiple times
+            # out of the car_out port (or other such ports in DEVS that derive
+            # from the RoadSegment DEVS).
+            self.state.t_until_dep -= time_delta
 
         # Velocity updates only need to consider the priority of
         # other velocity updates in the same exact moment.
