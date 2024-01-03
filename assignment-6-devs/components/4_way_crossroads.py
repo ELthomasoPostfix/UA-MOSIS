@@ -92,13 +92,15 @@ def print_run_stats(model: NWayCrossroads):
     ]
     crashes = [(component.name, component.state.collisions) for component in segments]
     num_crashes = sum(collisions for (_, collisions) in crashes)
-
-    print(f"Departures: {sum(num_departures)}")
-    print(f"Arrivals: {sum(num_arrivals)}")
+    num_crashed_cars = 2 * num_crashes
+    # print("\n\/\/\/ Sim results \/\/\/")
+    print()
+    print(f"Departures:          {sum(num_departures)}")
+    print(f"Total collisions:    {num_crashed_cars}")
+    print(f"Arrivals:            {sum(num_arrivals)}")
     print(f"Arrivals percentage: {sum(num_arrivals) / sum(num_departures) * 100}%")
-    print(f"Total collisions: {2 * num_crashes}")
 
-    assert sum(num_arrivals) + 2 * num_crashes == sum(num_departures), "Diff amount of cars outputted than existed in the system"
+    assert (sum(num_arrivals) + num_crashed_cars) == sum(num_departures), "Diff amount of cars outputted than existed in the system"
     return num_crashes
 
 
