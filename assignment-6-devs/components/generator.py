@@ -142,7 +142,7 @@ class Generator(AtomicDEVS):
 
         if car_is_generated and not ack_is_received:
             return {
-                self.Q_send: Query(self.state.next_car.ID)
+                self.Q_send: Query(self.state.next_car.ID, source=self.name)
             }
         elif car_is_generated and ack_is_received:
             return {
@@ -167,7 +167,7 @@ class Generator(AtomicDEVS):
             no_gas: bool = self.state.rng.binomial(1, 0.5)
             destination: str = self.state.rng.choice(self.destinations)
             nxt_car: Car = Car(uuid.uuid4(), v_pref, self.DV_POS_MAX, self.DV_NEG_MAX,
-                               no_gas=no_gas, destination=destination)
+                               no_gas=no_gas, destination=destination, source=self.name)
             self.state.next_car = nxt_car
         # Set timeAdvance() as to be idle until QueryAck received
         elif car_is_generated and not ack_is_received:

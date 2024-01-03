@@ -257,13 +257,13 @@ class RoadSegment(AtomicDEVS):
             query: Query = self.state.incoming_queries_queue[0][0]
             true_t_until_dep: float = self._calc_updated_t_until_dep(self._calc_updated_remaining_x(self.timeAdvance()))
             return {
-                self.Q_sack: QueryAck(query.ID, true_t_until_dep, self.lane, sideways=False)
+                self.Q_sack: QueryAck(query.ID, true_t_until_dep, self.lane, sideways=False, source=self.name)
             }
 
         # (2) Send Query to Q_send port (via initial query or polling)
         elif self._should_send_query(False):
             return {
-                self.Q_send: Query(car.ID)
+                self.Q_send: Query(car.ID, source=self.name)
             }
 
         # (3) Send Car to car_out port
@@ -272,7 +272,7 @@ class RoadSegment(AtomicDEVS):
                 self.car_out: Car(
                     ID=car.ID, v_pref=car.v_pref, dv_pos_max=car.dv_pos_max, dv_neg_max=car.dv_neg_max,
                     departure_time=car.departure_time, distance_traveled=car.distance_traveled + self.L,
-                    v=car.v, no_gas=car.no_gas, destination=car.destination
+                    v=car.v, no_gas=car.no_gas, destination=car.destination, source=car.source
                 )
             }
 

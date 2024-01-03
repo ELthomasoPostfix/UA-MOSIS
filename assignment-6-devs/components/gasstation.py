@@ -154,14 +154,14 @@ class GasStation(AtomicDEVS):
         # timer in the car queue reaches 0.0s.
         if self._is_available():
             return {
-                self.Q_send: Query(self._get_car_queue_elem_shortest_refuel()[0].ID)
+                self.Q_send: Query(self._get_car_queue_elem_shortest_refuel()[0].ID, source=self.name)
             }
 
         # ELIF polling, the outputFnc is reached when the observ delay
         # timer reaches 0.0s
         if self._should_poll():
             return {
-                self.Q_send: Query(self.state.next_car.ID)
+                self.Q_send: Query(self.state.next_car.ID, source=self.name)
             }
 
         # ELSE car output, the outputFnc is reached when the next car delay
