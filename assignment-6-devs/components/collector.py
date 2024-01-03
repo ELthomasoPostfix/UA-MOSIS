@@ -14,6 +14,8 @@ class CollectorState:
     """Pattern 2: simulated time. It represents a timer that started when the simulation began. Note that this value is only updated in extTransition(), so the simulated time is accurate up until the moment where the last external event was received."""
     n: int = 0
     """The amount of Cars that have exited the simulation/system."""
+    n_no_gas: int = 0
+    """The amount of Cars that arrived and also had `Car.no_gas == True`."""
     latest_arrival_time: float = INFINITY
     """The latest simulated time that a Car arrived. This can be interpreted as the final arrival time at the end of a simulation. Defaults to INFINITY, because all Cars should have a finite departure time. The simulated time timer cannot be used as such, because unrelated input events will also increase the simulated time."""
     car_travel_stats: List[Tuple[float, float]] = field(default_factory=list)
@@ -53,6 +55,7 @@ class Collector(AtomicDEVS):
         if self.car_in in inputs:
             car: Car = inputs[self.car_in]
             self.state.n += 1
+            self.state.n_no_gas += car.no_gas
             self.state.latest_arrival_time = self.state.simulated_time
             self.state.car_travel_stats.append((
                 self.state.simulated_time - car.departure_time,

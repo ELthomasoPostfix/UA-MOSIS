@@ -19,6 +19,25 @@ class Fork(RoadSegment):
         self.car_out2 = self.addOutPort("car_out2")
         """Outputs the Car on this RoadSegment if it has traveled it completely. The Car's distance_traveled should be increased by L."""
 
+    def extTransition(self, inputs):
+        """May edit state."""
+        # IF Fork receives QueryAck for an incorrect lane,
+        # OR if there is no Car in the Fork, then IGNORE the
+        # incoming QueryAck, as it is not meant for the Fork.
+        if self.Q_rack in inputs:
+            # no_gas False  ==>  should goto car_out  / lane 0  ==>  ignore iff. QueryAck.lane == 1
+            # no_gas True   ==>  should goto car_out2 / lane 1  ==>  ignore iff. QueryAck.lane == 0
+            # Ignore iff. QueryAck.lane != int(no_gas)
+            query_ack: QueryAck = inputs[self.Q_rack]
+            current_car: Car = self._get_current_car()
+            if current_car is None or query_ack.lane != current_car.no_gas:
+                # Don't forget to update timers!!!
+                self._update_multiple_timers(self.elapsed)
+                return self.state
+
+        # ELSE process the incoming event as normal.
+        return super(Fork, self).extTransition(inputs)
+
     def outputFnc(self):
         """May NOT edit state."""
 

@@ -36,6 +36,7 @@ def print_rs_run_stats(model: RoadStretch, stats_header: str, output_file_path: 
     print(f"Arrivals percentage: {num_arrivals / num_departures * 100}%")
     print(f"Last generator out:  {model.generator.state.latest_departure_time}")
     print(f"Last collector inp:  {model.collector.state.latest_arrival_time}")
+    print(f"N no_gas:            {model.collector.state.n_no_gas}")
 
     if output_file_path is not None and output_file_path != "":
         with open(output_file_path, "w") as of:
@@ -54,6 +55,7 @@ def print_rs_run_stats(model: RoadStretch, stats_header: str, output_file_path: 
                     {
                         "name": model.collector.name,
                         "n": model.collector.state.n,
+                        "n_no_gas": model.collector.state.n_no_gas,
                         "latest_arrival_time": model.collector.state.latest_arrival_time,
                         "travel_stats": model.collector.state.car_travel_stats,
                     }
@@ -88,6 +90,7 @@ def print_cw_run_stats(model: NWayCrossroads, stats_header: str, output_file_pat
     print(f"Total collisions:    {num_crashed_cars}")
     print(f"Arrivals:            {sum(num_arrivals)}")
     print(f"Arrivals percentage: {sum(num_arrivals) / sum(num_departures) * 100}%")
+    print(f"N no_gas:            {sum([collector.state.n_no_gas for collector in model.collectors])}")
 
     if output_file_path is not None and output_file_path != "":
         with open(output_file_path, "w") as of:
@@ -107,6 +110,7 @@ def print_cw_run_stats(model: NWayCrossroads, stats_header: str, output_file_pat
                     {
                         "name": collector.name,
                         "n": collector.state.n,
+                        "n_no_gas": collector.state.n_no_gas,
                         "latest_arrival_time": collector.state.latest_arrival_time,
                         "travel_stats": collector.state.car_travel_stats,
                     }

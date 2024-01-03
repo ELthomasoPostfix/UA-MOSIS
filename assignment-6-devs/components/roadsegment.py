@@ -399,7 +399,7 @@ class RoadSegment(AtomicDEVS):
             for query, observ_delay_remaining in self.state.incoming_queries_queue
         ]
         # mex(0.0, timer) not needed for following timers, all are INFINITY except for the running/relevant timers
-        self.state.t_until_send_query -= time_delta
+        self.state.t_until_send_query = max(0.0, self.state.t_until_send_query - time_delta)
 
         # Update remaining_x and t_until_dep
         current_car: Car = self._get_current_car()

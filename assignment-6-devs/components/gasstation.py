@@ -256,5 +256,5 @@ class GasStation(AtomicDEVS):
             for car, refuel_delay in self.state.car_queue
         ]
         # mex(0.0, timer) not needed for following timers, all are INFINITY except for the running/relevant timer
-        self.state.observ_delay_time -= time_delta
-        self.state.next_car_delay_time -= time_delta
+        self.state.observ_delay_time = max(0.0, self.state.observ_delay_time - time_delta)
+        self.state.next_car_delay_time = max(0.0, self.state.next_car_delay_time - time_delta)
