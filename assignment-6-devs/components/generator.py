@@ -44,7 +44,7 @@ class Generator(AtomicDEVS):
 
     def __init__(self, block_name: str, IAT_min: float, IAT_max: float,
                  v_pref_mu: float, v_pref_sigma: float, destinations: list, limit: int,
-                 rng_seed: int | None = None):
+                 rng_seed: int | None = None, v_pref_fallback: float = 1.0):
         """
         :param block_name: The name for this model. Must be unique inside a Coupled DEVS.
         :param IAT_min: Lower bound for the IAT uniform distribution.
@@ -53,6 +53,10 @@ class Generator(AtomicDEVS):
         :param v_pref_sigma: Standard deviation of the normal distribution that is used to sample v_pref.
         :param destinations: A non-empty list of potential (string) destinations for the Cars. A random destination will be selected.
         :param limit: Upper limit of the number of Cars to generate.
+        :param rng_seed: The initial seed to pass to the RNG used for sampling Car properties.
+        :param v_pref_fallback: If the sampled v_pref <= 0.0, then instead set v_pref = v_pref_fallback.
+                                This prevents undesirable negative v_pref values, or Cars with v_pref == 0.0
+                                that would always result in deadlock.
         """
         super(Generator, self).__init__(block_name)
 
@@ -69,6 +73,7 @@ class Generator(AtomicDEVS):
         self.limit: int = limit
         self.DV_POS_MAX: float = 28.0
         self.DV_NEG_MAX: float = 21.0
+        self.V_PREF_FALLBACK: float = v_pref_fallback
 
         # Ports
         self.Q_rack = self.addInPort("Q_rack")
@@ -150,7 +155,9 @@ class Generator(AtomicDEVS):
 
         # Generate Car, IAT expired
         if not car_is_generated:
-            v_pref: float = max(0.0, self.state.rng.normal(self.v_pref_mu, self.v_pref_sigma))
+            v_pref: float = self.state.rng.normal(self.v_pref_mu, self.v_pref_sigma)
+            if v_pref <= 0.0:
+                v_pref = self.V_PREF_FALLBACK
             no_gas: bool = self.state.rng.binomial(1, 0.5)
             destination: str = self.state.rng.choice(self.destinations)
             nxt_car: Car = Car(uuid.uuid4(), v_pref, self.DV_POS_MAX, self.DV_NEG_MAX,
