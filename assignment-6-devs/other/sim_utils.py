@@ -76,6 +76,10 @@ def run_rs_simulation(simulation_time: int, L: float = 10.0, v_max: float = 12.0
     sim.setTerminationTime(simulation_time)
     if verbose:
         sim.setVerbose()
+
+    sim.setDrawModel(True, 'model.dot', False)
+
+
     sim.simulate()
     score = print_rs_run_stats(model, f"=== {simulation_time} (termination time) ===", output_file_path)
 
