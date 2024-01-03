@@ -4,6 +4,8 @@ from pypdevs.DEVS import AtomicDEVS
 
 from components.messages import Car
 
+from dataclasses import dataclass, field
+import logging
 
 @dataclass
 class CollectorState:
