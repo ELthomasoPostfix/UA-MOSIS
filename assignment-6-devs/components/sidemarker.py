@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
 from pypdevs.DEVS import AtomicDEVS
 from pypdevs.infinity import INFINITY
@@ -9,8 +10,8 @@ from components.messages import QueryAck
 
 @dataclass
 class SideMarkerState:
-    query_ack: QueryAck | None = None
-    """The QueryAck passed to a SideMarker is passed along immediately, so a queue is unnecessary."""
+    query_ack_queue: List[QueryAck] = field(default_factory=list)
+    """The queue of QueryAcks passed to a SideMarker, which are passed along immediately. A queue is required because more than one QueryAck may arrive within the same moment."""
 
 
 class SideMarker(AtomicDEVS):
@@ -35,7 +36,7 @@ class SideMarker(AtomicDEVS):
     def timeAdvance(self):
         """May NOT edit state."""
         # Immediately output QueryAck IF one is queued/stored
-        if self.state.query_ack is not None:
+        if self._is_acks_received():
             return 0.0
         # ELSE idle
         return INFINITY
@@ -45,18 +46,25 @@ class SideMarker(AtomicDEVS):
         if self.mi in inputs:
             query_ack: QueryAck = inputs[self.mi]
             query_ack.sideways = True
-            self.state.query_ack = query_ack    # Store QueryAck to pass along
+            self.state.query_ack_queue.append(query_ack)
         return self.state
     
     def outputFnc(self):
         """May NOT edit state."""
-        if self.state.query_ack is None:
-            return {}
-        return {
-            self.mo: self.state.query_ack
-        }
+
+        if self._is_acks_received():
+            return {
+                self.mo: self.state.query_ack_queue[-1]
+            }
+
+        return {}
 
     def intTransition(self):
         """May edit state."""
-        self.state.query_ack = None     # Optional cleanup
+        if self._is_acks_received():
+            self.state.query_ack_queue.pop()
         return self.state
+
+    def _is_acks_received(self) -> bool:
+        """Check whether any QueryAcks have been received"""
+        return len(self.state.query_ack_queue) > 0

@@ -8,6 +8,7 @@ from pypdevs.DEVS import AtomicDEVS
 from pypdevs.infinity import INFINITY
 
 from components.messages import Car, QueryAck, Query
+from other.constants import REFUEL_DELAY_MU, REFUEL_DELAY_STD, REFUEL_DELAY_MIN
 
 
 
@@ -66,9 +67,9 @@ class GasStation(AtomicDEVS):
 
         # Immutable members -- should NOT be part of the model state member
         self.observ_delay: float = observ_delay
-        self.REFUEL_DELAY_MU: float  = 10 * 60   # The Car refuel delay time normal dist. mean: 10min = 10 * 60s = 60s
-        self.REFUEL_DELAY_STD: float = 130       # The Car refuel delay time normal dist. standard deviation: 130s
-        self.REFUEL_DELAY_MIN: float = 120       # The Car refuel delay time minimum value (clamp): 2min = 120s
+        self.REFUEL_DELAY_MU: float  = REFUEL_DELAY_MU
+        self.REFUEL_DELAY_STD: float = REFUEL_DELAY_STD
+        self.REFUEL_DELAY_MIN: float = REFUEL_DELAY_MIN
 
         # Ports
         self.car_in = self.addInPort("car_in")
