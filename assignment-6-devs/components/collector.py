@@ -1,11 +1,13 @@
 from dataclasses import dataclass
 
 from pypdevs.DEVS import AtomicDEVS
+from pypdevs.infinity import INFINITY
 
 from components.messages import Car
 
 from dataclasses import dataclass, field
-import logging
+
+
 
 @dataclass
 class CollectorState:
@@ -13,11 +15,14 @@ class CollectorState:
     """Pattern 2: simulated time. It represents a timer that started when the simulation began. Note that this value is only updated in extTransition(), so the simulated time is accurate up until the moment where the last external event was received."""
     n: int = 0
     """The amount of Cars that have exited the simulation/system."""
+    latest_arrival_time: float = INFINITY
+    """The latest simulated time that a Car arrived. This can be interpreted as the final arrival time at the end of a simulation. Defaults to INFINITY, because all Cars should have a finite departure time. The simulated time timer cannot be used as such, because unrelated input events will also increase the simulated time."""
 
     def __repr__(self) -> str:
         return f"""Collector(
                         simulated_time = {self.simulated_time},
-                                     n = {self.n})
+                                     n = {self.n},
+                   latest_arrival_time = {self.latest_arrival_time})
 """
 
 
@@ -42,13 +47,16 @@ class Collector(AtomicDEVS):
         """May edit state."""
         # Update simulation time
         self.state.simulated_time += self.elapsed
+
         # Collect Car statistics
         if self.car_in in inputs:
             car: Car = inputs[self.car_in]
-            self.state.n += 1 
+            self.state.n += 1
+            self.state.latest_arrival_time = self.state.simulated_time
         return self.state
 
     # Don't define anything else, as we only store events/statistics.
     # Collector has no behaviour of its own, so the internal transition
     # function does not need to increase the simulated time using the
-    # time advance, as pattern 2 normally does.
+    # time advance, as pattern 2 normally does, because it will never
+    # be triggered.
