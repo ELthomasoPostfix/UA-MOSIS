@@ -34,6 +34,8 @@ class Car:
     """ Indicator that the Car needs gas. Will be used later in the assignment."""
     destination: str = ""
     """ The target destination of the Car. This will help for path planning etc in a more detailed library. Later on in the assignment, this value will be used for CrossRoads."""
+    source: str = ""
+    """The source component that originally generated this Car."""
 
     def __post_init__(self, *args, **kwargs):
         if self.v is None:
@@ -46,6 +48,8 @@ class Query:
 
     ID: UUID | int
     """The unique identifier of the Car that sends this Query."""
+    source: str = ""
+    """The source component that originally sent out this Query."""
 
 
 @dataclass
@@ -63,3 +67,5 @@ class QueryAck:
     """Indicates which lane the current RoadSegment applies to. If a Car wants to "change lanes" in a Fork, this value is used to identify which QueryAcks to take into account."""
     sideways: bool = False
     """Indicator that this QueryAck does not correspond to the RoadSegment in front, but rather another one the Car needs to keep track of. Defaults to false. Will be used later on in the assignment to allow for merges of RoadSegments."""
+    source: str = ""
+    """The source component that originally sent out this QueryAck."""
