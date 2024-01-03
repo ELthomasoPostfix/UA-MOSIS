@@ -397,7 +397,7 @@ class RoadSegment(AtomicDEVS):
             # These errors can cause the same Car to be output multiple times
             # out of the car_out port (or other such ports in DEVS that derive
             # from the RoadSegment DEVS).
-            self.state.t_until_dep -= time_delta
+            self.state.t_until_dep = max(0.0, self.state.t_until_dep - time_delta)
 
         # Velocity updates only need to consider the priority of
         # other velocity updates in the same exact moment.
