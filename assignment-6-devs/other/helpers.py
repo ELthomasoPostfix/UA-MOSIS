@@ -1,6 +1,7 @@
 from pypdevs.DEVS import Port
 from itertools import chain
 
+
 def getFullPortName(port: Port):
     parentName = ""
     currentParent = port.host_DEVS
@@ -67,7 +68,20 @@ def dict_stat(dict_list: list[dict]) -> dict:
             elif isinstance(dict_list[0][key][0], dict):
                 result[key] = dict_stat(list(chain.from_iterable(d[key] for d in dict_list)))
             elif isinstance(dict_list[0][key][0], tuple):
-                result[key] = tuple_stat(list(chain.from_iterable(d[key] for d in dict_list)))
+                if isinstance(dict_list[0][key][0][0], str):
+                    dict_items = list(d[key] for d in dict_list)
+
+                    grouped = list(zip(*dict_items))
+                    # Calculate average of each tuple index for every group
+                    result_key = []
+                    for group in grouped:
+                        new_tuple = ()
+                        for i in range(len(group[0])):
+                            new_tuple += (avg([t[i] for t in group]),)
+                        result_key.append(new_tuple)
+                    result[key] = result_key
+                else:
+                    result[key] = tuple_stat(list(chain.from_iterable(d[key] for d in dict_list)))
         else:
             values = [d[key] for d in dict_list]
             result[key] = (avg(values), std(values))
