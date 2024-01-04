@@ -68,6 +68,9 @@ class NWayCrossroads(CoupledDEVS):
 
         if crossroad_type == ROWCrossRoads:
             for i in range(branch_count):
+                self.connectPorts(self.crossroads.Q_send_x[i], self.generator_segments[i][-1].Q_recv)
+                self.connectPorts(self.generator_segments[i][-1].Q_sack, self.crossroads.mi_x[i])
+
                 self.generator_segments[i][-1].priority = True
 
             # self.merge_markers = [self.addSubModel(SideMarker(f"merge_marker_{i}")) for i in range(branch_count)]
