@@ -131,11 +131,18 @@ def print_cw_run_stats(stats: dict, stats_header: str):
     print(f"N no_gas:            {sum(collector['n_no_gas'] for collector in stats['collectors'])}")
 
 
-def run_rs_simulation(simulation_time: int, L: float = 10.0, v_max: float = 12.0,
+def run_rs_simulation(simulation_time: int,
+                      generator_segment_count: int = 2, collector_segment_count: int = 2,
+                      L_upper: float = 10.0, L_lower: float = 10.0, L_conn: float = 10.0,
+                      v_max: float = 12.0, v_max_gas: float = 12.0,
                       IAT_min: float = 10.0, IAT_max: float = 18.5, v_pref_mu: float = 15.0, v_pref_sigma: float = 1.0,
                       limit: int = 10, observ_delay: float = 0.1, rng_seed: int | None = None,
                       verbose: bool = False, output_file_path: str = "", draw_dot=False, print_stats=True):
-    model = RoadStretch("roadstretch", L=L, v_max=v_max, IAT_min=IAT_min, IAT_max=IAT_max,
+    model = RoadStretch("roadstretch", generator_segment_count=generator_segment_count,
+                        collector_segment_count=collector_segment_count,
+                        L_upper=L_upper, L_lower=L_lower, L_conn=L_conn,
+                        v_max=v_max, v_max_gas=v_max_gas,
+                        IAT_min=IAT_min, IAT_max=IAT_max,
                         v_pref_mu=v_pref_mu, v_pref_sigma=v_pref_sigma, limit=limit,
                         observ_delay=observ_delay, rng_seed=rng_seed)
     sim = Simulator(model)
@@ -163,13 +170,14 @@ def run_rs_simulation(simulation_time: int, L: float = 10.0, v_max: float = 12.0
 
 def run_cw_simulation(simulation_time: int, crossroad_type: CrossRoads = CrossRoads,
                       branch_count: int = 4, branch_segment_amount: int = 3,
-                      L: float = 10.0, L_cr: float = 5, v_max: float = 12.0,
+                      L: float = 10.0, L_cr: float = 5, v_max: float = 12.0, v_max_gas: float = 5.0,
                       IAT_min: float = 10.0, IAT_max: float = 18.5, v_pref_mu: float = 15.0, v_pref_sigma: float = 1.0,
                       limit: int = 10, observ_delay: float = 0.1, rng_seed: int | None = None,
                       verbose: bool = False, output_file_path: str = "", draw_dot=False, print_stats=True):
     model = NWayCrossroads(crossroad_type.__name__, crossroad_type=crossroad_type, branch_count=branch_count,
                            branch_segment_amount=branch_segment_amount, L=L,
-                           L_cr=L_cr, v_max=v_max, IAT_min=IAT_min, IAT_max=IAT_max,
+                           L_cr=L_cr, v_max=v_max, v_max_gas=v_max_gas,
+                           IAT_min=IAT_min, IAT_max=IAT_max,
                            v_pref_mu=v_pref_mu, v_pref_sigma=v_pref_sigma, limit=limit, observ_delay=observ_delay,
                            rng_seed=rng_seed)
     sim = Simulator(model)

@@ -2,7 +2,7 @@ import json
 
 from components.crossroads import CrossRoads, ROWCrossRoads, RoundaboutCrossRoads
 from other.sim_utils import run_cw_simulation
-from other.helpers import dict_avg
+from other.helpers import dict_stat
 
 
 
@@ -15,7 +15,7 @@ from other.helpers import dict_avg
 #
 #     print(f"Type: {crossroad_type.__name__}")
 #
-#     print(json.dumps(dict_avg(stats), indent=4))
+#     print(json.dumps(dict_stat(stats), indent=4))
 
 
 

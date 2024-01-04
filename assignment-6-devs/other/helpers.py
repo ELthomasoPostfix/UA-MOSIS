@@ -20,20 +20,39 @@ def getIncomingConnections(port: Port):
         print(f"{getFullPortName(port)} -> {getFullPortName(connection)}")
 
 
-def tuple_avg(tuple_list: list[tuple]) -> tuple:
+def avg(list_: list) -> float:
     """
-    Recursively calculate the average of all the values in the given list of tuples.
+    Recursively calculate the average of all the values in the given list.
+    :param list_: A list of values.
+    :return: The average of the given values.
+    """
+    return sum(list_) / len(list_)
+
+
+def std(list_: list) -> float:
+    """
+    Recursively calculate the standard deviation of all the values in the given list.
+    :param list_: A list of values.
+    :return: The standard deviation of the given values.
+    """
+    avg_ = avg(list_)
+    return (sum((x - avg_) ** 2 for x in list_) / len(list_)) ** 0.5
+
+
+def tuple_stat(tuple_list: list[tuple]) -> tuple:
+    """
+    Recursively calculate the average and standard deviation for all the values in the given list of tuples.
     :param tuple_list: A list of tuples.
-    :return: A tuple with the same length as the given tuples, but with the average values.
+    :return: A tuple with the same length as the given tuples, but with the average and standard deviation values.
     """
-    return tuple(sum(t) / len(t) for t in zip(*tuple_list))
+    return tuple((avg(t), std(t)) for t in zip(*tuple_list))
 
 
-def dict_avg(dict_list: list[dict]) -> dict:
+def dict_stat(dict_list: list[dict]) -> dict:
     """
-    Recursively calculate the average of all the values in the given list of dictionaries.
+    Recursively calculate the average and standard deviation of all the values in the given list of dictionaries.
     :param dict_list: A list of dictionaries.
-    :return: A dictionary with the same keys as the given dictionaries, but with the average values.
+    :return: A dictionary with the same keys as the given dictionaries, but with the average and standard deviation values.
     """
     result = {}
     for key in dict_list[0].keys():
@@ -41,10 +60,13 @@ def dict_avg(dict_list: list[dict]) -> dict:
         if isinstance(dict_list[0][key], str):
             continue
         elif isinstance(dict_list[0][key], list):
-            if isinstance(dict_list[0][key][0], dict):
-                result[key] = dict_avg(list(chain.from_iterable(d[key] for d in dict_list)))
+            if not dict_list[0][key]:
+                result[key] = []
+            elif isinstance(dict_list[0][key][0], dict):
+                result[key] = dict_stat(list(chain.from_iterable(d[key] for d in dict_list)))
             elif isinstance(dict_list[0][key][0], tuple):
-                result[key] = tuple_avg(list(chain.from_iterable(d[key] for d in dict_list)))
+                result[key] = tuple_stat(list(chain.from_iterable(d[key] for d in dict_list)))
         else:
-            result[key] = sum(d[key] for d in dict_list) / len(dict_list)
+            values = [d[key] for d in dict_list]
+            result[key] = (avg(values), std(values))
     return result
