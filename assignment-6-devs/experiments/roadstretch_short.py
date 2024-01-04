@@ -6,10 +6,10 @@ from other.helpers import dict_stat
 # Short simulation
 stats = []
 for i in range(30):
-    stats.append(run_rs_simulation(200_000,#00,
+    stats.append(run_rs_simulation(200,
                                    generator_segment_count=10,
                                    collector_segment_count=10,
-                                   verbose=False, limit=1000, print_stats=False,
+                                   verbose=False, limit=100, print_stats=False,
                                    L_upper=10.0, L_lower=5.0, L_conn=5.0,
                                    v_max=30.0, v_max_gas=20.0,
                                    IAT_min=10.0, IAT_max=15.0,
