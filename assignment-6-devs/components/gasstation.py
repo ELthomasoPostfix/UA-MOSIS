@@ -121,6 +121,9 @@ class GasStation(AtomicDEVS):
             # Because new items are appended to the back of the queue.
             self.state.car_queue = sorted(self.state.car_queue, key=lambda e: e[1])
 
+            # Statistics
+            new_car.gas_station_times.append((self.name, 0.0))
+
         # A QueryAck induces one of two possible behaviors
         #   1) do Query polling
         #   2) let new Car leave the gas station after QueryAck.t_until_dep
@@ -255,6 +258,11 @@ class GasStation(AtomicDEVS):
             (car, max(0.0, refuel_delay - time_delta))
             for car, refuel_delay in self.state.car_queue
         ]
+        # Update gas station time statistics
+        for car, _ in self.state.car_queue:
+            # A car added to the car queue was assigned a new tuple
+            car.gas_station_times[-1] = (self.name, car.gas_station_times[-1][1] + time_delta)
+
         # mex(0.0, timer) not needed for following timers, all are INFINITY except for the running/relevant timer
         self.state.observ_delay_time = max(0.0, self.state.observ_delay_time - time_delta)
         self.state.next_car_delay_time = max(0.0, self.state.next_car_delay_time - time_delta)

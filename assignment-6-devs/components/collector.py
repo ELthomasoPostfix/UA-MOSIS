@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 from pypdevs.DEVS import AtomicDEVS
 from pypdevs.infinity import INFINITY
@@ -20,6 +20,10 @@ class CollectorState:
     """The latest simulated time that a Car arrived. This can be interpreted as the final arrival time at the end of a simulation. Defaults to INFINITY, because all Cars should have a finite departure time. The simulated time timer cannot be used as such, because unrelated input events will also increase the simulated time."""
     car_travel_stats: List[Tuple[float, float]] = field(default_factory=list)
     """The ordered list of (travel_time, travel_distance) travel statistics of Cars that arrive in this collector."""
+    total_refuel_time: float = 0.0
+    """The total time spent refueling by all Cars."""
+    n_times_refueled: int = 0
+    """The total amount of times any Car refueled at a GasStation."""
 
     def __repr__(self) -> str:
         return f"""Collector(
@@ -61,6 +65,8 @@ class Collector(AtomicDEVS):
                 self.state.simulated_time - car.departure_time,
                 car.distance_traveled,
             ))
+            self.state.total_refuel_time += sum([refuel_time for _, refuel_time in car.gas_station_times])
+            self.state.n_times_refueled += len(car.gas_station_times)
         return self.state
 
     # Don't define anything else, as we only store events/statistics.

@@ -272,7 +272,7 @@ class RoadSegment(AtomicDEVS):
                 self.car_out: Car(
                     ID=car.ID, v_pref=car.v_pref, dv_pos_max=car.dv_pos_max, dv_neg_max=car.dv_neg_max,
                     departure_time=car.departure_time, distance_traveled=car.distance_traveled + self.L,
-                    v=car.v, no_gas=car.no_gas, destination=car.destination, source=car.source
+                    v=car.v, no_gas=car.no_gas, destination=car.destination, source=car.source, gas_station_times=car.gas_station_times
                 )
             }
 

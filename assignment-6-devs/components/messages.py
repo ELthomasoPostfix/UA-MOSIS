@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from uuid import UUID
+from typing import List, Tuple
 
 
 
@@ -36,6 +37,8 @@ class Car:
     """ The target destination of the Car. This will help for path planning etc in a more detailed library. Later on in the assignment, this value will be used for CrossRoads."""
     source: str = ""
     """The source component that originally generated this Car."""
+    gas_station_times: List[Tuple[str, float]] = field(default_factory=list)
+    """The total amount of time spent within gas stations. Each element is (gas station name, total time in gas station)."""
 
     def __post_init__(self, *args, **kwargs):
         if self.v is None:

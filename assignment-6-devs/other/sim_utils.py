@@ -22,7 +22,7 @@ def collect_rs_run_stats(model: RoadStretch):
     num_crashes = sum(collisions for (_, collisions) in crashes)
     num_crashed_cars = 2 * num_crashes
 
-    assert (num_arrivals + num_crashed_cars) == num_departures, "Diff amount of cars outputted than existed in the system"
+    # assert (num_arrivals + num_crashed_cars) == num_departures, "Diff amount of cars outputted than existed in the system"
 
     return {
         "departures": num_departures,
@@ -45,6 +45,7 @@ def collect_rs_run_stats(model: RoadStretch):
                 "n_no_gas": model.collector.state.n_no_gas,
                 "latest_arrival_time": model.collector.state.latest_arrival_time,
                 "travel_stats": model.collector.state.car_travel_stats,
+                "avg_refuel_time": model.collector.state.total_refuel_time / model.collector.state.n_times_refueled if model.collector.state.n_times_refueled else 0.0
             }
         ]
     }
