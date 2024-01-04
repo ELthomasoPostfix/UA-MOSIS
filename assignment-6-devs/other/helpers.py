@@ -26,15 +26,19 @@ def avg(list_: list) -> float:
     :param list_: A list of values.
     :return: The average of the given values.
     """
+    if isinstance(list_[0], str):
+        return list_[0]
     return sum(list_) / len(list_)
 
 
-def std(list_: list) -> float:
+def std(list_: list) -> float | None:
     """
     Recursively calculate the standard deviation of all the values in the given list.
     :param list_: A list of values.
     :return: The standard deviation of the given values.
     """
+    if isinstance(list_[0], str):
+        return None
     avg_ = avg(list_)
     return (sum((x - avg_) ** 2 for x in list_) / len(list_)) ** 0.5
 
@@ -57,9 +61,7 @@ def dict_stat(dict_list: list[dict]) -> dict:
     result = {}
     for key in dict_list[0].keys():
         # If value is str, skip
-        if isinstance(dict_list[0][key], str):
-            continue
-        elif isinstance(dict_list[0][key], list):
+        if isinstance(dict_list[0][key], list):
             if not dict_list[0][key]:
                 result[key] = []
             elif isinstance(dict_list[0][key][0], dict):

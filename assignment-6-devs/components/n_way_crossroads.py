@@ -69,3 +69,30 @@ class NWayCrossroads(CoupledDEVS):
         if crossroad_type == ROWCrossRoads:
             for i in range(branch_count):
                 self.generator_segments[i][-1].priority = True
+
+            # self.merge_markers = [self.addSubModel(SideMarker(f"merge_marker_{i}")) for i in range(branch_count)]
+            #
+            # for i in range(branch_count):
+            #     priority_seg = self.generator_segments[i][-1]
+            #     regular_seg = self.crossroads.segments[(i - 1) % branch_count]
+            #
+            #     priority_seg.priority = True
+            #
+            #
+            #     self.crossroads.connectPorts(priority_seg.Q_sack, self.merge_markers[i].mi)
+            #     self.crossroads.connectPorts(self.merge_markers[i].mo, self.crossroads.Q_rack_x[i])
+            #     self.crossroads.connectPorts(self.crossroads.Q_send_x[i], priority_seg.Q_recv)
+
+
+        # elif crossroad_type == RoundaboutCrossRoads:
+        #     self.merge_markers = [self.addSubModel(SideMarker(f"merge_marker_{i}")) for i in range(branch_count)]
+        #
+        #     for i in range(branch_count):
+        #         priority_seg = self.crossroads.segments[(i - 1) % branch_count]
+        #         regular_seg = self.generator_segments[i][-1]
+        #
+        #         priority_seg.priority = True
+        #
+        #         self.connectPorts(priority_seg.Q_sack, self.merge_markers[i].mi)
+        #         self.connectPorts(self.merge_markers[i].mo, self.crossroads.Q_sack_x[i])
+        #         self.connectPorts(self.crossroads.Q_recv_x[i], priority_seg.Q_recv)

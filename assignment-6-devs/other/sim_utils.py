@@ -27,6 +27,7 @@ def collect_rs_run_stats(model: RoadStretch):
     return {
         "departures": num_departures,
         "collisions": num_crashes,
+        "collision_places": crashes,
         "crashed_cars": 2 * num_crashes,
         "arrivals": num_arrivals,
         "crash_rate": 2 * num_crashes / num_departures,
@@ -63,8 +64,6 @@ def print_rs_run_stats(stats: dict, stats_header: str):
     print(f"Last collector inp:  {stats['collectors'][0]['latest_arrival_time']}")
     print(f"N no_gas:            {stats['collectors'][0]['n_no_gas']}")
 
-    return results
-
 
 def collect_cw_run_stats(model: NWayCrossroads):
     num_departures = [generator.state.n for generator in model.generators]
@@ -82,6 +81,7 @@ def collect_cw_run_stats(model: NWayCrossroads):
     return {
         "departures": sum(num_departures),
         "collisions": num_crashes,
+        "collision_places": crashes,
         "crashed_cars": 2 * num_crashes,
         "arrivals": sum(num_arrivals),
         "crash_rate": 2 * num_crashes / sum(num_departures),
@@ -176,7 +176,7 @@ def run_cw_simulation(simulation_time: int, crossroad_type: CrossRoads = CrossRo
                       verbose: bool = False, output_file_path: str = "", draw_dot=False, print_stats=True):
     model = NWayCrossroads(crossroad_type.__name__, crossroad_type=crossroad_type, branch_count=branch_count,
                            branch_segment_amount=branch_segment_amount, L=L,
-                           L_cr=L_cr, v_max=v_max, v_max_gas=v_max_gas,
+                           L_cr=L_cr, v_max=v_max,
                            IAT_min=IAT_min, IAT_max=IAT_max,
                            v_pref_mu=v_pref_mu, v_pref_sigma=v_pref_sigma, limit=limit, observ_delay=observ_delay,
                            rng_seed=rng_seed)
